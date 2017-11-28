@@ -1,36 +1,41 @@
 {
   "generator-jhipster": {
-    "baseName": "jhipsterSampleApplication",
-    "packageName": "io.github.jhipster.sample",
-    "packageFolder": "io/github/jhipster/sample",
+    "promptValues": {
+      "packageName": "com.albedo.java",
+      "nativeLanguage": "zh-cn"
+    },
+    "jhipsterVersion": "4.11.1",
+    "baseName": "albedoJhipster",
+    "packageName": "com.albedo.java",
+    "packageFolder": "com/albedo/java",
+    "serverPort": "8080",
     "authenticationType": "jwt",
     "hibernateCache": "ehcache",
     "clusteredHttpSession": false,
     "websocket": false,
     "databaseType": "sql",
-    "devDatabaseType": "h2Memory",
+    "devDatabaseType": "h2Disk",
     "prodDatabaseType": "mysql",
-    "useCompass": false,
-    "buildTool": "maven",
     "searchEngine": false,
-    "enableTranslation": true,
-    "applicationType": "monolith",
-    "testFrameworks": [
-      "gatling",
-      "protractor"
-    ],
-    "languages": [
-      "en"
-    ],
-    "serverPort": 8080,
-    "jhipsterVersion": "4.11.1",
-    "enableSocialSignIn": false,
-    "useSass": false,
-    "jhiPrefix": "jhi",
     "messageBroker": false,
     "serviceDiscoveryType": false,
-    "clientPackageManager": "yarn",
-    "clientFramework": "angular1",
-    "jwtSecretKey": "07a00779cfd8d372c73b40631b62c81503e1b18e"
+    "buildTool": "maven",
+    "enableSocialSignIn": false,
+    "enableSwaggerCodegen": true,
+    "jwtSecretKey": "bd007d358ec6076c6b77ae0a1a434c58537c5c83",
+    "clientFramework": "angularX",
+    "useSass": false,
+    "clientPackageManager": "npm",
+    "applicationType": "monolith",
+    "testFrameworks": [
+      "gatling"
+    ],
+    "jhiPrefix": "jhi",
+    "enableTranslation": true,
+    "nativeLanguage": "zh-cn",
+    "languages": [
+      "zh-cn",
+      "en"
+    ]
   }
 }
