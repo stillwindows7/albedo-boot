@@ -77,7 +77,7 @@ spring:
 
 
 server:
-    port:8066
+    port: 8066
 #    jsp-servlet:
 #        class-name: org.apache.jasper.servlet.JspServlet
 
