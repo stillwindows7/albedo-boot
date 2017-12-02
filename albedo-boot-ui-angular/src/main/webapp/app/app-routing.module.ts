@@ -1,18 +1,15 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { errorRoute, navbarRoute } from './layouts';
+import { Routes, RouterModule } from '@angular/router';
+import { LogoutComponent } from "./auth/logout/logout.component";
 
-const LAYOUT_ROUTES = [
-    navbarRoute,
-    ...errorRoute
+const routes: Routes = [
+    { path: 'login', loadChildren: './auth/auth.module#AuthModule' },
+    { path: 'logout', component: LogoutComponent },
+    { path: '', redirectTo: 'index', pathMatch: 'full' },
 ];
 
 @NgModule({
-    imports: [
-        RouterModule.forRoot(LAYOUT_ROUTES, { useHash: true })
-    ],
-    exports: [
-        RouterModule
-    ]
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
 })
-export class AlbedoJhipsterAppRoutingModule {}
+export class AppRoutingModule { }

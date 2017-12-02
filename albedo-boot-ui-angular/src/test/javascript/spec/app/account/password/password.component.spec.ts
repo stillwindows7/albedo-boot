@@ -24,7 +24,7 @@ describe('Component Tests', () => {
                     PasswordService
                 ]
             }).overrideTemplate(PasswordComponent, '')
-            .compileComponents();
+                .compileComponents();
         }));
 
         beforeEach(() => {

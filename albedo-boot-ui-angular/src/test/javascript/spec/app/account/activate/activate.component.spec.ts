@@ -21,7 +21,7 @@ describe('Component Tests', () => {
                     ActivateService,
                     {
                         provide: ActivatedRoute,
-                        useValue: new MockActivatedRoute({'key': 'ABC123'})
+                        useValue: new MockActivatedRoute({ 'key': 'ABC123' })
                     },
                     {
                         provide: LoginModalService,
@@ -29,7 +29,7 @@ describe('Component Tests', () => {
                     }
                 ]
             }).overrideTemplate(ActivateComponent, '')
-            .compileComponents();
+                .compileComponents();
         }));
 
         beforeEach(() => {

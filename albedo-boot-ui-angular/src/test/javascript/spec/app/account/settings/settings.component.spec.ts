@@ -35,7 +35,7 @@ describe('Component Tests', () => {
                     },
                 ]
             }).overrideTemplate(SettingsComponent, '')
-            .compileComponents();
+                .compileComponents();
         }));
 
         beforeEach(() => {

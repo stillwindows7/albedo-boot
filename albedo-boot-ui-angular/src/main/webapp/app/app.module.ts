@@ -1,56 +1,29 @@
-import './vendor.ts';
-
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { Ng2Webstorage } from 'ng2-webstorage';
+import { NgModule } from '@angular/core';
+import { ThemeComponent } from './theme/theme.component';
+import { LayoutModule } from './theme/layouts/layout.module';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
-import { AlbedoJhipsterSharedModule, UserRouteAccessService } from './shared';
-import { AlbedoJhipsterAppRoutingModule} from './app-routing.module';
-import { AlbedoJhipsterHomeModule } from './home/home.module';
-import { AlbedoJhipsterAdminModule } from './admin/admin.module';
-import { AlbedoJhipsterAccountModule } from './account/account.module';
-import { AlbedoJhipsterEntityModule } from './entities/entity.module';
-import { customHttpProvider } from './blocks/interceptor/http.provider';
-import { PaginationConfig } from './blocks/config/uib-pagination.config';
-
-// jhipster-needle-angular-add-module-import JHipster will add new module here
-
-import {
-    JhiMainComponent,
-    NavbarComponent,
-    FooterComponent,
-    ProfileService,
-    PageRibbonComponent,
-    ActiveMenuDirective,
-    ErrorComponent
-} from './layouts';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { ScriptLoaderService } from "./_services/script-loader.service";
+import { ThemeRoutingModule } from "./theme/theme-routing.module";
+import { AuthModule } from "./auth/auth.module";
 
 @NgModule({
-    imports: [
-        BrowserModule,
-        AlbedoJhipsterAppRoutingModule,
-        Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-'}),
-        AlbedoJhipsterSharedModule,
-        AlbedoJhipsterHomeModule,
-        AlbedoJhipsterAdminModule,
-        AlbedoJhipsterAccountModule,
-        AlbedoJhipsterEntityModule,
-        // jhipster-needle-angular-add-module JHipster will add new module here
-    ],
     declarations: [
-        JhiMainComponent,
-        NavbarComponent,
-        ErrorComponent,
-        PageRibbonComponent,
-        ActiveMenuDirective,
-        FooterComponent
+        ThemeComponent,
+        AppComponent,
     ],
-    providers: [
-        ProfileService,
-        customHttpProvider(),
-        PaginationConfig,
-        UserRouteAccessService
+    imports: [
+        LayoutModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        ThemeRoutingModule,
+        AuthModule,
     ],
-    bootstrap: [ JhiMainComponent ]
+    providers: [ScriptLoaderService],
+    bootstrap: [AppComponent]
 })
-export class AlbedoJhipsterAppModule {}
+export class AppModule { }

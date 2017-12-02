@@ -24,7 +24,7 @@ describe('Component Tests', () => {
                     }
                 ]
             }).overrideTemplate(JhiHealthCheckComponent, '')
-            .compileComponents();
+                .compileComponents();
         }));
 
         beforeEach(() => {

@@ -1,61 +1,82 @@
 {
-    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-    "project": {
-        "name": "albedo-jhipster"
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "project": {
+    "name": "albedo-boot-ui-angluar"
+  },
+  "apps": [
+    {
+      "root": "src/main/webapp",
+      "outDir": "target/www/app",
+      "assets": [
+        "assets",
+        "favicon.ico"
+      ],
+      "index": "index.html",
+      "main": "main.ts",
+      "polyfills": "polyfills.ts",
+      "test": "test.ts",
+      "tsconfig": "tsconfig.app.json",
+      "testTsconfig": "tsconfig.spec.json",
+      "prefix": "app",
+      "styles": [
+        "styles.scss"
+      ],
+      "scripts": [],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      }
+    }
+  ],
+  "e2e": {
+    "protractor": {
+      "config": "./protractor.conf.js"
+    }
+  },
+  "lint": [
+    {
+      "project": "src/main/webapp/tsconfig.app.json",
+      "exclude": "**/node_modules/**"
     },
-    "apps": [{
-        "root": "src/main/webapp",
-        "outDir": "target/www/app",
-        "assets": [
-            "content",
-            "i18n",
-            "favicon.ico"
-        ],
-        "index": "index.html",
-        "main": "app/app.main.ts",
-        "polyfills": "app/polyfills.ts",
-        "test": "src/test/javascript/spec/entry.ts",
-        "tsconfig": "../../../tsconfig.json",
-        "prefix": "jhi",
-        "mobile": false,
-        "styles": [
-            "content/css/vendor.css",
-            "content/css/global.css"
-        ],
-        "scripts": []
-    }],
-    "lint": [{
-            "project": "../../../tsconfig.json"
-        },
-        {
-            "project": "../../../tsconfig-aot.json"
-        }
-    ],
-    "test": {
-        "karma": {
-            "config": "src/test/javascript/karma.conf.js"
-        }
+    {
+      "project": "src/main/webapp/tsconfig.spec.json",
+      "exclude": "**/node_modules/**"
     },
-    "defaults": {
-        "styleExt": "css",
-        "prefixInterfaces": false,
-        "component" : {
-            "inlineStyle" : true,
-            "inlineTemplate": false,
-            "spec": false
-        },
-        "directive" : {
-            "spec": false
-        },
-        "guard" : {
-            "spec": false
-        },
-        "pipe" : {
-            "spec": false
-        },
-        "service" : {
-            "spec": false
-        }
+    {
+      "project": "e2e/tsconfig.e2e.json",
+      "exclude": "**/node_modules/**"
+    }
+  ],
+  "test": {
+    "karma": {
+      "config": "./karma.conf.js"
+    }
+  },
+  "defaults": {
+    "styleExt": "scss",
+    "class": {
+      "spec": false
     },
-    "packageManager": "yarn"
+    "component": {
+      "inlineStyle": true,
+      "inlineTemplate": true,
+      "spec": false
+    },
+    "directive": {
+      "spec": false
+    },
+    "guard": {
+      "spec": false
+    },
+    "module": {
+      "spec": false
+    },
+    "pipe": {
+      "spec": false
+    },
+    "service": {
+      "spec": false
+    }
+  }
 }

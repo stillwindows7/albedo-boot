@@ -58,10 +58,10 @@ export class SpyObject {
 
     /** @internal */
     _createGuinnessCompatibleSpy(name): GuinessCompatibleSpy {
-        const newSpy: GuinessCompatibleSpy = < any > jasmine.createSpy(name);
-        newSpy.andCallFake = < any > newSpy.and.callFake;
-        newSpy.andReturn = < any > newSpy.and.returnValue;
-        newSpy.reset = < any > newSpy.calls.reset;
+        const newSpy: GuinessCompatibleSpy = <any>jasmine.createSpy(name);
+        newSpy.andCallFake = <any>newSpy.and.callFake;
+        newSpy.andReturn = <any>newSpy.and.returnValue;
+        newSpy.reset = <any>newSpy.calls.reset;
         // revisit return null here (previously needed for rtts_assert).
         newSpy.and.returnValue(null);
         return newSpy;
