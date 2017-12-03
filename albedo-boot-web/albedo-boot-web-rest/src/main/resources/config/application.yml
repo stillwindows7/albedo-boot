@@ -56,7 +56,7 @@ albedo:
     application: albedoBootWebRest
     adminPath: /api
     frontPath: /f
-    defaultView:
+    defaultView: redirect:/swagger-ui/index.html
     staticFileDirectory: D:/temp/files/
     urlSuffix: html
     cluster: false
