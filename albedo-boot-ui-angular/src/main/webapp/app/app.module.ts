@@ -1,19 +1,20 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { ThemeComponent } from './theme/theme.component';
-import { LayoutModule } from './theme/layouts/layout.module';
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {ThemeComponent} from './theme/theme.component';
+import {LayoutModule} from './theme/layouts/layout.module';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { ScriptLoaderService } from "./_services/script-loader.service";
-import { ThemeRoutingModule } from "./theme/theme-routing.module";
-import { AuthModule } from "./auth/auth.module";
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {ScriptLoaderService} from "./_services/script-loader.service";
+import {ThemeRoutingModule} from "./theme/theme-routing.module";
+import {AuthModule} from "./auth/auth.module";
+import {customHttpProvider} from "./intercepter/http.provider";
 
 @NgModule({
     declarations: [
         ThemeComponent,
-        AppComponent,
+        AppComponent
     ],
     imports: [
         LayoutModule,
@@ -21,9 +22,12 @@ import { AuthModule } from "./auth/auth.module";
         BrowserAnimationsModule,
         AppRoutingModule,
         ThemeRoutingModule,
-        AuthModule,
+        AuthModule
     ],
-    providers: [ScriptLoaderService],
+    providers: [
+        ScriptLoaderService,
+        customHttpProvider()
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

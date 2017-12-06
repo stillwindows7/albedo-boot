@@ -13,12 +13,14 @@ import { AlertService } from "./_services/alert.service";
 import { AuthenticationService } from "./_services/authentication.service";
 import { UserService } from "./_services/user.service";
 import { fakeBackendProvider } from "./_helpers/index";
+import { HasAnyAuthorityDirective } from "./_services/has-any-authority.directive";
 
 @NgModule({
     declarations: [
         AuthComponent,
         AlertComponent,
         LogoutComponent,
+        HasAnyAuthorityDirective,
     ],
     imports: [
         CommonModule,
@@ -32,7 +34,7 @@ import { fakeBackendProvider } from "./_helpers/index";
         AuthenticationService,
         UserService,
         // api backend simulation
-        fakeBackendProvider,
+        // fakeBackendProvider,
         MockBackend,
         BaseRequestOptions,
     ],
