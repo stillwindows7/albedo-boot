@@ -48,7 +48,9 @@ public interface MybatisRepository<T, ID extends Serializable>
     <S extends T> S saveIgnoreNull(S entity);
 
 
-    <S extends T> List<S> save(Iterable<S> entities);
+    <S extends T> Iterable<S> save(Iterable<S> entities);
+
+    <S extends T> List<S> saveList(Iterable<S> entities);
 
     List<T> findAll();
 

@@ -18,6 +18,7 @@
 
 package org.springframework.data.mybatis.repository.support;
 
+import com.google.common.collect.Lists;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Repository;
@@ -219,13 +220,20 @@ public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSess
 
     @Override
     @Transactional
-    public <S extends T> List<S> save(Iterable<S> entities) {
+    public <S extends T> Iterable<S> save(Iterable<S> entities) {
         if (null == entities) return Collections.emptyList();
         for (S entity : entities) {
             save(entity);
         }
-        return (List<S>) entities;
+        return entities;
     }
+
+    @Override
+    @Transactional
+    public <S extends T> List<S> saveList(Iterable<S> entities) {
+        return Lists.newArrayList(save(entities));
+    }
+
 
     @Override
     public <S extends T> List<S> findAll(Example<S> example) {

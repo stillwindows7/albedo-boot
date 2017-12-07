@@ -213,7 +213,7 @@ public class UserServiceTest {
     @Test
     public void savesCollectionCorrectly() throws Exception {
 
-        List<User> result = userRepository.save(Arrays.asList(user1, user2, user3));
+        List<User> result = userRepository.saveList(Arrays.asList(user1, user2, user3));
         assertThat(result, is(notNullValue()));
         assertThat(result.size(), is(3));
         assertThat(result, hasItems(user1, user2, user3));
@@ -222,7 +222,7 @@ public class UserServiceTest {
     @Test
     public void savingNullCollectionIsNoOp() throws Exception {
 
-        List<User> result = userRepository.save((Collection<User>) null);
+        List<User> result = userRepository.saveList((Collection<User>) null);
         assertThat(result, is(notNullValue()));
         assertThat(result.isEmpty(), is(true));
     }
@@ -230,7 +230,7 @@ public class UserServiceTest {
     @Test
     public void savingEmptyCollectionIsNoOp() throws Exception {
 
-        List<User> result = userRepository.save(new ArrayList<User>());
+        List<User> result = userRepository.saveList(new ArrayList<User>());
         assertThat(result, is(notNullValue()));
         assertThat(result.isEmpty(), is(true));
     }

@@ -76,7 +76,7 @@ class MybatisRepositoriesRegistrar extends RepositoryBeanDefinitionRegistrarSupp
         }
 
         MybatisAnnotationRepositoryConfigurationSource configurationSource = new MybatisAnnotationRepositoryConfigurationSource(
-                annotationMetadata, getAnnotation(), resourceLoader, environment);
+                annotationMetadata, getAnnotation(), resourceLoader, environment, registry);
 
         RepositoryConfigurationExtension extension = getExtension();
         RepositoryConfigurationUtils.exposeRegistration(extension, registry, configurationSource);
