@@ -47,7 +47,7 @@
     <!--</scm>-->
 
     <properties>
-        <springdata.commons.version>1.13.1.RELEASE</springdata.commons.version>
+        <springdata.commons.version>1.13.7.RELEASE</springdata.commons.version>
         <mybatis.version>3.4.4</mybatis.version>
         <lombok.version>1.16.6</lombok.version>
     </properties>

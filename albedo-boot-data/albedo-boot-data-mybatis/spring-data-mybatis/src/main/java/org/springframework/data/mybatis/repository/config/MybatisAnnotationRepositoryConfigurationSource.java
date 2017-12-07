@@ -18,6 +18,7 @@
 
 package org.springframework.data.mybatis.repository.config;
 
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
@@ -39,8 +40,8 @@ public class MybatisAnnotationRepositoryConfigurationSource extends AnnotationRe
      * @param resourceLoader must not be {@literal null}.
      * @param environment
      */
-    public MybatisAnnotationRepositoryConfigurationSource(AnnotationMetadata metadata, Class<? extends Annotation> annotation, ResourceLoader resourceLoader, Environment environment) {
-        super(metadata, annotation, resourceLoader, environment);
+    public MybatisAnnotationRepositoryConfigurationSource(AnnotationMetadata metadata, Class<? extends Annotation> annotation, ResourceLoader resourceLoader, Environment environment, BeanDefinitionRegistry registry) {
+        super(metadata, annotation, resourceLoader, environment, registry);
     }
 
     public String[] getMapperLocations() {

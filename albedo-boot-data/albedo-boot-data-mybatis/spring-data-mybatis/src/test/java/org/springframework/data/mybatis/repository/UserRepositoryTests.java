@@ -156,30 +156,30 @@ public class UserRepositoryTests {
         assertThat(repository.findOne(id * 27), is(nullValue()));
     }
 
-    @Test
-    public void savesCollectionCorrectly() throws Exception {
-
-        List<User> result = repository.save(Arrays.asList(firstUser, secondUser, thirdUser));
-        assertThat(result, is(notNullValue()));
-        assertThat(result.size(), is(3));
-        assertThat(result, hasItems(firstUser, secondUser, thirdUser));
-    }
-
-    @Test
-    public void savingNullCollectionIsNoOp() throws Exception {
-
-        List<User> result = repository.save((Collection<User>) null);
-        assertThat(result, is(notNullValue()));
-        assertThat(result.isEmpty(), is(true));
-    }
-
-    @Test
-    public void savingEmptyCollectionIsNoOp() throws Exception {
-
-        List<User> result = repository.save(new ArrayList<User>());
-        assertThat(result, is(notNullValue()));
-        assertThat(result.isEmpty(), is(true));
-    }
+//    @Test
+//    public void savesCollectionCorrectly() throws Exception {
+//
+//        List<User> result = repository.save(Arrays.asList(firstUser, secondUser, thirdUser));
+//        assertThat(result, is(notNullValue()));
+//        assertThat(result.size(), is(3));
+//        assertThat(result, hasItems(firstUser, secondUser, thirdUser));
+//    }
+//
+//    @Test
+//    public void savingNullCollectionIsNoOp() throws Exception {
+//
+//        List<User> result = repository.save((Collection<User>) null);
+//        assertThat(result, is(notNullValue()));
+//        assertThat(result.isEmpty(), is(true));
+//    }
+//
+//    @Test
+//    public void savingEmptyCollectionIsNoOp() throws Exception {
+//
+//        List<User> result = repository.save(new ArrayList<User>());
+//        assertThat(result, is(notNullValue()));
+//        assertThat(result.isEmpty(), is(true));
+//    }
 
     @Test
     public void testUpdate() {

@@ -94,16 +94,17 @@ class MybatisRepositoriesAutoConfigureRegistrar extends AbstractRepositoryConfig
         if (null == properties.getMapperLocations() || properties.getMapperLocations().length == 0) {
             super.registerBeanDefinitions(importingClassMetadata, registry);
         } else {
-            new RepositoryConfigurationDelegate(getConfigurationSource(), this.resourceLoader,
+            new RepositoryConfigurationDelegate(getConfigurationSource(registry), this.resourceLoader,
                     this.environment).registerRepositoriesIn(registry,
                     getRepositoryConfigurationExtension());
         }
     }
 
-    private AnnotationRepositoryConfigurationSource getConfigurationSource() {
+    private AnnotationRepositoryConfigurationSource getConfigurationSource(BeanDefinitionRegistry registry) {
+
         StandardAnnotationMetadata metadata = new StandardAnnotationMetadata(
                 getConfiguration(), true);
-        return new MybatisAnnotationRepositoryConfigurationSource(metadata, getAnnotation(), resourceLoader, this.environment) {
+        return new MybatisAnnotationRepositoryConfigurationSource(metadata, getAnnotation(), resourceLoader, this.environment, registry) {
             @Override
             public String[] getMapperLocations() {
                 return MybatisRepositoriesAutoConfigureRegistrar.this.getMapperLocations();
