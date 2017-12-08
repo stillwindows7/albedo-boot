@@ -7,7 +7,7 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>albedo-boot-web-starter</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <properties>
         <metrics-spark-reporter.version>1.2</metrics-spark-reporter.version>
         <metrics-spring.version>3.1.3</metrics-spring.version>
@@ -47,7 +47,7 @@
     <build>
         <resources>
             <resource>
-                <directory>${basedir}../../albedo-boot-ui/src/main/webapp</directory>
+                <directory>${basedir}/../../albedo-boot-ui/src/main/webapp</directory>
                 <!--注意此次必须要放在此目录下才能被访问到-->
                 <targetPath>META-INF/resources</targetPath>
                 <includes>
@@ -115,20 +115,21 @@
                 </dependency>
             </dependencies>
             <build>
+                <finalName>albedo-boot-web-starter</finalName>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-war-plugin</artifactId>
                         <configuration>
-                            <warSourceDirectory>target/www/</warSourceDirectory>
-                            <webResources>
-                                <resource>
-                                    <directory>${basedir}../../albedo-boot-ui/src/main/webapp</directory>
-                                    <includes>
-                                        <include>WEB-INF/**</include>
-                                    </includes>
-                                </resource>
-                            </webResources>
+                            <warSourceDirectory>${basedir}/../../albedo-boot-ui/src/main/webapp</warSourceDirectory>
+                            <!--<webResources>-->
+                                <!--<resource>-->
+                                    <!--<directory></directory>-->
+                                    <!--<includes>-->
+                                        <!--<include>**</include>-->
+                                    <!--</includes>-->
+                                <!--</resource>-->
+                            <!--</webResources>-->
                         </configuration>
                     </plugin>
                 </plugins>
