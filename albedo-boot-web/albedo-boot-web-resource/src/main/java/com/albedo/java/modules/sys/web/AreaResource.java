@@ -51,7 +51,7 @@ public class AreaResource extends TreeVoResource<AreaService, AreaVo> {
     /**
      * GET / : 获取分页界面 区域.
      */
-    @GetMapping(value = "/")
+    @GetMapping(value = "/list")
     public String list() {
         return "modules/sys/areaList";
     }
@@ -62,7 +62,7 @@ public class AreaResource extends TreeVoResource<AreaService, AreaVo> {
      * @param pm the pagination information
      * @return the ResponseEntity with status 200 (OK) and with body all area
      */
-    @GetMapping(value = "/page")
+    @GetMapping(value = "/")
     @Timed
     public ResponseEntity getPage(PageModel pm) {
         service.findPage(pm, SecurityUtil.dataScopeFilter());
@@ -75,7 +75,7 @@ public class AreaResource extends TreeVoResource<AreaService, AreaVo> {
      *
      * @param areaVo
      */
-    @GetMapping(value = "/edit")
+    @GetMapping(value = "/form")
     @Timed
     public String form(AreaVo areaVo) {
         if (areaVo == null) {
@@ -96,7 +96,7 @@ public class AreaResource extends TreeVoResource<AreaService, AreaVo> {
      *
      * @param {className}Vo
      */
-    @PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity save(@Valid @RequestBody AreaVo areaVo) {
         log.debug("REST request to save Area : {}", areaVo);
@@ -110,7 +110,7 @@ public class AreaResource extends TreeVoResource<AreaService, AreaVo> {
      * @param ids the id of the area to delete
      * @return the ResponseEntity with status 200 (OK)
      */
-    @PostMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
+    @DeleteMapping(value = "/{ids:" + Globals.LOGIN_REGEX
             + "}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
@@ -125,7 +125,7 @@ public class AreaResource extends TreeVoResource<AreaService, AreaVo> {
      * @param ids the id of the area to lock
      * @return the ResponseEntity with status 200 (OK)
      */
-    @PostMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
+    @PutMapping(value = "/{ids:" + Globals.LOGIN_REGEX
             + "}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {

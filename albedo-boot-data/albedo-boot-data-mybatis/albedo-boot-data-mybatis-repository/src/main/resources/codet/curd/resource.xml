@@ -57,7 +57,7 @@ public class ${ClassName}Resource extends DataVoResource<${ClassName}Service, ${
 		return ResultBuilder.buildObject(json);
 	}
 
-	@GetMapping(value = "/edit")
+	@GetMapping(value = "/form")
 	@Timed
 	public String form(${ClassName}Vo ${className}Vo) {
 		if(${className}Vo == null){
@@ -71,7 +71,7 @@ public class ${ClassName}Resource extends DataVoResource<${ClassName}Service, ${
 	 *
 	 * @param ${className}Vo the HTTP ${className}
 	 */
-	@PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/form", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
 	public ResponseEntity save(@Valid @RequestBody ${ClassName}Vo ${className}Vo) {
 		log.debug("REST request to save ${ClassName}Form : {}", ${className}Vo);

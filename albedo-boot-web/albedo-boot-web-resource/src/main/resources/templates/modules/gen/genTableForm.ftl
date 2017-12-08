@@ -14,7 +14,7 @@
     <div class="portlet-body form form-no-modal">
         <!-- BEGIN FORM-->
         <div id="bootstrap-alerts" class="bootstrap-alerts-genTable-form"></div>
-        <form id="genTable-form" action="${ctx}/gen/genTable/edit" method="post"
+        <form id="genTable-form" action="${ctx}/gen/genTable/" method="post"
               class="form-horizontal form-validation form-bordered form-label-stripped" config="{rules:{
                        name: {remote: '${ctx}/gen/genTable/checkByProperty?_statusFalse&id=' + encodeURIComponent('${(genTableVo.id)!}')}},
                        messages:{name:{message:'业务表名称已存在'}}}">

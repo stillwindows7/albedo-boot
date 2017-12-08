@@ -43,7 +43,7 @@ public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
         return ResultBuilder.buildOk(treeResultList);
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/list")
     @Timed
     public String list() {
         return "modules/sys/orgList";
@@ -53,7 +53,7 @@ public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
      * @param pm
      * @return
      */
-    @GetMapping(value = "/page")
+    @GetMapping(value = "/")
     public ResponseEntity getPage(PageModel pm) {
         pm.setSortDefaultName(Direction.DESC, DataEntity.F_LASTMODIFIEDDATE);
         service.findPage(pm, SecurityUtil.dataScopeFilter(
@@ -62,7 +62,7 @@ public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
         return ResultBuilder.buildObject(json);
     }
 
-    @GetMapping(value = "/edit")
+    @GetMapping(value = "/form")
     @Timed
     public String form(OrgVo orgVo) {
         if (orgVo == null) {
@@ -82,7 +82,7 @@ public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
      * @param orgVo
      * @return
      */
-    @PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity save(@Valid @RequestBody OrgVo orgVo) {
         log.debug("REST request to save orgVo : {}", orgVo);
@@ -100,7 +100,7 @@ public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
      * @param ids
      * @return
      */
-    @PostMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
+    @DeleteMapping(value = "/{ids:" + Globals.LOGIN_REGEX
             + "}")
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
@@ -114,7 +114,7 @@ public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
      * @param ids
      * @return
      */
-    @PostMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
+    @PutMapping(value = "/{ids:" + Globals.LOGIN_REGEX
             + "}")
     @Timed
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {

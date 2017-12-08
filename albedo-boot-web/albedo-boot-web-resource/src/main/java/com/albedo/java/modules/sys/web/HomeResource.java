@@ -1,6 +1,7 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.web.rest.base.BaseResource;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +16,7 @@ import java.util.Map;
 @RestController
 public class HomeResource extends BaseResource {
 
-    @PostMapping("/home")
+    @GetMapping("/home")
     public Object home() {
         Map map = new HashMap();
         map.put("key", 123);

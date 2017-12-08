@@ -72,7 +72,7 @@
                 src: $("#data-table-loggingEvent"),
                 dataTable: {
                     "ajax": {
-                        "url": "${ctx}/sys/loggingEvent/page",
+                        "url": "${ctx}/sys/loggingEvent/",
                         type: 'GET',
                         "dataType": 'json'
                     }, order: [0, 'desc'],

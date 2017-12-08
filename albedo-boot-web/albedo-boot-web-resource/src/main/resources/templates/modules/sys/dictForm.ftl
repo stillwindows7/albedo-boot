@@ -7,7 +7,7 @@
         <div class="col-md-12 form">
             <!-- BEGIN FORM-->
             <div id="bootstrap-alerts" class="bootstrap-alerts-dict-form"></div>
-            <form id="ajax_form" action="${ctx}/sys/dict/edit" method="post"
+            <form id="ajax_form" action="${ctx}/sys/dict/" method="post"
                   class="form-horizontal form-validation form-bordered form-label-stripped" config="{rules:{
                        code: {remote: '${ctx}/sys/dict/checkByProperty?_statusFalse&id=' + encodeURIComponent('${dictVo.id!}')}},
                        messages:{code:{message:'字典编码已存在'}}}">

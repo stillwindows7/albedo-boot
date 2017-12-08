@@ -60,7 +60,7 @@ public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
         return "modules/sys/moduleIco";
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/list")
     public String list() {
         return "modules/sys/moduleList";
     }
@@ -69,7 +69,7 @@ public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
      * @param pm
      * @return
      */
-    @GetMapping(value = "/page")
+    @GetMapping(value = "/")
     public ResponseEntity getPage(PageModel pm) {
         moduleService.findPage(pm, SecurityUtil.dataScopeFilter());
         pm.setSortDefaultName(Direction.DESC, DataEntity.F_LASTMODIFIEDDATE);
@@ -77,7 +77,7 @@ public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
         return ResultBuilder.buildObject(rs);
     }
 
-    @GetMapping(value = "/edit")
+    @GetMapping(value = "/form")
     @Timed
     public String form(ModuleVo moduleVo) {
         if (moduleVo == null) {
@@ -98,7 +98,7 @@ public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
      * @param moduleVo
      * @return
      */
-    @PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity save(@Valid @RequestBody ModuleVo moduleVo) {
         log.debug("REST request to save ModuleVo : {}", moduleVo);
@@ -118,7 +118,7 @@ public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
      * @param ids
      * @return
      */
-    @PostMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
+    @DeleteMapping(value = "/{ids:" + Globals.LOGIN_REGEX
             + "}")
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
@@ -133,7 +133,7 @@ public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
      * @param ids
      * @return
      */
-    @PostMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
+    @PutMapping(value = "/{ids:" + Globals.LOGIN_REGEX
             + "}")
     @Timed
     @Secured(AuthoritiesConstants.ADMIN)

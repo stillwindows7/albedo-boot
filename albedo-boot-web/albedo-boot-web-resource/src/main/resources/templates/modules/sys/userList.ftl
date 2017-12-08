@@ -10,7 +10,7 @@
                     <div class="btn-group">
                     <#if SecurityUtil.hasPermission('sys_user_edit')><a id="add-user" class="btn red dialog"
                                                                         href="javascript:void(0);"
-                                                                        data-url="${ctx}/sys/user/edit"
+                                                                        data-url="${ctx}/sys/user/form"
                                                                         data-modal-width="950" data-is-modal=""
                                                                         data-table-id="#data-table-user">
                         <i class="fa fa-plus"> 添加用户</i>
@@ -73,7 +73,7 @@
                 src: $("#data-table-user"),
                 dataTable: {
                     ajax: {
-                        url: "${ctx}/sys/user/page"
+                        url: "${ctx}/sys/user/"
                     },
                     "columns": [
                         {data: "orgName", name: "org.name"}, {data: "loginId"},
@@ -87,9 +87,9 @@
                         }, {data: "lastModifiedDate"},
                         {
                             orderable: false, data: function (row, type, val, meta) {
-                            var data = '<span class="operation">'<#if SecurityUtil.hasPermission('sys_user_edit')>+ '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-user" data-url="${ctx}/sys/user/edit?id='+ row.id+ '" data-modal-width="950"><i class=\"fa fa-lg fa-pencil\" title=\"编辑用户\"></i></a>'</#if>
-                                    <#if SecurityUtil.hasPermission('sys_user_lock')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-user" data-title="你确认要操作【'+ row.loginId+ '】用户吗？" data-url="${ctx}/sys/user/lock/'+ row.id+ '"><i class=\"fa fa-lg fa-'+ (row.status == "正常" ? "unlock" : "lock") + '  font-yellow-gold\" title=\"'+ (row.status == "正常" ? "锁定" : "解锁") + '用户\"></i></a></span>'</#if>
-                                    <#if SecurityUtil.hasPermission('sys_user_delete')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-user" data-method="post" data-title="你确认要删除【'+ row.loginId+ '】用户吗？" data-url="${ctx}/sys/user/delete/'+ row.id+ '"><i class=\"fa fa-lg fa-trash-o font-red-mint\" title=\"删除\"></i></a>'</#if> + '</span>';
+                            var data = '<span class="operation">'<#if SecurityUtil.hasPermission('sys_user_edit')>+ '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-user" data-url="${ctx}/sys/user/form?id='+ row.id+ '" data-modal-width="950"><i class=\"fa fa-lg fa-pencil\" title=\"编辑用户\"></i></a>'</#if>
+                                    <#if SecurityUtil.hasPermission('sys_user_lock')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-user" data-method="put"  data-title="你确认要操作【'+ row.loginId+ '】用户吗？" data-url="${ctx}/sys/user/'+ row.id+ '"><i class=\"fa fa-lg fa-'+ (row.status == "正常" ? "unlock" : "lock") + '  font-yellow-gold\" title=\"'+ (row.status == "正常" ? "锁定" : "解锁") + '用户\"></i></a></span>'</#if>
+                                    <#if SecurityUtil.hasPermission('sys_user_delete')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-user" data-method="delete"  data-method="post" data-title="你确认要删除【'+ row.loginId+ '】用户吗？" data-url="${ctx}/sys/user/'+ row.id+ '"><i class=\"fa fa-lg fa-trash-o font-red-mint\" title=\"删除\"></i></a>'</#if> + '</span>';
                             return data;
                         }
                         }

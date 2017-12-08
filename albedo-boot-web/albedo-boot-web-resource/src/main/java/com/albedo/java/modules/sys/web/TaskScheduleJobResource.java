@@ -35,7 +35,7 @@ import javax.validation.Valid;
 public class TaskScheduleJobResource extends DataVoResource<TaskScheduleJobExcutorService, TaskScheduleJobVo> {
 
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/list")
     public String list() {
         return "modules/sys/taskScheduleJobList";
     }
@@ -43,7 +43,7 @@ public class TaskScheduleJobResource extends DataVoResource<TaskScheduleJobExcut
     /**
      * @param pm
      */
-    @GetMapping(value = "/page")
+    @GetMapping(value = "/")
     public ResponseEntity getPage(PageModel<TaskScheduleJob> pm) {
         pm = service.findAll(pm, SecurityUtil.dataScopeFilter());
         JSON rs = JsonUtil.getInstance().setRecurrenceStr().toJsonObject(pm);
@@ -55,7 +55,7 @@ public class TaskScheduleJobResource extends DataVoResource<TaskScheduleJobExcut
      * @param model
      * @return
      */
-    @GetMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/form", produces = MediaType.APPLICATION_JSON_VALUE)
     public String form(TaskScheduleJobVo taskScheduleJobVo, Model model) {
         if (taskScheduleJobVo == null) {
             throw new RuntimeMsgException(PublicUtil.toAppendStr("查询任务调度失败，原因：无法查找到编号为[", request.getParameter("id"), "]的任务调度"));
@@ -67,7 +67,7 @@ public class TaskScheduleJobResource extends DataVoResource<TaskScheduleJobExcut
      * @param taskScheduleJobVo
      * @return
      */
-    @PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 
     public ResponseEntity save(@Valid @RequestBody TaskScheduleJobVo taskScheduleJobVo) {
         log.debug("REST request to save TaskScheduleJobVo : {}", taskScheduleJobVo);
@@ -80,7 +80,7 @@ public class TaskScheduleJobResource extends DataVoResource<TaskScheduleJobExcut
      * @param ids
      * @return
      */
-    @PostMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
+    @DeleteMapping(value = "/{ids:" + Globals.LOGIN_REGEX
             + "}")
 
     public ResponseEntity delete(@PathVariable String ids) {
@@ -93,7 +93,7 @@ public class TaskScheduleJobResource extends DataVoResource<TaskScheduleJobExcut
      * @param ids
      * @return
      */
-    @PostMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
+    @PutMapping(value = "/{ids:" + Globals.LOGIN_REGEX
             + "}")
 
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {

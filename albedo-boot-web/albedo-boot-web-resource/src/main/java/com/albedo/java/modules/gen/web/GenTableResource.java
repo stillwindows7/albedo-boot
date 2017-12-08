@@ -36,7 +36,7 @@ import java.util.Map;
 @RequestMapping(value = "${albedo.adminPath}/gen/genTable")
 public class GenTableResource extends DataVoResource<GenTableService, GenTableVo> {
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/list")
     @Timed
     public String list(Model model) {
         model.addAttribute("tableList", FormDirective.convertComboDataList(service.findTableListFormDb(null), GenTable.F_NAME, GenTable.F_NAMESANDCOMMENTS));
@@ -47,7 +47,7 @@ public class GenTableResource extends DataVoResource<GenTableService, GenTableVo
      * @param pm
      * @return
      */
-    @GetMapping(value = "/page")
+    @GetMapping(value = "/")
     @Timed
     public ResponseEntity getPage(PageModel<GenTable> pm) {
 
@@ -56,14 +56,14 @@ public class GenTableResource extends DataVoResource<GenTableService, GenTableVo
         return ResultBuilder.buildObject(rs);
     }
 
-    @GetMapping(value = "/edit")
+    @GetMapping(value = "/form")
     public String form(GenTableVo genTableVo, Model model) {
         Map<String, Object> map = service.findFormData(genTableVo);
         model.addAllAttributes(map);
         return "modules/gen/genTableForm";
     }
 
-    @PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity save(@Valid @RequestBody GenTableVo genTableVo) {
         // 验证表是否已经存在
         if (StringUtil.isBlank(genTableVo.getId()) && !service.checkTableName(genTableVo.getName())) {
@@ -74,7 +74,7 @@ public class GenTableResource extends DataVoResource<GenTableService, GenTableVo
         return ResultBuilder.buildOk(PublicUtil.toAppendStr("保存", genTableVo.getName(), "成功"));
     }
 
-    @PostMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX + "}")
+    @DeleteMapping(value = "/{ids:" + Globals.LOGIN_REGEX + "}")
     @Timed
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity delete(@PathVariable String ids) {
@@ -84,7 +84,7 @@ public class GenTableResource extends DataVoResource<GenTableService, GenTableVo
         return ResultBuilder.buildOk("删除成功");
     }
 
-    @PostMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX + "}")
+    @PutMapping(value = "/{ids:" + Globals.LOGIN_REGEX + "}")
     @Timed
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {
         log.debug("REST request to lockOrUnLock genTable: {}", ids);

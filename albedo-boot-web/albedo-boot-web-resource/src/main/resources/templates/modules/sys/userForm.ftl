@@ -14,7 +14,7 @@
     <div class="portlet-body form form-no-modal">
         <!-- BEGIN FORM-->
         <div id="bootstrap-alerts"></div>
-        <form id="ajax_form" action="${ctx}/sys/user/edit" method="post"
+        <form id="ajax_form" action="${ctx}/sys/user/" method="post"
               class="form-horizontal form-validation form-bordered form-label-stripped"
               config="{rules:{
                        loginId: {remote: '${ctx}/sys/user/checkByProperty?_statusFalse&id=' + encodeURIComponent('${(userVo.id)!}')},

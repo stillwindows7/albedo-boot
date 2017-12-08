@@ -45,13 +45,13 @@ public class RoleResource extends DataVoResource<RoleService, RoleVo> {
      */
     @GetMapping("/{id:" + Globals.LOGIN_REGEX + "}")
     @Timed
-    public ResponseEntity getUser(@PathVariable String id) {
+    public ResponseEntity getRole(@PathVariable String id) {
         log.debug("REST request to get Role : {}", id);
         return ResultBuilder.buildOk(service.findOneById(id)
                 .map(item -> service.copyBeanToVo(item)));
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/list")
     @Timed
     public String list() {
         return "modules/sys/roleList";
@@ -61,14 +61,14 @@ public class RoleResource extends DataVoResource<RoleService, RoleVo> {
      * @param pm
      * @return
      */
-    @GetMapping(value = "/page")
+    @GetMapping(value = "/")
     public ResponseEntity getPage(PageModel pm) {
         service.findPage(pm, SecurityUtil.dataScopeFilter(SecurityUtil.getCurrentUserId(), "org", "creator"));
         JSON rs = JsonUtil.getInstance().setRecurrenceStr("org_name").toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
     }
 
-    @GetMapping(value = "/edit")
+    @GetMapping(value = "/form")
     @Timed
     public String form(RoleVo roleVo) {
         return "modules/sys/roleForm";
@@ -79,7 +79,7 @@ public class RoleResource extends DataVoResource<RoleService, RoleVo> {
      * @param roleVo
      * @return
      */
-    @PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity save(@Valid @RequestBody RoleVo roleVo) {
         log.debug("REST request to save RoleVo : {}", roleVo);
@@ -97,7 +97,7 @@ public class RoleResource extends DataVoResource<RoleService, RoleVo> {
      * @param ids
      * @return
      */
-    @PostMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
+    @DeleteMapping(value = "/{ids:" + Globals.LOGIN_REGEX
             + "}")
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
@@ -111,7 +111,7 @@ public class RoleResource extends DataVoResource<RoleService, RoleVo> {
      * @param ids
      * @return
      */
-    @PostMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
+    @PutMapping(value = "/{ids:" + Globals.LOGIN_REGEX
             + "}")
     @Timed
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {

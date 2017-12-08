@@ -53,7 +53,7 @@ public class GenSchemeResource extends DataVoResource<GenSchemeService, GenSchem
     @Resource
     private ModuleService moduleService;
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/list")
     @Timed
     public String list() {
         return "modules/gen/genSchemeList";
@@ -63,7 +63,7 @@ public class GenSchemeResource extends DataVoResource<GenSchemeService, GenSchem
      * @param pm
      * @return
      */
-    @GetMapping(value = "/page")
+    @GetMapping(value = "/")
     @Timed
     public ResponseEntity getPage(PageModel pm) {
         genSchemeService.findPage(pm);
@@ -71,7 +71,7 @@ public class GenSchemeResource extends DataVoResource<GenSchemeService, GenSchem
         return ResultBuilder.buildObject(rs);
     }
 
-    @GetMapping(value = "/edit")
+    @GetMapping(value = "/form")
     @Timed
     public String form(GenSchemeVo genSchemeVo, Boolean isModal, Model model) {
         if (StringUtil.isBlank(genSchemeVo.getPackageName())) {
@@ -102,7 +102,7 @@ public class GenSchemeResource extends DataVoResource<GenSchemeService, GenSchem
         return PublicUtil.toAppendStr("modules/gen/genSchemeForm", isModal ? "Modal" : "");
     }
 
-    @PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity save(@Valid @RequestBody GenSchemeVo genSchemeVo) {
         genSchemeService.save(genSchemeVo);
@@ -124,7 +124,7 @@ public class GenSchemeResource extends DataVoResource<GenSchemeService, GenSchem
         return ResultBuilder.buildOk("保存", genSchemeVo.getName(), "成功");
     }
 
-    @PostMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
+    @DeleteMapping(value = "/{ids:" + Globals.LOGIN_REGEX
             + "}")
     @Timed
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {
@@ -134,7 +134,7 @@ public class GenSchemeResource extends DataVoResource<GenSchemeService, GenSchem
         return ResultBuilder.buildOk("操作成功");
     }
 
-    @PostMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
+    @PutMapping(value = "/{ids:" + Globals.LOGIN_REGEX
             + "}")
     @Timed
     @Secured(AuthoritiesConstants.ADMIN)

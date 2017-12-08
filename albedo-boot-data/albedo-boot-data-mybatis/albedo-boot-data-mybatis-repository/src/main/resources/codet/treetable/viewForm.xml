@@ -28,7 +28,7 @@
 	<div class="portlet-body form form-no-modal"></#if>
 		<!-- BEGIN FORM-->
 		<div id="bootstrap-alerts"></div>
-		<form id="ajax-form-${className}" action="<@jspEl />{ctx}/${urlPrefix}/edit" method="post"
+		<form id="ajax-form-${className}" action="<@jspEl />{ctx}/${urlPrefix}/form" method="post"
 			class="form-horizontal form-validation form-bordered form-label-stripped"
 			config="{rules:{<#list table.columnList as column><#if column.unique && !column.pk>
 						${column.simpleJavaField}: {remote: '<@jspEl/>{ctx}/${urlPrefix}/checkByProperty?id=' + encodeURIComponent('<@jspEl/>{(${className}Vo.id)!} />')}<#if column_has_next>,</#if></#if></#list>

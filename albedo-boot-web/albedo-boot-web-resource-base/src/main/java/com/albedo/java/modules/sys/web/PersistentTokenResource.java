@@ -14,9 +14,7 @@ import com.google.common.collect.Lists;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -33,7 +31,7 @@ public class PersistentTokenResource extends BaseResource {
     @Resource
     private PersistentTokenService persistentTokenService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/list")
     @Timed
     public String list() {
         return "modules/sys/persistentTokenList";
@@ -42,15 +40,15 @@ public class PersistentTokenResource extends BaseResource {
     /**
      * @param pm
      */
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    @GetMapping(value = "/")
     public ResponseEntity getPage(PageModel pm) {
         persistentTokenService.findPage(pm, SecurityUtil.dataScopeFilter());
         JSON rs = JsonUtil.getInstance().setRecurrenceStr("user_loginId").toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
     }
 
-    @RequestMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
-            + "}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/{ids:" + Globals.LOGIN_REGEX
+            + "}")
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
         log.debug("REST request to delete User: {}", ids);

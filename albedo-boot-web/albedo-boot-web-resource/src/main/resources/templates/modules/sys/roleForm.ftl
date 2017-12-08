@@ -14,7 +14,7 @@
     <div class="portlet-body form form-no-modal">
         <!-- BEGIN FORM-->
         <div id="bootstrap-alerts" class="bootstrap-alerts-role-form"></div>
-        <form id="ajax_form" action="${ctx}/sys/role/edit" method="post"
+        <form id="ajax_form" action="${ctx}/sys/role/" method="post"
               class="form-horizontal form-validation form-bordered form-label-stripped" config="{rules:{
                        name: {remote: '${ctx}/sys/role/checkByProperty?_statusFalse&id=' + encodeURIComponent('${roleVo.id!}')}},
                        messages:{name:{message:'角色名称已存在'}}}" validateFun="submitRoleFormHandler">
