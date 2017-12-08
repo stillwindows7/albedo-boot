@@ -38,7 +38,7 @@ AlbedoBoot 提供了常用工具进行封装，包括日志工具、缓存工具
 
 ## spring cloud  
 
-cloud版本发布，基于jhipster-registry 为注册中心。 docker环境搭建，
+cloud版本发布，基于[jhipster-registry](https://github.com/somewhereMrli/jhipster-registry)为注册中心。 同时也可以docker环境搭建，基于docker-compose启动，配置文件位于albedo-boot-cloud/docker/jhipster-registy.yml
 1.	启动cloud前请升级数据库，重新执行albedo-new.sql
 2.	使用docker-compose命令启动albedo-boot-cloud/docker/jhipster-registry.yml
 3.	启动albedo-boot-cloud/albedo-boot-cloud-micro AlbedoBootCloudMicro
@@ -59,8 +59,8 @@ cloud版本发布，基于jhipster-registry 为注册中心。 docker环境搭�
 
 ## 技术选型
 
-* 核心框架：Spring Boot 1.5.1.RELEASE
-* 安全框架：spring-security-data spring-boot-starter-security
+* 核心框架：Spring Boot 1.5.7.RELEASE
+* 安全框架：spring-security-data spring-boot-starter-security jwt
 * web框架：spring-boot-starter-web
 * 服务端验证：Hibernate Validator 5.2
 * 任务调度：quartz 2.2.3
@@ -107,7 +107,7 @@ cloud版本发布，基于jhipster-registry 为注册中心。 docker环境搭�
 
 * E-mail：837158334@qq.com
 * GitHub：<https://github.com/somewhereMrli/albedo-boot>
-* 支持AlbedoBoot发展：（加我好友 微信：lljj20520）
+* AlbedoBoot-QQ交流群：685728393
 
 一个人的个人能力再强，也无法战胜一个团队，希望兄弟姐妹的支持，能够贡献出自己的部分代码，参与进来共同完善它(^_^)。
 
