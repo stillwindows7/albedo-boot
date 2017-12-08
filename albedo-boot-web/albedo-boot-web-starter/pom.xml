@@ -45,6 +45,7 @@
     </dependencies>
 
     <build>
+        <finalName>albedo-boot-web-starter</finalName>
         <resources>
             <resource>
                 <directory>${basedir}/../../albedo-boot-ui/src/main/webapp</directory>
@@ -115,7 +116,6 @@
                 </dependency>
             </dependencies>
             <build>
-                <finalName>albedo-boot-web-starter</finalName>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -126,7 +126,7 @@
                                 <!--<resource>-->
                                     <!--<directory></directory>-->
                                     <!--<includes>-->
-                                        <!--<include>**</include>-->
+                                        <!--<include>WEB-INF/**</include>-->
                                     <!--</includes>-->
                                 <!--</resource>-->
                             <!--</webResources>-->

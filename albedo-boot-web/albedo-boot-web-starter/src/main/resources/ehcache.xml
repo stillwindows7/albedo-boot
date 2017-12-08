@@ -37,9 +37,5 @@
            timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="com.albedo.java.domain.Station"
-           timeToLiveSeconds="3600">
-    </cache>
-
     <!-- jhipster-needle-ehcache-add-entry -->
 </ehcache>
