@@ -18,12 +18,10 @@ import java.util.stream.Collectors;
  * @author somewhere
  */
 @RestController
-@RequestMapping("/management")
+@RequestMapping("/management/logs")
 public class LogsResource {
 
-    @RequestMapping(value = "/logs",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/")
     @Timed
     public List<LoggerVM> getList() {
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
@@ -33,8 +31,7 @@ public class LogsResource {
                 .collect(Collectors.toList());
     }
 
-    @RequestMapping(value = "/logs",
-            method = RequestMethod.PUT)
+    @PutMapping(value = "/logs")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Timed
     public void changeLevel(@RequestBody LoggerVM jsonLogger) {

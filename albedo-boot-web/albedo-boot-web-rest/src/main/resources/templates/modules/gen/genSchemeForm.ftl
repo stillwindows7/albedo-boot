@@ -15,7 +15,7 @@
     <div class="portlet-body form form-no-modal">
         <!-- BEGIN FORM-->
         <div id="bootstrap-alerts"></div>
-        <form id="ajax_form" action="${ctx}/gen/genScheme/edit" method="post"
+        <form id="ajax_form" action="${ctx}/gen/genScheme/" method="post"
               class="form-horizontal form-validation form-bordered form-label-stripped"
               config="">
             <div class="form-body">

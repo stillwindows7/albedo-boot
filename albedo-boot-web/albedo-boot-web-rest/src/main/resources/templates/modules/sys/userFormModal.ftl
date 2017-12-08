@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12 form">
             <div id="bootstrap-alerts"></div>
-            <form id="ajax_form" action="${ctx}/sys/user/edit" method="post"
+            <form id="ajax_form" action="${ctx}/sys/user/" method="post"
                   class="form-horizontal form-validation form-bordered form-label-stripped" config="{rules:{
                        loginId: {remote: '${ctx}/sys/user/checkByProperty?_statusFalse&id=' + encodeURIComponent('${user.id!}')},
                        descption:{required:true}

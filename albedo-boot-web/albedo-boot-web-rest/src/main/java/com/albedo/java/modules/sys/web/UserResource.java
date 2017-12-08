@@ -79,7 +79,7 @@ public class UserResource extends DataVoResource<UserService, UserVo> {
     private ModuleService moduleService;
 
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/list")
     @Timed
     public String list() {
         return "modules/sys/userList";
@@ -90,7 +90,7 @@ public class UserResource extends DataVoResource<UserService, UserVo> {
      *
      * @param pm
      */
-    @GetMapping(value = "/page")
+    @GetMapping(value = "/")
     public ResponseEntity getPage(PageModel pm) {
         pm = service.findPage(pm, SecurityUtil.dataScopeFilterSql("d", "a"));
         JSON rs = JsonUtil.getInstance().setFreeFilters("roleIdList").setRecurrenceStr("org_name").toJsonObject(pm);
@@ -127,7 +127,7 @@ public class UserResource extends DataVoResource<UserService, UserVo> {
 
 
 
-    @GetMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/form", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
 //	@Secured(AuthoritiesConstants.ADMIN)
     public String form(UserVo userVo, Model model, @RequestParam(required = false) Boolean isModal) {
@@ -141,7 +141,7 @@ public class UserResource extends DataVoResource<UserService, UserVo> {
      * @param userVo
      * @return
      */
-    @PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @ApiImplicitParams(@ApiImplicitParam(paramType = "query", name = "confirmPassword"))
     public ResponseEntity save(@Valid @RequestBody UserVo userVo) {
@@ -177,7 +177,7 @@ public class UserResource extends DataVoResource<UserService, UserVo> {
      * @param ids
      * @return
      */
-    @PostMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX + "}")
+    @DeleteMapping(value = "/{ids:" + Globals.LOGIN_REGEX + "}")
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
         log.debug("REST request to delete User: {}", ids);
@@ -193,7 +193,7 @@ public class UserResource extends DataVoResource<UserService, UserVo> {
      * @param ids
      * @return
      */
-    @PostMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX + "}")
+    @PutMapping(value = "/{ids:" + Globals.LOGIN_REGEX + "}")
     @Timed
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {
         log.debug("REST request to lockOrUnLock User: {}", ids);

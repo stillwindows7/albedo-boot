@@ -67,7 +67,7 @@ public class DictResource extends TreeVoResource<DictService, DictVo> {
     }
 
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/list")
     @Timed
     public String list() {
         return "modules/sys/dictList";
@@ -78,7 +78,7 @@ public class DictResource extends TreeVoResource<DictService, DictVo> {
      * @return
      * @throws URISyntaxException
      */
-    @GetMapping(value = "/page")
+    @GetMapping(value = "/")
     public ResponseEntity getPage(PageModel<Dict> pm) {
         pm.setSortDefaultName(Direction.DESC, Dict.F_SORT, Dict.F_LASTMODIFIEDDATE);
         dictService.findPage(pm);
@@ -86,7 +86,7 @@ public class DictResource extends TreeVoResource<DictService, DictVo> {
         return ResultBuilder.buildObject(rs);
     }
 
-    @GetMapping(value = "/edit")
+    @GetMapping(value = "/form")
     @Timed
     public String form(DictVo dictVo) {
         if (dictVo == null) {
@@ -107,7 +107,7 @@ public class DictResource extends TreeVoResource<DictService, DictVo> {
      * @return
      * @throws URISyntaxException
      */
-    @PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity save(@Valid @RequestBody DictVo dictVo)
             throws URISyntaxException {
@@ -126,7 +126,7 @@ public class DictResource extends TreeVoResource<DictService, DictVo> {
      * @param ids
      * @return
      */
-    @PostMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
+    @DeleteMapping(value = "/{ids:" + Globals.LOGIN_REGEX
             + "}")
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
@@ -137,7 +137,7 @@ public class DictResource extends TreeVoResource<DictService, DictVo> {
     }
 
 
-    @PostMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
+    @PutMapping(value = "/{ids:" + Globals.LOGIN_REGEX
             + "}")
     @Timed
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {

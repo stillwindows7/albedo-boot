@@ -7,7 +7,7 @@
         <div class="col-md-12 form">
             <!-- BEGIN FORM-->
             <div id="bootstrap-alerts" class="bootstrap-alerts-org-form"></div>
-            <form id="ajax_form" action="${ctx}/sys/org/edit" method="post"
+            <form id="ajax_form" action="${ctx}/sys/org/" method="post"
                   class="form-horizontal form-validation form-bordered form-label-stripped" config="{rules:{
                        name: {remote: '${ctx}/sys/org/checkByProperty?_statusFalse&id=' + encodeURIComponent('${orgVo.id!}')}},
                        messages:{name:{message:'组织名称已存在'}}}">

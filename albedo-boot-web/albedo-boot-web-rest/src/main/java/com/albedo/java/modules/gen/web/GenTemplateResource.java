@@ -19,10 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URISyntaxException;
 
@@ -35,7 +32,7 @@ import java.net.URISyntaxException;
 @RequestMapping(value = "${albedo.adminPath}/gen/genTemplate")
 public class GenTemplateResource extends DataResource<GenTemplateService, GenTemplate> {
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/list")
     @Timed
     public String list() {
         return "modules/sys/genTemplateList";
@@ -45,7 +42,7 @@ public class GenTemplateResource extends DataResource<GenTemplateService, GenTem
      * @param pm
      * @return
      */
-    @GetMapping(value = "/page")
+    @GetMapping(value = "/")
     public ResponseEntity getPage(PageModel<GenTemplate> pm) {
 
         service.findPage(pm);
@@ -53,7 +50,7 @@ public class GenTemplateResource extends DataResource<GenTemplateService, GenTem
         return ResultBuilder.buildObject(rs);
     }
 
-    @GetMapping(value = "/edit")
+    @GetMapping(value = "/form")
     @Timed
     public String form(GenTemplate genTemplate) {
         return "modules/sys/TemplateForm";
@@ -64,7 +61,7 @@ public class GenTemplateResource extends DataResource<GenTemplateService, GenTem
      * @return
      * @throws URISyntaxException
      */
-    @PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity save(GenTemplate genTemplate)
             throws URISyntaxException {
@@ -83,7 +80,7 @@ public class GenTemplateResource extends DataResource<GenTemplateService, GenTem
      * @param ids
      * @return
      */
-    @PostMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
+    @DeleteMapping(value = "/{ids:" + Globals.LOGIN_REGEX
             + "}")
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
@@ -93,7 +90,7 @@ public class GenTemplateResource extends DataResource<GenTemplateService, GenTem
         return ResultBuilder.buildOk("删除成功");
     }
 
-    @PostMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
+    @PutMapping(value = "/{ids:" + Globals.LOGIN_REGEX
             + "}")
     @Timed
     @Secured(AuthoritiesConstants.ADMIN)

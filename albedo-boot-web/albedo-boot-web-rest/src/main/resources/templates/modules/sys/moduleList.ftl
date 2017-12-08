@@ -14,7 +14,7 @@
                     <div class="btn-group">
                     <#if SecurityUtil.hasPermission('sys_module_edit')><a id="add-module" class="btn red dialog"
                                                                           href="javascript:void(0);"
-                                                                          data-url="${ctx}/sys/module/edit"
+                                                                          data-url="${ctx}/sys/module/form"
                                                                           data-modal-width="950"
                                                                           data-reload-after="refreshTreeModule"
                                                                           data-table-id="#data-table-module">
@@ -85,13 +85,13 @@
                 src: $("#data-table-module"),
                 dataTable: {
                     "ajax": {
-                        "url": "${ctx}/sys/module/page"
+                        "url": "${ctx}/sys/module/"
                     },
                     order: [5, 'asc'],
                     "columns": [
                         {
                             data: "name", render: function (data, type, row) {
-                            <#if SecurityUtil.hasPermission('sys_module_edit')>data = '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-module" data-is-modal="" data-url="${ctx}/sys/module/edit?id=' + row.id + '" title=\"点击编辑模块\">' + data + '</a>'</#if>
+                            <#if SecurityUtil.hasPermission('sys_module_edit')>data = '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-module" data-is-modal="" data-url="${ctx}/sys/module/form?id=' + row.id + '" title=\"点击编辑模块\">' + data + '</a>'</#if>
                             return data;
                         }
                         },
@@ -106,9 +106,9 @@
                         }, {data: "lastModifiedDate"},
                         {
                             orderable: false, data: function (row, type, val, meta) {
-                            var data = '<span class="operation">'<#if SecurityUtil.hasPermission('sys_module_edit')>+ '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-module" data-url="${ctx}/sys/module/edit?id='+ row.id+ '" data-reload-after="refreshTreeModule" data-modal-width="950"><i class=\"fa fa-lg fa-pencil\" title=\"编辑机构\"></i></a>'</#if>
-                                    <#if SecurityUtil.hasPermission('sys_module_lock')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-module" data-title="你确认要操作【'+ row.name+ '】模块吗？" data-url="${ctx}/sys/module/lock/'+ row.id+ '"><i class=\"fa fa-lg fa-'+ (row.status == "正常" ? "unlock" : "lock") + '  font-yellow-gold\" title=\"'+ (row.status == "正常" ? "锁定" : "解锁") + '模块\"></i></a></span>'</#if>
-                                    <#if SecurityUtil.hasPermission('sys_module_delete')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-module" data-title="你确认要删除【'+ row.name+ '】模块吗？" data-reload-after="refreshTreeModule" data-url="${ctx}/sys/module/delete/'+ row.id+ '"><i class=\"fa fa-lg fa-trash-o font-red-mint\" title=\"删除\"></i></a>'</#if> + '</span>';
+                            var data = '<span class="operation">'<#if SecurityUtil.hasPermission('sys_module_edit')>+ '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-module" data-url="${ctx}/sys/module/form?id='+ row.id+ '" data-reload-after="refreshTreeModule" data-modal-width="950"><i class=\"fa fa-lg fa-pencil\" title=\"编辑机构\"></i></a>'</#if>
+                                    <#if SecurityUtil.hasPermission('sys_module_lock')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-module" data-method="put"  data-title="你确认要操作【'+ row.name+ '】模块吗？" data-url="${ctx}/sys/module/'+ row.id+ '"><i class=\"fa fa-lg fa-'+ (row.status == "正常" ? "unlock" : "lock") + '  font-yellow-gold\" title=\"'+ (row.status == "正常" ? "锁定" : "解锁") + '模块\"></i></a></span>'</#if>
+                                    <#if SecurityUtil.hasPermission('sys_module_delete')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-module" data-method="delete"  data-title="你确认要删除【'+ row.name+ '】模块吗？" data-reload-after="refreshTreeModule" data-url="${ctx}/sys/module/'+ row.id+ '"><i class=\"fa fa-lg fa-trash-o font-red-mint\" title=\"删除\"></i></a>'</#if> + '</span>';
                             return data;
                         }
                         }

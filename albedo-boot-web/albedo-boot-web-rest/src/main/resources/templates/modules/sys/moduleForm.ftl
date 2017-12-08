@@ -15,7 +15,7 @@
         <div class="col-md-12 form form-no-modal">
             <!-- BEGIN FORM-->
             <div id="bootstrap-alerts" class="bootstrap-alerts-module-form"></div>
-            <form id="ajax_form" action="${ctx}/sys/module/edit" method="post"
+            <form id="ajax_form" action="${ctx}/sys/module/" method="post"
                   class="form-horizontal form-validation form-bordered form-label-stripped" config="{rules:{
                        permission: {remote: '${ctx}/sys/module/checkByProperty?_statusFalse&id=' + encodeURIComponent('${moduleVo.id!}')}},
                        messages:{permission:{message:'权限名称已存在'}}}">

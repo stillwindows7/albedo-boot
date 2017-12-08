@@ -17,7 +17,7 @@
                 <div class="actions">
                     <div class="btn-group">
                         <<@hash/>if SecurityUtil.hasPermission('${permissionPrefix}_edit')><a class="btn red dialog" href="javascript:void(0);" 
-                        data-url="<@jspEl />{ctx}/${urlPrefix}/edit" data-is-modal="<#if scheme.modalView>true</#if>" data-modal-width="950" data-table-id="#data-table-${className}">
+                        data-url="<@jspEl />{ctx}/${urlPrefix}/form" data-is-modal="<#if scheme.modalView>true</#if>" data-modal-width="950" data-table-id="#data-table-${className}">
                             <i class="fa fa-plus"> 添加${functionNameSimple}</i>
                         </a></<@hash/>if>
                     </div>
@@ -81,7 +81,7 @@
                 src: $("#data-table-${className}"),
                 dataTable: {
                     "ajax": {
-                        "url": "<@jspEl />{ctx}/${urlPrefix}/page",
+                        "url": "<@jspEl />{ctx}/${urlPrefix}/",
                         type: 'GET',
                         "dataType": 'json'
                     },
@@ -92,13 +92,13 @@
 					<#if column.simpleJavaField = 'status'>  
 					<#if column_index != 1>, </#if>{data:'${column.simpleJavaField}',render: function(data, type, row){
 						var temp = '<span class="label label-sm label-'+(data == "正常" ? "info" : "warning")+'">'+data+'</span>';
-						<<@hash/>if SecurityUtil.hasPermission('${permissionPrefix}_lock')>temp = '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-${className}" data-method="delete" data-title="你确认要操作选中的${functionNameSimple}吗？" data-url="<@jspEl />{ctx}/${urlPrefix}/lock/'+row.id+'" title=\"'+(row.status=="正常" ? "锁定" : "解锁") +'${functionNameSimple}\">'+temp+'</a></span>';</<@hash/>if>
+						<<@hash/>if SecurityUtil.hasPermission('${permissionPrefix}_lock')>temp = '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-${className}" data-method="put" data-title="你确认要操作选中的${functionNameSimple}吗？" data-url="<@jspEl />{ctx}/${urlPrefix}/'+row.id+'" title=\"'+(row.status=="正常" ? "锁定" : "解锁") +'${functionNameSimple}\">'+temp+'</a></span>';</<@hash/>if>
 						return temp;
 					}}
 					<#else>
 					<#if column_index != 1>, </#if>{data:'${column.simpleJavaField}<#if column.simpleJavaType == "User" || column.simpleJavaType == "Org" || column.simpleJavaType == "Area">${column.defaultJavaFieldName?cap_first}</#if>'
 					<#if firstListField>, render: function(data, type, row){
-						<<@hash/>if SecurityUtil.hasPermission('${permissionPrefix}_edit')>data = '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-${className}" data-is-modal="<#if scheme.modalView>true</#if>" data-url="<@jspEl />{ctx}/${urlPrefix}/edit?id='+row.id+'" title=\"点击编辑${functionNameSimple}\">'+data+'</a>'</<@hash/>if>
+						<<@hash/>if SecurityUtil.hasPermission('${permissionPrefix}_edit')>data = '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-${className}" data-is-modal="<#if scheme.modalView>true</#if>" data-url="<@jspEl />{ctx}/${urlPrefix}/form?id='+row.id+'" title=\"点击编辑${functionNameSimple}\">'+data+'</a>'</<@hash/>if>
 						return data;
 					}<#assign firstListField = false></#if>}
 					</#if>
@@ -106,9 +106,9 @@
 					</#list>
 					<<@hash/>if SecurityUtil.hasPermission('${permissionPrefix}_edit,${permissionPrefix}_delete,${permissionPrefix}_lock')><#if table.columnList?size != 0>, </#if>
                        { orderable: false, data: function ( row, type, val, meta ) {
-                        	var data = '<span class="operation">'<<@hash/>if SecurityUtil.hasPermission('${permissionPrefix}_edit')>+'<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-${className}" data-is-modal="<#if scheme.modalView>true</#if>" data-modal-width="950" data-url="<@jspEl />{ctx}/${urlPrefix}/edit?id='+row.id+'"><i class=\"fa fa-lg fa-pencil\" title=\"编辑${functionNameSimple}\"></i></a>'</<@hash/>if>
-                    		<<@hash/>if SecurityUtil.hasPermission('${permissionPrefix}_lock')>+'<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-${className}" data-title="你确认要操作选中的${functionNameSimple}吗？" data-url="<@jspEl />{ctx}/${urlPrefix}/lock/'+row.id+'"><i class=\"fa fa-lg fa-'+(row.status=="正常" ? "unlock" : "lock") +'  font-yellow-gold\" title=\"'+(row.status=="正常" ? "锁定" : "解锁") +'${functionNameSimple}\"></i></a></span>'</<@hash/>if>
-                    		<<@hash/>if SecurityUtil.hasPermission('${permissionPrefix}_delete')>+'<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-${className}" data-method="post" data-title="你确认要删除选中的${functionNameSimple}吗？" data-url="<@jspEl />{ctx}/${urlPrefix}/delete/'+row.id+'"><i class=\"fa fa-lg fa-trash-o font-red-mint\" title=\"删除\"></i></a></span>'</<@hash/>if>+'<\span>';
+                        	var data = '<span class="operation">'<<@hash/>if SecurityUtil.hasPermission('${permissionPrefix}_edit')>+'<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-${className}" data-is-modal="<#if scheme.modalView>true</#if>" data-modal-width="950" data-url="<@jspEl />{ctx}/${urlPrefix}/form?id='+row.id+'"><i class=\"fa fa-lg fa-pencil\" title=\"编辑${functionNameSimple}\"></i></a>'</<@hash/>if>
+                    		<<@hash/>if SecurityUtil.hasPermission('${permissionPrefix}_lock')>+'<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-${className}" data-method="put" data-title="你确认要操作选中的${functionNameSimple}吗？" data-url="<@jspEl />{ctx}/${urlPrefix}/'+row.id+'"><i class=\"fa fa-lg fa-'+(row.status=="正常" ? "unlock" : "lock") +'  font-yellow-gold\" title=\"'+(row.status=="正常" ? "锁定" : "解锁") +'${functionNameSimple}\"></i></a></span>'</<@hash/>if>
+                    		<<@hash/>if SecurityUtil.hasPermission('${permissionPrefix}_delete')>+'<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-${className}" data-method="delete" data-title="你确认要删除选中的${functionNameSimple}吗？" data-url="<@jspEl />{ctx}/${urlPrefix}/'+row.id+'"><i class=\"fa fa-lg fa-trash-o font-red-mint\" title=\"删除\"></i></a></span>'</<@hash/>if>+'<\span>';
                         	return data;
                         }
                         }</<@hash/>if>

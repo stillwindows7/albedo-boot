@@ -14,7 +14,7 @@
                     <div class="btn-group">
                     <#if SecurityUtil.hasPermission('sys_dict_edit')><a id="add-dict" class="btn red dialog"
                                                                         href="javascript:void(0);"
-                                                                        data-url="${ctx}/sys/dict/edit"
+                                                                        data-url="${ctx}/sys/dict/form"
                                                                         data-modal-width="950"
                                                                         data-reload-after="refreshTreeDict"
                                                                         data-is-modal="true"
@@ -94,7 +94,7 @@
                 src: $("#data-table-dict"),
                 dataTable: {
                     "ajax": {
-                        "url": "${ctx}/sys/dict/page",
+                        "url": "${ctx}/sys/dict/",
                         type: 'GET',
                         "dataType": 'json'
                     }, order: [6, 'asc'],
@@ -114,9 +114,9 @@
                         }, {data: "lastModifiedDate"},
                         {
                             orderable: false, data: function (row, type, val, meta) {
-                            var data = '<span class="operation">'<#if SecurityUtil.hasPermission('sys_dict_edit')>+ '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-dict" data-reload-after="refreshTreeDict" data-is-modal="true" data-url="${ctx}/sys/dict/edit?id='+ row.id+ '" data-modal-width="950"><i class=\"fa fa-lg fa-pencil\" title=\"编辑字典\"></i></a>'</#if>
-                                    <#if SecurityUtil.hasPermission('sys_dict_lock')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-dict" data-reload-after="refreshTreeDict" data-title="你确认要操作【'+ row.name+ '】字典吗？" data-url="${ctx}/sys/dict/lock/'+ row.id+ '"><i class=\"fa fa-lg fa-'+ (row.status == "正常" ? "unlock" : "lock") + '  font-yellow-gold\" title=\"'+ (row.status == "正常" ? "锁定" : "解锁") + '字典\"></i></a></span>'</#if>
-                                    <#if SecurityUtil.hasPermission('sys_dict_delete')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-dict" data-reload-after="refreshTreeDict" data-title="你确认要删除【'+ row.name+ '】字典吗？" data-url="${ctx}/sys/dict/delete/'+ row.id+ '"><i class=\"fa fa-lg fa-trash-o font-red-mint\" title=\"删除\"></i></a>'</#if> + '</span>';
+                            var data = '<span class="operation">'<#if SecurityUtil.hasPermission('sys_dict_edit')>+ '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-dict" data-reload-after="refreshTreeDict" data-is-modal="true" data-url="${ctx}/sys/dict/form?id='+ row.id+ '" data-modal-width="950"><i class=\"fa fa-lg fa-pencil\" title=\"编辑字典\"></i></a>'</#if>
+                                    <#if SecurityUtil.hasPermission('sys_dict_lock')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-dict" data-reload-after="refreshTreeDict" data-method="put"  data-title="你确认要操作【'+ row.name+ '】字典吗？" data-url="${ctx}/sys/dict/'+ row.id+ '"><i class=\"fa fa-lg fa-'+ (row.status == "正常" ? "unlock" : "lock") + '  font-yellow-gold\" title=\"'+ (row.status == "正常" ? "锁定" : "解锁") + '字典\"></i></a></span>'</#if>
+                                    <#if SecurityUtil.hasPermission('sys_dict_delete')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-dict" data-reload-after="refreshTreeDict" data-method="delete"  data-title="你确认要删除【'+ row.name+ '】字典吗？" data-url="${ctx}/sys/dict/'+ row.id+ '"><i class=\"fa fa-lg fa-trash-o font-red-mint\" title=\"删除\"></i></a>'</#if> + '</span>';
                             return data;
                         }
                         }

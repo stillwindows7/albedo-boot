@@ -14,7 +14,7 @@
                     <div class="btn-group">
                     <#if SecurityUtil.hasPermission('sys_area_edit')><a id="add-area" class="btn red dialog"
                                                                         href="javascript:void(0);"
-                                                                        data-url="${ctx}/sys/area/edit"
+                                                                        data-url="${ctx}/sys/area/form"
                                                                         data-reload-after="refreshTreeArea"
                                                                         data-is-modal="true" data-modal-width="950"
                                                                         data-table-id="#data-table-area">
@@ -81,7 +81,7 @@
                 src: $("#data-table-area"),
                 dataTable: {
                     "ajax": {
-                        "url": "${ctx}/sys/area/page",
+                        "url": "${ctx}/sys/area/",
                         type: 'GET',
                         "dataType": 'json'
                     },
@@ -89,7 +89,7 @@
                         {
                             data: 'name'
                             , render: function (data, type, row) {
-                            <#if SecurityUtil.hasPermission('sys_area_edit')>data = '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-area" data-is-modal="true" data-url="${ctx}/sys/area/edit?id=' + row.id + '" title=\"点击编辑区域管理\">' + data + '</a>'</#if>
+                            <#if SecurityUtil.hasPermission('sys_area_edit')>data = '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-area" data-is-modal="true" data-url="${ctx}/sys/area/form?id=' + row.id + '" title=\"点击编辑区域管理\">' + data + '</a>'</#if>
                             return data;
                         }
                         }, {
@@ -110,16 +110,16 @@
                         , {
                             data: 'status', render: function (data, type, row) {
                                 var temp = '<span class="label label-sm label-' + (data == "正常" ? "info" : "warning") + '">' + data + '</span>';
-                                <#if SecurityUtil.hasPermission('sys_area_lock')>temp = '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-area" data-method="delete" data-title="你确认要操作选中的区域管理吗？" data-url="${ctx}/sys/area/lock/' + row.id + '" title=\"' + (row.status == "正常" ? "锁定" : "解锁") + '区域管理\">' + temp + '</a></span>';</#if>
+                                <#if SecurityUtil.hasPermission('sys_area_lock')>temp = '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-area" data-method="put" data-title="你确认要操作选中的区域管理吗？" data-url="${ctx}/sys/area/' + row.id + '" title=\"' + (row.status == "正常" ? "锁定" : "解锁") + '区域管理\">' + temp + '</a></span>';</#if>
                                 return temp;
                             }
                         }
                     <#if SecurityUtil.hasPermission('sys_area_edit,sys_area_delete,sys_area_lock')>,
                         {
                             orderable: false, data: function (row, type, val, meta) {
-                            var data = '<span class="operation">'<#if SecurityUtil.hasPermission('sys_area_edit')>+ '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-area" data-reload-after="refreshTreeArea" data-is-modal="true" data-modal-width="950" data-url="${ctx}/sys/area/edit?id='+ row.id+ '"><i class=\"fa fa-lg fa-pencil\" title=\"编辑区域管理\"></i></a>'</#if>
-                                        <#if SecurityUtil.hasPermission('sys_area_lockOrUnLock')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-area" data-title="你确认要操作选中的区域管理吗？" data-url="${ctx}/sys/area/lock/'+ row.id+ '"><i class=\"fa fa-lg fa-'+ (row.status == "正常" ? "unlock" : "lock") + '  font-yellow-gold\" title=\"'+ (row.status == "正常" ? "锁定" : "解锁") + '区域管理\"></i></a></span>'</#if>
-                                        <#if SecurityUtil.hasPermission('sys_area_delete')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-area" data-reload-after="refreshTreeArea" data-title="你确认要删除选中的区域管理吗？" data-url="${ctx}/sys/area/delete/'+ row.id+ '"><i class=\"fa fa-lg fa-trash-o font-red-mint\" title=\"删除\"></i></a></span>'</#if> + '<\span>';
+                            var data = '<span class="operation">'<#if SecurityUtil.hasPermission('sys_area_edit')>+ '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-area" data-reload-after="refreshTreeArea" data-is-modal="true" data-modal-width="950" data-url="${ctx}/sys/area/form?id='+ row.id+ '"><i class=\"fa fa-lg fa-pencil\" title=\"编辑区域管理\"></i></a>'</#if>
+                                        <#if SecurityUtil.hasPermission('sys_area_lockOrUnLock')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-area" data-method="put"  data-title="你确认要操作选中的区域管理吗？" data-url="${ctx}/sys/area/'+ row.id+ '"><i class=\"fa fa-lg fa-'+ (row.status == "正常" ? "unlock" : "lock") + '  font-yellow-gold\" title=\"'+ (row.status == "正常" ? "锁定" : "解锁") + '区域管理\"></i></a></span>'</#if>
+                                        <#if SecurityUtil.hasPermission('sys_area_delete')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-area" data-method="delete"  data-reload-after="refreshTreeArea" data-title="你确认要删除选中的区域管理吗？" data-url="${ctx}/sys/area/'+ row.id+ '"><i class=\"fa fa-lg fa-trash-o font-red-mint\" title=\"删除\"></i></a></span>'</#if> + '<\span>';
                             return data;
                         }
                         }</#if>

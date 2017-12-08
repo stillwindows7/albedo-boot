@@ -7,7 +7,7 @@
         <div class="col-md-12 form">
             <!-- BEGIN FORM-->
             <div id="bootstrap-alerts"></div>
-            <form id="ajax_form" action="${ctx}/sys/area/edit" method="post"
+            <form id="ajax_form" action="${ctx}/sys/area/" method="post"
                   class="form-horizontal form-validation form-bordered form-label-stripped"
                   config="{rules:{
 						code: {remote: '${ctx}/sys/area/checkByProperty?id=' + encodeURIComponent('${(areaVo.id)!} />')},

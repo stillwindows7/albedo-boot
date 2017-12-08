@@ -11,7 +11,7 @@
                     <#if SecurityUtil.hasPermission('gen_genTable_edit')>
                         <a class="btn red dialog-before" href="javascript:void(0);" <i class="fa fa-plus"> 添加业务表</i>
                         </a><a id="add-genTable" class="btn red dialog hide" href="javascript:void(0);"
-                               data-url="${ctx}/gen/genTable/edit" data-modal-width="950" data-is-modal=""
+                               data-url="${ctx}/gen/genTable/form" data-modal-width="950" data-is-modal=""
                                data-table-id="#data-table-genTable">
                         <i class="fa fa-plus"> 添加业务表</i>
                     </a>
@@ -108,7 +108,7 @@
                 src: $("#data-table-genTable"),
                 dataTable: {
                     "ajax": {
-                        "url": "${ctx}/gen/genTable/page",
+                        "url": "${ctx}/gen/genTable/",
                         type: 'GET',
                         "dataType": 'json'
                     },
@@ -130,9 +130,9 @@
                         {
                             orderable: false, data: function (row, type, val, meta) {
                         return '<span class="operation">'
-                        <#if SecurityUtil.hasPermission('gen_genTable_edit')>+ '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-genTable" data-url="${ctx}/gen/genTable/edit?id='+ row.id+ '" data-modal-width="950"><i class=\"fa fa-lg fa-pencil\" title=\"编辑业务表\"></i></a>'
-                        + '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-genTable" data-title="你确认要操作【'+ row.name+ '】业务表吗？" data-url="${ctx}/gen/genTable/lock/'+ row.id+ '"><i class=\"fa fa-lg fa-'+ (row.status == "正常" ? "unlock" : "lock") + '  font-yellow-gold\" title=\"'+ (row.status == "正常" ? "锁定" : "解锁") + '业务表\"></i></a></span>'</#if>
-                        <#if SecurityUtil.hasPermission('gen_genTable_delete')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-genTable" data-title="你确认要删除【'+ row.name+ '】业务表吗？" data-url="${ctx}/gen/genTable/delete/'+ row.id+ '"><i class=\"fa fa-lg fa-trash-o font-red-mint\" title=\"删除\"></i></a></span>';}</#if>
+                        <#if SecurityUtil.hasPermission('gen_genTable_edit')>+ '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-genTable" data-url="${ctx}/gen/genTable/form?id='+ row.id+ '" data-modal-width="950"><i class=\"fa fa-lg fa-pencil\" title=\"编辑业务表\"></i></a>'
+                        + '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-genTable" data-method="put"  data-title="你确认要操作【'+ row.name+ '】业务表吗？" data-url="${ctx}/gen/genTable/'+ row.id+ '"><i class=\"fa fa-lg fa-'+ (row.status == "正常" ? "unlock" : "lock") + '  font-yellow-gold\" title=\"'+ (row.status == "正常" ? "锁定" : "解锁") + '业务表\"></i></a></span>'</#if>
+                        <#if SecurityUtil.hasPermission('gen_genTable_delete')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-genTable" data-method="delete"  data-title="你确认要删除【'+ row.name+ '】业务表吗？" data-url="${ctx}/gen/genTable/'+ row.id+ '"><i class=\"fa fa-lg fa-trash-o font-red-mint\" title=\"删除\"></i></a></span>';}</#if>
                         }
                     ]
                 }

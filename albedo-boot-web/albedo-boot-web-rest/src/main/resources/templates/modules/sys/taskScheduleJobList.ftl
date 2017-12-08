@@ -10,7 +10,7 @@
                     <div class="btn-group">
                     <#if SecurityUtil.hasPermission('sys_taskScheduleJob_edit')><a class="btn red dialog"
                                                                                    href="javascript:void(0);"
-                                                                                   data-url="${ctx}/sys/taskScheduleJob/edit"
+                                                                                   data-url="${ctx}/sys/taskScheduleJob/form"
                                                                                    data-is-modal=""
                                                                                    data-modal-width="950"
                                                                                    data-table-id="#data-table-taskScheduleJob">
@@ -71,7 +71,7 @@
                 src: $("#data-table-taskScheduleJob"),
                 dataTable: {
                     "ajax": {
-                        "url": "${ctx}/sys/taskScheduleJob/page",
+                        "url": "${ctx}/sys/taskScheduleJob/",
                         type: 'GET',
                         "dataType": 'json'
                     },
@@ -79,7 +79,7 @@
                         {
                             data: 'name'
                             , render: function (data, type, row) {
-                            <#if SecurityUtil.hasPermission('sys_taskScheduleJob_edit')>data = '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-taskScheduleJob" data-is-modal="" data-url="${ctx}/sys/taskScheduleJob/edit?id=' + row.id + '" title=\"点击编辑任务调度\">' + data + '</a>'</#if>
+                            <#if SecurityUtil.hasPermission('sys_taskScheduleJob_edit')>data = '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-taskScheduleJob" data-is-modal="" data-url="${ctx}/sys/taskScheduleJob/form?id=' + row.id + '" title=\"点击编辑任务调度\">' + data + '</a>'</#if>
                             return data;
                         }
                         }
@@ -107,9 +107,9 @@
                     <#if SecurityUtil.hasPermission('sys_taskScheduleJob_edit,sys_taskScheduleJob_delete,sys_taskScheduleJob_lock')>,
                         {
                             orderable: false, data: function (row, type, val, meta) {
-                            var data = '<span class="operation">'<#if SecurityUtil.hasPermission('sys_taskScheduleJob_edit')>+ '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-taskScheduleJob" data-is-modal="" data-modal-width="950" data-url="${ctx}/sys/taskScheduleJob/edit?id='+ row.id+ '"><i class=\"fa fa-lg fa-pencil\" title=\"编辑任务调度\"></i></a>'</#if>
-                                        <#if SecurityUtil.hasPermission('sys_taskScheduleJob_lock')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-taskScheduleJob" data-title="你确认要操作选中的任务调度吗？" data-url="${ctx}/sys/taskScheduleJob/lock/'+ row.id+ '"><i class=\"fa fa-lg fa-'+ (row.status == "正常" ? "unlock" : "lock") + '  font-yellow-gold\" title=\"'+ (row.status == "正常" ? "锁定" : "解锁") + '任务调度\"></i></a></span>'</#if>
-                                        <#if SecurityUtil.hasPermission('sys_taskScheduleJob_delete')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-taskScheduleJob" data-method="delete" data-title="你确认要删除选中的任务调度吗？" data-url="${ctx}/sys/taskScheduleJob/delete/'+ row.id+ '"><i class=\"fa fa-lg fa-trash-o font-red-mint\" title=\"删除\"></i></a></span>'</#if> + '<\span>';
+                            var data = '<span class="operation">'<#if SecurityUtil.hasPermission('sys_taskScheduleJob_edit')>+ '<a href="javascript:void(0);" class="dialog" data-table-id="#data-table-taskScheduleJob" data-is-modal="" data-modal-width="950" data-url="${ctx}/sys/taskScheduleJob/form?id='+ row.id+ '"><i class=\"fa fa-lg fa-pencil\" title=\"编辑任务调度\"></i></a>'</#if>
+                                        <#if SecurityUtil.hasPermission('sys_taskScheduleJob_lock')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-taskScheduleJob" data-method="put"  data-title="你确认要操作选中的任务调度吗？" data-url="${ctx}/sys/taskScheduleJob/'+ row.id+ '"><i class=\"fa fa-lg fa-'+ (row.status == "正常" ? "unlock" : "lock") + '  font-yellow-gold\" title=\"'+ (row.status == "正常" ? "锁定" : "解锁") + '任务调度\"></i></a></span>'</#if>
+                                        <#if SecurityUtil.hasPermission('sys_taskScheduleJob_delete')>+ '<a href="javascript:void(0);" class="confirm" data-table-id="#data-table-taskScheduleJob" data-method="delete"  data-method="delete" data-title="你确认要删除选中的任务调度吗？" data-url="${ctx}/sys/taskScheduleJob/'+ row.id+ '"><i class=\"fa fa-lg fa-trash-o font-red-mint\" title=\"删除\"></i></a></span>'</#if> + '<\span>';
                             return data;
                         }
                         }</#if>
