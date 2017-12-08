@@ -12,8 +12,9 @@ import { AuthGuard } from "./_guards/auth.guard";
 import { AlertService } from "./_services/alert.service";
 import { AuthenticationService } from "./_services/authentication.service";
 import { UserService } from "./_services/user.service";
-import { fakeBackendProvider } from "./_helpers/index";
 import { HasAnyAuthorityDirective } from "./_services/has-any-authority.directive";
+import {Principal} from "./_services/principal.service";
+import {AccountService} from "./_services/account.service";
 
 @NgModule({
     declarations: [
@@ -23,15 +24,19 @@ import { HasAnyAuthorityDirective } from "./_services/has-any-authority.directiv
         HasAnyAuthorityDirective,
     ],
     imports: [
+
         CommonModule,
         FormsModule,
         HttpModule,
         AuthRoutingModule,
     ],
     providers: [
+        Principal,
+        AccountService,
         AuthGuard,
         AlertService,
         AuthenticationService,
+
         UserService,
         // api backend simulation
         // fakeBackendProvider,

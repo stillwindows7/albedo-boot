@@ -31,7 +31,7 @@
         "tether": "1.4.0",
         "zone.js": "^0.8.14",
         "jquery": "^3.2.1",
-        "ng-jhipster": "0.2.12",
+        "ng-jhipster": "0.3.4",
         "ngx-webstorage": "2.0.1",
         "ngx-cookie": "2.0.1",
         "reflect-metadata": "0.1.10",

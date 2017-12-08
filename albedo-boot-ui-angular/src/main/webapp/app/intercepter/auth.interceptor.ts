@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import { RequestOptionsArgs, Response } from '@angular/http';
-import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
+import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 import { JhiHttpInterceptor } from 'ng-jhipster';
 
 export class AuthInterceptor extends JhiHttpInterceptor {
@@ -19,7 +19,7 @@ export class AuthInterceptor extends JhiHttpInterceptor {
 
         const token = this.localStorage.retrieve('authenticationToken') || this.sessionStorage.retrieve('authenticationToken');
         if (!!token) {
-            options.headers.append('Authorization', 'Bearer ' + token);
+            options.headers.append('Authorization', 'Bearer' + token);
         }
         return options;
     }

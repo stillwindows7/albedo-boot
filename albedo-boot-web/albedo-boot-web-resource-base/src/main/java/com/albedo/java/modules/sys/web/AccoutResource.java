@@ -55,16 +55,6 @@ public class AccoutResource extends BaseResource {
         this.authenticationManager = authenticationManager;
     }
 
-    /**
-     * GET  /account : get the current user.
-     *
-     * @return the ResponseEntity with status 200 (OK) and the current user in body, or status 500 (Internal Server Error) if the user couldn't be returned
-     */
-    @GetMapping("/account")
-    @Timed
-    public ResponseEntity getAccount() {
-        return ResultBuilder.buildOk(userService.getUserWithAuthorities(SecurityUtil.getCurrentUserId()));
-    }
 
     /**
      * 登录成功，进入管理首页
@@ -90,7 +80,31 @@ public class AccoutResource extends BaseResource {
         model.addAttribute("isValidateCodeLogin", LoginUtil.isValidateCodeLogin(request.getSession().getId(), false, false));
         return "loginPage";
     }
-
+    /**
+     * GET  /account : get the current user.
+     *
+     * @return the current user
+     * @throws RuntimeException 500 (Internal Server Error) if the user couldn't be returned
+     */
+    @GetMapping("/account")
+    @Timed
+    public ResponseEntity getAccount() {
+        String id = SecurityUtil.getCurrentUserId();
+        return ResultBuilder.buildOk(userService.findOneById(id)
+            .map(item -> userService.copyBeanToVo(item)));
+    }
+    /**
+     * GET  /authenticate : check if the user is authenticated, and return its login.
+     *
+     * @param request the HTTP request
+     * @return the login if the user is authenticated
+     */
+    @GetMapping("/authenticate")
+    @Timed
+    public String isAuthenticated(HttpServletRequest request) {
+        log.debug("REST request to check if the current user is authenticated");
+        return request.getRemoteUser();
+    }
 
     @PostMapping("authenticate")
     @Timed

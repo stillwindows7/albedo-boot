@@ -9,7 +9,7 @@ export class UserService {
     }
 
     verify() {
-        return this.http.get('/api/verify', this.jwt()).map((response: Response) => response.json());
+        return this.http.get('/api/authenticate', this.jwt()).map((response: Response) => response.json());
     }
 
     forgotPassword(email: string) {

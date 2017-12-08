@@ -10,6 +10,8 @@ import { ScriptLoaderService } from "./_services/script-loader.service";
 import { ThemeRoutingModule } from "./theme/theme-routing.module";
 import { AuthModule } from "./auth/auth.module";
 import { customHttpProvider } from "./intercepter/http.provider";
+import { Ng2Webstorage } from 'ngx-webstorage';
+import {NgJhipsterModule} from "ng-jhipster";
 
 @NgModule({
     declarations: [
@@ -17,6 +19,13 @@ import { customHttpProvider } from "./intercepter/http.provider";
         AppComponent
     ],
     imports: [
+        Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-'}),
+        NgJhipsterModule.forRoot({
+            // set below to true to make alerts look like toast
+            alertAsToast: false,
+            i18nEnabled: true,
+            defaultI18nLang: 'zh-cn'
+        }),
         LayoutModule,
         BrowserModule,
         BrowserAnimationsModule,

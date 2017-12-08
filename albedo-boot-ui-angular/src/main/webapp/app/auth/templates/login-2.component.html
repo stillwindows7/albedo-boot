@@ -15,28 +15,28 @@
 				<form (ngSubmit)="f.form.valid && signin()" #f="ngForm" class="m-login__form m-form" action="">
 					<ng-template #alertSignin></ng-template>
 					<div class="form-group m-form__group">
-						<input class="form-control m-input"   type="text" placeholder="Email" name="email" [(ngModel)]="model.email" #email="ngModel" autocomplete="off">
+						<input class="form-control m-input"   type="text" placeholder="登录ID" name="username" [(ngModel)]="model.username" #username="ngModel">
 					</div>
 					<div class="form-group m-form__group">
-						<input class="form-control m-input m-login__form-input--last" type="password" placeholder="Password" name="password" [(ngModel)]="model.password" #password="ngModel">
+						<input class="form-control m-input m-login__form-input--last" type="password" placeholder="密码" name="password" [(ngModel)]="model.password" #password="ngModel">
 					</div>
 					<div class="row m-login__form-sub">
 						<div class="col m--align-left m-login__form-left">
 							<label class="m-checkbox  m-checkbox--light">
 								<input type="checkbox" name="remember" [(ngModel)]="model.remember" #remember="ngModel">
-								Remember me
+								记住我
 								<span></span>
 							</label>
 						</div>
 						<div class="col m--align-right m-login__form-right">
 							<a href="javascript:;" id="m_login_forget_password" class="m-link">
-								Forget Password ?
+								忘记密码
 							</a>
 						</div>
 					</div>
 					<div class="m-login__form-action">
 						<button [disabled]="loading" [ngClass]="{'m-loader m-loader--right m-loader--light': loading}" id="m_login_signin_submit" class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air  m-login__btn m-login__btn--primary">
-							Sign In
+							登录
 						</button>
 					</div>
 				</form>

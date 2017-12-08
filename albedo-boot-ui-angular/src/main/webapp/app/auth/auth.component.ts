@@ -7,10 +7,13 @@ import { UserService } from "./_services/user.service";
 import { AlertComponent } from "./_directives/alert.component";
 import { LoginCustom } from "./_helpers/login-custom";
 import { Helpers } from "../helpers";
+import {LoginService} from "./_services/login.service";
+import {JhiEventManager} from "ng-jhipster";
+import {StateStorageService} from "./_services/state-storage.service";
 
 @Component({
     selector: ".m-grid.m-grid--hor.m-grid--root.m-page",
-    templateUrl: './templates/login-1.component.html',
+    templateUrl: './templates/login-2.component.html',
     encapsulation: ViewEncapsulation.None
 })
 
@@ -24,11 +27,15 @@ export class AuthComponent implements OnInit {
     @ViewChild('alertForgotPass', { read: ViewContainerRef }) alertForgotPass: ViewContainerRef;
 
     constructor(private _router: Router,
+
+                private eventManager: JhiEventManager,
+                private stateStorageService: StateStorageService,
         private _script: ScriptLoaderService,
         private _userService: UserService,
         private _route: ActivatedRoute,
         private _authService: AuthenticationService,
         private _alertService: AlertService,
+                private loginService: LoginService,
         private cfr: ComponentFactoryResolver) {
     }
 
@@ -47,15 +54,44 @@ export class AuthComponent implements OnInit {
 
     signin() {
         this.loading = true;
+
+        this.loginService.login(this.model).then(() => {
+            // this.authenticationError = false;
+            this.activeModal.dismiss('login success');
+            if (this.router.url === '/register' || (/^\/activate\//.test(this.router.url)) ||
+                (/^\/reset\//.test(this.router.url))) {
+                this.router.navigate(['']);
+            }
+
+            this.eventManager.broadcast({
+                name: 'authenticationSuccess',
+                content: 'Sending Authentication Success'
+            });
+
+            // // previousState was set in the authExpiredInterceptor before being redirected to login modal.
+            // // since login is succesful, go to stored previousState and clear previousState
+            const redirect = this.stateStorageService.getUrl();
+            if (redirect) {
+                this.stateStorageService.storeUrl(null);
+                this._router.navigate([redirect]);
+            }else{
+                this._router.navigate([this.returnUrl]);
+            }
+        }).catch(() => {
+            this.showAlert('alertSignin');
+            this._alertService.error(error);
+            this.loading = false;
+        });
+
+
+
         this._authService.login(this.model.email, this.model.password)
             .subscribe(
             data => {
-                this._router.navigate([this.returnUrl]);
+
             },
             error => {
-                this.showAlert('alertSignin');
-                this._alertService.error(error);
-                this.loading = false;
+
             });
     }
 
