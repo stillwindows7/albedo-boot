@@ -6,12 +6,13 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ScriptLoaderService } from "./_services/script-loader.service";
+import { ScriptLoaderService } from "./_services/base/script-loader.service";
 import { ThemeRoutingModule } from "./theme/theme-routing.module";
 import { AuthModule } from "./auth/auth.module";
 import { customHttpProvider } from "./intercepter/http.provider";
 import { Ng2Webstorage } from 'ngx-webstorage';
 import {NgJhipsterModule} from "ng-jhipster";
+import {AlbedoSharedModule} from "./_services/shared.module";
 
 @NgModule({
     declarations: [
@@ -23,7 +24,7 @@ import {NgJhipsterModule} from "ng-jhipster";
         NgJhipsterModule.forRoot({
             // set below to true to make alerts look like toast
             alertAsToast: false,
-            i18nEnabled: true,
+            i18nEnabled: false,
             defaultI18nLang: 'zh-cn'
         }),
         LayoutModule,
@@ -31,10 +32,9 @@ import {NgJhipsterModule} from "ng-jhipster";
         BrowserAnimationsModule,
         AppRoutingModule,
         ThemeRoutingModule,
-        AuthModule
+        AuthModule,AlbedoSharedModule
     ],
     providers: [
-        ScriptLoaderService,
         customHttpProvider()
     ],
     bootstrap: [AppComponent]

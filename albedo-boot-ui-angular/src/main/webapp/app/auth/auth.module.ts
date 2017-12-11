@@ -15,6 +15,10 @@ import { UserService } from "./_services/user.service";
 import { HasAnyAuthorityDirective } from "./_services/has-any-authority.directive";
 import {Principal} from "./_services/principal.service";
 import {AccountService} from "./_services/account.service";
+import {StateStorageService} from "./_services/state-storage.service";
+import {LoginService} from "./_services/login.service";
+import {AuthServerProvider} from "./_services/auth-jwt.service";
+import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
     declarations: [
@@ -36,8 +40,11 @@ import {AccountService} from "./_services/account.service";
         AuthGuard,
         AlertService,
         AuthenticationService,
-
+        LoginService,
+        AuthServerProvider,
+        StateStorageService,
         UserService,
+        NgbActiveModal,
         // api backend simulation
         // fakeBackendProvider,
         MockBackend,

@@ -15,22 +15,24 @@ export class AuthGuard implements CanActivate {
         private eventManager: JhiEventManager) {
     }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Promise<boolean> {
         // let currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
 
-        this.principal.identity().then((account) => {
+        return Promise.resolve(this.principal.identity().then((account) => {
             this.account = account;
-        });
-        this.registerAuthenticationSuccess();
+            this.registerAuthenticationSuccess();
+            if(this.account!=null){
+                return true;
+            }
+            // error when verify so redirect to login page with the return url
+            this._router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+            return false;
+        }));
 
 
-        if(this.account!=null){
-            return true;
-        }
-        // error when verify so redirect to login page with the return url
-        this._router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
-        return false;
+
+
 
         // return this._userService.verify().map(
         //     data => {

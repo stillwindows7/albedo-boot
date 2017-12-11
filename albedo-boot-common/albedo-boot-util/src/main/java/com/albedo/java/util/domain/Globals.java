@@ -44,8 +44,6 @@ public final class Globals {
     public static final Integer MSG_TYPE_WARNING = 2;
     /*** 返回消息类型 error */
     public static final Integer MSG_TYPE_ERROR = -1;
-    /*** 返回消息类型 error */
-    public static final Integer MSG_TYPE_LOGIN = -99;
 
 
     public static final String ERROR_HTTP_CODE_400 = "error.http.400";

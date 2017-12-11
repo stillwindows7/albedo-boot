@@ -1,6 +1,6 @@
 import { Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef, ViewEncapsulation } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ScriptLoaderService } from "../_services/script-loader.service";
+import { ScriptLoaderService } from "../_services/base/script-loader.service";
 import { AuthenticationService } from "./_services/authentication.service";
 import { AlertService } from "./_services/alert.service";
 import { UserService } from "./_services/user.service";
@@ -10,6 +10,7 @@ import { Helpers } from "../helpers";
 import {LoginService} from "./_services/login.service";
 import {JhiEventManager} from "ng-jhipster";
 import {StateStorageService} from "./_services/state-storage.service";
+import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: ".m-grid.m-grid--hor.m-grid--root.m-page",
@@ -36,7 +37,8 @@ export class AuthComponent implements OnInit {
         private _authService: AuthenticationService,
         private _alertService: AlertService,
                 private loginService: LoginService,
-        private cfr: ComponentFactoryResolver) {
+        private cfr: ComponentFactoryResolver,
+                public activeModal: NgbActiveModal) {
     }
 
     ngOnInit() {
@@ -55,12 +57,13 @@ export class AuthComponent implements OnInit {
     signin() {
         this.loading = true;
 
-        this.loginService.login(this.model).then(() => {
+        this.loginService.login(this.model).then((data) => {
+            console.log(data);
             // this.authenticationError = false;
             this.activeModal.dismiss('login success');
-            if (this.router.url === '/register' || (/^\/activate\//.test(this.router.url)) ||
-                (/^\/reset\//.test(this.router.url))) {
-                this.router.navigate(['']);
+            if (this._router.url === '/register' || (/^\/activate\//.test(this._router.url)) ||
+                (/^\/reset\//.test(this._router.url))) {
+                this._router.navigate(['']);
             }
 
             this.eventManager.broadcast({
@@ -77,7 +80,7 @@ export class AuthComponent implements OnInit {
             }else{
                 this._router.navigate([this.returnUrl]);
             }
-        }).catch(() => {
+        }).catch((error) => {
             this.showAlert('alertSignin');
             this._alertService.error(error);
             this.loading = false;
@@ -85,14 +88,14 @@ export class AuthComponent implements OnInit {
 
 
 
-        this._authService.login(this.model.email, this.model.password)
-            .subscribe(
-            data => {
-
-            },
-            error => {
-
-            });
+        // this._authService.login(this.model.email, this.model.password)
+        //     .subscribe(
+        //     data => {
+        //
+        //     },
+        //     error => {
+        //
+        //     });
     }
 
     signup() {

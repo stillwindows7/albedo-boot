@@ -43,14 +43,14 @@ public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
     @Resource
     private ModuleService moduleService;
 
-    @GetMapping(value = "findMenuData")
-    public ResponseEntity findMenuData(ModuleTreeQuery moduleTreeQuery) {
+    @GetMapping(value = "menus")
+    public ResponseEntity menus(ModuleTreeQuery moduleTreeQuery) {
         List<ModuleMenuTreeResult> rs = moduleService.findMenuData(moduleTreeQuery, SecurityUtil.getModuleList());
         return ResultBuilder.buildOk(rs);
     }
 
-    @GetMapping(value = "findTreeData")
-    public ResponseEntity findTreeData(ModuleTreeQuery moduleTreeQuery) {
+    @GetMapping(value = "treeData")
+    public ResponseEntity treeData(ModuleTreeQuery moduleTreeQuery) {
         List<TreeResult> rs = moduleService.findTreeData(moduleTreeQuery, SecurityUtil.getModuleList());
         return ResultBuilder.buildOk(rs);
     }

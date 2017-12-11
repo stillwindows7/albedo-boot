@@ -10,3 +10,14 @@ let _SERVER_API_URL = ''; // This value will be overwritten by Webpack
 export const VERSION = _VERSION;
 export const DEBUG_INFO_ENABLED = _DEBUG_INFO_ENABLED;
 export const SERVER_API_URL = _SERVER_API_URL;
+
+
+
+/*** 返回消息类型 info */
+export const  MSG_TYPE_INFO = 0;
+/*** 返回消息类型 success */
+export const  MSG_TYPE_SUCCESS = 1;
+/*** 返回消息类型 warning */
+export const  MSG_TYPE_WARNING = 2;
+/*** 返回消息类型 error */
+export const  MSG_TYPE_ERROR = -1;

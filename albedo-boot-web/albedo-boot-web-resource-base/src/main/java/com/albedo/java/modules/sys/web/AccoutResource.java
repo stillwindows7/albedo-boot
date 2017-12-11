@@ -15,6 +15,8 @@ import com.albedo.java.web.rest.base.BaseResource;
 import com.albedo.java.web.rest.util.CookieUtil;
 import com.albedo.java.web.rest.util.RequestUtil;
 import com.codahale.metrics.annotation.Timed;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -106,6 +108,26 @@ public class AccoutResource extends BaseResource {
         return request.getRemoteUser();
     }
 
+    /**
+     * Object to return as body in JWT Authentication.
+     */
+    static class JWTToken {
+
+        private String idToken;
+
+        JWTToken(String idToken) {
+            this.idToken = idToken;
+        }
+
+        String getIdToken() {
+            return idToken;
+        }
+
+        void setIdToken(String idToken) {
+            this.idToken = idToken;
+        }
+    }
+
     @PostMapping("authenticate")
     @Timed
     public ResponseEntity authorize(@RequestBody  LoginVo loginVo, HttpServletResponse response) {
@@ -118,7 +140,13 @@ public class AccoutResource extends BaseResource {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             boolean rememberMe = (loginVo.isRememberMe() == null) ? false : loginVo.isRememberMe();
             String jwt = "Bearer" + tokenProvider.createToken(authentication, rememberMe);
-            CookieUtil.setCookie(response, SecurityConstants.AUTHORIZATION_HEADER, jwt);
+            if(albedoProperties.getHttp().getRestful() ){
+                HttpHeaders httpHeaders = new HttpHeaders();
+                httpHeaders.add(SecurityConstants.AUTHORIZATION_HEADER, jwt);
+                return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
+            }else{
+                CookieUtil.setCookie(response, SecurityConstants.AUTHORIZATION_HEADER, jwt);
+            }
             log.info("{}", jwt);
             return ResultBuilder.buildDataOk(jwt);
         } catch (AuthenticationException ae) {

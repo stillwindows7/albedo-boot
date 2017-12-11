@@ -82,7 +82,6 @@ public class ExceptionTranslator {
             message.addMessage(e.getMessage());
         }
 
-
         if (albedoProperties.getHttp().getRestful() || RequestUtil.isRestfulRequest(request)) {
             GeneralResource.writeJsonHttpResponse(message, response);
             return null;
