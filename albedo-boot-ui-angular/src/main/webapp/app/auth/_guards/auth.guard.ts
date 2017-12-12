@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from "@angular/router";
 import { UserService } from "../_services/user.service";
 import { Observable } from "rxjs/Rx";
-import {Principal} from "../_services/principal.service";
-import {JhiEventManager} from "ng-jhipster";
+import { Principal } from "../_services/principal.service";
+import { JhiEventManager } from "ng-jhipster";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
         return Promise.resolve(this.principal.identity().then((account) => {
             this.account = account;
             this.registerAuthenticationSuccess();
-            if(this.account!=null){
+            if (this.account != null) {
                 return true;
             }
             // error when verify so redirect to login page with the return url

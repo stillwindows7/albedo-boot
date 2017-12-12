@@ -11,8 +11,8 @@ import { ThemeRoutingModule } from "./theme/theme-routing.module";
 import { AuthModule } from "./auth/auth.module";
 import { customHttpProvider } from "./intercepter/http.provider";
 import { Ng2Webstorage } from 'ngx-webstorage';
-import {NgJhipsterModule} from "ng-jhipster";
-import {AlbedoSharedModule} from "./_services/shared.module";
+import { NgJhipsterModule } from "ng-jhipster";
+import { AlbedoSharedModule } from "./_services/shared.module";
 
 @NgModule({
     declarations: [
@@ -20,7 +20,7 @@ import {AlbedoSharedModule} from "./_services/shared.module";
         AppComponent
     ],
     imports: [
-        Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-'}),
+        Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }),
         NgJhipsterModule.forRoot({
             // set below to true to make alerts look like toast
             alertAsToast: false,
@@ -32,7 +32,7 @@ import {AlbedoSharedModule} from "./_services/shared.module";
         BrowserAnimationsModule,
         AppRoutingModule,
         ThemeRoutingModule,
-        AuthModule,AlbedoSharedModule
+        AuthModule, AlbedoSharedModule
     ],
     providers: [
         customHttpProvider()

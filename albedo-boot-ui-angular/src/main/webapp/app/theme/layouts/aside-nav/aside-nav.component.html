@@ -5,7 +5,64 @@
 <div id="m_aside_left" class="m-grid__item	m-aside-left  m-aside-left--skin-dark">
 	<!-- BEGIN: Aside Menu -->
 	<div  		id="m_ver_menu"  		class="m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark"  		data-menu-vertical="true" 		 data-menu-scrollable="false" data-menu-dropdown-timeout="500"   		>
-		<ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow">
+        <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow" *ngIf="menus">
+            <li *ngFor="let menuParent of menus;"
+                class="{{menuParent.url!='' ? 'm-menu__item' : 'm-menu__section'}}
+                        {{!menuParent.menuTop && !menuParent.menuLeaf ? 'm-menu__item--submenu' : ''}}"
+                [attr.routerLinkActive]="!menuParent.menuTop ? 'm-menu__item--active' : ''"
+                [attr.routerLinkActiveOptions]="!menuParent.menuTop ? '{ exact: true }' : ''"
+                [attr.aria-haspopup]="!menuParent.menuTop? 'true' : ''"
+                [attr.data-menu-submenu-toggle]="!menuParent.menuTop && !menuParent.menuLeaf ? 'hover' : ''"
+            >
+
+                <h4 *ngIf="menuParent.menuTop && menuParent.url==''" class="m-menu__section-text">
+                    {{menuParent.name}}
+                </h4>
+                <i *ngIf="menuParent.menuTop && menuParent.url==''" class="m-menu__section-icon flaticon-more-v3"></i>
+
+
+
+
+                <a *ngIf="menuParent.menuTop && menuParent.url!='' && menuParent.menuLeaf"
+                   routerLink="{{menuParent.url}}" class="m-menu__link">
+                    <i class="m-menu__link-icon {{menuParent.iconCls}}"></i>
+                    <span class="m-menu__link-text">
+                        {{menuParent.name}}
+                    </span>
+                </a>
+
+                <a *ngIf="menuParent.menuTop && menuParent.url!='' && !menuParent.menuLeaf"
+                    href="#" class="m-menu__link m-menu__toggle">
+                    <i class="m-menu__link-icon flaticon-settings"></i>
+                    <span class="m-menu__link-text">
+						{{menuParent.name}}
+					</span>
+                    <i class="m-menu__ver-arrow la la-angle-right"></i>
+                </a>
+                <div *ngIf="menuParent.menuTop && menuParent.url!='' && !menuParent.menuLeaf" class="m-menu__submenu">
+                    <span class="m-menu__arrow"></span>
+                    <ul class="m-menu__subnav">
+
+                        <li *ngFor="let menu of getChildMenus(menuParent.id);" class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }"  aria-haspopup="true" >
+                            <a  routerLink="{{menu.url}}" class="m-menu__link">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">
+									{{menu.name}}
+								</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </li>
+
+        </ul>
+
+
+        <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow">
 			<li class="m-menu__item  " routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }"  aria-haspopup="true" >
 				<a  routerLink="/index" class="m-menu__link">
 					<i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -24,10 +81,7 @@
 				</a>
 			</li>
 			<li class="m-menu__section">
-				<h4 class="m-menu__section-text">
-					Angular
-				</h4>
-				<i class="m-menu__section-icon flaticon-more-v3"></i>
+
 			</li>
 			<li class="m-menu__item" routerLinkActive="m-menu__item--active" routerLinkActiveOptions="{ exact: true }"  aria-haspopup="true" >
 				<a  routerLink="/angular/ng-bootstrap" class="m-menu__link">

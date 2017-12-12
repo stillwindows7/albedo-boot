@@ -24,6 +24,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Utility class for Spring Security.
@@ -149,6 +150,12 @@ public final class SecurityUtil {
         logger.info("{}", moduleList);
         return moduleList;
     }
+
+    public static List<Module> getMenuList() {
+        return getModuleList(false, null).stream()
+            .filter(item -> Module.TYPE_MENU.equals(item.getType())).collect(Collectors.toList());
+    }
+
 
     public static List<Module> getModuleList(String userId) {
         return getModuleList(false, userId);

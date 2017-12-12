@@ -13,19 +13,18 @@ import { AlertService } from "./_services/alert.service";
 import { AuthenticationService } from "./_services/authentication.service";
 import { UserService } from "./_services/user.service";
 import { HasAnyAuthorityDirective } from "./_services/has-any-authority.directive";
-import {Principal} from "./_services/principal.service";
-import {AccountService} from "./_services/account.service";
-import {StateStorageService} from "./_services/state-storage.service";
-import {LoginService} from "./_services/login.service";
-import {AuthServerProvider} from "./_services/auth-jwt.service";
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
+import { Principal } from "./_services/principal.service";
+import { AccountService } from "./_services/account.service";
+import { StateStorageService } from "./_services/state-storage.service";
+import { LoginService } from "./_services/login.service";
+import { AuthServerProvider } from "./_services/auth-jwt.service";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
     declarations: [
         AuthComponent,
         AlertComponent,
-        LogoutComponent,
-        HasAnyAuthorityDirective,
+        LogoutComponent
     ],
     imports: [
 

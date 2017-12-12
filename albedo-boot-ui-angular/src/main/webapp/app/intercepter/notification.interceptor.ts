@@ -2,7 +2,7 @@ import { JhiAlertService, JhiHttpInterceptor } from 'ng-jhipster';
 import { RequestOptionsArgs, Response } from '@angular/http';
 import { Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import {MSG_TYPE_ERROR, MSG_TYPE_INFO, MSG_TYPE_SUCCESS, MSG_TYPE_WARNING} from "../app.constants";
+import { MSG_TYPE_ERROR, MSG_TYPE_INFO, MSG_TYPE_SUCCESS, MSG_TYPE_WARNING } from "../app.constants";
 
 export class NotificationInterceptor extends JhiHttpInterceptor {
 
@@ -37,14 +37,14 @@ export class NotificationInterceptor extends JhiHttpInterceptor {
                 }
             }
 
-            if(response.json()){
+            if (response.json()) {
                 const reData = response.json();
-                if(reData.status  && reData.status != MSG_TYPE_SUCCESS){
-                    if(reData.status == MSG_TYPE_INFO){
+                if (reData.status && reData.status != MSG_TYPE_SUCCESS) {
+                    if (reData.status == MSG_TYPE_INFO) {
                         this.alertService.info(reData.msg, {}, null);
-                    }else if(reData.status == MSG_TYPE_WARNING){
+                    } else if (reData.status == MSG_TYPE_WARNING) {
                         this.alertService.warning(reData.msg, {}, null);
-                    }else if(reData.status == MSG_TYPE_ERROR){
+                    } else if (reData.status == MSG_TYPE_ERROR) {
                         this.alertService.error(reData.msg, {}, null);
                     }
                 }

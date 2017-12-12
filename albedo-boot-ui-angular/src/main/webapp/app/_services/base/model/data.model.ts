@@ -1,12 +1,12 @@
-import {General} from "./general.model";
+import { General } from "./general.model";
 
-export class Data extends General{
+export class Data extends General {
 
-    public id?:string;
-    public status:string;
-    public description?:string;
+    public id?: string;
+    public status: string;
+    public description?: string;
 
-    constructor(){
+    constructor() {
         super();
         this.status = General.FLAG_NORMAL;
     }

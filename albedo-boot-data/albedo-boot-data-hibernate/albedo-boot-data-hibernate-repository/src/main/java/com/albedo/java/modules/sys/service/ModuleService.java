@@ -59,6 +59,32 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
         return mapList;
     }
 
+    public List<ModuleVo> findMenuDataVo(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
+        String type = moduleTreeQuery != null ? moduleTreeQuery.getType() : null,
+            all = moduleTreeQuery != null ? moduleTreeQuery.getAll() : null;
+
+        List<ModuleVo> mapList = Lists.newArrayList();
+        for (Module e : moduleList) {
+            if ((all != null || (all == null && BaseEntity.FLAG_NORMAL.equals(e.getStatus())))) {
+
+                if ("menu".equals(type) && !Module.TYPE_MENU.equals(e.getType())) {
+                    continue;
+                }
+                if (moduleTreeQuery != null && moduleTreeQuery.getRoot() && PublicUtil.isEmpty(e.getParentId())) {
+                    continue;
+                }
+                ModuleVo moduleVo = copyBeanToVo(e);
+                moduleVo.setMenuLeaf(moduleList.stream()
+                    .filter(item->item.getParentIds().startsWith(moduleVo.getParentIds()+moduleVo.getId())).count()<1);
+                moduleVo.setMenuTop(ModuleVo.ROOT_ID.equals(moduleVo.getParentId()));
+                mapList.add(moduleVo);
+            }
+        }
+        return mapList;
+    }
+
+
+
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<TreeResult> findTreeData(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
         String type = moduleTreeQuery != null ? moduleTreeQuery.getType() : null,
@@ -173,4 +199,6 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
     public List<Module> findAllByStatusOrderBySort(Integer flagNormal) {
         return repository.findAllByStatusOrderBySort(flagNormal);
     }
+
+
 }

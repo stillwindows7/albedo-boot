@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { Helpers } from '../../../helpers';
-import {Module} from "../../../_services/sys/module/module.model";
-import {ModuleService} from "../../../_services/sys/module/module.service";
-import {JhiAlertService, JhiEventManager, JhiParseLinks} from "ng-jhipster";
-import {Principal} from "../../../auth/_services/principal.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ResponseWrapper} from "../../../_services/sys/model/response-wrapper.model";
+import { Module } from "../../../_services/sys/module/module.model";
+import { ModuleService } from "../../../_services/sys/module/module.service";
+import { JhiAlertService, JhiEventManager, JhiParseLinks } from "ng-jhipster";
+import { Principal } from "../../../auth/_services/principal.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ResponseWrapper } from "../../../_services/sys/model/response-wrapper.model";
 
 declare let mLayout: any;
 @Component({
@@ -45,9 +45,16 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
         (<any>$(menu).data('menu')).setActiveItem(item);
     }
 
+    getChildMenus(id){
+        return this.menus.filter( (item:Module) => {
+            return item.parentId==id;
+        })[Symbol.iterator];
+    }
+    private onSuccess(res) {
+        this.menus = res.data;
+        this.menus.map(function(){
 
-    private onSuccess(data) {
-        this.menus = data;
+        })
     }
 
     private onError(error) {

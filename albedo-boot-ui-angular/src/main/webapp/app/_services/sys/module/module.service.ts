@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import {SERVER_API_URL} from "../../../app.constants";
-import {ResponseWrapper} from "../model/response-wrapper.model";
-import {createRequestOption} from "../model/request-util";
-import {Module} from "./module.model";
+import { SERVER_API_URL } from "../../../app.constants";
+import { ResponseWrapper } from "../model/response-wrapper.model";
+import { createRequestOption } from "../model/request-util";
+import { Module } from "./module.model";
 
 
 @Injectable()

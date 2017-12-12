@@ -1,37 +1,50 @@
-export class Module {
-    /*** 模块类型 0 菜单模块 1权限模块 */
-    public type?:string;
 
-    public target?:string;
+import {Tree} from "../../base/model/tree.model";
+
+export class Module extends Tree{
+    /*** 模块类型 0 菜单模块 1权限模块 */
+    public type?: string;
+
+    public target?: string;
     /*** 请求方法*/
-    public requestMethod?:string;
+    public requestMethod?: string;
     /*** 链接地址 */
-    public url?:string;
+    public url?: string;
     /*** 图标class */
-    public iconCls?:string;
+    public iconCls?: string;
     /*** 权限标识 */
-    public permission?:string;
+    public permission?: string;
     /*** 针对顶层菜单，0 普通展示下级菜单， 1以树形结构展示 */
-    public showType?:string;
+    public showType?: string;
     /*** 服务名称 */
-    public microservice?:string;
+    public microservice?: string;
+    /*** 菜单子节点 */
+    public menuLeaf?: boolean;
+    /*** 顶层菜单 */
+    public menuTop?: boolean;
+
 
     constructor(
-        type?:string,
-        target?:string,
+        type?: string,
+        target?: string,
         /*** 请求方法*/
-         requestMethod?:string,
+        requestMethod?: string,
         /*** 链接地址 */
-         url?:string,
+        url?: string,
         /*** 图标class */
-         iconCls?:string,
+        iconCls?: string,
         /*** 权限标识 */
-         permission?:string,
+        permission?: string,
         /*** 针对顶层菜单，0 普通展示下级菜单， 1以树形结构展示 */
-         showType?:string,
+        showType?: string,
         /*** 服务名称 */
-         microservice?:string
+        microservice?: string,
+        /*** 菜单子节点 */
+        menuLeaf?: boolean,
+        /*** 顶层菜单 */
+        menuTop?: boolean
     ) {
+        super();
         this.type = type ? type : null;
         this.target = target ? target : null;
         this.requestMethod = requestMethod ? requestMethod : null;
@@ -40,5 +53,7 @@ export class Module {
         this.permission = permission ? permission : null;
         this.showType = showType ? showType : null;
         this.microservice = microservice ? microservice : null;
+        this.menuLeaf = menuLeaf ? menuLeaf : null;
+        this.menuTop = menuTop ? menuTop : null;
     }
 }

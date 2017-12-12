@@ -7,10 +7,10 @@ import { UserService } from "./_services/user.service";
 import { AlertComponent } from "./_directives/alert.component";
 import { LoginCustom } from "./_helpers/login-custom";
 import { Helpers } from "../helpers";
-import {LoginService} from "./_services/login.service";
-import {JhiEventManager} from "ng-jhipster";
-import {StateStorageService} from "./_services/state-storage.service";
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
+import { LoginService } from "./_services/login.service";
+import { JhiEventManager } from "ng-jhipster";
+import { StateStorageService } from "./_services/state-storage.service";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: ".m-grid.m-grid--hor.m-grid--root.m-page",
@@ -29,16 +29,16 @@ export class AuthComponent implements OnInit {
 
     constructor(private _router: Router,
 
-                private eventManager: JhiEventManager,
-                private stateStorageService: StateStorageService,
+        private eventManager: JhiEventManager,
+        private stateStorageService: StateStorageService,
         private _script: ScriptLoaderService,
         private _userService: UserService,
         private _route: ActivatedRoute,
         private _authService: AuthenticationService,
         private _alertService: AlertService,
-                private loginService: LoginService,
+        private loginService: LoginService,
         private cfr: ComponentFactoryResolver,
-                public activeModal: NgbActiveModal) {
+        public activeModal: NgbActiveModal) {
     }
 
     ngOnInit() {
@@ -77,7 +77,7 @@ export class AuthComponent implements OnInit {
             if (redirect) {
                 this.stateStorageService.storeUrl(null);
                 this._router.navigate([redirect]);
-            }else{
+            } else {
                 this._router.navigate([this.returnUrl]);
             }
         }).catch((error) => {

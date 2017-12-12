@@ -60,7 +60,8 @@ public class TreeService<Repository extends TreeRepository<T, PK>, T extends Tre
 
     @Override
     public T save(T entity) {
-        String oldParentIds = entity.getParentIds(); // 获取修改前的parentIds，用于更新子节点的parentIds
+        // 获取修改前的parentIds，用于更新子节点的parentIds
+        String oldParentIds = entity.getParentIds();
         if (entity.getParentId() != null) {
             T parent = repository.findOne((PK) entity.getParentId());
 //            if (parent == null || PublicUtil.isEmpty(parent.getId()))

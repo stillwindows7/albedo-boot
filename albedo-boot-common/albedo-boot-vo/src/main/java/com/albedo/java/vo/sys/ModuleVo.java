@@ -14,6 +14,10 @@ import javax.persistence.Column;
 public class ModuleVo extends TreeEntityVo {
 
     public static final String F_PERMISSION = "permission";
+    public static final String ROOT_ID = "4d32c49cc7f448dcbfb92ce9c4dde058";
+
+
+
     private static final long serialVersionUID = 1L;
     /*** 模块类型 0 菜单模块 1权限模块 */
     private String type;
@@ -31,6 +35,11 @@ public class ModuleVo extends TreeEntityVo {
     private String showType;
     /*** 服务名称 */
     private String microservice;
+    /*** 是否 */
+    private boolean hasChild;
+
+    private boolean menuLeaf;
+    private boolean menuTop;
 
 
 }

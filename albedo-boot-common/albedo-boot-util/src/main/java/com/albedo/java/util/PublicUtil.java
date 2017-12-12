@@ -581,23 +581,30 @@ public class PublicUtil {
      * @param list
      * @param sourcelist
      * @param parentId
+     * @param extRootId
      */
-    public static void sortList(List list, List sourcelist, String parentId) {
+    public static void sortTreeList(List list, List sourcelist, String parentId, boolean extRootId) {
         if (PublicUtil.isNotEmpty(sourcelist) && PublicUtil.isNotEmpty(parentId)) {
-            Object e = null, peId = null;
+            Object e, peId = null;
             for (int i = 0; i < sourcelist.size(); i++) {
                 e = sourcelist.get(i);
-                if (e != null)
+                if (e != null) {
                     peId = Reflections.getFieldValue(e, "parentId");
+                    if(extRootId && Reflections.getFieldValue(e, "id").equals(parentId)){
+                        list.add(e);
+                        continue;
+                    }
+                }
                 if (parentId.equals(peId)) {
                     list.add(e);
                     // 判断是否还有子节点, 有则继续获取子节点
                     for (int j = 0; j < sourcelist.size(); j++) {
                         e = sourcelist.get(i);
-                        if (e != null)
+                        if (e != null) {
                             peId = Reflections.getFieldValue(e, "parentId");
+                        }
                         if (parentId.equals(peId)) {
-                            sortList(list, sourcelist, String.valueOf(Reflections.getFieldValue(e, "id")));
+                            sortTreeList(list, sourcelist, String.valueOf(Reflections.getFieldValue(e, "id")), extRootId);
                             break;
                         }
                     }
