@@ -17,7 +17,7 @@ import {Combo} from "../../base/model/combo.model";
             </option>
         </select>`
 })
-export class JhiAlertErrorComponent implements OnDestroy {
+export class FormSelectComponent implements OnDestroy {
 
     comboData: Combo[];
     name: string;
