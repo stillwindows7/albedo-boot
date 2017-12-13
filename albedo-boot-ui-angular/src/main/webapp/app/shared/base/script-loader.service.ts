@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import {Injectable} from "@angular/core";
 import * as $ from 'jquery';
 
 declare let document: any;
@@ -35,6 +35,7 @@ export class ScriptLoaderService {
                     .attr('type', 'text/javascript')
                     .attr('src', this._scripts[src].src);
 
+                // noinspection TypeScriptUnresolvedFunction
                 $(this.tag).append(script);
                 resolve({ script: src, loaded: true, status: 'Loaded' });
             }

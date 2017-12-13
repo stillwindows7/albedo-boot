@@ -1,12 +1,11 @@
-import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from "@angular/router";
-import { UserService } from "../_services/user.service";
-import { Observable } from "rxjs/Rx";
-import { Principal } from "../_services/principal.service";
-import { JhiEventManager } from "ng-jhipster";
+import {Injectable} from "@angular/core";
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
+import {UserService} from "../_services/user.service";
+import {Principal} from "../_services/principal.service";
+import {JhiEventManager} from "ng-jhipster";
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AlbedoBootAuthGuard implements CanActivate {
     account: Account;
     constructor(
         private principal: Principal,

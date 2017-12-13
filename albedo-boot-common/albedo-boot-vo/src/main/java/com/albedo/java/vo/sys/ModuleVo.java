@@ -40,6 +40,8 @@ public class ModuleVo extends TreeEntityVo {
 
     private boolean menuLeaf;
     private boolean menuTop;
+    private boolean show;
+    private String hrefName;
 
 
 }

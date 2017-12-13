@@ -77,6 +77,8 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
                 moduleVo.setMenuLeaf(moduleList.stream()
                     .filter(item->item.getParentIds().startsWith(moduleVo.getParentIds()+moduleVo.getId())).count()<1);
                 moduleVo.setMenuTop(ModuleVo.ROOT_ID.equals(moduleVo.getParentId()));
+                moduleVo.setShow(e.isShow());
+                moduleVo.setHrefName(e.getHrefName());
                 mapList.add(moduleVo);
             }
         }

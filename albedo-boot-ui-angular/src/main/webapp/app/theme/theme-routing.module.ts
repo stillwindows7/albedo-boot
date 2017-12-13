@@ -1,14 +1,18 @@
 import { NgModule } from '@angular/core';
 import { ThemeComponent } from './theme.component';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from "../auth/_guards/auth.guard";
+import { AlbedoBootAuthGuard } from "../auth/_guards/auth.guard";
 
 const routes: Routes = [
     {
         "path": "",
         "component": ThemeComponent,
-        "canActivate": [AuthGuard],
+        "canActivate": [AlbedoBootAuthGuard],
         "children": [
+            {
+                "path": "sys/user/list",
+                "loadChildren": "./pages/sys/user/user.module#UserModule"
+            },
             {
                 "path": "angular\/ng-bootstrap",
                 "loadChildren": ".\/pages\/default\/angular\/ng-bootstrap\/ng-bootstrap.module#NgBootstrapModule"

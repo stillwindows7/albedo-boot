@@ -1,4 +1,3 @@
-
 import {Tree} from "../../base/model/tree.model";
 
 export class Module extends Tree{
@@ -22,6 +21,12 @@ export class Module extends Tree{
     public menuLeaf?: boolean;
     /*** 顶层菜单 */
     public menuTop?: boolean;
+    /*** 是否显示 */
+    public show?: boolean;
+    /*** 链接名 */
+    public hrefName?: string;
+
+
 
 
     constructor(
@@ -42,7 +47,11 @@ export class Module extends Tree{
         /*** 菜单子节点 */
         menuLeaf?: boolean,
         /*** 顶层菜单 */
-        menuTop?: boolean
+        menuTop?: boolean,
+        /*** 是否显示 */
+        show?: boolean,
+        /*** 链接名 */
+        hrefName?: string
     ) {
         super();
         this.type = type ? type : null;
@@ -55,5 +64,7 @@ export class Module extends Tree{
         this.microservice = microservice ? microservice : null;
         this.menuLeaf = menuLeaf ? menuLeaf : null;
         this.menuTop = menuTop ? menuTop : null;
+        this.show = show ? show : null;
+        this.hrefName = hrefName ? hrefName : null;
     }
 }
