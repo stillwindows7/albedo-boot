@@ -1,6 +1,6 @@
 import { Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef, ViewEncapsulation } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ScriptLoaderService } from "../shared/base/script-loader.service";
+import { ScriptLoaderService } from "../shared/base/service/script-loader.service";
 import { AuthenticationService } from "./_services/authentication.service";
 import { AlertService } from "./_services/alert.service";
 import { UserService } from "./_services/user.service";

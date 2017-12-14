@@ -5,7 +5,7 @@ import { ModuleService } from "../../../shared/sys/module/module.service";
 import { JhiAlertService, JhiEventManager, JhiParseLinks } from "ng-jhipster";
 import { Principal } from "../../../auth/_services/principal.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ResponseWrapper } from "../../../shared/sys/model/response-wrapper.model";
+import { ResponseWrapper } from "../../../shared/base/model/response-wrapper.model";
 
 declare let mLayout: any;
 @Component({

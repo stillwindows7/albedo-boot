@@ -3,39 +3,19 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { SERVER_API_URL } from "../../../app.constants";
 import { User } from "./user.model";
-import { ResponseWrapper } from "../model/response-wrapper.model";
-import { createRequestOption } from "../model/request-util";
+import { ResponseWrapper } from "../../base/model/response-wrapper.model";
+import { createRequestOption } from "../../base/request-util";
+import {DataService} from "../../base/service/data.service";
+import {Module} from "../module/module.model";
 
 
 @Injectable()
-export class UserService {
-    private resourceUrl = SERVER_API_URL + 'api/sys/user';
+export class UserService extends DataService<User> {
 
-    constructor(private http: Http) { }
-
-    create(user: User): Observable<ResponseWrapper> {
-        return this.http.post(this.resourceUrl, user)
-            .map((res: Response) => this.convertResponse(res));
+    constructor(protected http: Http) {
+        super(http, SERVER_API_URL + 'sys/user');
     }
 
-    update(user: User): Observable<ResponseWrapper> {
-        return this.http.put(this.resourceUrl, user)
-            .map((res: Response) => this.convertResponse(res));
-    }
-
-    find(login: string): Observable<User> {
-        return this.http.get(`${this.resourceUrl}/${login}`).map((res: Response) => res.json());
-    }
-
-    query(req?: any): Observable<ResponseWrapper> {
-        const options = createRequestOption(req);
-        return this.http.get(this.resourceUrl, options)
-            .map((res: Response) => this.convertResponse(res));
-    }
-
-    delete(login: string): Observable<Response> {
-        return this.http.delete(`${this.resourceUrl}/${login}`);
-    }
 
     authorities(): Observable<string[]> {
         return this.http.get(SERVER_API_URL + 'api/users/authorities').map((res: Response) => {
@@ -44,8 +24,5 @@ export class UserService {
         });
     }
 
-    private convertResponse(res: Response): ResponseWrapper {
-        const jsonResponse = res.json();
-        return new ResponseWrapper(res.headers, jsonResponse, res.status);
-    }
+
 }
