@@ -7,6 +7,8 @@ import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.Reflections;
+import com.albedo.java.util.domain.ComboSearch;
+import com.albedo.java.util.domain.ComboData;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
@@ -28,7 +30,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -44,28 +45,41 @@ import java.util.stream.Collectors;
 @RequestMapping("${albedo.adminPath}/sys/dict")
 public class DictResource extends TreeVoResource<DictService, DictVo> {
 
-    @Resource
-    private DictService dictService;
-
 
     @GetMapping(value = "findTreeData")
     public ResponseEntity findTreeData(DictTreeQuery dictTreeQuery) {
-        List<DictTreeResult> rs = dictService.findTreeData(dictTreeQuery, DictUtil.getDictList());
+        List<DictTreeResult> rs = service.findTreeData(dictTreeQuery, DictUtil.getDictList());
         return ResultBuilder.buildOk(rs);
     }
 
-    @GetMapping(value = "codes")
-    public ResponseEntity codes(DictQuerySearch dictQuerySearch) {
+    @GetMapping(value = "findSelectData")
+    public ResponseEntity findSelectData(DictQuerySearch dictQuerySearch) {
         Map<String, Object> map = Maps.newHashMap();
         if (PublicUtil.isNotEmpty(dictQuerySearch.getDictQueries())) {
             List<DictQuery> dictQueries = JSON.parseArray(dictQuerySearch.getDictQueries(), DictQuery.class);
             dictQueries.forEach(dictQuery -> map.put(StringUtil.toCamelCase(dictQuery.getCode()),
-                    DictUtil.getDictList(dictQuery).
+                DictUtil.getDictList(dictQuery).
                     stream().map(item -> new SelectResult(item.getVal(), item.getName())).collect(Collectors.toList())));
         }
         return ResultBuilder.buildOk(map);
     }
+    @GetMapping(value = "codes")
+    public ResponseEntity codes(DictQuery dictQuery, ComboSearch comboSearch) {
 
+        List<ComboData> dataList = Lists.newArrayList();
+        if(dictQuery!=null && PublicUtil.isNotEmpty(dictQuery.getCode())){
+            List<Dict> dictList = DictUtil.getDictListFilterVal(dictQuery.getCode(),
+                dictQuery.getFilter());
+            if (PublicUtil.isNotEmpty(dictList)) {
+
+                dictList.forEach(item -> dataList.add(Reflections.createObj(ComboData.class,
+                    Lists.newArrayList(ComboData.F_ID, ComboData.F_NAME), item.getVal(), item.getName())));
+            }
+        }else if(comboSearch !=null){
+            dataList.addAll(service.findJson(comboSearch));
+        }
+        return ResultBuilder.buildOk(dataList);
+    }
 
     @GetMapping(value = "/list")
     @Timed
@@ -81,7 +95,7 @@ public class DictResource extends TreeVoResource<DictService, DictVo> {
     @GetMapping(value = "/")
     public ResponseEntity getPage(PageModel<Dict> pm) {
         pm.setSortDefaultName(Direction.DESC, Dict.F_SORT, Dict.F_LASTMODIFIEDDATE);
-        dictService.findPage(pm);
+        service.findPage(pm);
         JSON rs = JsonUtil.getInstance().setRecurrenceStr("parent_name").toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
     }
@@ -93,8 +107,8 @@ public class DictResource extends TreeVoResource<DictService, DictVo> {
             throw new RuntimeMsgException("无法获取字典数据");
         }
         if (PublicUtil.isNotEmpty(dictVo.getParentId())) {
-            dictService.findOptionalTopByParentId(dictVo.getParentId()).ifPresent(item -> dictVo.setSort(item.getSort() + 30));
-            dictService.findOneById(dictVo.getParentId()).ifPresent(item -> dictVo.setParentName(item.getName()));
+            service.findOptionalTopByParentId(dictVo.getParentId()).ifPresent(item -> dictVo.setSort(item.getSort() + 30));
+            service.findOneById(dictVo.getParentId()).ifPresent(item -> dictVo.setParentName(item.getName()));
         }
         if (dictVo.getSort() == null) {
             dictVo.setSort(30);
@@ -117,7 +131,7 @@ public class DictResource extends TreeVoResource<DictService, DictVo> {
                 dictVo.getId(), dictVo.getName()))) {
             throw new RuntimeMsgException("编码已存在");
         }
-        dictService.save(dictVo);
+        service.save(dictVo);
         DictUtil.clearCache();
         return ResultBuilder.buildOk("保存", dictVo.getName(), "成功");
     }
@@ -131,7 +145,7 @@ public class DictResource extends TreeVoResource<DictService, DictVo> {
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
         log.debug("REST request to delete Dict: {}", ids);
-        dictService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+        service.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
         DictUtil.clearCache();
         return ResultBuilder.buildOk("删除成功");
     }
@@ -142,7 +156,7 @@ public class DictResource extends TreeVoResource<DictService, DictVo> {
     @Timed
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {
         log.debug("REST request to lockOrUnLock User: {}", ids);
-        dictService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+        service.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
         DictUtil.clearCache();
         return ResultBuilder.buildOk("操作成功");
     }

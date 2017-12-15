@@ -43,8 +43,8 @@ public class DataResource<Service extends DataService, T extends DataEntity> ext
     }
 
 //	@RequestMapping(value = "findJson")
-//	public void findJson(Combo combo, HttpServletResponse response) {
-//		
+//	public void findJson(ComboSearch combo, HttpServletResponse response) {
+//
 //		List<ComboData> comboDataList = jpaCustomeRepository.findJson(combo);
 //		writeJsonHttpResponse(comboDataList, response);
 //	}

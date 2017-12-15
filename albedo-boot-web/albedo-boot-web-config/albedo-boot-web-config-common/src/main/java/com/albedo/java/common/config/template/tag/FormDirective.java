@@ -6,7 +6,7 @@ import com.albedo.java.util.DictUtil;
 import com.albedo.java.util.Json;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.base.Reflections;
-import com.albedo.java.util.domain.Combo;
+import com.albedo.java.util.domain.ComboSearch;
 import com.albedo.java.util.domain.ComboData;
 import com.albedo.java.util.spring.SpringContextHolder;
 import com.google.common.collect.Lists;
@@ -73,7 +73,7 @@ public class FormDirective implements TemplateDirectiveModel {
             }
         } else if (PublicUtil.isNotEmpty(combo)) {
             try {
-                Combo item = Json.parseObject(combo, Combo.class);
+                ComboSearch item = Json.parseObject(combo, ComboSearch.class);
                 sb = convertMapListToString(params,
                         SpringContextHolder.getBean(JpaCustomeRepository.class).findJson(item));
             } catch (Exception e) {

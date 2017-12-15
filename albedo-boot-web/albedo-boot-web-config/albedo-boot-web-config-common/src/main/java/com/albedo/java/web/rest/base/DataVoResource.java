@@ -44,8 +44,8 @@ public class DataVoResource<Service extends DataVoService, V extends DataEntityV
     }
 
 //	@RequestMapping(value = "findJson")
-//	public void findJson(Combo combo, HttpServletResponse response) {
-//		
+//	public void findJson(ComboSearch combo, HttpServletResponse response) {
+//
 //		List<ComboData> comboDataList = jpaCustomeRepository.findJson(combo);
 //		writeJsonHttpResponse(comboDataList, response);
 //	}

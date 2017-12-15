@@ -1,6 +1,4 @@
-import { General } from "./general.model";
-
-export class Combo {
+export class ComboData {
 
     // 下拉列表隐藏值
     public id?: string;

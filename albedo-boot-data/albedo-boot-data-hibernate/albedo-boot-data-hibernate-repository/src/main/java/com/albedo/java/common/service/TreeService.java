@@ -18,6 +18,8 @@ import java.util.List;
 public class TreeService<Repository extends TreeRepository<T, PK>, T extends TreeEntity<T>, PK extends Serializable>
         extends DataService<Repository, T, PK> {
 
+
+
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<TreeResult> findTreeData(TreeQuery query) {
         String extId = query != null ? query.getExtId() : null, all = query != null ? query.getAll() : null;
