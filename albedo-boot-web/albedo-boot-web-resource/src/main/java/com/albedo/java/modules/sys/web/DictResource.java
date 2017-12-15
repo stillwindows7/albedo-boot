@@ -54,8 +54,8 @@ public class DictResource extends TreeVoResource<DictService, DictVo> {
         return ResultBuilder.buildOk(rs);
     }
 
-    @GetMapping(value = "findSelectData")
-    public ResponseEntity findSelectData(DictQuerySearch dictQuerySearch) {
+    @GetMapping(value = "codes")
+    public ResponseEntity codes(DictQuerySearch dictQuerySearch) {
         Map<String, Object> map = Maps.newHashMap();
         if (PublicUtil.isNotEmpty(dictQuerySearch.getDictQueries())) {
             List<DictQuery> dictQueries = JSON.parseArray(dictQuerySearch.getDictQueries(), DictQuery.class);

@@ -18,7 +18,7 @@ export class DictService extends DataService<Dict>{
 
     dataList(req?: any): Observable<ResponseWrapper> {
         const options = createRequestOption(req);
-        return this.http.get(this.resourceUrl + '/dataList', options)
+        return this.http.get(this.resourceUrl + '/codes', options)
             .map((res: Response) => this.convertResponse(res));
     }
 
