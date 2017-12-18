@@ -125,7 +125,8 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
             });
         }
         $("#form-item-" + this.id).parent().parent().empty().append($formTag);
-        this.scriptLoaderService.load('.alb-form', 'assets/common/formInit.js');
+        // this.scriptLoaderService.load('.alb-form', 'assets/common/formInit.js');
+        $('.m_selectpicker').selectpicker();
     }
 
 }
