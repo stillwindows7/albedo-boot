@@ -25,4 +25,4 @@ import {CookieModule} from 'ngx-cookie';
         NgJhipsterModule
     ]
 })
-export class AlbedoBootSharedLibsModule {}
+export class AlbedoBootSharedLibsModule { }

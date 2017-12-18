@@ -1,4 +1,4 @@
-
+<app-aside-nav></app-aside-nav>
 <div class="m-content">
 
 	<div class="m-portlet m-portlet--mobile">
@@ -51,24 +51,16 @@
 								<div class="m-form__group m-form__group--inline">
 									<div class="m-form__label">
 										<label>
-											Status:
+											状态:
 										</label>
 									</div>
 									<div class="m-form__control">
-										<select class="form-control m-bootstrap-select" id="m_form_status">
-											<option value="">
-												All
-											</option>
-											<option value="1">
-												Pending
-											</option>
-											<option value="2">
-												Delivered
-											</option>
-											<option value="3">
-												Canceled
-											</option>
-										</select>
+                                        <alb-form boxType="select"
+                                                  id="status"
+                                                  name="status"
+                                                  [dictQuery]="dictQueryStatus"
+                                                  searchItem="searchItem" >
+                                        </alb-form>
 									</div>
 								</div>
 								<div class="d-md-none m--margin-bottom-10"></div>

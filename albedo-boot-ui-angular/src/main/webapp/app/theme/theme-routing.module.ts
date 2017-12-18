@@ -1,7 +1,10 @@
-import { NgModule } from '@angular/core';
-import { ThemeComponent } from './theme.component';
-import { Routes, RouterModule } from '@angular/router';
-import { AlbedoBootAuthGuard } from "../auth/_guards/auth.guard";
+import {NgModule} from '@angular/core';
+import {ThemeComponent} from './theme.component';
+import {RouterModule, Routes} from '@angular/router';
+import {AlbedoBootAuthGuard} from "../auth/_guards/auth.guard";
+import {UserComponent} from "./pages/sys/user/user.component";
+import {AlbedoBootEntityModule} from "./pages/entity.module";
+import {DefaultComponent} from "./pages/default/default.component";
 
 const routes: Routes = [
     {
@@ -10,8 +13,14 @@ const routes: Routes = [
         "canActivate": [AlbedoBootAuthGuard],
         "children": [
             {
-                "path": "sys/user/list",
-                "loadChildren": "./pages/sys/user/user.module#UserModule"
+                "path": "",
+                "component": DefaultComponent,
+                "children": [
+                    {
+                        path: "sys/user/list",
+                        component: UserComponent
+                    }
+                ]
             },
             {
                 "path": "angular\/ng-bootstrap",
@@ -548,7 +557,12 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+    imports: [
+        RouterModule.forChild(routes),
+
+    ],
+    exports: [
+        RouterModule
+    ]
 })
 export class ThemeRoutingModule { }

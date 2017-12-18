@@ -1,12 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
-import { SERVER_API_URL } from "../../../app.constants";
-import { User } from "./user.model";
-import { ResponseWrapper } from "../../base/model/response-wrapper.model";
-import { createRequestOption } from "../../base/request-util";
+import {Injectable} from '@angular/core';
+import {Http, Response} from '@angular/http';
+import {Observable} from 'rxjs/Rx';
+import {SERVER_API_URL} from "../../../app.constants";
+import {User} from "./user.model";
 import {DataService} from "../../base/service/data.service";
-import {Module} from "../module/module.model";
 
 
 @Injectable()

@@ -1,4 +1,4 @@
-import {NgModule} from "@angular/core";
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {BaseRequestOptions, HttpModule} from "@angular/http";
@@ -48,7 +48,8 @@ import {AlbedoBootAuthGuard} from "./_guards";
         MockBackend,
         BaseRequestOptions,
     ],
-    entryComponents: [AlertComponent]
+    entryComponents: [AlertComponent],
+    schemas: []
 })
 
 export class AlbedoBootAuthModule {

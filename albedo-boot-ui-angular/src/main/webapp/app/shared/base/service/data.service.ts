@@ -1,16 +1,15 @@
-import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
-import { SERVER_API_URL } from "../../../app.constants";
-import { ResponseWrapper } from "../../base/model/response-wrapper.model";
-import { createRequestOption } from "../../base/request-util";
+import {Injectable} from '@angular/core';
+import {Http, Response} from '@angular/http';
+import {Observable} from 'rxjs/Rx';
+import {ResponseWrapper} from "../../base/model/response-wrapper.model";
+import {createRequestOption} from "../../base/request-util";
 import {Data} from "../model/data.model";
 
 
 @Injectable()
 export class DataService<T extends Data> {
 
-    constructor(protected http: Http,protected resourceUrl) { }
+    constructor(protected http: Http, protected resourceUrl) { }
 
     save(entity: T): Observable<ResponseWrapper> {
         return this.http.post(this.resourceUrl, entity)

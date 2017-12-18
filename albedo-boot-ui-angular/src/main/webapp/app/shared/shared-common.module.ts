@@ -1,6 +1,9 @@
 import {LOCALE_ID, NgModule} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {AlbedoBootSharedLibsModule} from "./shared-libs.module";
+import {AlbFormComponent} from "./";
+import {DictService} from "./sys/dict/dict.service";
+import {AlbFormTestComponent} from "./tags/test.component";
 
 
 @NgModule({
@@ -8,23 +11,17 @@ import {AlbedoBootSharedLibsModule} from "./shared-libs.module";
         AlbedoBootSharedLibsModule
     ],
     declarations: [
-        // FindLanguageFromKeyPipe,
-        // JhiAlertComponent,
-        // JhiAlertErrorComponent
+        AlbFormComponent,
+        AlbFormTestComponent
     ],
     providers: [
-        // JhiLanguageHelper,
-        Title,
-        {
-            provide: LOCALE_ID,
-            useValue: 'zh-cn'
-        },
+        DictService
     ],
     exports: [
         AlbedoBootSharedLibsModule,
-        // FindLanguageFromKeyPipe,
-        // JhiAlertComponent,
-        // JhiAlertErrorComponent
+        AlbFormComponent,
+        AlbFormTestComponent
     ]
+
 })
-export class AlbedoBootSharedCommonModule {}
+export class AlbedoBootSharedCommonModule { }

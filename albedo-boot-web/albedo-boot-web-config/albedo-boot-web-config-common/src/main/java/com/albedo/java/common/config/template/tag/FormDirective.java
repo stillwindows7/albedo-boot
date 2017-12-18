@@ -127,7 +127,7 @@ public class FormDirective implements TemplateDirectiveModel {
         } else {
             sb.append("<div class=\"").append(PublicUtil.isNotEmpty(searchItem) ? "" : boxType)
                     .append("-list checkbox\">");
-            if (PublicUtil.isNotEmpty(dataList))
+            if (PublicUtil.isNotEmpty(dataList)) {
                 for (int i = 0; i < dataList.size(); i++) {
                     ComboData item = dataList.get(i);
                     String valLabel = item.getId(), nameLabel = item.getName();
@@ -145,6 +145,7 @@ public class FormDirective implements TemplateDirectiveModel {
                             .append("data-options=\"").append(dataOptions).append("\" />").append(nameLabel)
                             .append("</label>");
                 }
+            }
             sb.append("</div>");
         }
         return sb.toString();

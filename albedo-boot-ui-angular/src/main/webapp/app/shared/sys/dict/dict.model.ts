@@ -1,6 +1,6 @@
 import {Tree} from "../../base/model/tree.model";
 
-export class Dict extends Tree{
+export class Dict extends Tree {
     /*** 模块类型 0 菜单模块 1权限模块 */
     public type?: string;
 
@@ -19,15 +19,15 @@ export class Dict extends Tree{
 
     constructor(
         type?: string,
-    code?: string,
-    /*** 字典值 */
-    val?: string,
-    /*** 资源文件key */
-    showName?: string,
-    /*** key */
-     key?: string,
-     isShow?: number,
-     parentCode?: string
+        code?: string,
+        /*** 字典值 */
+        val?: string,
+        /*** 资源文件key */
+        showName?: string,
+        /*** key */
+        key?: string,
+        isShow?: number,
+        parentCode?: string
     ) {
         super();
         this.type = type ? type : null;

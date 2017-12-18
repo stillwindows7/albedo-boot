@@ -1,4 +1,6 @@
-export class User {
+import {Data} from "../../base/model/data.model";
+
+export class User extends Data {
     public id?: any;
     public login?: string;
     public firstName?: string;
@@ -28,6 +30,7 @@ export class User {
         lastModifiedDate?: Date,
         password?: string
     ) {
+        super();
         this.id = id ? id : null;
         this.login = login ? login : null;
         this.firstName = firstName ? firstName : null;

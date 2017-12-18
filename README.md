@@ -69,7 +69,7 @@ cloud版本发布，基于[jhipster-registry](https://github.com/somewhereMrli/j
 * 缓存框架：Ehcache 2.6、Redis
 * 日志管理：Logback
 * 工具类：Apache Commons、Jackson 2.2、Xstream 1.4、Dozer 5.3、POI 3.9
-* 前端模版框架： metronic <http://keenthemes.com/preview/metronic/>
+* 前端模版框架： metronic <http://keenthemes.com/metronic/>
 
 ## 开发平台
 

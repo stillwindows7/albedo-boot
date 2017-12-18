@@ -9,7 +9,6 @@ import {Module} from "./module.model";
 
 @Injectable()
 export class ModuleService extends DataService<Module> {
-    private resourceUrl = SERVER_API_URL + 'api/sys/module';
 
     constructor(protected http: Http) {
         super(http, SERVER_API_URL + 'sys/module');
