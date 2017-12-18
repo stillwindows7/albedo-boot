@@ -84,7 +84,7 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
         let $formTag;
         this.attrType = this.attrType ? this.attrType : 'like';
         if (this.boxType == AlbFormComponent.BOX_TYPE_SELECT) {
-            $formTag = $("<select class=\"form-control m-bootstrap-select\" " +
+            $formTag = $("<select " +
                 "id=\"" + this.id + "\" " +
                 "name=\"" + this.name + "\" " +
                 "searchItem=\"" + this.searchItem + "\" " +
@@ -92,7 +92,7 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
                 "operate=\"" + this.operate + "\" " +
                 "analytiColumn=\"" + this.analytiColumn + "\" " +
                 "analytiColumnPrefix=\"" + this.analytiColumnPrefix + "\" " +
-                "class=\"form-control select2 " + this.cssClass + "\">" +
+                "class=\"form-control m-bootstrap-select " + this.cssClass + "\">" +
                 "</select>");
 
             if (this.cssClass && this.cssClass.indexOf("required") == -1) {
@@ -125,8 +125,8 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
             });
         }
         $("#form-item-" + this.id).parent().parent().empty().append($formTag);
-        // this.scriptLoaderService.load('.alb-form', 'assets/common/formInit.js');
-        $('.m_selectpicker').selectpicker();
+        this.scriptLoaderService.load('.alb-form', 'assets/common/formInit.js');
+
     }
 
 }

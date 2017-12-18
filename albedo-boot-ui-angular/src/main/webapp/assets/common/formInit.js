@@ -5,7 +5,7 @@ var BootstrapSelect = function () {
     //== Private functions
     var selects = function () {
         // minimum setup
-        $('.m_selectpicker').selectpicker();
+        $('.m-bootstrap-select').selectpicker();
     }
 
     return {
