@@ -78,6 +78,10 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
         this.initTags();
     }
 
+    toStr(input:string): string{
+        return input ? input : "";
+    }
+
 
     private initTags() {
         if (this.afterViewInit != true || this.comboData == null) return;
@@ -85,24 +89,24 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
         this.attrType = this.attrType ? this.attrType : 'like';
         if (this.boxType == AlbFormComponent.BOX_TYPE_SELECT) {
             $formTag = $("<select " +
-                "id=\"" + this.id + "\" " +
-                "name=\"" + this.name + "\" " +
-                "searchItem=\"" + this.searchItem + "\" " +
-                "attrType=\"" + this.attrType + "\" " +
-                "operate=\"" + this.operate + "\" " +
-                "analytiColumn=\"" + this.analytiColumn + "\" " +
-                "analytiColumnPrefix=\"" + this.analytiColumnPrefix + "\" " +
-                "class=\"form-control m-bootstrap-select " + this.cssClass + "\">" +
+                "id=\"" + this.toStr(this.id) + "\" " +
+                "name=\"" + this.toStr(this.name) + "\" " +
+                "searchItem=\"" + this.toStr(this.searchItem) + "\" " +
+                "attrType=\"" + this.toStr(this.attrType) + "\" " +
+                "operate=\"" + this.toStr(this.operate) + "\" " +
+                "analytiColumn=\"" + this.toStr(this.analytiColumn) + "\" " +
+                "analytiColumnPrefix=\"" + this.toStr(this.analytiColumnPrefix) + "\" " +
+                "class=\"form-control m-bootstrap-select " + this.toStr(this.cssClass) + "\">" +
                 "</select>");
 
             if (this.cssClass && this.cssClass.indexOf("required") == -1) {
                 $formTag.append($("<option value=\"\">请选择...</option>"))
             }
             this.comboData.forEach(item => {
-                $formTag.append($("<option value=\"" + item.id + "\" " + (this.value == item.id ? "selected='selected'" : "") + ">" + item.name + "</option>"))
+                $formTag.append($("<option value=\"" + this.toStr(item.id) + "\" " + (this.value == item.id ? "selected='selected'" : "") + ">" + item.name + "</option>"))
             })
         } else {
-            $formTag = $("<div class=\"m-" + this.boxType + "-inline\"></div>");
+            $formTag = $("<div class=\"m-" + this.toStr(this.boxType) + "-inline\"></div>");
             let i = 1;
             this.comboData.forEach(item => {
                 let valLabel = item.id, nameLabel = item.name;
@@ -110,24 +114,22 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
                     "<input type=\"" + (AlbFormComponent.BOX_TYPE_CHECKBOX == this.boxType ? AlbFormComponent.BOX_TYPE_CHECKBOX : AlbFormComponent.BOX_TYPE_RADIO) + "\" " +
                     "id=\")" + (this.id ? this.name : this.id) + (i) + "\" " +
                     "name=\"" + name + "\" " +
-                    "searchItem=\"" + this.searchItem + "\" " +
-                    "attrType=\"" + this.attrType + "\"" +
-                    "operate=\"" + this.operate + "\" " +
-                    "analytiColumn=\"" + this.analytiColumn + "\" " +
-                    "analytiColumnPrefix=\"" + this.analytiColumnPrefix + "\" " +
-                    "itemLabel=\"" + this.itemLabel + "\" " +
-                    "itemValue=\"" + this.itemValue + "\" " +
+                    "searchItem=\"" + this.toStr(this.searchItem) + "\" " +
+                    "attrType=\"" + this.toStr(this.attrType) + "\"" +
+                    "operate=\"" + this.toStr(this.operate) + "\" " +
+                    "analytiColumn=\"" + this.toStr(this.analytiColumn) + "\" " +
+                    "analytiColumnPrefix=\"" + this.toStr(this.analytiColumnPrefix) + "\" " +
+                    "itemLabel=\"" + this.toStr(this.itemLabel) + "\" " +
+                    "itemValue=\"" + this.toStr(this.itemValue) + "\" " +
                     "value=\"" + valLabel + "\" " +
-                    "class=\"" + this.cssClass + "\"" +
+                    "class=\"" + this.toStr(this.cssClass) + "\"" +
                     (valLabel == this.value && this.value.indexOf(valLabel) != -1 ? "checked=\"checked\"" : "") +
-                    "data-options=\"" + this.dataOptions + "\"  />" + nameLabel + "<span></span></label>"));
+                    "data-options=\"" + this.toStr(this.dataOptions) + "\"  />" + nameLabel + "<span></span></label>"));
                 i++;
             });
         }
-        $("#form-item-" + this.id).parent().parent().empty().append($formTag);
-        this.scriptLoaderService.load('.alb-form', 'assets/common/formInit.js');
-        this.scriptLoaderService.load('.alb-form',
-            'assets/demo/default/custom/components/forms/widgets/bootstrap-select.js');
+        $("#form-item-" + this.id).parent().parent().empty().append($formTag)
+        this.scriptLoaderService.load(".m-bootstrap-select", "assets/common/formInit.js");
 
     }
 

@@ -1,8 +1,8 @@
 com/albedo/java/common/data/persistence/GeneralEntity.class
 com/albedo/java/common/data/persistence/repository/JpaCustomeRepository.class
 com/albedo/java/common/data/persistence/repository/BaseRepository.class
-com/albedo/java/common/data/persistence/repository/TreeRepository.class
 com/albedo/java/common/data/persistence/SpecificationDetail.class
+com/albedo/java/common/data/persistence/repository/TreeRepository.class
 com/albedo/java/common/data/persistence/SpecificationDetail$Condition.class
 com/albedo/java/common/data/persistence/BaseEntity.class
 com/albedo/java/common/data/persistence/DynamicSpecifications.class
