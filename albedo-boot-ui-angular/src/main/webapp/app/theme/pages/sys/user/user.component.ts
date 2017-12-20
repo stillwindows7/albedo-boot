@@ -1,8 +1,10 @@
 import {AfterViewInit, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ScriptLoaderService} from "../../../../shared/base/service/script-loader.service";
 import {DictQuery} from "../../../../shared/sys/dict/dict.query.model";
+import {SERVER_API_URL} from "../../../../app.constants";
+import {LocalStorageService, SessionStorageService} from "ngx-webstorage";
 
-
+declare let datatable: any;
 @Component({
     selector: ".sys-user-list",
     templateUrl: "./user.component.html",
@@ -12,11 +14,13 @@ export class UserComponent implements OnInit, AfterViewInit {
 
     dictQueryStatus: DictQuery = new DictQuery("sys_status")
 
-    constructor(private _script: ScriptLoaderService) {
+    constructor(private _script: ScriptLoaderService,
+                private localStorage: LocalStorageService,
+                private sessionStorage: SessionStorageService) {
+
     }
 
     ngOnInit() {
-
     }
     ngAfterViewInit() {
         // this._script.load('.sys-user-list',
@@ -25,16 +29,18 @@ export class UserComponent implements OnInit, AfterViewInit {
     }
 
     initTable(){
-        var datatable = $('.m_datatable').mDatatable({
+        const token = this.localStorage.retrieve('authenticationToken') || this.sessionStorage.retrieve('authenticationToken');
+        var options = {
             // datasource definition
             data: {
                 type: 'remote',
                 source: {
                     read: {
+                        headers:{Authorization:'Bearer' + token},
                         // sample GET method
                         method: 'GET',
-                        url: 'http://keenthemes.com/metronic/preview/inc/api/datatables/demos/default.php',
-                        map: function(raw) {
+                        url: SERVER_API_URL + 'sys/user/',
+                        map: function (raw) {
                             // sample data mapping
                             var dataSet = raw;
                             if (typeof raw.data !== 'undefined') {
@@ -85,50 +91,33 @@ export class UserComponent implements OnInit, AfterViewInit {
             // columns definition
             columns: [
                 {
-                    field: 'RecordID',
-                    title: '#',
+                    field: 'orgName',
+                    title: '所属组织',
                     sortable: false, // disable sort for this column
                     width: 40,
                     selector: false,
                     textAlign: 'center',
                 }, {
-                    field: 'OrderID',
-                    title: 'Order ID',
+                    field: 'loginId',
+                    title: '登录Id',
                     // sortable: 'asc', // default sort
                     filterable: false, // disable or enable filtering
                     width: 150,
                     // basic templating support for column rendering,
                     template: '{{OrderID}} - {{ShipCountry}}',
                 }, {
-                    field: 'ShipCountry',
-                    title: 'Ship Country',
+                    field: 'email',
+                    title: '邮箱',
                     width: 150,
-                    template: function(row) {
+                    template: function (row) {
                         // callback function support for column rendering
                         return row.ShipCountry + ' - ' + row.ShipCity;
                     },
                 }, {
-                    field: 'ShipCity',
-                    title: 'Ship City',
-                }, {
-                    field: 'Currency',
-                    title: 'Currency',
-                    width: 100,
-                }, {
-                    field: 'ShipDate',
-                    title: 'Ship Date',
-                    sortable: 'asc',
-                    type: 'date',
-                    format: 'MM/DD/YYYY',
-                }, {
-                    field: 'Latitude',
-                    title: 'Latitude',
-                    type: 'number',
-                }, {
-                    field: 'Status',
-                    title: 'Status',
+                    field: 'status',
+                    title: '状态',
                     // callback function support for column rendering
-                    template: function(row) {
+                    template: function (row) {
                         var status = {
                             1: {'title': 'Pending', 'class': 'm-badge--brand'},
                             2: {'title': 'Delivered', 'class': ' m-badge--metal'},
@@ -138,28 +127,18 @@ export class UserComponent implements OnInit, AfterViewInit {
                             6: {'title': 'Danger', 'class': ' m-badge--danger'},
                             7: {'title': 'Warning', 'class': ' m-badge--warning'},
                         };
-                        return '<span class="m-badge ' + status[row.Status].class + ' m-badge--wide">' + status[row.Status].title + '</span>';
+                        return '<span class="m-badge ' + status[row.status].class + ' m-badge--wide">' + status[row.status].title + '</span>';
                     },
                 }, {
-                    field: 'Type',
-                    title: 'Type',
-                    // callback function support for column rendering
-                    template: function(row) {
-                        var status = {
-                            1: {'title': 'Online', 'state': 'danger'},
-                            2: {'title': 'Retail', 'state': 'primary'},
-                            3: {'title': 'Direct', 'state': 'accent'},
-                        };
-                        return '<span class="m-badge m-badge--' + status[row.Type].state + ' m-badge--dot"></span>&nbsp;<span class="m--font-bold m--font-' + status[row.Type].state + '">' +
-                            status[row.Type].title + '</span>';
-                    },
+                    field: 'lastModifiedDate',
+                    title: '修改时间',
                 }, {
                     field: 'Actions',
                     width: 110,
-                    title: 'Actions',
+                    title: '操作',
                     sortable: false,
                     overflow: 'visible',
-                    template: function(row) {
+                    template: function (row) {
                         var dropup = (row.getDatatable().getPageSize() - row.getIndex()) <= 4 ? 'dropup' : '';
 
                         return '\
@@ -182,7 +161,8 @@ export class UserComponent implements OnInit, AfterViewInit {
 					';
                     },
                 }],
-        });
+        };
+        $('.m_datatable').mDatatable(options);
 
 
     }

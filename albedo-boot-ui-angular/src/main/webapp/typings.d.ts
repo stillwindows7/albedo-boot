@@ -10,6 +10,7 @@ interface JQuery {
     getPageTitle(item: any): JQuery;
     getBreadcrumbs(item: any): JQuery;
     validate(options: any): JQuery;
+    mDatatable(options: any): JQuery;
     valid(): JQuery;
     resetForm(): JQuery;
     markdown(): JQuery;
