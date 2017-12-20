@@ -119,13 +119,13 @@ export class UserComponent implements OnInit, AfterViewInit {
                     // callback function support for column rendering
                     template: function (row) {
                         var status = {
-                            1: {'title': 'Pending', 'class': 'm-badge--brand'},
-                            2: {'title': 'Delivered', 'class': ' m-badge--metal'},
-                            3: {'title': 'Canceled', 'class': ' m-badge--primary'},
-                            4: {'title': 'Success', 'class': ' m-badge--success'},
-                            5: {'title': 'Info', 'class': ' m-badge--info'},
-                            6: {'title': 'Danger', 'class': ' m-badge--danger'},
-                            7: {'title': 'Warning', 'class': ' m-badge--warning'},
+                            // 1: {'title': 'Pending', 'class': 'm-badge--brand'},
+                            // 2: {'title': 'Delivered', 'class': ' m-badge--metal'},
+                            // 3: {'title': 'Canceled', 'class': ' m-badge--primary'},
+                            0: {'title': 'Success', 'class': ' m-badge--success'},
+                            1: {'title': 'Info', 'class': ' m-badge--info'},
+                            "-2": {'title': 'Danger', 'class': ' m-badge--danger'},
+                            "-1": {'title': 'Warning', 'class': ' m-badge--warning'},
                         };
                         return '<span class="m-badge ' + status[row.status].class + ' m-badge--wide">' + status[row.status].title + '</span>';
                     },
