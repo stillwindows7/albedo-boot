@@ -122,10 +122,10 @@ export class UserComponent implements OnInit, AfterViewInit {
                             // 1: {'title': 'Pending', 'class': 'm-badge--brand'},
                             // 2: {'title': 'Delivered', 'class': ' m-badge--metal'},
                             // 3: {'title': 'Canceled', 'class': ' m-badge--primary'},
-                            0: {'title': 'Success', 'class': ' m-badge--success'},
-                            1: {'title': 'Info', 'class': ' m-badge--info'},
-                            "-2": {'title': 'Danger', 'class': ' m-badge--danger'},
-                            "-1": {'title': 'Warning', 'class': ' m-badge--warning'},
+                            "正常": {'title': 'Success', 'class': ' m-badge--success'},
+                            "审核": {'title': 'Info', 'class': ' m-badge--info'},
+                            "删除": {'title': 'Danger', 'class': ' m-badge--danger'},
+                            "停用": {'title': 'Warning', 'class': ' m-badge--warning'},
                         };
                         return '<span class="m-badge ' + status[row.status].class + ' m-badge--wide">' + status[row.status].title + '</span>';
                     },
