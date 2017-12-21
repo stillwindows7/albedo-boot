@@ -93,26 +93,23 @@ export class UserComponent implements OnInit, AfterViewInit {
                 {
                     field: 'orgName',
                     title: '所属组织',
-                    sortable: false, // disable sort for this column
-                    width: 40,
-                    selector: false,
+                    // width: 40,
                     textAlign: 'center',
                 }, {
                     field: 'loginId',
                     title: '登录Id',
-                    // sortable: 'asc', // default sort
-                    filterable: false, // disable or enable filtering
+                    sortable: 'asc',
                     width: 150,
                     // basic templating support for column rendering,
-                    template: '{{OrderID}} - {{ShipCountry}}',
+                    // template: '{{OrderID}} - {{ShipCountry}}',
                 }, {
                     field: 'email',
                     title: '邮箱',
                     width: 150,
-                    template: function (row) {
-                        // callback function support for column rendering
-                        return row.ShipCountry + ' - ' + row.ShipCity;
-                    },
+                    // template: function (row) {
+                    //     // callback function support for column rendering
+                    //     return row.ShipCountry + ' - ' + row.ShipCity;
+                    // },
                 }, {
                     field: 'status',
                     title: '状态',
@@ -127,7 +124,7 @@ export class UserComponent implements OnInit, AfterViewInit {
                             "删除": {'title': 'Danger', 'class': ' m-badge--danger'},
                             "停用": {'title': 'Warning', 'class': ' m-badge--warning'},
                         };
-                        return '<span class="m-badge ' + status[row.status].class + ' m-badge--wide">' + status[row.status].title + '</span>';
+                        return '<span class="m-badge ' + status[row.status].class + ' m-badge--wide">' + row.status + '</span>';
                     },
                 }, {
                     field: 'lastModifiedDate',
@@ -162,8 +159,10 @@ export class UserComponent implements OnInit, AfterViewInit {
                     },
                 }],
         };
-        $('.m_datatable').mDatatable(options);
-
+        var dataTable = $('.m_datatable').mDatatable(options);
+        $('#table-form-search-user').click(function(){
+            dataTable.loadFilterGird();
+        })
 
     }
 

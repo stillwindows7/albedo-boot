@@ -16,28 +16,25 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
 
 
     menus: Module[];
+    private afterViewInit = false;
 
     constructor(
         private moduleService: ModuleService,
-        private parseLinks: JhiParseLinks,
-        private alertService: JhiAlertService,
-        private principal: Principal,
-        private eventManager: JhiEventManager,
-        private activatedRoute: ActivatedRoute,
-        private router: Router
     ) {
 
     }
     ngOnInit() {
         this.moduleService.menus().subscribe(
-            (res: ResponseWrapper) => this.onSuccess(res.json),
-            (res: ResponseWrapper) => this.onError(res.json)
+            (res: ResponseWrapper) => {
+                this.menus = res.json.data;
+                this.initMenuNav();
+            }
         );
     }
 
-
     ngAfterViewInit() {
-        /**/
+        this.afterViewInit=true;
+        this.initMenuNav();
     }
 
     getChildMenus(id): Module[] {
@@ -45,20 +42,11 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
             return item.parentId == id;
         });
     }
-    private onSuccess(res) {
-        this.menus = res.data;
-        this.initMenuNav();
-        this.selectMenuNav();
-    }
 
-    private selectMenuNav() {
-        mLayout.initAside();
-        let menu = mLayout.getAsideMenu();
-        let item = $(menu).find('a[href="' + window.location.pathname + '"]').parent('.m-menu__item');
-        (<any>$(menu).data('menu')).setActiveItem(item);
-    }
 
     private initMenuNav() {
+        if (this.afterViewInit != true || this.menus == null || $("#m_ver_menu .m-menu__nav").length>0) return;
+
         let $menuUl = $("<ul class=\"m-menu__nav  m-menu__nav--dropdown-submenu-arrow\" />");
         this.menus.forEach(item => {
             if (item.menuTop) {
@@ -123,11 +111,11 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
 
         // noinspection TypeScriptUnresolvedFunction
         $("#m_ver_menu").append($menuUl);
-    }
 
-
-    private onError(error) {
-        this.alertService.error(error.error, error.message, null);
+        mLayout.initAside();
+        let menu = mLayout.getAsideMenu();
+        let item = $(menu).find('a[href="' + window.location.pathname + '"]').parent('.m-menu__item');
+        (<any>$(menu).data('menu')).setActiveItem(item);
     }
 
 }

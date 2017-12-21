@@ -4,7 +4,7 @@ import { ScriptLoaderService } from "../shared/base/service/script-loader.servic
 import { AuthenticationService } from "./_services/authentication.service";
 import { AlertService } from "./_services/alert.service";
 import { UserService } from "./_services/user.service";
-import { AlertComponent } from "./_directives/alert.component";
+import { AlertComponent } from "../shared/tags/alert.component";
 import { LoginCustom } from "./_helpers/login-custom";
 import { Helpers } from "../helpers";
 import { LoginService } from "./_services/login.service";

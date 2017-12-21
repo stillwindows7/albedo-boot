@@ -293,22 +293,25 @@ var mApp = function() {
 
             var id = mUtil.getUniqueID("App_alert");
 
-            var html = '<div id="' + id + '" class="custom-alerts alert alert-' + options.type + ' fade in">' + (options.close ? '<button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>' : '') + (options.icon !== "" ? '<i class="fa-lg fa fa-' + options.icon + '"></i>  ' : '') + options.message + '</div>';
+            var html = '<div id="' + id + '" class="alert alert-' + options.type + ' alert-dismissible fade show">' +
+                (options.close ? '<button aria-label="Close" class="close" data-dismiss="alert" type="button"></button>'
+                    : '') + (options.icon !== "" ? '<i class="fa-lg fa fa-' + options.icon + '"></i>  ' : '') +
+                options.message + '</div>';
 
             if (options.reset) {
                 $('.custom-alerts').remove();
             }
 
             if (!options.container) {
-                if ($('.page-fixed-main-content').size() === 1) {
+                if ($('.page-fixed-main-content').length == 1) {
                     $('.page-fixed-main-content').prepend(html);
                 } else if (($('body').hasClass("page-container-bg-solid") || $('body').hasClass("page-content-white")) && $('.page-head').size() === 0) {
                     $('.page-title').after(html);
                 } else {
-                    if ($('.page-bar').size() > 0) {
+                    if ($('.page-bar').length > 0) {
                         $('.page-bar').after(html);
                     } else {
-                        $('.page-breadcrumb, .breadcrumbs').after(html);
+                        $('.m_datatable').prepend(html);
                     }
                 }
             } else {
@@ -320,7 +323,7 @@ var mApp = function() {
             }
 
             if (options.focus) {
-                mApp.scrollTo($('#' + id));
+                mApp.scrollTo($('#' + id),-200);
             }
 
             if (options.closeInSeconds > 0) {
@@ -836,7 +839,7 @@ jQuery.fn.extend({
     // 2) enable some logs
     // 3) etc.
     datatable.debug = false;
-
+    var $formSearch = options.formSearch;
     /********************
      ** PRIVATE METHODS
      ********************/
@@ -1978,15 +1981,29 @@ jQuery.fn.extend({
           params.headers = API.getOption('data.source.read.headers');
           params.data['datatable'] = API.getDataSourceParam();
           params.method = API.getOption('data.source.read.method') || 'POST';
+          var item = params.data['datatable']['sort'];
+          if(item){
+              params.data['datatable']['sortName']=item.field+' '+item.sort;
+              delete params.data['datatable']['sort'];
+          }
+
           // remove if server params is not enabled
           if (!API.getOption('data.serverPaging')) {
             delete params.data['datatable']['pagination'];
           }
           if (!API.getOption('data.serverSorting')) {
-            delete params.data['datatable']['sort'];
+            delete params.data['datatable']['sortName'];
           }
         }
-
+        params.data = {
+            sortName: params.data['datatable']['sortName'],
+          // pm.draw = d.draw;
+          size: params.data['datatable']['pagination']['perpage'],
+          page: params.data['datatable']['pagination']['page'],
+            queryConditionJson: albedo.parseJsonItemFormTarget($formSearch && $formSearch.length > 0 ? $formSearch : $("body form-search:eq(0)")),
+        };
+        // params.data['sortName'] = params.data['datatable']['sortName'];
+        // delete params.data['datatable'];
         return $.ajax(params).done(function(data, textStatus, jqXHR) {
           // extendible data map callback for custom datasource
           datatable.dataSet = datatable.originalDataSet
@@ -1995,12 +2012,20 @@ jQuery.fn.extend({
               trigger('m-datatable--on-ajax-done', [datatable.dataSet]);
         }).fail(function(jqXHR, textStatus, errorThrown) {
           $(datatable).trigger('m-datatable--on-ajax-fail', [jqXHR]);
+          datatable.tableBody.empty();
           $('<span/>').
               addClass('m-datatable--error').
               width('100%').
               html(API.getOption('translate.records.noRecords')).
               appendTo(datatable.tableBody);
           $(datatable).addClass('m-datatable--error');
+            mApp.alert({
+                type: 'danger',
+                icon: 'warning',
+                message: jqXHR.responseJSON.message
+            });
+
+            mApp.unblock(datatable);
         }).always(function() {
         });
       },
@@ -3421,7 +3446,16 @@ jQuery.fn.extend({
         dt.initHeight.call();
         return datatable;
       },
-
+        /**
+         * Shortcode to reload
+         * @returns {jQuery}
+         */
+        loadFilterGird: function() {
+            mApp.block(datatable);
+            API.reload();
+            mApp.unblock(datatable);
+            return datatable;
+        },
       /**
        * Shortcode to reload
        * @returns {jQuery}
@@ -3999,22 +4033,22 @@ jQuery.fn.extend({
     // By default the stirngs will be in the plugin source and here can override it
     translate: {
       records: {
-        processing: 'Please wait...',
-        noRecords: 'No records found',
+        processing: '请等待...',
+        noRecords: '没有找到任何记录',
       },
       toolbar: {
         pagination: {
           items: {
             default: {
-              first: 'First',
-              prev: 'Previous',
-              next: 'Next',
-              last: 'Last',
+              first: '首页',
+              prev: '上一页',
+              next: '下一页',
+              last: '尾页',
               more: 'More pages',
-              input: 'Page number',
-              select: 'Select page size',
+              input: '页码',
+              select: '选择页码',
             },
-            info: 'Displaying {{start}} - {{end}} of {{total}} records',
+            info: '显示第  {{start}} 到 {{end}} 条记录，共 {{total}} 条记录',
           },
         },
       },

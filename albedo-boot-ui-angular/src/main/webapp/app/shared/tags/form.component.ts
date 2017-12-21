@@ -52,8 +52,7 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
     private afterViewInit = false;
 
     // tslint:disable-next-line: no-unused-variable
-    constructor(private dictService: DictService,
-                private scriptLoaderService: ScriptLoaderService) {
+    constructor(private dictService: DictService) {
 
 
 
@@ -86,7 +85,7 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
     private initTags() {
         if (this.afterViewInit != true || this.comboData == null) return;
         let $formTag;
-        this.attrType = this.attrType ? this.attrType : 'like';
+        this.operate = this.operate ? this.operate : 'like';
         if (this.boxType == AlbFormComponent.BOX_TYPE_SELECT) {
             $formTag = $("<select " +
                 "id=\"" + this.toStr(this.id) + "\" " +
@@ -99,7 +98,7 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
                 "class=\"form-control m-bootstrap-select " + this.toStr(this.cssClass) + "\">" +
                 "</select>");
 
-            if (this.cssClass && this.cssClass.indexOf("required") == -1) {
+            if (!this.cssClass || this.cssClass.indexOf("required") == -1) {
                 $formTag.append($("<option value=\"\">请选择...</option>"))
             }
             this.comboData.forEach(item => {
@@ -112,8 +111,8 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
                 let valLabel = item.id, nameLabel = item.name;
                 $formTag.append($("<label class=\"m-" + this.boxType + "\">" +
                     "<input type=\"" + (AlbFormComponent.BOX_TYPE_CHECKBOX == this.boxType ? AlbFormComponent.BOX_TYPE_CHECKBOX : AlbFormComponent.BOX_TYPE_RADIO) + "\" " +
-                    "id=\")" + (this.id ? this.name : this.id) + (i) + "\" " +
-                    "name=\"" + name + "\" " +
+                    "id=\"" + (this.id ? this.name : this.id) + (i) + "\" " +
+                    "name=\"" + this.name + "\" " +
                     "searchItem=\"" + this.toStr(this.searchItem) + "\" " +
                     "attrType=\"" + this.toStr(this.attrType) + "\"" +
                     "operate=\"" + this.toStr(this.operate) + "\" " +
@@ -129,7 +128,8 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
             });
         }
         $("#form-item-" + this.id).parent().parent().empty().append($formTag)
-        this.scriptLoaderService.load(".m-bootstrap-select", "assets/common/formInit.js");
+            .find('.m-bootstrap-select').selectpicker();
+        // this.scriptLoaderService.load(".m-bootstrap-select", "assets/common/formInit.js");
 
     }
 

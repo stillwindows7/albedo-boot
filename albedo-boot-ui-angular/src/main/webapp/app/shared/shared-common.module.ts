@@ -3,7 +3,7 @@ import {Title} from '@angular/platform-browser';
 import {AlbedoBootSharedLibsModule} from "./shared-libs.module";
 import {AlbFormComponent} from "./";
 import {DictService} from "./sys/dict/dict.service";
-import {AlbFormTestComponent} from "./tags/test.component";
+// import {AlbFormTestComponent} from "./tags/test.component";
 
 
 @NgModule({
@@ -12,7 +12,7 @@ import {AlbFormTestComponent} from "./tags/test.component";
     ],
     declarations: [
         AlbFormComponent,
-        AlbFormTestComponent
+        // AlbFormTestComponent
     ],
     providers: [
         DictService
@@ -20,7 +20,7 @@ import {AlbFormTestComponent} from "./tags/test.component";
     exports: [
         AlbedoBootSharedLibsModule,
         AlbFormComponent,
-        AlbFormTestComponent
+        // AlbFormTestComponent
     ]
 
 })

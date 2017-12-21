@@ -1,6 +1,7 @@
 package com.albedo.java.util.domain;
 
 import lombok.ToString;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.ObjectUtils;
 
 import java.io.Serializable;
@@ -16,7 +17,7 @@ public class CustomMessage<T> implements Serializable {
 
     private int status;
     private T data;
-    private String code;
+    private HttpStatus code;
     private String[] messages = {};
 
     public CustomMessage() {
@@ -93,11 +94,11 @@ public class CustomMessage<T> implements Serializable {
         this.messages = ObjectUtils.addObjectToArray(messages, message);
     }
 
-    public String getCode() {
+    public HttpStatus getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(HttpStatus code) {
         this.code = code;
     }
 }

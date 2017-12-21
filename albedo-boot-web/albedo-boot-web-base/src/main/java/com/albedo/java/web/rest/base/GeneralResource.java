@@ -84,7 +84,6 @@ public class GeneralResource {
             throw new RuntimeMsgException("WRITE_JSON_RESPONSE_NULL");
         }
         try {
-            response.reset();
             response.setContentType(RESPONSE_JSON);
             response.setCharacterEncoding("UTF-8");
             String str = object instanceof String ? (String) object : Json.toJsonString(object);
