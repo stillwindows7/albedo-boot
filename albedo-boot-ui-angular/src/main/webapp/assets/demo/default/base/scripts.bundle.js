@@ -3451,9 +3451,9 @@ jQuery.fn.extend({
          * @returns {jQuery}
          */
         loadFilterGird: function() {
-            mApp.block(datatable);
+            mApp.spinnerCallback(true);
             API.reload();
-            mApp.unblock(datatable);
+            mApp.spinnerCallback(false);
             return datatable;
         },
       /**

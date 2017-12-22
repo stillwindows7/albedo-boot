@@ -8,6 +8,7 @@ import {UserService} from "../../../../shared/sys/user/user.service";
 import {AlbedoBootSharedModule} from "../../../../shared/shared.module";
 import {AlbedoBootAuthGuard} from "../../../../auth/_guards/auth.guard";
 import {ThemeComponent} from "../../../theme.component";
+import {UserFormComponent} from "./user.form.component";
 
 
 @NgModule({
@@ -19,7 +20,9 @@ import {ThemeComponent} from "../../../theme.component";
     ], exports: [
         // RouterModule
     ], declarations: [
-        UserComponent
+        UserComponent,
+        UserFormComponent,
+
     ],providers: [
         UserService,
     ],

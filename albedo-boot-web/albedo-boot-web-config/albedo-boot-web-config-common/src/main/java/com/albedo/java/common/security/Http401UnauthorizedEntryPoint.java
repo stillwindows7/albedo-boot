@@ -8,6 +8,7 @@ import com.albedo.java.web.rest.util.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -40,8 +41,8 @@ public class Http401UnauthorizedEntryPoint implements AuthenticationEntryPoint {
         if (albedoProperties.getHttp().getRestful()
                 || albedoProperties.getMicroModel()
                 || RequestUtil.isRestfulRequest(request)) {
+            response.setStatus(HttpStatus.FORBIDDEN.value());
             BaseResource.writeJsonHttpResponse(CustomMessage.createError("权限不足或登录超时"), response);
-
         } else {
             response.sendRedirect(PublicUtil.toAppendStr(albedoProperties.getAdminPath(), "/login"));
         }

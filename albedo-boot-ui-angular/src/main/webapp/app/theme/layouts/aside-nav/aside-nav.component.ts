@@ -21,9 +21,6 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
     constructor(
         private moduleService: ModuleService,
     ) {
-
-    }
-    ngOnInit() {
         this.moduleService.menus().subscribe(
             (res: ResponseWrapper) => {
                 this.menus = res.json.data;
@@ -31,10 +28,13 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
             }
         );
     }
+    ngOnInit() {
+        this.initMenuNav();
+    }
 
     ngAfterViewInit() {
         this.afterViewInit=true;
-        this.initMenuNav();
+
     }
 
     getChildMenus(id): Module[] {
@@ -45,14 +45,14 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
 
 
     private initMenuNav() {
-        if (this.afterViewInit != true || this.menus == null || $("#m_ver_menu .m-menu__nav").length>0) return;
+        if (this.menus == null || $("#m_ver_menu .m-menu__nav").length>0) return;
 
         let $menuUl = $("<ul class=\"m-menu__nav  m-menu__nav--dropdown-submenu-arrow\" />");
         this.menus.forEach(item => {
             if (item.menuTop) {
                 if (item.url != '') {
                     item.show && $menuUl.append("<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"  aria-haspopup=\"true\" >" +
-                        "<a href=\"" + item.url + "\" routerLink=\"/" + item.url + "\" class=\"m-menu__link\">" +
+                        "<a routerLink=\"/" + item.url + "\" class=\"m-menu__link\">" +
                         "<i class=\"m-menu__link-icon " + item.iconCls + "\"></i>" +
                         "<span class=\"m-menu__link-text\">" +
                         item.name +
@@ -84,7 +84,7 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
                         this.getChildMenus(itemChild.id).forEach(itemMinChild => {
                             itemMinChild.show && $menuUl.find(".m-menu__item--submenu:contains('" + itemChild.name + "') ul.m-menu__subnav")
                                 .append("<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"  aria-haspopup=\"true\" >" +
-                                "<a href=\"" + itemMinChild.url + "\" routerLink=\"" + itemMinChild.url + "\" class=\"m-menu__link\">" +
+                                "<a routerLink=\"" + itemMinChild.url + "\" class=\"m-menu__link\">" +
                                 "<i class=\"m-menu__link-bullet m-menu__link-bullet--dot\">" +
                                 "<span></span>" +
                                 "</i>" +
@@ -97,7 +97,7 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
 
                     } else {
                         $menuUl.append("<li class=\"m-menu__item\" routerLinkActive=\"m-menu__item--active\" routerLinkActiveOptions=\"{ exact: true }\"  aria-haspopup=\"true\" >" +
-                            "<a href=\"" + itemChild.url + "\" routerLink=\"/" + itemChild.url + "\" class=\"m-menu__link\">" +
+                            "<a routerLink=\"/" + itemChild.url + "\" class=\"m-menu__link\">" +
                             "<i class=\"m-menu__link-icon " + itemChild.iconCls + "\"></i>" +
                             "<span class=\"m-menu__link-text\">" +
                             itemChild.name +

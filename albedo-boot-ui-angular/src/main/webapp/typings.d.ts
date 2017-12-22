@@ -3,6 +3,18 @@ declare var module: NodeModule;
 interface NodeModule {
     id: string;
 }
+
+declare var albedoForm: AlbedoForm;
+interface AlbedoForm {
+    init(): void;
+}
+
+declare var mApp: MApp;
+interface MApp {
+    alert(options: any): void;
+}
+
+
 interface JQuery {
     mMenu(options: any): JQuery;
     animateClass(options: any): JQuery;

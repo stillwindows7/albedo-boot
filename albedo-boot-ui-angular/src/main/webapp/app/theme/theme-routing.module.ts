@@ -5,6 +5,7 @@ import {AlbedoBootAuthGuard} from "../auth/_guards/auth.guard";
 import {UserComponent} from "./pages/sys/user/user.component";
 import {AlbedoBootEntityModule} from "./pages/entity.module";
 import {DefaultComponent} from "./pages/default/default.component";
+import {UserFormComponent} from "./pages/sys/user/user.form.component";
 
 const routes: Routes = [
     {
@@ -19,7 +20,11 @@ const routes: Routes = [
                     {
                         path: "sys/user/list",
                         component: UserComponent
-                    }
+                    },
+                    {
+                        path: "sys/user/form",
+                        component: UserFormComponent
+                    },
                 ]
             },
             {
