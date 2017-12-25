@@ -55,25 +55,6 @@ public abstract class MybatisQueryExecution {
         CONVERSION_SERVICE = conversionService;
     }
 
-    public static void potentiallyRemoveOptionalConverter(ConfigurableConversionService conversionService) {
-
-        ClassLoader classLoader = MybatisQueryExecution.class.getClassLoader();
-
-        if (ClassUtils.isPresent("java.util.Optional", classLoader)) {
-
-            try {
-
-                Class<?> optionalType = ClassUtils.forName("java.util.Optional", classLoader);
-                conversionService.removeConvertible(Object.class, optionalType);
-
-            } catch (ClassNotFoundException e) {
-                return;
-            } catch (LinkageError e) {
-                return;
-            }
-        }
-    }
-
     protected abstract Object doExecute(AbstractMybatisQuery query, Object[] values);
 
     public Object execute(AbstractMybatisQuery query, Object[] values) {
@@ -101,8 +82,9 @@ public abstract class MybatisQueryExecution {
         }
 
         return CONVERSION_SERVICE.canConvert(result.getClass(), requiredType)
-                ? CONVERSION_SERVICE.convert(result, requiredType) : result;
+            ? CONVERSION_SERVICE.convert(result, requiredType) : result;
     }
+
 
     static class CollectionExecution extends MybatisQueryExecution {
 
@@ -331,6 +313,25 @@ public abstract class MybatisQueryExecution {
                 return rows;
             }
             return result;
+        }
+    }
+
+    public static void potentiallyRemoveOptionalConverter(ConfigurableConversionService conversionService) {
+
+        ClassLoader classLoader = MybatisQueryExecution.class.getClassLoader();
+
+        if (ClassUtils.isPresent("java.util.Optional", classLoader)) {
+
+            try {
+
+                Class<?> optionalType = ClassUtils.forName("java.util.Optional", classLoader);
+                conversionService.removeConvertible(Object.class, optionalType);
+
+            } catch (ClassNotFoundException e) {
+                return;
+            } catch (LinkageError e) {
+                return;
+            }
         }
     }
 }

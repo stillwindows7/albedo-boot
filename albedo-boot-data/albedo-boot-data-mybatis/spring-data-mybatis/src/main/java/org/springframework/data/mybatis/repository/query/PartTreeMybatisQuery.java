@@ -56,23 +56,23 @@ public class PartTreeMybatisQuery extends AbstractMybatisQuery {
     private transient static final Logger logger = LoggerFactory.getLogger(PartTreeMybatisQuery.class);
 
     private static final String MAPPER_BEGIN = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-            "<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">";
-    private static final String MAPPER_END = "</mapper>";
+        "<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">";
+    private static final String MAPPER_END   = "</mapper>";
 
-    private final Dialect dialect;
-    private final EntityMetadata entityInformation;
-    private final Class<?> domainClass;
-    private final PartTree tree;
-    private final MybatisParameters parameters;
-    private final MybatisMappingContext context;
-    private final MybatisMapperGenerator generator;
+    private final Dialect                    dialect;
+    private final EntityMetadata             entityInformation;
+    private final Class<?>                   domainClass;
+    private final PartTree                   tree;
+    private final MybatisParameters          parameters;
+    private final MybatisMappingContext      context;
+    private final MybatisMapperGenerator     generator;
     private final MybatisPersistentEntity<?> persistentEntity;
 
     private final String statementName;
 
     protected PartTreeMybatisQuery(
-            MybatisMappingContext context,
-            SqlSessionTemplate sqlSessionTemplate, Dialect dialect, MybatisQueryMethod method) {
+        MybatisMappingContext context,
+        SqlSessionTemplate sqlSessionTemplate, Dialect dialect, MybatisQueryMethod method) {
         super(sqlSessionTemplate, method);
         this.context = context;
         this.dialect = dialect;
