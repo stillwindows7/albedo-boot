@@ -5,7 +5,7 @@ import {SERVER_API_URL} from "../../../../app.constants";
 import {LocalStorageService, SessionStorageService} from "ngx-webstorage";
 
 @Component({
-    selector: ".sys-user-list",
+    selector: ".sys-user-form",
     templateUrl: "./user.form.component.html",
 })
 export class UserFormComponent implements OnInit, AfterViewInit {
