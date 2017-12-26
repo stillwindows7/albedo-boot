@@ -1,29 +1,29 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {RouterModule, Routes} from '@angular/router';
 import {LayoutModule} from "../../../layouts/layout.module";
 import {UserComponent} from "./user.component";
-import {DefaultComponent} from "../../default/default.component";
 import {UserService} from "../../../../shared/sys/user/user.service";
 import {AlbedoBootSharedModule} from "../../../../shared/shared.module";
-import {AlbedoBootAuthGuard} from "../../../../auth/_guards/auth.guard";
-import {ThemeComponent} from "../../../theme.component";
 import {UserFormComponent} from "./user.form.component";
+import {RouterModule} from "@angular/router";
 
 
 @NgModule({
     imports: [
         AlbedoBootSharedModule,
         CommonModule,
+        RouterModule,
         // RouterModule.forChild(routes),
         LayoutModule
     ], exports: [
+        UserComponent,
         // RouterModule
+    ], entryComponents: [
+        UserComponent,
     ], declarations: [
         UserComponent,
         UserFormComponent,
-
-    ],providers: [
+    ], providers: [
         UserService,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

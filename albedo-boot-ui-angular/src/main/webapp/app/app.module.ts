@@ -13,7 +13,6 @@ import {NgJhipsterModule} from "ng-jhipster";
 import {AlbedoBootSharedModule} from "./shared/shared.module";
 import {AlbedoBootAuthModule} from "./auth/auth.module";
 import {AlbedoBootEntityModule} from "./theme/pages/entity.module";
-import {ThemeRoutingTestModule} from "./theme/theme-routing-test.module";
 
 @NgModule({
     declarations: [

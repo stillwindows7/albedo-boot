@@ -26,6 +26,7 @@ export class Module extends Tree {
     /*** 链接名 */
     public hrefName?: string;
 
+    public childMenus?: Module[];
 
 
 

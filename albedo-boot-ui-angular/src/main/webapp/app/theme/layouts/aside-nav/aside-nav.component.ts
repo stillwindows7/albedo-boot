@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {AfterContentInit, AfterViewInit, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Module} from "../../../shared/sys/module/module.model";
 import {ModuleService} from "../../../shared/sys/module/module.service";
 import {JhiAlertService, JhiEventManager, JhiParseLinks} from "ng-jhipster";
@@ -14,8 +14,8 @@ declare let mLayout: any;
 })
 export class AsideNavComponent implements OnInit, AfterViewInit {
 
-
-    menus: Module[];
+    private menus: Module[];
+    menusData: Module[];
     private afterViewInit = false;
 
     constructor(
@@ -24,12 +24,12 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
         this.moduleService.menus().subscribe(
             (res: ResponseWrapper) => {
                 this.menus = res.json.data;
-                this.initMenuNav();
+                this.initMenuData();
             }
         );
     }
     ngOnInit() {
-        this.initMenuNav();
+        // this.initMenuNav();
     }
 
     ngAfterViewInit() {
@@ -42,7 +42,26 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
             return item.parentId == id;
         });
     }
-
+    private initMenuData(){
+        this.menusData = [];
+        this.menus.forEach(item => {
+            if (item.menuTop) {
+                this.menusData.push(item);
+                this.getChildMenus(item.id).forEach(itemChild => {
+                    if (!itemChild.menuLeaf) {
+                        itemChild.childMenus = this.getChildMenus(itemChild.id);
+                    }
+                    this.menusData.push(itemChild);
+                });
+            }
+        });
+        setTimeout(function(){
+            mLayout.initAside();
+            let menu = mLayout.getAsideMenu();
+            let item = $(menu).find('a[href="' + window.location.pathname + '"]').parent('.m-menu__item');
+            (<any>$(menu).data('menu')).setActiveItem(item);
+        },100);
+    }
 
     private initMenuNav() {
         if (this.menus == null || $("#m_ver_menu .m-menu__nav").length>0) return;
@@ -112,10 +131,7 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
         // noinspection TypeScriptUnresolvedFunction
         $("#m_ver_menu").append($menuUl);
 
-        mLayout.initAside();
-        let menu = mLayout.getAsideMenu();
-        let item = $(menu).find('a[href="' + window.location.pathname + '"]').parent('.m-menu__item');
-        (<any>$(menu).data('menu')).setActiveItem(item);
+
     }
 
 }

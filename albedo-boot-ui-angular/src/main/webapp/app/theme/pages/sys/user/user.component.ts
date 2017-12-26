@@ -8,6 +8,7 @@ declare let datatable: any;
 @Component({
     selector: ".sys-user-list",
     templateUrl: "./user.component.html",
+    encapsulation: ViewEncapsulation.None,
 })
 export class UserComponent implements OnInit, AfterViewInit {
 
@@ -135,20 +136,8 @@ export class UserComponent implements OnInit, AfterViewInit {
                     title: '操作',
                     sortable: false,
                     overflow: 'visible',
-                    template: function (row) {
-                        var dropup = (row.getDatatable().getPageSize() - row.getIndex()) <= 4 ? 'dropup' : '';
-
+                    template: function () {
                         return '\
-						<div class="dropdown ' + dropup + '">\
-							<a href="#" class="btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" data-toggle="dropdown">\
-                                <i class="la la-ellipsis-h"></i>\
-                            </a>\
-						  	<div class="dropdown-menu dropdown-menu-right">\
-						    	<a class="dropdown-item" href="#"><i class="la la-edit"></i> Edit Details</a>\
-						    	<a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>\
-						    	<a class="dropdown-item" href="#"><i class="la la-print"></i> Generate Report</a>\
-						  	</div>\
-						</div>\
 						<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">\
 							<i class="la la-edit"></i>\
 						</a>\
@@ -159,10 +148,12 @@ export class UserComponent implements OnInit, AfterViewInit {
                     },
                 }],
         };
-        var dataTable = $('.m_datatable').mDatatable(options);
-        $('#table-form-search-user').click(function(){
-            dataTable.loadFilterGird();
-        })
+        setTimeout(function (){
+            var dataTable = $('.m_datatable').mDatatable(options);
+            $('#table-form-search-user').click(function(){
+                dataTable.loadFilterGird();
+            })
+        }, 500)
 
     }
 

@@ -1754,7 +1754,7 @@ jQuery.fn.extend({
 
             // create a new instance for table body with scrollbar
             dt.mCustomScrollbar(scrollable, mcsOptions);
-            $(scrollable).mCustomScrollbar('scrollTo', 'top');
+            // $(scrollable).mCustomScrollbar('scrollTo', 'top');
           },
         };
         scroll.init();
@@ -3451,9 +3451,9 @@ jQuery.fn.extend({
          * @returns {jQuery}
          */
         loadFilterGird: function() {
-            mApp.spinnerCallback(true);
+            // dt.spinnerCallback(true);
             API.reload();
-            mApp.spinnerCallback(false);
+            // dt.spinnerCallback(false);
             return datatable;
         },
       /**

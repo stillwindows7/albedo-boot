@@ -1,4 +1,3 @@
-<app-aside-nav></app-aside-nav>
 <div class="m-content">
 
 	<div class="m-portlet m-portlet--mobile">
@@ -16,29 +15,14 @@
 			<div class="m-portlet__head-tools">
 				<ul class="m-portlet__nav">
 					<li class="m-portlet__nav-item">
-						<div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" data-dropdown-toggle="hover" aria-expanded="true">
-							<a href="#" class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
-								<i class="la la-ellipsis-h m--font-brand"></i>
-							</a>
-							<div class="m-dropdown__wrapper">
-								<span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
-								<div class="m-dropdown__inner">
-									<div class="m-dropdown__body">
-										<div class="m-dropdown__content">
-											<ul class="m-nav">
-												<li class="m-nav__section m-nav__section--first">
-													<span class="m-nav__section-text">
-														添加用户
-													</span>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+                        <a routerLink="/sys/user/form" title="添加用户" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill">
+                            <i class="la la-plus"></i>
+                        </a>
 					</li>
 				</ul>
+                <div class="btn-group">
+
+            </div>
 			</div>
 		</div>
 		<div class="m-portlet__body">
@@ -83,7 +67,7 @@
 						</div>
 					</div>
 					<div class="col-xl-4 order-1 order-xl-2 m--align-right">
-                        <button id="table-form-search-user" class="btn m-btn--pill m-btn--air btn-primary m-btn--wide" type="button">
+                        <button id="table-form-search-user" class="btn m-btn--pill m-btn--air btn-primary btn-sm m-btn m-btn--custom" type="button">
                             查询
                         </button>
 						<div class="m-separator m-separator--dashed d-xl-none"></div>
