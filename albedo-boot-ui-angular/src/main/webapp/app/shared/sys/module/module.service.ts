@@ -5,6 +5,7 @@ import {SERVER_API_URL} from "../../../app.constants";
 import {ResponseWrapper} from "../../base/model/response-wrapper.model";
 import {DataService} from "../../base/service/data.service";
 import {Module} from "./module.model";
+import {createRequestOption} from "../../";
 
 
 @Injectable()
@@ -16,8 +17,14 @@ export class ModuleService extends DataService<Module> {
 
 
     menus(): Observable<ResponseWrapper> {
-        return this.http.get(this.resourceUrl + '/menus')
+        return this.http.get(this.resourceUrl + '/data', createRequestOption({type:'menu'}))
             .map((res: Response) => this.convertResponse(res));
     }
+
+    data(): Observable<ResponseWrapper> {
+        return this.http.get(this.resourceUrl + '/data')
+            .map((res: Response) => this.convertResponse(res));
+    }
+
 
 }

@@ -5,6 +5,7 @@ import {JhiAlertService, JhiEventManager, JhiParseLinks} from "ng-jhipster";
 import {Principal} from "../../../auth/_services/principal.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ResponseWrapper} from "../../../shared/base/model/response-wrapper.model";
+import {Helpers} from "../../../helpers";
 
 declare let mLayout: any;
 @Component({
@@ -59,6 +60,9 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
             mLayout.initAside();
             let menu = mLayout.getAsideMenu();
             let item = $(menu).find('a[href="' + window.location.pathname + '"]').parent('.m-menu__item');
+            if(item.length<1){
+
+            }
             (<any>$(menu).data('menu')).setActiveItem(item);
         },100);
     }

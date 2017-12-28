@@ -3,6 +3,7 @@ import {ScriptLoaderService} from "../../../../shared/base/service/script-loader
 import {DictQuery} from "../../../../shared/sys/dict/dict.query.model";
 import {SERVER_API_URL} from "../../../../app.constants";
 import {LocalStorageService, SessionStorageService} from "ngx-webstorage";
+import {Helpers} from "../../../../helpers";
 
 declare let datatable: any;
 @Component({
@@ -27,6 +28,7 @@ export class UserComponent implements OnInit, AfterViewInit {
         // this._script.load('.sys-user-list',
         //     'assets/demo/default/custom/components/datatables/base/data-ajax.js');
         this.initTable()
+        // Helpers.setBreadcrumbs();
     }
 
     initTable(){
@@ -153,7 +155,7 @@ export class UserComponent implements OnInit, AfterViewInit {
             $('#table-form-search-user').click(function(){
                 dataTable.loadFilterGird();
             })
-        }, 500)
+        }, 10)
 
     }
 

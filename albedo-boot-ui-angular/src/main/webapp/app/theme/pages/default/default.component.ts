@@ -15,7 +15,7 @@ export class DefaultComponent implements OnInit {
 
     }
     ngOnInit() {
-
+        console.log("DefaultComponent")
     }
 
 }

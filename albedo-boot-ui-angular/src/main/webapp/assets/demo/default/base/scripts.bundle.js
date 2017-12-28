@@ -5079,6 +5079,7 @@ jQuery.fn.extend({
              * @returns {mMenu}
              */
             handleSubmenuDropdownClick: function(e) {
+                console.log("handleSubmenuDropdownClick");
                 if (Plugin.getSubmenuMode() === 'accordion') {
                     return;
                 }
@@ -5433,7 +5434,7 @@ jQuery.fn.extend({
                 var item = $(item);
                 item.addClass('m-menu__item--active');
                 item.parents('.m-menu__item--submenu').each(function() {
-                    $(this).addClass('m-menu__item--open');
+                    $(this).addClass('m-menu__item--open').addClass('m-menu__item--active');
                 });
             },
 

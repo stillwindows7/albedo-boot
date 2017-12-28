@@ -49,9 +49,9 @@ public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
         return ResultBuilder.buildOk(rs);
     }
 
-    @GetMapping(value = "menus")
-    public ResponseEntity menus(ModuleTreeQuery moduleTreeQuery) {
-        List<ModuleVo> rs = moduleService.findMenuDataVo(moduleTreeQuery, SecurityUtil.getMenuList());
+    @GetMapping(value = "data")
+    public ResponseEntity data(ModuleTreeQuery moduleTreeQuery) {
+        List<ModuleVo> rs = moduleService.findMenuDataVo(moduleTreeQuery, SecurityUtil.getModuleList());
         List<ModuleVo> list = Lists.newArrayList();
         PublicUtil.sortTreeList(list,  rs, ModuleVo.ROOT_ID, false);
         return ResultBuilder.buildOk(list);
