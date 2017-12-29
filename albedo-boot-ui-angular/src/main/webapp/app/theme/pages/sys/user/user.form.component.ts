@@ -3,6 +3,9 @@ import {ScriptLoaderService} from "../../../../shared/base/service/script-loader
 import {DictQuery} from "../../../../shared/sys/dict/dict.query.model";
 import {SERVER_API_URL} from "../../../../app.constants";
 import {LocalStorageService, SessionStorageService} from "ngx-webstorage";
+import {ActivatedRoute} from "@angular/router";
+import {UserService} from "../../../../shared/sys/user/user.service";
+import {User} from "../../../../shared/sys/user/user.model";
 
 @Component({
     selector: ".sys-user-form.page-form",
@@ -13,14 +16,28 @@ export class UserFormComponent implements OnInit, AfterViewInit {
 
     dictQueryStatus: DictQuery = new DictQuery("sys_status")
 
-    constructor(private _script: ScriptLoaderService,
-                private localStorage: LocalStorageService,
-                private sessionStorage: SessionStorageService) {
+    user: User;
+    routeSub: any;
+
+    constructor(
+        private route: ActivatedRoute,
+        private userService: UserService) {
 
     }
 
     ngOnInit() {
+        this.routeSub = this.route.params.subscribe((params) => {
+            params['id'] && this.userService.find(params['id']).subscribe((data) => {
+                this.user = data;
+            });
+
+        });
     }
+
+    ngOnDestroy() {
+        this.routeSub.unsubscribe();
+    }
+
     ngAfterViewInit() {
         // this._script.load('.sys-user-list',
         //     'assets/demo/default/custom/components/datatables/base/data-ajax.js');

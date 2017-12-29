@@ -2,14 +2,14 @@
     <input id="{{id}}Id" class="_commonTreeId" name="{{name}}" [attr.searchItem]="searchItem"
            [attr.attrType]="attrType"
            [attr.operation]="operate" type="hidden" value="{{value}}"
-           {{disabledStr}}/>
+           [attr.disabled]="disabled"/>
     <input id="{{id}}Name" name="{{labelName}}"
            onclick="albedoForm.treeSelect($(this), $(this).prev('input._commonTreeId'));"
            readonly="readonly"
            type="text"
            value="{{labelValue}}"
-           {{disabledStr}}
            class="{{cssClass}} _commonTreeInput form-control"
+           [attr.disabled]="disabled"
            [attr._nameLevel]="nameLevel"
            [attr._url]="url"
            [attr._checked]="checked"
