@@ -1,9 +1,8 @@
-import {LOCALE_ID, NgModule} from '@angular/core';
-import {Title} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 import {AlbedoBootSharedLibsModule} from "./shared-libs.module";
-import {AlbFormComponent} from "./";
+import {AlbFormComponent,AlbTreeSelectComponent} from "./";
 import {DictService} from "./sys/dict/dict.service";
-// import {AlbFormTestComponent} from "./tags/test.component";
+
 
 
 @NgModule({
@@ -12,6 +11,7 @@ import {DictService} from "./sys/dict/dict.service";
     ],
     declarations: [
         AlbFormComponent,
+        AlbTreeSelectComponent,
         // AlbFormTestComponent
     ],
     providers: [
@@ -20,6 +20,7 @@ import {DictService} from "./sys/dict/dict.service";
     exports: [
         AlbedoBootSharedLibsModule,
         AlbFormComponent,
+        AlbTreeSelectComponent,
         // AlbFormTestComponent
     ]
 

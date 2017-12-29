@@ -32,6 +32,8 @@ export class ThemeComponent implements OnInit {
         );
 
         this.scriptLoaderService.load('body', 'assets/vendors/base/vendors.bundle.js',
+            'assets/vendors/custom/jquery-ztree/js/jquery.ztree.core.js',
+            'assets/vendors/custom/jquery-ztree/js/jquery.ztree.excheck.js',
             'assets/frame/albedo.js',
             'assets/frame/albedo.form.component.js',
             'assets/frame/albedo.list.datatables.js',
