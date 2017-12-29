@@ -51,9 +51,9 @@
                     <div class="col-lg-4 col-md-9 col-sm-12">
                         <alb-tree-select id="org"
                              cssClass="required" allowClear="true" name="orgId"
-                             value="{{user.orgId}}" labelName="orgName"
-                             labelValue="{{user.orgName}}" title="选择组织"
-                             url="${ctx}/sys/org/findTreeData" ></alb-tree-select>
+                             value="{{user&&user.orgId}}" labelName="orgName"
+                             labelValue="{{user&&user.orgName}}" title="选择组织"
+                             url="/sys/org/findTreeData" ></alb-tree-select>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
@@ -61,7 +61,7 @@
                         登录Id *
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
-                        <input type="text" name="loginId" value="{{user.loginId}}"
+                        <input type="text" name="loginId" value="{{user&&user.loginId}}"
                                maxlength="64" data-required="1" class="form-control required"/>
                         <span class="m-form__help">
 							唯一

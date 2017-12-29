@@ -216,7 +216,9 @@ var albedoForm = function () {
 
         if (name && name.indexOf(".") != -1) name = name.replace(".", "-");
 
-        var html = '<div id="' + name + 'TreeModal" class="modal modal-dialog fade" tabindex="-1" data-focus-on="input:first">' +
+        var html = '<div id="' + name + 'TreeModal" class="modal fade" tabindex="-1" data-focus-on="input:first">' +
+            '<div class="modal-dialog modal-sm" role="document">'+
+            '<div class="modal-content">'+
             '<div class="modal-header">' +
             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>' +
             '<h4 class="modal-title">' + (title ? title : "数据选择") + '</h4>' +
@@ -238,6 +240,8 @@ var albedoForm = function () {
             '<button type="button" class="btn blue confirm">确定</button>' +
             '<button type="button" class="btn default" data-dismiss="modal">关闭</button>' +
             (allowClear ? '<button type="button" class="btn blue clear">清除</button>' : '') +
+            '</div>' +
+            '</div>' +
             '</div>' +
             '</div>';
         var $modal = $(html), lastValue = "", nodeList = [];
@@ -362,7 +366,7 @@ var albedoForm = function () {
             }
             $modal.modal("hide");
         });
-        App.initSlimScroll('.scroller');
+        // App.initSlimScroll('.scroller');
         if (allowClear) {
             $modal.off('click', '.clear').on('click', '.clear', function () {
                 $thizVal.val("");
