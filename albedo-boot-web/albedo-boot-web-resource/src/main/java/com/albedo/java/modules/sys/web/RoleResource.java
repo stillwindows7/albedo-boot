@@ -1,7 +1,9 @@
 package com.albedo.java.modules.sys.web;
 
+import com.albedo.java.common.config.template.tag.FormDirective;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.common.security.SecurityUtil;
+import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.StringUtil;
@@ -34,10 +36,11 @@ import java.util.stream.Collectors;
 @RequestMapping("${albedo.adminPath}/sys/role")
 public class RoleResource extends DataVoResource<RoleService, RoleVo> {
 
-    @GetMapping(value = "/findSelectData")
-    public ResponseEntity findSelectData() {
-        return ResultBuilder.buildOk(SecurityUtil.getRoleList().stream().map(item -> new SelectResult(item.getId(), item.getName())).collect(Collectors.toList()));
+    @GetMapping(value = "/comboData")
+    public ResponseEntity comboData() {
+        return ResultBuilder.buildDataOk(FormDirective.convertComboDataList(SecurityUtil.getRoleList(), Role.F_ID, Role.F_NAME));
     }
+
 
     /**
      * @param id

@@ -11,6 +11,7 @@ var albedoForm = function () {
         _treeSearchNode($key, tree);
     }
     var _treeSearchNode = function ($key, tree) {
+        var $container = tree.setting.treeObj;
         // 取得输入的关键字的值
         var value = $.trim($key.get(0).value);
         // 按名字查询
@@ -24,30 +25,30 @@ var albedoForm = function () {
         }
         // 保存最后一次
         $key.attr("lastValue_", value);
-
+        console.log(value)
         // 如果要查空字串，就退出不查了。
         if (value === "") {
             {
-                $container.slimScroll({
+                $container.mCustomScrollbar({
                     'scrollTo': 0
                 });
             }
             return;
         }
-
-        _treeSearchUpdateNodes(tree, false, tree.getNodes());
-        _treeSearchUpdateNodes(tree, true, tree.getNodesByParamFuzzy(keyType, value));
+        _treeSearchUpdateNodes(tree, false, tree.transformToArray(tree.getNodes()));
+        _treeSearchUpdateNodes(tree, true, tree.getNodesByParamFuzzy(keyType, value, null));
     }
     var _treeSearchUpdateNodes = function (tree, highlight, nodeList) {
         var $container = tree.setting.treeObj;
         for (var i = 0, l = nodeList.length; i < l; i++) {
+            console.log(nodeList[i])
             nodeList[i].highlight = highlight;
             tree.updateNode(nodeList[i]);
             tree.expandNode(nodeList[i].getParentNode(), true, false, true);
             if (i == 0 && highlight) {
                 var scorll = $("a[title='" + nodeList[i].name + "']").offset().top - $container.offset().top - 5;
 //				$container.animate({scrollTop: scorll},500)
-                $container.slimScroll({
+                $container.mCustomScrollbar({
                     'scrollTo': scorll
                 });
             }
@@ -237,9 +238,9 @@ var albedoForm = function () {
             '<div id="tree-' + name + '" class="ztree scroller" style="padding:0 15px 10px;height:' + (dialogHeight - 30) + 'px;"></div>' +
             '</div>' +
             '<div class="modal-footer">' +
-            '<button type="button" class="btn blue confirm">确定</button>' +
-            '<button type="button" class="btn default" data-dismiss="modal">关闭</button>' +
-            (allowClear ? '<button type="button" class="btn blue clear">清除</button>' : '') +
+            '<button type="button" class="btn btn-sm btn-primary m-btn m-btn--custom confirm">确定</button>' +
+            '<button type="button" class="btn btn-sm btn-secondary m-btn m-btn--custom" data-dismiss="modal">关闭</button>' +
+            (allowClear ? '<button type="button" class="btn btn-sm btn-warning m-btn m-btn--custom clear">清除</button>' : '') +
             '</div>' +
             '</div>' +
             '</div>' +
@@ -260,8 +261,7 @@ var albedoForm = function () {
                         tree.checkNode(node, !node.checked, true, true);
                         return false;
                     }
-                },
-                onDblClick: function () {
+                }, onDblClick: function () {
                     $modal.find('.confirm').trigger("click");
                 }
             }
@@ -604,6 +604,19 @@ var albedoForm = function () {
             $(this).datepicker(options);
         });
     };
+
+    var handleSummernote = function ($tagert) {
+        $tagert = ($tagert && $tagert.length > 0) ? $tagert.find('.summernote') : $('.summernote');
+        $tagert.each(function () {
+            var $tempInput = $tagert.find("input");
+            eval("var options=" + ($tempInput && $tempInput.length > 0 ? $tempInput.attr("options") : $(this).attr("options")));
+            // default settings
+            options = $.extend(true, {height: 200}, options);
+            // $("div.datetimepicker.dropdown-menu").remove();
+            $(this).summernote(options);
+        });
+    };
+
     var handleFileUpload = function ($tagert) {
         $tagert = ($tagert && $tagert.length > 0) ? $tagert.find('input[type="file"]') : $('input[type="file"]');
         var clearVal = function () {
@@ -705,6 +718,7 @@ var albedoForm = function () {
             handleDateTimePicker($tagert);
             handleDatePicker($tagert);
             handleFileUpload($tagert);
+            handleSummernote($tagert);
             albedoForm.initTree($tagert);
             if ($tagert && $tagert.length > 0) {
                 var exp = "input[type=checkbox]:not(.toggle, .md-check, .md-radiobtn, .make-switch, .icheck), input[type=radio]:not(.toggle, .md-check, .md-radiobtn, .star, .make-switch, .icheck)";

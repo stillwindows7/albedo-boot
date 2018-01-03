@@ -7,6 +7,7 @@ export class User extends Data {
     public loginId?: string;
     public firstName?: string;
     public lastName?: string;
+    public phone?: string;
     public email?: string;
     public activated?: Boolean;
     public langKey?: string;
@@ -16,6 +17,7 @@ export class User extends Data {
     public lastModifiedBy?: string;
     public lastModifiedDate?: Date;
     public password?: string;
+    public roleIdList?: string[];
 
     // constructor(
     //     id?: any,

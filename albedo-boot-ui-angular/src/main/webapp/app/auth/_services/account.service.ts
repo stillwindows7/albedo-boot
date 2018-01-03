@@ -8,10 +8,10 @@ export class AccountService {
     constructor(private http: Http) { }
 
     get(): Observable<any> {
-        return this.http.get(SERVER_API_URL + 'account').map((res: Response) => res.json());
+        return this.http.get(SERVER_API_URL + '/account').map((res: Response) => res.json());
     }
 
     save(account: any): Observable<Response> {
-        return this.http.post(SERVER_API_URL + 'account', account);
+        return this.http.post(SERVER_API_URL + '/account', account);
     }
 }

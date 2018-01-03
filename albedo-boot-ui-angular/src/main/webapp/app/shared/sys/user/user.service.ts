@@ -10,12 +10,12 @@ import {DataService} from "../../base/service/data.service";
 export class UserService extends DataService<User> {
 
     constructor(protected http: Http) {
-        super(http, SERVER_API_URL + 'sys/user');
+        super(http, SERVER_API_URL + '/sys/user');
     }
 
 
     authorities(): Observable<string[]> {
-        return this.http.get(SERVER_API_URL + 'sys/user/authorities').map((res: Response) => {
+        return this.http.get(SERVER_API_URL + '/sys/user/authorities').map((res: Response) => {
             const json = res.json();
             return <string[]>json;
         });

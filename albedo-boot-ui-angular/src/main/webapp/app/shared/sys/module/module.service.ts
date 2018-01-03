@@ -12,7 +12,7 @@ import {createRequestOption} from "../../";
 export class ModuleService extends DataService<Module> {
 
     constructor(protected http: Http) {
-        super(http, SERVER_API_URL + 'sys/module');
+        super(http, SERVER_API_URL + '/sys/module');
     }
 
 
@@ -24,6 +24,7 @@ export class ModuleService extends DataService<Module> {
     data(): Observable<ResponseWrapper> {
         return this.http.get(this.resourceUrl + '/data')
             .map((res: Response) => this.convertResponse(res));
+
     }
 
 

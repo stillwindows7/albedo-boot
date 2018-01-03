@@ -32,17 +32,17 @@ export class UserComponent implements OnInit, AfterViewInit {
     }
 
     initTable(){
-        const token = this.localStorage.retrieve('authenticationToken') || this.sessionStorage.retrieve('authenticationToken');
+        // const token = this.localStorage.retrieve('authenticationToken') || this.sessionStorage.retrieve('authenticationToken');
         var options = {
             // datasource definition
             data: {
                 type: 'remote',
                 source: {
                     read: {
-                        headers:{Authorization:'Bearer' + token},
+                        // headers:{Authorization:'Bearer' + token},
                         // sample GET method
                         method: 'GET',
-                        url: SERVER_API_URL + 'sys/user/',
+                        url: SERVER_API_URL + '/sys/user/',
                         map: function (raw) {
                             // sample data mapping
                             var dataSet = raw;

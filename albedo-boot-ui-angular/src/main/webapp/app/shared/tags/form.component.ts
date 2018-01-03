@@ -4,7 +4,8 @@ import {DictService} from "../sys/dict/dict.service";
 import {DictQuery} from "../sys/dict/dict.query.model";
 import {ComboData} from "../base/model/combo.data.model";
 import {ResponseWrapper} from "../base/model/response-wrapper.model";
-import {ScriptLoaderService} from "../base/service/script-loader.service";
+import {Http, Response} from "@angular/http";
+import {createRequestOption} from "../base/request-util";
 
 @Component({
     selector: "alb-form",
@@ -16,13 +17,11 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
     static BOX_TYPE_CHECKBOX = "checkbox";
     static BOX_TYPE_RADIO = "radio";
     @Input()
-    public data?: string;
-    @Input()
     public dictQuery?: DictQuery;
     @Input()
     public comboSearch?: ComboSearch;
     @Input()
-    public comboData?: ComboData[];
+    comboData?: ComboData[];
     @Input()
     public name?: string;
     @Input()
@@ -49,10 +48,14 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
     dataOptions?: string;
     @Input()
     boxType?: string;
+    @Input()
+    url?: string;
+    @Input()
+    params?: any
     private afterViewInit = false;
 
     // tslint:disable-next-line: no-unused-variable
-    constructor(private dictService: DictService) {
+    constructor(protected http: Http,private dictService: DictService) {
 
 
 
@@ -61,13 +64,22 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
         if (!this.comboData) {
             let params = this.dictQuery != null ? this.dictQuery : this.comboSearch;
-            this.dictService.codes(params).subscribe(
+            params && this.dictService.codes(params).subscribe(
                 (res: ResponseWrapper) => {
                     this.comboData = res.json.data;
                     this.initTags();
                 }
             );
+            this.url && this.http.get(this.url, createRequestOption(this.params)).map((res: Response) =>
+                this.convertResponse(res)
+            ).subscribe(
+                (res: ResponseWrapper) => {
+                    this.comboData = res.json.data;
+                    this.initTags();
+                }
+            )
         }
+
     }
 
 

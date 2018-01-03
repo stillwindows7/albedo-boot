@@ -33,13 +33,16 @@ public class FormDirective implements TemplateDirectiveModel {
     private static final String BOX_TYPE_RADIO = "radio";
     private final Logger log = LoggerFactory.getLogger(FormDirective.class);
 
-    public static String convertComboDataList(List<?> dataList, String idFieldName, String nameFieldName) {
+    public static String convertComboDataStr(List<?> dataList, String idFieldName, String nameFieldName) {
+        return Json.toJsonString(convertComboDataList(dataList, idFieldName, nameFieldName));
+    }
+    public static List<ComboData> convertComboDataList(List<?> dataList, String idFieldName, String nameFieldName) {
         List<ComboData> comboDataList = Lists.newArrayList();
         dataList.forEach(item -> {
             comboDataList.add(new ComboData(PublicUtil.toStrString(Reflections.getFieldValue(item, idFieldName)),
-                    PublicUtil.toStrString(Reflections.invokeGetter(item, nameFieldName))));
+                PublicUtil.toStrString(Reflections.invokeGetter(item, nameFieldName))));
         });
-        return Json.toJsonString(comboDataList);
+        return comboDataList;
     }
 
     @Override

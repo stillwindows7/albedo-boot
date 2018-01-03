@@ -4,6 +4,8 @@ import {ModuleService} from "./sys/module/module.service";
 import {UserService} from "../auth/_services";
 import {HasAnyAuthorityDirective} from "../auth/_services/has-any-authority.directive";
 import {AlbedoBootSharedCommonModule} from "./shared-common.module";
+import {RoleService} from "./sys/role/role.service";
+import {DictService} from "./sys/dict/dict.service";
 
 
 @NgModule({
@@ -16,7 +18,9 @@ import {AlbedoBootSharedCommonModule} from "./shared-common.module";
     providers: [
         ScriptLoaderService,
         UserService,
-        ModuleService
+        RoleService,
+        ModuleService,
+        DictService
     ],
     entryComponents: [],
     exports: [

@@ -5,6 +5,8 @@ import { ScriptLoaderService } from '../shared/base/service/script-loader.servic
 import {ModuleService} from "../shared/sys/module/module.service";
 import {Module} from "../shared/sys/module/module.model";
 import {ResponseWrapper} from "../shared/base/model/response-wrapper.model";
+import {SERVER_API_URL} from "../app.constants";
+import {LocalStorageService, SessionStorageService} from "ngx-webstorage";
 
 declare let mApp: any;
 declare let mUtil: any;
@@ -21,7 +23,9 @@ export class ThemeComponent implements OnInit {
 
     constructor(private scriptLoaderService: ScriptLoaderService,
                 private moduleService: ModuleService,
-                private router: Router) {
+                private router: Router,
+                private localStorage: LocalStorageService,
+                private sessionStorage: SessionStorageService) {
 
     }
     ngOnInit() {
@@ -37,12 +41,15 @@ export class ThemeComponent implements OnInit {
             'assets/frame/albedo.js',
             'assets/frame/albedo.form.component.js',
             'assets/frame/albedo.list.datatables.js',
+            'assets/frame/albedo.jquery.replenish.js',
             'assets/demo/default/base/scripts.bundle.js')
             .then(result => {
                 Helpers.setLoading(false);
                 // optional js to be loaded once
                 this.scriptLoaderService.load('head', 'assets/vendors/custom/fullcalendar/fullcalendar.bundle.js');
-
+                const token = this.localStorage.retrieve('authenticationToken') || this.sessionStorage.retrieve('authenticationToken');
+                albedo.setCtx(SERVER_API_URL)
+                albedo.setToken(token)
             });
         this.router.events.subscribe((route) => {
             if (route instanceof NavigationStart) {
@@ -63,7 +70,6 @@ export class ThemeComponent implements OnInit {
                 $('.m-wrapper').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(e) {
                     $('.m-wrapper').removeClass(animation);
                 }).removeClass(animation).addClass(animation);
-                console.log(route)
                 this.initBreadcrumbs(route);
             }
         });

@@ -12,7 +12,7 @@ import {createRequestOption} from "../../base/request-util";
 export class DictService extends DataService<Dict>{
 
     constructor(protected http: Http) {
-        super(http, SERVER_API_URL + 'sys/dict');
+        super(http, SERVER_API_URL + '/sys/dict');
     }
 
 

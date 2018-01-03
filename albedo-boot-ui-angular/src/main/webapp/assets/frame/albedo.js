@@ -65,6 +65,11 @@ $.fn.serializeObject = function () {
     });
     return o;
 };
+
+var albedoConstants = {
+    ctx:'/api',
+    token:null,
+};
 var albedo = {
     language: {
         // metronic spesific
@@ -137,6 +142,18 @@ var albedo = {
     },
     getUserCookie: function (key) {
         return Cookies.get(key + userId);
+    },
+    setCtx: function (ctx) {
+        albedoConstants.ctx = ctx;
+    },
+    getCtx: function () {
+        return albedoConstants.ctx;
+    },
+    setToken: function (token) {
+        albedoConstants.token = token;
+    },
+    getToken: function () {
+        return albedoConstants.token;
     },
     refreshCacheBuster: function () {
         var url = _form.attr("action");

@@ -8,6 +8,11 @@ declare var albedoForm: AlbedoForm;
 interface AlbedoForm {
     init(): void;
 }
+declare var albedo: Albedo;
+interface Albedo {
+    setCtx(ctx: any): void;
+    setToken(token: any): void;
+}
 
 declare var mApp: MApp;
 interface MApp {
