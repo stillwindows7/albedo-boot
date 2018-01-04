@@ -4,8 +4,8 @@ import {Observable} from 'rxjs/Rx';
 import {SERVER_API_URL} from "../../../app.constants";
 import {DataService} from "../../base/service/data.service";
 import {Role} from "./role.model";
-import {ComboData} from "../../";
 import {ResponseWrapper} from "../../base/model/response-wrapper.model";
+import {convertResponse} from "../../base/request-util";
 
 
 @Injectable()
@@ -20,7 +20,7 @@ export class RoleService extends DataService<Role> {
 
 
         return this.http.get(this.resourceUrl + '/comboData')
-            .map((res: Response) => this.convertResponse(res) );
+            .map((res: Response) => convertResponse(res) );
     }
 
 

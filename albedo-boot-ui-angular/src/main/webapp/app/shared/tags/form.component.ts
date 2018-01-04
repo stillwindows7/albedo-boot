@@ -5,7 +5,7 @@ import {DictQuery} from "../sys/dict/dict.query.model";
 import {ComboData} from "../base/model/combo.data.model";
 import {ResponseWrapper} from "../base/model/response-wrapper.model";
 import {Http, Response} from "@angular/http";
-import {createRequestOption} from "../base/request-util";
+import {createRequestOption, convertResponse} from "../base/request-util";
 
 @Component({
     selector: "alb-form",
@@ -71,7 +71,7 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
                 }
             );
             this.url && this.http.get(this.url, createRequestOption(this.params)).map((res: Response) =>
-                this.convertResponse(res)
+                convertResponse(res)
             ).subscribe(
                 (res: ResponseWrapper) => {
                     this.comboData = res.json.data;

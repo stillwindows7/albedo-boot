@@ -1,4 +1,5 @@
 var albedoForm = function () {
+    var self = this;
     var _treeSearchInputFocusKey = function ($key) {
         if ($key.hasClass("empty")) {
             $key.removeClass("empty");
@@ -563,14 +564,14 @@ var albedoForm = function () {
             });
         }
     };
-    var handleDateTimePicker = function ($tagert) {
+    var handleDateTimePicker = function ($target) {
 
         if (!jQuery().datetimepicker) {
             return;
         }
-        $tagert = ($tagert && $tagert.length > 0) ? $tagert.find('.date-time-picker') : $('.date-time-picker');
-        $tagert.each(function () {
-            var $tempInput = $tagert.find("input");
+        $target = ($target && $target.length > 0) ? $target.find('.date-time-picker') : $('.date-time-picker');
+        $target.each(function () {
+            var $tempInput = $target.find("input");
             eval("var options=" + ($tempInput && $tempInput.length > 0 ? $tempInput.attr("options") : $(this).attr("options")));
             // default settings
             options = $.extend(true, {
@@ -587,10 +588,10 @@ var albedoForm = function () {
         });
         $('body').removeClass("modal-open"); // fix bug when inline picker is used in modal
     }
-    var handleDatePicker = function ($tagert) {
-        $tagert = ($tagert && $tagert.length > 0) ? $tagert.find('.date-picker') : $('.date-picker');
-        $tagert.each(function () {
-            var $tempInput = $tagert.find("input");
+    var handleDatePicker = function ($target) {
+        $target = ($target && $target.length > 0) ? $target.find('.date-picker') : $('.date-picker');
+        $target.each(function () {
+            var $tempInput = $target.find("input");
             eval("var options=" + ($tempInput && $tempInput.length > 0 ? $tempInput.attr("options") : $(this).attr("options")));
             // default settings
             options = $.extend(true, {
@@ -605,10 +606,10 @@ var albedoForm = function () {
         });
     };
 
-    var handleSummernote = function ($tagert) {
-        $tagert = ($tagert && $tagert.length > 0) ? $tagert.find('.summernote') : $('.summernote');
-        $tagert.each(function () {
-            var $tempInput = $tagert.find("input");
+    var handleSummernote = function ($target) {
+        $target = ($target && $target.length > 0) ? $target.find('.summernote') : $('.summernote');
+        $target.each(function () {
+            var $tempInput = $target.find("input");
             eval("var options=" + ($tempInput && $tempInput.length > 0 ? $tempInput.attr("options") : $(this).attr("options")));
             // default settings
             options = $.extend(true, {height: 200}, options);
@@ -617,8 +618,8 @@ var albedoForm = function () {
         });
     };
 
-    var handleFileUpload = function ($tagert) {
-        $tagert = ($tagert && $tagert.length > 0) ? $tagert.find('input[type="file"]') : $('input[type="file"]');
+    var handleFileUpload = function ($target) {
+        $target = ($target && $target.length > 0) ? $target.find('input[type="file"]') : $('input[type="file"]');
         var clearVal = function () {
             var $parent = $(this).parents(".fileinput");
             var $file = $parent.find("input[type='hidden']");
@@ -633,7 +634,7 @@ var albedoForm = function () {
         };
 
 
-        $tagert.length > 0 && $tagert.fileupload && $tagert.each(function () {
+        $target.length > 0 && $target.fileupload && $target.each(function () {
             var options = $(this).attr("options"), $parent = $(this).parents(".fileinput"),
                 multiple = $(this).attr("multiple"), showType = $(this).attr("showType");
 
@@ -690,41 +691,183 @@ var albedoForm = function () {
         });
     };
 
+    var handleSave = function ($target){
+        var $target=$target || $(".m-content");
+        $target.off('click', '.save').on('click', '.save', function () {
+            var el = $(this), $form = $target.find('.form-validation'), validateFun = $form.attr("validateFun"),
+                flag = true;
+            if (self.validate($form)) {
+                albedo.isExitsFunction(validateFun) && eval("flag = " + validateFun + "()");
+                if (flag) {
+                    $target.modal('loading');
+                    var url = $form.attr("action");
+                    $.ajax({
+                        url: url,
+                        type: $form.attr("method") || "POST",
+                        data: JSON.stringify($form.serializeObject()),
+                        // data: self.getValue($form.serialize()),
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        timeout: 60000,
+                        success: function (re) {
+                            self.alertDialog($target, re, el);
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            console.log(errorThrown);
+                            self.alertDialog($target, null, el);
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+
+    var alertDialog = function($modal, re, el) {
+        var alertType = "warning", icon = "warning", isModal = el && el.data("is-modal") == true;
+        try {
+            $modal.modal('removeLoading');
+        } catch (e) {
+        }
+        var isForm = $modal.find('.form-validation').length > 0;
+        if (re && el) {
+            var tableId = el.data("table-id"), refresh = el.data("refresh"), delay = el.data("delay"),
+                alertType = re.status == "0" ? "info" : re.status == "1" ? "success" : re.status == "-1" ? "danger" : "warning";
+            icon = re.status == "0" ? "info" : re.status == "1" ? "check" : "warning";
+            if (re.status == "1" && (tableId || refresh)) {
+                if (refresh) {
+                    window.location.reload();
+                } else {
+                    if (!isModal) {
+                        $modal.find(".list").trigger("click");
+                    }
+                    if (delay) {
+                        $modal.modal('loading');
+                        setTimeout(function () {
+                            $(tableId).mDatatable().loadFilterGird();
+                            $modal.modal('removeLoading');
+                        }, delay)
+                    } else {
+                        $(tableId).mDatatable().loadFilterGird();
+                    }
+                    var ajaxReloadAfterFu = el.data("reload-after");
+                    if (albedo.isExitsFunction(ajaxReloadAfterFu)) {
+                        eval(ajaxReloadAfterFu + "(re)");
+                    }
+                }
+                isForm = false;
+            }
+        }
+        if (!isForm) $modal.modal('hide');
+        mApp.alert({
+            container: isForm ? $modal.find('#bootstrap-alerts') : el.parents(".portlet").find('#bootstrap-alerts'),
+            close: true,
+            focus: true,
+            type: alertType,
+            closeInSeconds: 8,
+            message: (re && re.message) ? re.message : '网络异常，请检查您的网络!',
+            icon: icon
+        });
+
+    }
+
+
+    var $form = $('.form-validation'), validator;
+    var handleValidateConfig = function (config, form) {
+        if (!config)
+            config = {};
+        config = $.extend(true, {
+            // define validation rules
+            rules: {},
+            messages:{},
+            //display error alert on form submit
+            invalidHandler: function(event, validator) {
+                mApp.alert({
+                    container: '.m-form__content',
+                    type: 'warning',
+                    icon: 'warning',
+                    message: '验证失败'
+                });
+            },
+            submitHandler: function (form) {
+                //form[0].submit(); // submit the form
+            }
+        }, config);
+        return config;
+    };
+    // advance validation
+    var handleValidation = function ($formTagert, options) {
+        if ($formTagert && $formTagert.length > 0) {
+            $form = $formTagert;
+            var config;
+            try {
+                eval("config = " + $form.attr("config"));
+            } catch (e) {
+            }
+            if (!config) config = {};
+
+            config = $.extend(true, config, options);
+            console.log($formTagert)
+            validator = $formTagert.validate(handleValidateConfig(config, $formTagert));
+            // apply validation on select2 dropdown value change, this only needed
+            // for chosen dropdown integration.
+            $('.select2me', $formTagert).change(function () {
+                $formTagert.validate().element($(this));
+            });
+            $form.find('.date-time-picker').change(function () {
+                $formTagert.validate().element($(this));
+            });
+            return validator;
+        }
+    }
+
     //* END:CORE HANDLERS *//
 
     return {
-        initDateTimePicker: function ($tagert) {
-            handleDateTimePicker($tagert);
-        }, initDatePicker: function ($tagert) {
-            handleDatePicker($tagert);
+        initDateTimePicker: function ($target) {
+            handleDateTimePicker($target);
+        }, initDatePicker: function ($target) {
+            handleDatePicker($target);
         }, gridSelect: function ($thiz, $thizVal) {
             handleGridSelect($thiz, $thizVal);
         }, treeSelect: function ($thiz, $thizVal) {
             handleTreeSelect($thiz, $thizVal);
         },
-        initTree: function ($tagertShowTree) {
-            $tagertShowTree = ($tagertShowTree && $tagertShowTree.length > 0) ? $tagertShowTree.find(".ztree-show") : $(".ztree-show");
-            $tagertShowTree.each(function () {
+        initTree: function ($targetShowTree) {
+            $targetShowTree = ($targetShowTree && $targetShowTree.length > 0) ? $targetShowTree.find(".ztree-show") : $(".ztree-show");
+            $targetShowTree.each(function () {
                 treeShow($(this));
             });
         },
 
-        initFileUpload: function ($tagert) {
-            handleFileUpload($tagert);
+        initFileUpload: function ($target) {
+            handleFileUpload($target);
         },
 
-        //main function to initiate the theme
-        init: function ($tagert) {
-            handleDateTimePicker($tagert);
-            handleDatePicker($tagert);
-            handleFileUpload($tagert);
-            handleSummernote($tagert);
-            albedoForm.initTree($tagert);
-            if ($tagert && $tagert.length > 0) {
-                var exp = "input[type=checkbox]:not(.toggle, .md-check, .md-radiobtn, .make-switch, .icheck), input[type=radio]:not(.toggle, .md-check, .md-radiobtn, .star, .make-switch, .icheck)";
-                App.initUniform($tagert.find(exp));
+        initSave: function($target){
+            handleSave($target)
+        },
+
+        alertDialog: function($modal, re, el){
+            alertDialog($modal, re, el);
+        },
+        // main function to initiate the module
+        initValidate: function ($formTagert, options) {
+            handleValidation($formTagert, options);
+        },
+        validate: function ($formTagert) {
+            if ($formTagert && $formTagert.length > 0) {
+                return handleValidation($formTagert).form();
             }
-            ;
+            return validator && validator.form();
+        },
+        //main function to initiate the theme
+        init: function ($target) {
+            handleDateTimePicker($target);
+            handleDatePicker($target);
+            handleFileUpload($target);
+            handleSummernote($target);
+            albedoForm.initTree($target);
         }
     }
 }();

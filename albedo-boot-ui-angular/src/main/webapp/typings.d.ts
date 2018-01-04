@@ -6,8 +6,12 @@ interface NodeModule {
 
 declare var albedoForm: AlbedoForm;
 interface AlbedoForm {
-    init(): void;
+    init(target?: any): void;
+    initSave(target?: any): void;
+    initValidate(target?: any,option?: any): void;
+    validate(target?: any): void;
 }
+
 declare var albedo: Albedo;
 interface Albedo {
     setCtx(ctx: any): void;

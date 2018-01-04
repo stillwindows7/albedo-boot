@@ -60349,7 +60349,11 @@ $.validator.addMethod( "phoneUK", function( phone_number, element ) {
 	return this.optional( element ) || phone_number.length > 9 &&
 		phone_number.match( /^(?:(?:(?:00\s?|\+)44\s?)|(?:\(?0))(?:\d{2}\)?\s?\d{4}\s?\d{4}|\d{3}\)?\s?\d{3}\s?\d{3,4}|\d{4}\)?\s?(?:\d{5}|\d{3}\s?\d{3})|\d{5}\)?\s?\d{4,5})$/ );
 }, "Please specify a valid phone number" );
-
+$.validator.addMethod("phone", function(value, element) {
+    var length = value.length;
+    var mobile = /^(13[0-9]{9})|(18[0-9]{9})|(14[0-9]{9})|(17[0-9]{9})|(15[0-9]{9})$/;
+    return this.optional(element) || (length == 11 && mobile.test(value));
+}, "请正确填写您的手机号码");
 /**
  * Matches US phone number format
  *
@@ -60641,12 +60645,26 @@ jQuery.validator.setDefaults({
     ignore: "",  // validate all fields including form hidden input
 
     errorPlacement: function(error, element) { // render error placement for each input type
-    	var group = $(element).closest('.form-group');
+        var group = $(element).closest('.form-group');
         var help = group.find('.m-form__help');
-        if (help.length > 0) {
+        if (element.parent(".input-group").length > 0) {
+            error.insertAfter(element.parent(".input-group"));
+        } else if (element.attr("data-error-container")) {
+            error.appendTo(element.attr("data-error-container"));
+        } else if (element.parents('.m-radio-list').length > 0) {
+            element.parents('.m-radio-list').append(error);
+        } else if (element.parents('.m-radio-inline').length > 0) {
+            element.parents('.m-radio-inline').append(error);
+        } else if (element.parents('.m-radiobox-list').length > 0) {
+            element.parents('.m-radiobox-list').append(error);
+        } else if (element.parents('.m-checkbox-list').length > 0) {
+            element.parents('.m-checkbox-list').append(error);
+        } else if (element.parents('.m-checkbox-inline').length > 0) {
+            element.parents('.m-checkbox-inline').append(error);
+        } else if (help.length > 0) {
             help.before(error);
         } else {
-            $(element).after(error);
+            error.insertAfter(element);
         }
     },
 

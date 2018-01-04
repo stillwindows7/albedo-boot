@@ -39,7 +39,7 @@
             </div>
         </div>
         <!--begin::Form-->
-        <form class="m-form m-form--fit m-form--label-align-right" id="user-save-form">
+        <form class="m-form m-form--fit m-form--label-align-right form-validation" action="{{ctx}}/sys/user/" method="post" id="user-save-form">
             <div class="m-portlet__body">
                 <div class="m-form__content">
 
@@ -54,6 +54,7 @@
                              value="{{user&&user.orgId}}" labelName="orgName"
                              labelValue="{{user&&user.orgName}}" title="选择组织"
                              url="{{ctx}}/sys/org/findTreeData" ></alb-tree-select>
+
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
@@ -70,13 +71,13 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
-                        密码 {{user.id?'*':''}}
+                        密码 {{user.id==null?'*':''}}
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
                         <input id="newPassword" name="password" type="password" value=""
                                htmlEscape="false" maxlength="64"
-                               class="form-control {{user.id?'required':''}}"/>
-                        <span class="m-form__help {{user.id?'hide':''}}">
+                               class="form-control {{user.id==null?'required':''}}"/>
+                        <span class="m-form__help {{user.id==null?'hide':''}}">
 							若不修改密码，请留空
 						</span>
                     </div>
@@ -114,7 +115,7 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
-                        状态
+                        状态 *
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
                         <alb-form boxType="radio"
@@ -127,11 +128,10 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
-                        角色
+                        角色 *
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
-                        <alb-form name="roleIdList"
-                        cssClass="required" url="{{ctx}}/sys/role/comboData" boxType="checkbox"
+                        <alb-form name="roleIdList" id="roleIdList" url="{{ctx}}/sys/role/comboData" boxType="checkbox"
                         value="{{user.roleIdList}}"> </alb-form>
                     </div>
                 </div>
@@ -149,12 +149,13 @@
                 <div class="m-form__actions m-form__actions">
                     <div class="row">
                         <div class="col-lg-9 ml-lg-auto">
-                            <button type="submit" class="btn btn-success">
-                                Validate
+                            <button type="button" class="btn btn-success save">
+                                <i class="fa fa-check"></i> 保存
                             </button>
                             <button type="reset" class="btn btn-secondary">
-                                Cancel
+                                重置
                             </button>
+                            <button type="button" class="btn list" data-table-id="#data-table-user">返回</button>
                         </div>
                     </div>
                 </div>

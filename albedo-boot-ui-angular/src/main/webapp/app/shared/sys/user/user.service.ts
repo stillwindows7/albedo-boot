@@ -5,6 +5,7 @@ import {SERVER_API_URL} from "../../../app.constants";
 import {User} from "./user.model";
 import {DataService} from "../../base/service/data.service";
 
+import {convertResponse} from "../../base/request-util";
 
 @Injectable()
 export class UserService extends DataService<User> {

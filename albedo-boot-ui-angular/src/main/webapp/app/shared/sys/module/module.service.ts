@@ -6,6 +6,7 @@ import {ResponseWrapper} from "../../base/model/response-wrapper.model";
 import {DataService} from "../../base/service/data.service";
 import {Module} from "./module.model";
 import {createRequestOption} from "../../";
+import {convertResponse} from "../../base/request-util";
 
 
 @Injectable()
@@ -18,12 +19,12 @@ export class ModuleService extends DataService<Module> {
 
     menus(): Observable<ResponseWrapper> {
         return this.http.get(this.resourceUrl + '/data', createRequestOption({type:'menu'}))
-            .map((res: Response) => this.convertResponse(res));
+            .map((res: Response) => convertResponse(res));
     }
 
     data(): Observable<ResponseWrapper> {
         return this.http.get(this.resourceUrl + '/data')
-            .map((res: Response) => this.convertResponse(res));
+            .map((res: Response) => convertResponse(res));
 
     }
 

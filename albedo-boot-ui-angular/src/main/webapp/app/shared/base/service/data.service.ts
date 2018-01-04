@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {Http, Response} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 import {ResponseWrapper} from "../../base/model/response-wrapper.model";
-import {createRequestOption} from "../../base/request-util";
 import {Data} from "../model/data.model";
+import {createRequestOption, convertResponse} from "../request-util";
 
 
 @Injectable()
@@ -13,7 +13,7 @@ export class DataService<T extends Data> {
 
     save(entity: T): Observable<ResponseWrapper> {
         return this.http.post(this.resourceUrl, entity)
-            .map((res: Response) => this.convertResponse(res));
+            .map((res: Response) => convertResponse(res));
     }
 
     find(id: string): Observable<T> {
@@ -23,15 +23,12 @@ export class DataService<T extends Data> {
     query(req?: any): Observable<ResponseWrapper> {
         const options = createRequestOption(req);
         return this.http.get(this.resourceUrl, options)
-            .map((res: Response) => this.convertResponse(res));
+            .map((res: Response) => convertResponse(res));
     }
 
     delete(id: string): Observable<Response> {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
-    convertResponse(res: Response): ResponseWrapper {
-        const jsonResponse = res.json();
-        return new ResponseWrapper(res.headers, jsonResponse, res.status);
-    }
+
 }
