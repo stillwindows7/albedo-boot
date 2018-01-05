@@ -4,6 +4,8 @@ import {DictQuery} from "../../../../shared/sys/dict/dict.query.model";
 import {SERVER_API_URL} from "../../../../app.constants";
 import {LocalStorageService, SessionStorageService} from "ngx-webstorage";
 import {Helpers} from "../../../../helpers";
+import {ResponseWrapper} from "../../../../shared/base/model/response-wrapper.model";
+import {Router} from "@angular/router";
 
 declare let datatable: any;
 @Component({
@@ -17,10 +19,12 @@ export class UserComponent implements OnInit, AfterViewInit {
     dictQueryStatus: DictQuery = new DictQuery("sys_status")
 
     constructor(private _script: ScriptLoaderService,
-                private localStorage: LocalStorageService,
+                private router: Router,
                 private sessionStorage: SessionStorageService) {
 
     }
+
+
 
     ngOnInit() {
     }
@@ -29,6 +33,10 @@ export class UserComponent implements OnInit, AfterViewInit {
         //     'assets/demo/default/custom/components/datatables/base/data-ajax.js');
         this.initTable()
         // Helpers.setBreadcrumbs();
+    }
+
+    routeLink (href: String, params?: any) {
+        this.router.navigate([href], { queryParams: params });
     }
 
     initTable(){
@@ -125,7 +133,7 @@ export class UserComponent implements OnInit, AfterViewInit {
                             "正常": {'title': 'Success', 'class': ' m-badge--success'},
                             "审核": {'title': 'Info', 'class': ' m-badge--info'},
                             "删除": {'title': 'Danger', 'class': ' m-badge--danger'},
-                            "停用": {'title': 'Warning', 'class': ' m-badge--warning'},
+                            "失效": {'title': 'Warning', 'class': ' m-badge--warning'},
                         };
                         return '<span class="m-badge ' + status[row.status].class + ' m-badge--wide">' + row.status + '</span>';
                     },
@@ -138,12 +146,12 @@ export class UserComponent implements OnInit, AfterViewInit {
                     title: '操作',
                     sortable: false,
                     overflow: 'visible',
-                    template: function () {
+                    template: function (row) {
                         return '\
-						<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">\
+						<a routerLink="/sys/user/form?id='+row.id+'" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">\
 							<i class="la la-edit"></i>\
 						</a>\
-						<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">\
+						<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">\
 							<i class="la la-trash"></i>\
 						</a>\
 					';

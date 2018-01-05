@@ -1,5 +1,4 @@
 var albedoForm = function () {
-    var self = this;
     var _treeSearchInputFocusKey = function ($key) {
         if ($key.hasClass("empty")) {
             $key.removeClass("empty");
@@ -696,10 +695,10 @@ var albedoForm = function () {
         $target.off('click', '.save').on('click', '.save', function () {
             var el = $(this), $form = $target.find('.form-validation'), validateFun = $form.attr("validateFun"),
                 flag = true;
-            if (self.validate($form)) {
+            if (doValidation($form)) {
                 albedo.isExitsFunction(validateFun) && eval("flag = " + validateFun + "()");
                 if (flag) {
-                    $target.modal('loading');
+                    // $target.modal('loading');
                     var url = $form.attr("action");
                     $.ajax({
                         url: url,
@@ -710,11 +709,11 @@ var albedoForm = function () {
                         contentType: "application/json; charset=utf-8",
                         timeout: 60000,
                         success: function (re) {
-                            self.alertDialog($target, re, el);
+                            alertDialog($target, re, el);
                         },
                         error: function (XMLHttpRequest, textStatus, errorThrown) {
                             console.log(errorThrown);
-                            self.alertDialog($target, null, el);
+                            alertDialog($target, null, el);
                         }
                     });
                 }
@@ -760,7 +759,7 @@ var albedoForm = function () {
         }
         if (!isForm) $modal.modal('hide');
         mApp.alert({
-            container: isForm ? $modal.find('#bootstrap-alerts') : el.parents(".portlet").find('#bootstrap-alerts'),
+            container: isForm ?  $modal.find('#bootstrap-alerts') : el.parents(".portlet").find('#bootstrap-alerts'),
             close: true,
             focus: true,
             type: alertType,
@@ -782,12 +781,12 @@ var albedoForm = function () {
             messages:{},
             //display error alert on form submit
             invalidHandler: function(event, validator) {
-                mApp.alert({
-                    container: '.m-form__content',
-                    type: 'warning',
-                    icon: 'warning',
-                    message: '验证失败'
-                });
+                // mApp.alert({
+                //     container: '.m-form__content',
+                //     type: 'warning',
+                //     icon: 'warning',
+                //     message: '验证失败'
+                // });
             },
             submitHandler: function (form) {
                 //form[0].submit(); // submit the form
@@ -819,6 +818,13 @@ var albedoForm = function () {
             });
             return validator;
         }
+    }
+
+    var doValidation = function($formTagert){
+        if ($formTagert && $formTagert.length > 0) {
+            return handleValidation($formTagert).form();
+        }
+        return validator && validator.form();
     }
 
     //* END:CORE HANDLERS *//
@@ -856,10 +862,7 @@ var albedoForm = function () {
             handleValidation($formTagert, options);
         },
         validate: function ($formTagert) {
-            if ($formTagert && $formTagert.length > 0) {
-                return handleValidation($formTagert).form();
-            }
-            return validator && validator.form();
+            return doValidation($formTagert);
         },
         //main function to initiate the theme
         init: function ($target) {
