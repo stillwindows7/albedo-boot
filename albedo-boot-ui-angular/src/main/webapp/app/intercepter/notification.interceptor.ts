@@ -1,8 +1,8 @@
-import { JhiAlertService, JhiHttpInterceptor } from 'ng-jhipster';
-import { RequestOptionsArgs, Response } from '@angular/http';
-import { Injector } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { MSG_TYPE_ERROR, MSG_TYPE_INFO, MSG_TYPE_SUCCESS, MSG_TYPE_WARNING } from "../app.constants";
+import {JhiAlertService, JhiHttpInterceptor} from 'ng-jhipster';
+import {RequestOptionsArgs, Response} from '@angular/http';
+import {Injector} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {MSG_TYPE_ERROR, MSG_TYPE_INFO, MSG_TYPE_SUCCESS, MSG_TYPE_WARNING} from "../app.constants";
 
 export class NotificationInterceptor extends JhiHttpInterceptor {
 
@@ -32,7 +32,7 @@ export class NotificationInterceptor extends JhiHttpInterceptor {
                 if (typeof alertKey === 'string') {
                     if (this.alertService) {
                         const alertParam = headers.length >= 2 ? response.headers.get(headers[1]) : null;
-                        this.alertService.success(alertKey, { param: alertParam }, null);
+                        this.alertService.success(alertKey, {param: alertParam}, null);
                     }
                 }
             }

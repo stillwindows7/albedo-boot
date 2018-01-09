@@ -33,24 +33,24 @@ $.fn.serializeObject = function () {
     var o = {};
     var a = this.serializeArray();
     $.each(a, function () {
-        var name = this.name,tempObj = o[name],val = this.value || '',
-            startIndex= name.indexOf('['), endIndex = name.indexOf(']');
-        if(startIndex!=-1 && endIndex!=-1){
+        var name = this.name, tempObj = o[name], val = this.value || '',
+            startIndex = name.indexOf('['), endIndex = name.indexOf(']');
+        if (startIndex != -1 && endIndex != -1) {
             var prefix = name.substr(0, startIndex);
             tempObj = o[prefix];
             if (!tempObj) {
                 tempObj = []
             }
-            var subName = name.substring(endIndex+2),index = name.substring(startIndex+1,endIndex);
-            if(tempObj[index]){
+            var subName = name.substring(endIndex + 2), index = name.substring(startIndex + 1, endIndex);
+            if (tempObj[index]) {
                 tempObj[index][subName] = val;
-            }else{
+            } else {
                 var temp = {};
                 temp[subName] = val;
                 tempObj.push(temp);
             }
             o[prefix] = tempObj;
-        }else{
+        } else {
             if (tempObj) {
                 if (!tempObj.push) {
                     tempObj = [tempObj];
@@ -67,8 +67,8 @@ $.fn.serializeObject = function () {
 };
 
 var albedoConstants = {
-    ctx:'/api',
-    token:null,
+    ctx: '/api',
+    token: null,
 };
 var albedo = {
     language: {
@@ -369,7 +369,7 @@ var albedo = {
                     if (_json.operate == "between") {
                         var endValue = $("input[for-date='" + $(this).attr("name") + "']").val();
                         _json.endValue = endValue ? ($(this)
-                            .attr("format") != "yyyy-MM-dd HH:mm:ss" ? endValue.replaceAll(" ", "") : endValue)
+                                .attr("format") != "yyyy-MM-dd HH:mm:ss" ? endValue.replaceAll(" ", "") : endValue)
                             : undefined;
                         if (!_json.endValue)
                             return true;

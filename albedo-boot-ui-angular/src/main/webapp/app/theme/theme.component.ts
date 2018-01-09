@@ -1,16 +1,17 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router, NavigationStart, NavigationEnd } from '@angular/router';
-import { Helpers } from '../helpers';
-import { ScriptLoaderService } from '../shared/base/service/script-loader.service';
-import { ModuleService } from "../shared/sys/module/module.service";
-import { Module } from "../shared/sys/module/module.model";
-import { ResponseWrapper } from "../shared/base/model/response-wrapper.model";
-import { SERVER_API_URL } from "../app.constants";
-import { LocalStorageService, SessionStorageService } from "ngx-webstorage";
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {NavigationEnd, NavigationStart, Router} from '@angular/router';
+import {Helpers} from '../helpers';
+import {ScriptLoaderService} from '../shared/base/service/script-loader.service';
+import {ModuleService} from "../shared/sys/module/module.service";
+import {Module} from "../shared/sys/module/module.model";
+import {ResponseWrapper} from "../shared/base/model/response-wrapper.model";
+import {SERVER_API_URL} from "../app.constants";
+import {LocalStorageService, SessionStorageService} from "ngx-webstorage";
 
 declare let mApp: any;
 declare let mUtil: any;
 declare let mLayout: any;
+
 @Component({
     selector: ".m-grid.m-grid--hor.m-grid--root.m-page",
     templateUrl: "./theme.component.html",
@@ -22,12 +23,13 @@ export class ThemeComponent implements OnInit {
 
 
     constructor(private scriptLoaderService: ScriptLoaderService,
-        private moduleService: ModuleService,
-        private router: Router,
-        private localStorage: LocalStorageService,
-        private sessionStorage: SessionStorageService) {
+                private moduleService: ModuleService,
+                private router: Router,
+                private localStorage: LocalStorageService,
+                private sessionStorage: SessionStorageService) {
 
     }
+
     ngOnInit() {
         this.moduleService.data().subscribe(
             (res: ResponseWrapper) => {
@@ -67,7 +69,7 @@ export class ThemeComponent implements OnInit {
                 Helpers.setLoading(false);
                 // content m-wrapper animation
                 let animation = 'm-animate-fade-in-up';
-                $('.m-wrapper').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(e) {
+                $('.m-wrapper').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function (e) {
                     $('.m-wrapper').removeClass(animation);
                 }).removeClass(animation).addClass(animation);
                 this.initBreadcrumbs(route);
@@ -84,10 +86,10 @@ export class ThemeComponent implements OnInit {
         let thiz = this;
         if (thiz.modules) {
             var breadcrumbs = [];
-            thiz.getModules(function(module) {
+            thiz.getModules(function (module) {
                 if (module.url == navigationEnd.url || module.url.indexOf(navigationEnd.url) != -1) {
-                    module.parentIds.split(",").forEach(function(item) {
-                        item && thiz.getModules(function(temp) {
+                    module.parentIds.split(",").forEach(function (item) {
+                        item && thiz.getModules(function (temp) {
                             if (item == temp.id) {
                                 breadcrumbs.push({
                                     text: temp.name,

@@ -84,7 +84,7 @@ var albedoForm = function () {
                 }
             },
             check: {enable: checked, nocheckInherit: true},
-            data: {key:{name:'label'},simpleData: {enable: true,idKey:'id',pIdKey: 'pid'}},
+            data: {key: {name: 'label'}, simpleData: {enable: true, idKey: 'id', pIdKey: 'pid'}},
             callback: {
                 beforeClick: function (treeId, treeNode) {
                     if (allowCancelSelect && tree && tree.getSelectedNodes()[0] && tree.getSelectedNodes()[0].id == treeNode.id) {
@@ -144,7 +144,7 @@ var albedoForm = function () {
                 }
                 var zNodes = rs.data;
                 tree = $.fn.zTree.init($thiz, setting, zNodes);
-                if (nodesLevel)for (var i = 0; i < nodesLevel; i++) {
+                if (nodesLevel) for (var i = 0; i < nodesLevel; i++) {
                     var nodes = tree.getNodesByParam("level", i);
                     for (var j = 0; j < nodes.length; j++) {
                         tree.expandNode(nodes[j], true, false, true);
@@ -218,8 +218,8 @@ var albedoForm = function () {
         if (name && name.indexOf(".") != -1) name = name.replace(".", "-");
 
         var html = '<div id="' + name + 'TreeModal" class="modal fade" tabindex="-1" data-focus-on="input:first">' +
-            '<div class="modal-dialog modal-sm" role="document">'+
-            '<div class="modal-content">'+
+            '<div class="modal-dialog modal-sm" role="document">' +
+            '<div class="modal-content">' +
             '<div class="modal-header">' +
             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>' +
             '<h4 class="modal-title">' + (title ? title : "数据选择") + '</h4>' +
@@ -248,7 +248,7 @@ var albedoForm = function () {
         var $modal = $(html), lastValue = "", nodeList = [];
         var setting = {
             check: {enable: checked, nocheckInherit: true},
-            data: {key:{name:'label'},simpleData: {enable: true,idKey:'id',pIdKey: 'pid'}},
+            data: {key: {name: 'label'}, simpleData: {enable: true, idKey: 'id', pIdKey: 'pid'}},
             view: {
                 selectedMulti: false,
                 fontCss: function (treeId, treeNode) {
@@ -357,7 +357,7 @@ var albedoForm = function () {
                     t_node = t_node.getParentNode();
                 } while (name_l < nameLevel);
                 names.push(t_name);
-                if (checked != "true")break; // 如果为非复选框选择，则返回第一个选择
+                if (checked != "true") break; // 如果为非复选框选择，则返回第一个选择
             }
             $thizVal.val(ids);
             $thiz.val(names);
@@ -690,8 +690,8 @@ var albedoForm = function () {
         });
     };
 
-    var handleSave = function ($target){
-        var $target=$target || $(".m-content");
+    var handleSave = function ($target) {
+        var $target = $target || $(".m-content");
         $target.off('click', '.save').on('click', '.save', function () {
             var el = $(this), $form = $target.find('.form-validation'), validateFun = $form.attr("validateFun"),
                 flag = true;
@@ -722,7 +722,7 @@ var albedoForm = function () {
     }
 
 
-    var alertDialog = function($modal, re, el) {
+    var alertDialog = function ($modal, re, el) {
         var alertType = "warning", icon = "warning", isModal = el && el.data("is-modal") == true;
         try {
             $modal.modal('removeLoading');
@@ -759,7 +759,7 @@ var albedoForm = function () {
         }
         if (!isForm) $modal.modal('hide');
         mApp.alert({
-            container: isForm ?  $modal.find('#bootstrap-alerts') : el.parents(".portlet").find('#bootstrap-alerts'),
+            container: isForm ? $modal.find('#bootstrap-alerts') : el.parents(".portlet").find('#bootstrap-alerts'),
             close: true,
             focus: true,
             type: alertType,
@@ -778,9 +778,9 @@ var albedoForm = function () {
         config = $.extend(true, {
             // define validation rules
             rules: {},
-            messages:{},
+            messages: {},
             //display error alert on form submit
-            invalidHandler: function(event, validator) {
+            invalidHandler: function (event, validator) {
                 // mApp.alert({
                 //     container: '.m-form__content',
                 //     type: 'warning',
@@ -820,7 +820,7 @@ var albedoForm = function () {
         }
     }
 
-    var doValidation = function($formTagert){
+    var doValidation = function ($formTagert) {
         if ($formTagert && $formTagert.length > 0) {
             return handleValidation($formTagert).form();
         }
@@ -850,11 +850,11 @@ var albedoForm = function () {
             handleFileUpload($target);
         },
 
-        initSave: function($target){
+        initSave: function ($target) {
             handleSave($target)
         },
 
-        alertDialog: function($modal, re, el){
+        alertDialog: function ($modal, re, el) {
             alertDialog($modal, re, el);
         },
         // main function to initiate the module

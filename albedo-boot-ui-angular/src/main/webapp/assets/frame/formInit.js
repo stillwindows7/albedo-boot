@@ -10,12 +10,12 @@ var BootstrapSelect = function () {
 
     return {
         // public functions
-        init: function() {
+        init: function () {
             selects();
         }
     };
 }();
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     BootstrapSelect.init();
 });

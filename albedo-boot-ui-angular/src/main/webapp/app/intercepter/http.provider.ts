@@ -1,22 +1,20 @@
-import { JhiEventManager, JhiInterceptableHttp } from 'ng-jhipster';
-import { Injector } from '@angular/core';
-import { Http, XHRBackend, RequestOptions } from '@angular/http';
+import {JhiEventManager, JhiInterceptableHttp} from 'ng-jhipster';
+import {Injector} from '@angular/core';
+import {Http, RequestOptions, XHRBackend} from '@angular/http';
 
-import { AuthInterceptor } from './auth.interceptor';
-import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
-import { AuthExpiredInterceptor } from './auth-expired.interceptor';
-import { ErrorHandlerInterceptor } from './errorhandler.interceptor';
-import { NotificationInterceptor } from './notification.interceptor';
+import {AuthInterceptor} from './auth.interceptor';
+import {LocalStorageService, SessionStorageService} from 'ngx-webstorage';
+import {AuthExpiredInterceptor} from './auth-expired.interceptor';
+import {ErrorHandlerInterceptor} from './errorhandler.interceptor';
+import {NotificationInterceptor} from './notification.interceptor';
 
 
-export function interceptableFactory(
-    backend: XHRBackend,
-    defaultOptions: RequestOptions,
-    localStorage: LocalStorageService,
-    sessionStorage: SessionStorageService,
-    injector: Injector,
-    eventManager: JhiEventManager
-) {
+export function interceptableFactory(backend: XHRBackend,
+                                     defaultOptions: RequestOptions,
+                                     localStorage: LocalStorageService,
+                                     sessionStorage: SessionStorageService,
+                                     injector: Injector,
+                                     eventManager: JhiEventManager) {
     return new JhiInterceptableHttp(
         backend,
         defaultOptions,

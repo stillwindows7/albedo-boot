@@ -1,5 +1,5 @@
-import { URLSearchParams, BaseRequestOptions, Response } from '@angular/http';
-import { ResponseWrapper } from "./model/response-wrapper.model";
+import {BaseRequestOptions, Response} from '@angular/http';
+import {ResponseWrapper} from "./model/response-wrapper.model";
 
 export const createRequestOption = (req?: any): BaseRequestOptions => {
     const options: BaseRequestOptions = new BaseRequestOptions();

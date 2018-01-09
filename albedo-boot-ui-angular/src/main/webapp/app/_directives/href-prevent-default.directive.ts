@@ -1,9 +1,9 @@
-import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
+import {AfterViewInit, Directive, ElementRef, Input} from '@angular/core';
 
 
 @Directive({
     selector: "[href]",
-    host: { '(click)': 'preventDefault($event)' },
+    host: {'(click)': 'preventDefault($event)'},
 })
 export class HrefPreventDefaultDirective implements AfterViewInit {
     @Input() href: string;
@@ -11,9 +11,11 @@ export class HrefPreventDefaultDirective implements AfterViewInit {
     constructor(private el: ElementRef) {
 
     }
+
     ngAfterViewInit() {
 
     }
+
     preventDefault(event) {
         if (this.href.length === 0 || this.href === '#') {
             event.preventDefault();

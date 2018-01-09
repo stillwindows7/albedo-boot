@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, Directive, Input, OnInit } from '@angular/core';
-import { ComboSearch } from "../base/model/combo.search.model";
-import { DictService } from "../sys/dict/dict.service";
-import { DictQuery } from "../sys/dict/dict.query.model";
-import { ComboData } from "../base/model/combo.data.model";
-import { ResponseWrapper } from "../base/model/response-wrapper.model";
-import { Http, Response } from "@angular/http";
-import { createRequestOption, convertResponse } from "../base/request-util";
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {ComboSearch} from "../base/model/combo.search.model";
+import {DictService} from "../sys/dict/dict.service";
+import {DictQuery} from "../sys/dict/dict.query.model";
+import {ComboData} from "../base/model/combo.data.model";
+import {ResponseWrapper} from "../base/model/response-wrapper.model";
+import {Http, Response} from "@angular/http";
+import {convertResponse, createRequestOption} from "../base/request-util";
 
 @Component({
     selector: "alb-form",
@@ -58,7 +58,6 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
     constructor(protected http: Http, private dictService: DictService) {
 
 
-
     }
 
     ngOnInit(): void {
@@ -77,7 +76,7 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
                     this.comboData = res.json.data;
                     this.initTags();
                 }
-                )
+            )
         }
 
     }

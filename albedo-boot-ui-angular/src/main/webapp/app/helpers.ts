@@ -3,7 +3,7 @@ import * as $ from "jquery";
 export class Helpers {
     static loadStyles(tag, src) {
         if (Array.isArray(src)) {
-            $.each(src, function(k, s) {
+            $.each(src, function (k, s) {
                 $(tag).append($('<link/>').attr('href', s).attr('rel', 'stylesheet').attr('type', 'text/css'));
             });
         } else {
@@ -15,18 +15,18 @@ export class Helpers {
         $(element).removeAttr('appunwraptag').unwrap();
     }
 
-	/**
-	 * Set title markup
-	 * @param title
-	 */
+    /**
+     * Set title markup
+     * @param title
+     */
     static setTitle(title) {
         $('.m-subheader__title').text(title);
     }
 
-	/**
-	 * Breadcrumbs markup
-	 * @param breadcrumbs
-	 */
+    /**
+     * Breadcrumbs markup
+     * @param breadcrumbs
+     */
     static setBreadcrumbs(breadcrumbs) {
         if (breadcrumbs) $('.m-subheader__title').addClass('m-subheader__title--separator');
 
@@ -40,7 +40,7 @@ export class Helpers {
         }
 
         $(ul).find('li:not(:first-child)').remove();
-        $.each(breadcrumbs, function(k, v) {
+        $.each(breadcrumbs, function (k, v) {
             let li = $('<li/>').addClass('m-nav__item')
                 .append($('<a/>').addClass('m-nav__link m-nav__link--icon').attr('routerLink', v.href).attr('title', v.title)
                     .append($('<span/>').addClass('m-nav__link-text').text(v.text)));

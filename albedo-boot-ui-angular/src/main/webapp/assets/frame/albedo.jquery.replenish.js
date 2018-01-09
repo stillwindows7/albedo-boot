@@ -1,4 +1,3 @@
-
 (function ($) {
     $(document).ajaxSend(function (event, jqxhr, settings) {
         // $.blockUI({

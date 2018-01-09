@@ -1,8 +1,7 @@
-import { NgModule } from '@angular/core';
-import { AlbedoBootSharedLibsModule } from "./shared-libs.module";
-import { AlbFormComponent, AlbTreeSelectComponent } from "./";
-import { DictService } from "./sys/dict/dict.service";
-
+import {NgModule} from '@angular/core';
+import {AlbedoBootSharedLibsModule} from "./shared-libs.module";
+import {AlbFormComponent, AlbTreeSelectComponent} from "./";
+import {DictService} from "./sys/dict/dict.service";
 
 
 @NgModule({
@@ -25,4 +24,5 @@ import { DictService } from "./sys/dict/dict.service";
     ]
 
 })
-export class AlbedoBootSharedCommonModule { }
+export class AlbedoBootSharedCommonModule {
+}

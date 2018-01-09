@@ -1,8 +1,8 @@
 //== Class definition
-var Dashboard = function() {
+var Dashboard = function () {
 
     //== Sparkline Chart helper function
-    var _initSparklineChart = function(src, data, color, border) {
+    var _initSparklineChart = function (src, data, color, border) {
         if (src.length == 0) {
             return;
         }
@@ -94,7 +94,7 @@ var Dashboard = function() {
 
     //== Daily Sales chart.
     //** Based on Chartjs plugin - http://www.chartjs.org/
-    var dailySales = function() {
+    var dailySales = function () {
         var chartData = {
             labels: ["Label 1", "Label 2", "Label 3", "Label 4", "Label 5", "Label 6", "Label 7", "Label 8", "Label 9", "Label 10", "Label 11", "Label 12", "Label 13", "Label 14", "Label 15", "Label 16"],
             datasets: [{
@@ -164,19 +164,19 @@ var Dashboard = function() {
 
     //== Profit Share Chart.
     //** Based on Chartist plugin - https://gionkunz.github.io/chartist-js/index.html
-    var profitShare = function() {
+    var profitShare = function () {
         if ($('#m_chart_profit_share').length == 0) {
             return;
         }
 
         var chart = new Chartist.Pie('#m_chart_profit_share', {
             series: [{
-                    value: 32,
-                    className: 'custom',
-                    meta: {
-                        color: mUtil.getColor('brand')
-                    }
-                },
+                value: 32,
+                className: 'custom',
+                meta: {
+                    color: mUtil.getColor('brand')
+                }
+            },
                 {
                     value: 32,
                     className: 'custom',
@@ -199,7 +199,7 @@ var Dashboard = function() {
             showLabel: false
         });
 
-        chart.on('draw', function(data) {
+        chart.on('draw', function (data) {
             if (data.type === 'slice') {
                 // Get the total path length in order to use for dash array animation
                 var pathLength = data.element._node.getTotalLength();
@@ -242,7 +242,7 @@ var Dashboard = function() {
         });
 
         // For the sake of the example we update the chart every time it's created with a delay of 8 seconds
-        chart.on('created', function() {
+        chart.on('created', function () {
             if (window.__anim21278907124) {
                 clearTimeout(window.__anim21278907124);
                 window.__anim21278907124 = null;
@@ -253,7 +253,7 @@ var Dashboard = function() {
 
     //== Sales Stats.
     //** Based on Chartjs plugin - http://www.chartjs.org/
-    var salesStats = function() {
+    var salesStats = function () {
         if ($('#m_chart_sales_stats').length == 0) {
             return;
         }
@@ -342,7 +342,7 @@ var Dashboard = function() {
 
     //== Sales By mUtillication Stats.
     //** Based on Chartjs plugin - http://www.chartjs.org/
-    var salesBymUtils = function() {
+    var salesBymUtils = function () {
         // Init chart instances
         _initSparklineChart($('#m_chart_sales_by_apps_1_1'), [10, 20, -5, 8, -20, -2, -4, 15, 5, 8], mUtil.getColor('accent'), 2);
         _initSparklineChart($('#m_chart_sales_by_apps_1_2'), [2, 16, 0, 12, 22, 5, -10, 5, 15, 2], mUtil.getColor('danger'), 2);
@@ -357,7 +357,7 @@ var Dashboard = function() {
 
     //== Latest Updates.
     //** Based on Chartjs plugin - http://www.chartjs.org/
-    var latestUpdates = function() {
+    var latestUpdates = function () {
         if ($('#m_chart_latest_updates').length == 0) {
             return;
         }
@@ -440,7 +440,7 @@ var Dashboard = function() {
 
     //== Trends Stats.
     //** Based on Chartjs plugin - http://www.chartjs.org/
-    var trendsStats = function() {
+    var trendsStats = function () {
         if ($('#m_chart_trends_stats').length == 0) {
             return;
         }
@@ -544,7 +544,7 @@ var Dashboard = function() {
 
     //== Trends Stats 2.
     //** Based on Chartjs plugin - http://www.chartjs.org/
-    var trendsStats2 = function() {
+    var trendsStats2 = function () {
         if ($('#m_chart_trends_stats_2').length == 0) {
             return;
         }
@@ -644,7 +644,7 @@ var Dashboard = function() {
 
     //== Trends Stats.
     //** Based on Chartjs plugin - http://www.chartjs.org/
-    var latestTrendsMap = function() {
+    var latestTrendsMap = function () {
         if ($('#m_chart_latest_trends_map').length == 0) {
             return;
         }
@@ -662,7 +662,7 @@ var Dashboard = function() {
 
     //== Revenue Change.
     //** Based on Morris plugin - http://morrisjs.github.io/morris.js/
-    var revenueChange = function() {
+    var revenueChange = function () {
         if ($('#m_chart_revenue_change').length == 0) {
             return;
         }
@@ -670,9 +670,9 @@ var Dashboard = function() {
         Morris.Donut({
             element: 'm_chart_revenue_change',
             data: [{
-                    label: "New York",
-                    value: 10
-                },
+                label: "New York",
+                value: 10
+            },
                 {
                     label: "London",
                     value: 7
@@ -692,7 +692,7 @@ var Dashboard = function() {
 
     //== Support Tickets Chart.
     //** Based on Morris plugin - http://morrisjs.github.io/morris.js/
-    var supportTickets = function() {
+    var supportTickets = function () {
         if ($('#m_chart_support_tickets').length == 0) {
             return;
         }
@@ -700,9 +700,9 @@ var Dashboard = function() {
         Morris.Donut({
             element: 'm_chart_support_tickets',
             data: [{
-                    label: "Margins",
-                    value: 20
-                },
+                label: "Margins",
+                value: 20
+            },
                 {
                     label: "Profit",
                     value: 70
@@ -724,19 +724,19 @@ var Dashboard = function() {
 
     //== Support Tickets Chart.
     //** Based on Morris plugin - http://morrisjs.github.io/morris.js/
-    var supportTickets2 = function() {
+    var supportTickets2 = function () {
         if ($('#m_chart_support_tickets2').length == 0) {
             return;
         }
 
         var chart = new Chartist.Pie('#m_chart_support_tickets2', {
             series: [{
-                    value: 32,
-                    className: 'custom',
-                    meta: {
-                        color: mUtil.getColor('brand')
-                    }
-                },
+                value: 32,
+                className: 'custom',
+                meta: {
+                    color: mUtil.getColor('brand')
+                }
+            },
                 {
                     value: 32,
                     className: 'custom',
@@ -759,7 +759,7 @@ var Dashboard = function() {
             showLabel: false
         });
 
-        chart.on('draw', function(data) {
+        chart.on('draw', function (data) {
             if (data.type === 'slice') {
                 // Get the total path length in order to use for dash array animation
                 var pathLength = data.element._node.getTotalLength();
@@ -804,7 +804,7 @@ var Dashboard = function() {
 
     //== Activities Charts.
     //** Based on Chartjs plugin - http://www.chartjs.org/
-    var activitiesChart = function() {
+    var activitiesChart = function () {
         if ($('#m_chart_activities').length == 0) {
             return;
         }
@@ -898,7 +898,7 @@ var Dashboard = function() {
 
     //== Bandwidth Charts 1.
     //** Based on Chartjs plugin - http://www.chartjs.org/
-    var bandwidthChart1 = function() {
+    var bandwidthChart1 = function () {
         if ($('#m_chart_bandwidth1').length == 0) {
             return;
         }
@@ -992,7 +992,7 @@ var Dashboard = function() {
 
     //== Bandwidth Charts 2.
     //** Based on Chartjs plugin - http://www.chartjs.org/
-    var bandwidthChart2 = function() {
+    var bandwidthChart2 = function () {
         if ($('#m_chart_bandwidth2').length == 0) {
             return;
         }
@@ -1086,7 +1086,7 @@ var Dashboard = function() {
 
     //== Bandwidth Charts 2.
     //** Based on Chartjs plugin - http://www.chartjs.org/
-    var adWordsStat = function() {
+    var adWordsStat = function () {
         if ($('#m_chart_adwords_stats').length == 0) {
             return;
         }
@@ -1192,7 +1192,7 @@ var Dashboard = function() {
 
     //== Bandwidth Charts 2.
     //** Based on Chartjs plugin - http://www.chartjs.org/
-    var financeSummary = function() {
+    var financeSummary = function () {
         if ($('#m_chart_finance_summary').length == 0) {
             return;
         }
@@ -1280,14 +1280,14 @@ var Dashboard = function() {
     }
 
     //== Quick Stat Charts
-    var quickStats = function() {
+    var quickStats = function () {
         _initSparklineChart($('#m_chart_quick_stats_1'), [10, 14, 18, 11, 9, 12, 14, 17, 18, 14], mUtil.getColor('brand'), 3);
         _initSparklineChart($('#m_chart_quick_stats_2'), [11, 12, 18, 13, 11, 12, 15, 13, 19, 15], mUtil.getColor('danger'), 3);
         _initSparklineChart($('#m_chart_quick_stats_3'), [12, 12, 18, 11, 15, 12, 13, 16, 11, 18], mUtil.getColor('success'), 3);
         _initSparklineChart($('#m_chart_quick_stats_4'), [11, 9, 13, 18, 13, 15, 14, 13, 18, 15], mUtil.getColor('accent'), 3);
     }
 
-    var daterangepickerInit = function() {
+    var daterangepickerInit = function () {
         if ($('#m_dashboard_daterangepicker').length == 0) {
             return;
         }
@@ -1331,7 +1331,7 @@ var Dashboard = function() {
         cb(start, end, '');
     }
 
-    var datatableLatestOrders = function() {
+    var datatableLatestOrders = function () {
         if ($('#m_datatable_latest_orders').length === 0) {
             return;
         }
@@ -1399,7 +1399,7 @@ var Dashboard = function() {
                 title: "Status",
                 width: 100,
                 // callback function support for column rendering
-                template: function(row) {
+                template: function (row) {
                     var status = {
                         1: {
                             'title': 'Pending',
@@ -1437,7 +1437,7 @@ var Dashboard = function() {
                 title: "Type",
                 width: 100,
                 // callback function support for column rendering
-                template: function(row) {
+                template: function (row) {
                     var status = {
                         1: {
                             'title': 'Online',
@@ -1460,7 +1460,7 @@ var Dashboard = function() {
                 title: "Actions",
                 sortable: false,
                 overflow: 'visible',
-                template: function(row) {
+                template: function (row) {
                     var dropup = (row.getDatatable().getPageSize() - row.getIndex()) <= 4 ? 'dropup' : '';
 
                     return '\
@@ -1486,11 +1486,11 @@ var Dashboard = function() {
         });
     }
 
-    var calendarInit = function() {
+    var calendarInit = function () {
         if ($('#m_calendar').length === 0) {
             return;
         }
-        
+
         var todayDate = moment().startOf('day');
         var YM = todayDate.format('YYYY-MM');
         var YESTERDAY = todayDate.clone().subtract(1, 'day').format('YYYY-MM-DD');
@@ -1515,7 +1515,7 @@ var Dashboard = function() {
                     className: "m-fc-event--light m-fc-event--solid-warning"
                 },
                 {
-                    title: 'Conference',                    
+                    title: 'Conference',
                     description: 'Lorem ipsum dolor incid idunt ut labore',
                     start: moment('2017-08-29T13:30:00'),
                     end: moment('2017-08-29T17:30:00'),
@@ -1534,7 +1534,7 @@ var Dashboard = function() {
                     className: "m-fc-event--danger m-fc-event--solid-focus"
                 },
                 {
-                    title: 'Reporting',                    
+                    title: 'Reporting',
                     description: 'Lorem ipsum dolor incid idunt ut labore',
                     start: moment('2017-09-03T13:30:00'),
                     end: moment('2017-09-04T17:30:00'),
@@ -1628,7 +1628,7 @@ var Dashboard = function() {
                 }
             ],
 
-            eventRender: function(event, element) {
+            eventRender: function (event, element) {
                 if (element.hasClass('fc-day-grid-event')) {
                     element.data('content', event.description);
                     element.data('placement', 'top');
@@ -1644,7 +1644,7 @@ var Dashboard = function() {
 
     return {
         //== Init demos
-        init: function() {
+        init: function () {
             // init charts
             dailySales();
             profitShare();
@@ -1677,6 +1677,6 @@ var Dashboard = function() {
 }();
 
 //== Class initialization on page load
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     Dashboard.init();
 });

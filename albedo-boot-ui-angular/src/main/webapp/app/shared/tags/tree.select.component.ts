@@ -1,10 +1,5 @@
-import { AfterViewInit, Component, Directive, Input, OnInit } from '@angular/core';
-import { ComboSearch } from "../base/model/combo.search.model";
-import { DictService } from "../sys/dict/dict.service";
-import { DictQuery } from "../sys/dict/dict.query.model";
-import { ComboData } from "../base/model/combo.data.model";
-import { ResponseWrapper } from "../base/model/response-wrapper.model";
-import { ScriptLoaderService } from "../base/service/script-loader.service";
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {DictService} from "../sys/dict/dict.service";
 
 @Component({
     selector: "alb-tree-select",

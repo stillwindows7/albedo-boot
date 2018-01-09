@@ -1,6 +1,7 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 
-import { UserModule } from "./sys/user/user.module";
+import {UserModule} from "./sys/user/user.module";
+
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -13,4 +14,5 @@ import { UserModule } from "./sys/user/user.module";
     providers: [],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AlbedoBootEntityModule { }
+export class AlbedoBootEntityModule {
+}
