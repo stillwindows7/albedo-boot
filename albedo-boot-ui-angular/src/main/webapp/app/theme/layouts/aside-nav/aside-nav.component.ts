@@ -1,11 +1,11 @@
-import {AfterContentInit, AfterViewInit, Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Module} from "../../../shared/sys/module/module.model";
-import {ModuleService} from "../../../shared/sys/module/module.service";
-import {JhiAlertService, JhiEventManager, JhiParseLinks} from "ng-jhipster";
-import {Principal} from "../../../auth/_services/principal.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ResponseWrapper} from "../../../shared/base/model/response-wrapper.model";
-import {Helpers} from "../../../helpers";
+import { AfterContentInit, AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Module } from "../../../shared/sys/module/module.model";
+import { ModuleService } from "../../../shared/sys/module/module.service";
+import { JhiAlertService, JhiEventManager, JhiParseLinks } from "ng-jhipster";
+import { Principal } from "../../../auth/_services/principal.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ResponseWrapper } from "../../../shared/base/model/response-wrapper.model";
+import { Helpers } from "../../../helpers";
 
 declare let mLayout: any;
 @Component({
@@ -34,7 +34,7 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.afterViewInit=true;
+        this.afterViewInit = true;
 
     }
 
@@ -43,7 +43,7 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
             return item.parentId == id;
         });
     }
-    private initMenuData(){
+    private initMenuData() {
         this.menusData = [];
         this.menus.forEach(item => {
             if (item.menuTop) {
@@ -56,19 +56,19 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
                 });
             }
         });
-        setTimeout(function(){
+        setTimeout(function() {
             mLayout.initAside();
             let menu = mLayout.getAsideMenu();
             let item = $(menu).find('a[href="' + window.location.pathname + '"]').parent('.m-menu__item');
-            if(item.length<1){
+            if (item.length < 1) {
 
             }
             (<any>$(menu).data('menu')).setActiveItem(item);
-        },100);
+        }, 100);
     }
 
     private initMenuNav() {
-        if (this.menus == null || $("#m_ver_menu .m-menu__nav").length>0) return;
+        if (this.menus == null || $("#m_ver_menu .m-menu__nav").length > 0) return;
 
         let $menuUl = $("<ul class=\"m-menu__nav  m-menu__nav--dropdown-submenu-arrow\" />");
         this.menus.forEach(item => {

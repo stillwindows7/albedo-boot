@@ -1,10 +1,10 @@
-import {AfterViewInit, Component, Directive, Input, OnInit} from '@angular/core';
-import {ComboSearch} from "../base/model/combo.search.model";
-import {DictService} from "../sys/dict/dict.service";
-import {DictQuery} from "../sys/dict/dict.query.model";
-import {ComboData} from "../base/model/combo.data.model";
-import {ResponseWrapper} from "../base/model/response-wrapper.model";
-import {ScriptLoaderService} from "../base/service/script-loader.service";
+import { AfterViewInit, Component, Directive, Input, OnInit } from '@angular/core';
+import { ComboSearch } from "../base/model/combo.search.model";
+import { DictService } from "../sys/dict/dict.service";
+import { DictQuery } from "../sys/dict/dict.query.model";
+import { ComboData } from "../base/model/combo.data.model";
+import { ResponseWrapper } from "../base/model/response-wrapper.model";
+import { ScriptLoaderService } from "../base/service/script-loader.service";
 
 @Component({
     selector: "alb-tree-select",
@@ -12,29 +12,29 @@ import {ScriptLoaderService} from "../base/service/script-loader.service";
 })
 export class AlbTreeSelectComponent implements OnInit, AfterViewInit {
 
-    @Input()id?: string;
-    @Input()name?: string; //隐藏域名称（ID）
-    @Input()value?: string;  //隐藏域值（ID）
-    @Input()cssClass?: string;
-    @Input()labelName?: string; //输入框名称（Name）
-    @Input()labelValue?: string; //输入框值（Name）
-    @Input()searchItem?: string;
-    @Input()operate?: string;
-    @Input()attrType?: string;
-    @Input()title?: string; //选择框标题
-    @Input()url?: string; //树结构数据地址
-    @Input()checked?: string; //是否显示复选框
-    @Input()extId?: string; // 排除掉的编号（不能选择的编号）
-    @Input()notAllowSelectRoot?: string; //不允许选择根节点
-    @Input()notAllowSelectParent?: string; //不允许选择父节点
-    @Input()module?: string; //过滤栏目模型（只显示指定模型，仅针对CMS的Category树）
-    @Input()selectScopeModule?: string; //选择范围内的模型（控制不能选择公共模型，不能选择本栏目外的模型）（仅针对CMS的Category树）
-    @Input()allowClear?: string; //是否允许清除
-    @Input()nodesLevel?: string; //菜单展开层数
-    @Input()nameLevel?: string; //返回名称关联级别
-    @Input()selectedValueFn?: string; //选择节点后触发的函数
-    @Input()disabled?: boolean;
-    @Input()disabledStr?: string;
+    @Input() id?: string;
+    @Input() name?: string; //隐藏域名称（ID）
+    @Input() value?: string;  //隐藏域值（ID）
+    @Input() cssClass?: string;
+    @Input() labelName?: string; //输入框名称（Name）
+    @Input() labelValue?: string; //输入框值（Name）
+    @Input() searchItem?: string;
+    @Input() operate?: string;
+    @Input() attrType?: string;
+    @Input() title?: string; //选择框标题
+    @Input() url?: string; //树结构数据地址
+    @Input() checked?: string; //是否显示复选框
+    @Input() extId?: string; // 排除掉的编号（不能选择的编号）
+    @Input() notAllowSelectRoot?: string; //不允许选择根节点
+    @Input() notAllowSelectParent?: string; //不允许选择父节点
+    @Input() module?: string; //过滤栏目模型（只显示指定模型，仅针对CMS的Category树）
+    @Input() selectScopeModule?: string; //选择范围内的模型（控制不能选择公共模型，不能选择本栏目外的模型）（仅针对CMS的Category树）
+    @Input() allowClear?: string; //是否允许清除
+    @Input() nodesLevel?: string; //菜单展开层数
+    @Input() nameLevel?: string; //返回名称关联级别
+    @Input() selectedValueFn?: string; //选择节点后触发的函数
+    @Input() disabled?: boolean;
+    @Input() disabledStr?: string;
     private afterViewInit = false;
 
     // tslint:disable-next-line: no-unused-variable

@@ -1,4 +1,4 @@
-import {Data} from "../../base/model/data.model";
+import { Data } from "../../base/model/data.model";
 
 export class Role extends Data {
     public id?: any;

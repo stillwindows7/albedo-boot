@@ -1,11 +1,11 @@
-import {NgModule} from '@angular/core';
-import {ThemeComponent} from './theme.component';
-import {RouterModule, Routes} from '@angular/router';
-import {AlbedoBootAuthGuard} from "../auth/_guards/auth.guard";
-import {UserComponent} from "./pages/sys/user/user.component";
-import {AlbedoBootEntityModule} from "./pages/entity.module";
-import {DefaultComponent} from "./pages/default/default.component";
-import {UserFormComponent} from "./pages/sys/user/user.form.component";
+import { NgModule } from '@angular/core';
+import { ThemeComponent } from './theme.component';
+import { RouterModule, Routes } from '@angular/router';
+import { AlbedoBootAuthGuard } from "../auth/_guards/auth.guard";
+import { UserComponent } from "./pages/sys/user/user.component";
+import { AlbedoBootEntityModule } from "./pages/entity.module";
+import { DefaultComponent } from "./pages/default/default.component";
+import { UserFormComponent } from "./pages/sys/user/user.form.component";
 
 const routes: Routes = [
     {

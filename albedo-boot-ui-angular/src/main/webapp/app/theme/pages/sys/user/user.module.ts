@@ -1,11 +1,11 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {LayoutModule} from "../../../layouts/layout.module";
-import {UserComponent} from "./user.component";
-import {UserService} from "../../../../shared/sys/user/user.service";
-import {AlbedoBootSharedModule} from "../../../../shared/shared.module";
-import {UserFormComponent} from "./user.form.component";
-import {RouterModule} from "@angular/router";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { LayoutModule } from "../../../layouts/layout.module";
+import { UserComponent } from "./user.component";
+import { UserService } from "../../../../shared/sys/user/user.service";
+import { AlbedoBootSharedModule } from "../../../../shared/shared.module";
+import { UserFormComponent } from "./user.form.component";
+import { RouterModule } from "@angular/router";
 
 
 @NgModule({

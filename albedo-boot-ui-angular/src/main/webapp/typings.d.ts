@@ -8,7 +8,7 @@ declare var albedoForm: AlbedoForm;
 interface AlbedoForm {
     init(target?: any): void;
     initSave(target?: any): void;
-    initValidate(target?: any,option?: any): void;
+    initValidate(target?: any, option?: any): void;
     validate(target?: any): void;
 }
 

@@ -1,4 +1,4 @@
-import {Tree} from "../../base/model/tree.model";
+import { Tree } from "../../base/model/tree.model";
 
 export class Dict extends Tree {
     /*** 模块类型 0 菜单模块 1权限模块 */

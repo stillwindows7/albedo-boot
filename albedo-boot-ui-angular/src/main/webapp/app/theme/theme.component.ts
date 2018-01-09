@@ -2,11 +2,11 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { Helpers } from '../helpers';
 import { ScriptLoaderService } from '../shared/base/service/script-loader.service';
-import {ModuleService} from "../shared/sys/module/module.service";
-import {Module} from "../shared/sys/module/module.model";
-import {ResponseWrapper} from "../shared/base/model/response-wrapper.model";
-import {SERVER_API_URL} from "../app.constants";
-import {LocalStorageService, SessionStorageService} from "ngx-webstorage";
+import { ModuleService } from "../shared/sys/module/module.service";
+import { Module } from "../shared/sys/module/module.model";
+import { ResponseWrapper } from "../shared/base/model/response-wrapper.model";
+import { SERVER_API_URL } from "../app.constants";
+import { LocalStorageService, SessionStorageService } from "ngx-webstorage";
 
 declare let mApp: any;
 declare let mUtil: any;
@@ -22,10 +22,10 @@ export class ThemeComponent implements OnInit {
 
 
     constructor(private scriptLoaderService: ScriptLoaderService,
-                private moduleService: ModuleService,
-                private router: Router,
-                private localStorage: LocalStorageService,
-                private sessionStorage: SessionStorageService) {
+        private moduleService: ModuleService,
+        private router: Router,
+        private localStorage: LocalStorageService,
+        private sessionStorage: SessionStorageService) {
 
     }
     ngOnInit() {
@@ -75,20 +75,20 @@ export class ThemeComponent implements OnInit {
         });
     }
 
-    private getModules(callbackfn: (value: Module, index: number, array: Module[]) => void, thisArg?: any): void{
+    private getModules(callbackfn: (value: Module, index: number, array: Module[]) => void, thisArg?: any): void {
         this.modules && this.modules.forEach(callbackfn);
     }
 
 
-    private initBreadcrumbs(navigationEnd: NavigationEnd){
+    private initBreadcrumbs(navigationEnd: NavigationEnd) {
         let thiz = this;
-        if(thiz.modules){
+        if (thiz.modules) {
             var breadcrumbs = [];
-            thiz.getModules(function(module){
-                if(module.url==navigationEnd.url || module.url.indexOf(navigationEnd.url)!=-1){
-                    module.parentIds.split(",").forEach(function(item){
-                        item && thiz.getModules(function(temp){
-                            if(item == temp.id){
+            thiz.getModules(function(module) {
+                if (module.url == navigationEnd.url || module.url.indexOf(navigationEnd.url) != -1) {
+                    module.parentIds.split(",").forEach(function(item) {
+                        item && thiz.getModules(function(temp) {
+                            if (item == temp.id) {
                                 breadcrumbs.push({
                                     text: temp.name,
                                     title: temp.name,

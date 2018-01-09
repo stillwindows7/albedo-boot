@@ -1,9 +1,9 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {DictQuery} from "../../../../shared/sys/dict/dict.query.model";
-import {SERVER_API_URL} from "../../../../app.constants";
-import {ActivatedRoute} from "@angular/router";
-import {UserService} from "../../../../shared/sys/user/user.service";
-import {User} from "../../../../shared/sys/user/user.model";
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { DictQuery } from "../../../../shared/sys/dict/dict.query.model";
+import { SERVER_API_URL } from "../../../../app.constants";
+import { ActivatedRoute } from "@angular/router";
+import { UserService } from "../../../../shared/sys/user/user.service";
+import { User } from "../../../../shared/sys/user/user.model";
 
 @Component({
     selector: ".sys-user-form.page-form",
@@ -43,17 +43,17 @@ export class UserFormComponent implements OnInit, AfterViewInit {
         this.initForm()
     }
 
-    initForm(){
-        albedoForm.initValidate($("#user-save-form"),{
+    initForm() {
+        albedoForm.initValidate($("#user-save-form"), {
             // define validation rules
             rules: {
-                loginId: {remote: SERVER_API_URL+'/sys/user/checkByProperty?_statusFalse&id=' + encodeURIComponent(this.user.id)},
-                status:{required:true},
-                roleIdList:{required:true},
-                checkbox:{required:true},
+                loginId: { remote: SERVER_API_URL + '/sys/user/checkByProperty?_statusFalse&id=' + encodeURIComponent(this.user.id) },
+                status: { required: true },
+                roleIdList: { required: true },
+                checkbox: { required: true },
             },
-            messages:{
-                loginId:{message:'登录Id已存在'},
+            messages: {
+                loginId: { message: '登录Id已存在' },
             },
         });
         albedoForm.init();
