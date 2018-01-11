@@ -16,12 +16,10 @@ export class DictService extends DataService<Dict>{
     }
 
 
-    codes(req?: any): Observable<ResponseWrapper> {
+    codes(req?: any): Observable<any> {
         const options = createRequestOption(req);
         return this.http.get(this.resourceUrl + '/codes', options)
-            .map((res: Response) =>
-                convertResponse(res)
-            );
+            .map((data: any) => data);
     }
 
 }

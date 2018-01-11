@@ -32,6 +32,18 @@ interface MApp {
 }
 
 
+declare var toastr: Toastr;
+
+interface Toastr {
+    info(message: string, options?: any): void;
+    warning(message: string, options?: any): void;
+    success(message: string, options?: any): void;
+    error(message: string, options?: any): void;
+}
+
+
+
+
 interface JQuery {
     mMenu(options: any): JQuery;
 

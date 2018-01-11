@@ -23,8 +23,8 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
         private moduleService: ModuleService,
     ) {
         this.moduleService.menus().subscribe(
-            (res: ResponseWrapper) => {
-                this.menus = res.json.data;
+            (data: Module[]) => {
+                this.menus = data;
                 this.initMenuData();
             }
         );

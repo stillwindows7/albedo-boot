@@ -64,16 +64,14 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
         if (!this.comboData) {
             let params = this.dictQuery != null ? this.dictQuery : this.comboSearch;
             params && this.dictService.codes(params).subscribe(
-                (res: ResponseWrapper) => {
-                    this.comboData = res.json.data;
+                (data: any) => {
+                    this.comboData = data;
                     this.initTags();
                 }
             );
-            this.url && this.http.get(this.url, createRequestOption(this.params)).map((res: Response) =>
-                convertResponse(res)
-            ).subscribe(
-                (res: ResponseWrapper) => {
-                    this.comboData = res.json.data;
+            this.url && this.http.get(this.url, createRequestOption(this.params)).map((data: any) =>data).subscribe(
+                (data: any) => {
+                    this.comboData = data;
                     this.initTags();
                 }
             )
@@ -95,17 +93,17 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
 
     private initTags() {
         if (this.afterViewInit != true || this.comboData == null) return;
+
         let $formTag;
         this.operate = this.operate ? this.operate : 'like';
         if (this.boxType == AlbFormComponent.BOX_TYPE_SELECT) {
             $formTag = $("<select " +
                 "id=\"" + this.toStr(this.id) + "\" " +
-                "name=\"" + this.toStr(this.name) + "\" " +
-                "searchItem=\"" + this.toStr(this.searchItem) + "\" " +
-                "attrType=\"" + this.toStr(this.attrType) + "\" " +
-                "operate=\"" + this.toStr(this.operate) + "\" " +
-                "analytiColumn=\"" + this.toStr(this.analytiColumn) + "\" " +
-                "analytiColumnPrefix=\"" + this.toStr(this.analytiColumnPrefix) + "\" " +
+                "name=\"" + this.toStr(this.name) + "\" " + (this.searchItem ? ("searchItem=\"" + this.toStr(this.searchItem) + "\" attrType=\"" + this.toStr(this.attrType) + "\" " +
+                    "operate=\"" + this.toStr(this.operate) + "\" " +
+                    "analytiColumn=\"" + this.toStr(this.analytiColumn) + "\" " +
+                    "analytiColumnPrefix=\"" + this.toStr(this.analytiColumnPrefix) + "\" " ) : "") +
+
                 "class=\"form-control m-bootstrap-select " + this.toStr(this.cssClass) + "\">" +
                 "</select>");
 
@@ -123,13 +121,13 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
                 $formTag.append($("<label class=\"m-" + this.boxType + "\">" +
                     "<input type=\"" + (AlbFormComponent.BOX_TYPE_CHECKBOX == this.boxType ? AlbFormComponent.BOX_TYPE_CHECKBOX : AlbFormComponent.BOX_TYPE_RADIO) + "\" " +
                     "id=\"" + (this.id ? this.name : this.id) + (i) + "\" " +
-                    "name=\"" + this.name + "\" " +
-                    "searchItem=\"" + this.toStr(this.searchItem) + "\" " +
-                    "attrType=\"" + this.toStr(this.attrType) + "\"" +
-                    "operate=\"" + this.toStr(this.operate) + "\" " +
-                    "analytiColumn=\"" + this.toStr(this.analytiColumn) + "\" " +
-                    "analytiColumnPrefix=\"" + this.toStr(this.analytiColumnPrefix) + "\" " +
-                    "itemLabel=\"" + this.toStr(this.itemLabel) + "\" " +
+                    "name=\"" + this.name + "\" " +(this.searchItem? (
+                        "searchItem=\"" + this.toStr(this.searchItem) + "\" " +
+                        "attrType=\"" + this.toStr(this.attrType) + "\"" +
+                        "operate=\"" + this.toStr(this.operate) + "\" " +
+                        "analytiColumn=\"" + this.toStr(this.analytiColumn) + "\" " +
+                        "analytiColumnPrefix=\"" + this.toStr(this.analytiColumnPrefix) + "\" "
+                    ) : "")+"itemLabel=\"" + this.toStr(this.itemLabel) + "\" " +
                     "itemValue=\"" + this.toStr(this.itemValue) + "\" " +
                     "value=\"" + valLabel + "\" " +
                     "class=\"" + this.toStr(this.cssClass) + "\"" +

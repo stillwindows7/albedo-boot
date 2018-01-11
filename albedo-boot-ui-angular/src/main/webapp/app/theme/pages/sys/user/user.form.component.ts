@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import { DictQuery } from "../../../../shared/sys/dict/dict.query.model";
 import { SERVER_API_URL } from "../../../../app.constants";
 import { ActivatedRoute } from "@angular/router";
@@ -9,7 +9,7 @@ import { User } from "../../../../shared/sys/user/user.model";
     selector: ".sys-user-form.page-form",
     templateUrl: "./user.form.component.html"
 })
-export class UserFormComponent implements OnInit, AfterViewInit {
+export class UserFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     dictQueryStatus: DictQuery = new DictQuery("sys_status")
@@ -27,8 +27,10 @@ export class UserFormComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
+            console.log(params);
             params['id'] && this.userService.find(params['id']).subscribe((data) => {
                 this.user = data;
+                console.log(this.user);
             });
         });
     }

@@ -17,14 +17,13 @@ export class ModuleService extends DataService<Module> {
     }
 
 
-    menus(): Observable<ResponseWrapper> {
-        return this.http.get(this.resourceUrl + '/data', createRequestOption({ type: 'menu' }))
-            .map((res: Response) => convertResponse(res));
+    menus(): Observable<any> {
+        return this.data(createRequestOption({ type: 'menu' }));
     }
 
-    data(): Observable<ResponseWrapper> {
-        return this.http.get(this.resourceUrl + '/data')
-            .map((res: Response) => convertResponse(res));
+    data(params?: any): Observable<any> {
+        return this.http.get(this.resourceUrl + '/data', params)
+            .map((data: any) => data);
 
     }
 

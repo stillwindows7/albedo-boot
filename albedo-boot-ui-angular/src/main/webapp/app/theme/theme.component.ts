@@ -32,8 +32,8 @@ export class ThemeComponent implements OnInit {
 
     ngOnInit() {
         this.moduleService.data().subscribe(
-            (res: ResponseWrapper) => {
-                this.modules = res.json.data;
+            (data: any) => {
+                this.modules = data;
             }
         );
 

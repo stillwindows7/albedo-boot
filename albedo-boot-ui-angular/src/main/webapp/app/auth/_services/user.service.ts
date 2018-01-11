@@ -9,11 +9,11 @@ export class UserService {
     }
 
     verify() {
-        return this.http.get('/api/authenticate', this.jwt()).map((response: Response) => response.json());
+        return this.http.get('/api/authenticate', this.jwt()).map((data: any) => data);
     }
 
     forgotPassword(email: string) {
-        return this.http.post('/api/forgot-password', JSON.stringify({email}), this.jwt()).map((response: Response) => response.json());
+        return this.http.post('/api/forgot-password', JSON.stringify({email}), this.jwt()).map((data: any) => data);
     }
 
     getAll() {

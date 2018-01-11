@@ -13,11 +13,13 @@ export class DataService<T extends Data> {
 
     save(entity: T): Observable<ResponseWrapper> {
         return this.http.post(this.resourceUrl, entity)
-            .map((res: Response) => convertResponse(res));
+            .map((data: any) => convertResponse(data));
     }
 
     find(id: string): Observable<T> {
-        return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => res.json());
+        return this.http.get(`${this.resourceUrl}/${id}`).map((data: any) => {
+            return data;
+        });
     }
 
     query(req?: any): Observable<ResponseWrapper> {

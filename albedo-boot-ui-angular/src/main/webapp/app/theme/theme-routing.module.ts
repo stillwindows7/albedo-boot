@@ -21,7 +21,7 @@ const routes: Routes = [
                         component: UserComponent
                     },
                     {
-                        path: "sys/user/form",
+                        path: "sys/user/form/:id",
                         component: UserFormComponent
                     },
                 ]

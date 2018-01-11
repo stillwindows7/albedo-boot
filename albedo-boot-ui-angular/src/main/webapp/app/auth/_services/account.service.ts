@@ -9,10 +9,10 @@ export class AccountService {
     }
 
     get(): Observable<any> {
-        return this.http.get(SERVER_API_URL + '/account').map((res: Response) => res.json());
+        return this.http.get(SERVER_API_URL + '/account').map((res: any) => res);
     }
 
-    save(account: any): Observable<Response> {
+    save(account: any): Observable<any> {
         return this.http.post(SERVER_API_URL + '/account', account);
     }
 }

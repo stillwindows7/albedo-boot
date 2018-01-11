@@ -6,12 +6,12 @@ import {MSG_TYPE_ERROR, MSG_TYPE_INFO, MSG_TYPE_SUCCESS, MSG_TYPE_WARNING} from 
 
 export class NotificationInterceptor extends JhiHttpInterceptor {
 
-    private alertService: JhiAlertService;
+    // private alertService: JhiAlertService;
 
     // tslint:disable-next-line: no-unused-variable
     constructor(private injector: Injector) {
         super();
-        setTimeout(() => this.alertService = injector.get(JhiAlertService));
+        // setTimeout(() => toastr = injector.get(JhiAlertService));
     }
 
     requestIntercept(options?: RequestOptionsArgs): RequestOptionsArgs {
@@ -19,7 +19,7 @@ export class NotificationInterceptor extends JhiHttpInterceptor {
     }
 
     responseIntercept(observable: Observable<Response>): Observable<Response> {
-        return observable.map((response: Response) => {
+        return observable.map((response: any) => {
             const headers = [];
             response.headers.forEach((value, name) => {
                 if (name.toLowerCase().endsWith('app-alert') || name.toLowerCase().endsWith('app-params')) {
@@ -30,28 +30,28 @@ export class NotificationInterceptor extends JhiHttpInterceptor {
                 headers.sort();
                 const alertKey = response.headers.get(headers[0]);
                 if (typeof alertKey === 'string') {
-                    if (this.alertService) {
+                    if (toastr) {
                         const alertParam = headers.length >= 2 ? response.headers.get(headers[1]) : null;
-                        this.alertService.success(alertKey, {param: alertParam}, null);
+                        toastr.success(alertKey, {param: alertParam});
                     }
                 }
             }
-
-            if (response.json()) {
-                const reData = response.json();
-                if (reData.status && reData.status != MSG_TYPE_SUCCESS) {
-                    if (reData.status == MSG_TYPE_INFO) {
-                        this.alertService.info(reData.msg, {}, null);
-                    } else if (reData.status == MSG_TYPE_WARNING) {
-                        this.alertService.warning(reData.msg, {}, null);
-                    } else if (reData.status == MSG_TYPE_ERROR) {
-                        this.alertService.error(reData.msg, {}, null);
+            var obj = response.json();
+            if (obj) {
+                // toastr.info(reData.msg, {});
+                if (obj.status && obj.status != MSG_TYPE_SUCCESS) {
+                    if (obj.status == MSG_TYPE_INFO) {
+                        toastr.info(obj.msg);
+                    } else if (obj.status == MSG_TYPE_WARNING) {
+                        toastr.warning(obj.msg);
+                    } else if (obj.status == MSG_TYPE_ERROR) {
+                        toastr.error(obj.msg);
                     }
                 }
             }
-
-            return response;
+            return obj.data ? obj.data : obj;
         }).catch((error) => {
+            toastr && toastr.error('网络异常，请检查您的网络连接！', {closeButton: true, positionClass: 'toast-bottom-right'})
             return Observable.throw(error); // here, response is an error
         });
     }

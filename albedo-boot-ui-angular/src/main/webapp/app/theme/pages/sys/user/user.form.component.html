@@ -53,8 +53,8 @@
                     <div class="col-lg-4 col-md-9 col-sm-12">
                         <alb-tree-select id="org"
                              cssClass="required" allowClear="true" name="orgId"
-                             value="{{user&&user.orgId}}" labelName="orgName"
-                             labelValue="{{user&&user.orgName}}" title="选择组织"
+                             value="{{user.orgId}}" labelName="orgName"
+                             labelValue="{{user.orgName}}" title="选择组织"
                              url="{{ctx}}/sys/org/findTreeData" ></alb-tree-select>
 
                     </div>
@@ -121,7 +121,7 @@
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
                         <alb-form boxType="radio"
-                                  id="status"
+                                  id="status{{user.status}}"
                                   name="status"
                                   [dictQuery]="dictQueryStatus"
                                   value="{{user.status}}">

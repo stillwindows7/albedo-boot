@@ -9,7 +9,7 @@ import { Router } from "@angular/router";
 
 declare let datatable: any;
 @Component({
-    selector: ".sys-user-list",
+    selector: ".sys-user-list.page-list",
     templateUrl: "./user.component.html",
     encapsulation: ViewEncapsulation.None,
 })
@@ -148,7 +148,7 @@ export class UserComponent implements OnInit, AfterViewInit {
                     overflow: 'visible',
                     template: function(row) {
                         return '\
-						<a routerLink="/sys/user/form?id='+ row.id + '" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">\
+						<a href="#/sys/user/form/'+ row.id + '" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">\
 							<i class="la la-edit"></i>\
 						</a>\
 						<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">\

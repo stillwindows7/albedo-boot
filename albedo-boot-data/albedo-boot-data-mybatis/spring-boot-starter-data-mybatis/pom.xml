@@ -41,7 +41,7 @@
     <!--</developerConnection>-->
     <!--</scm>-->
     <properties>
-        <spring.data.mybatis.version>1.0.16.BUILD-SNAPSHOT</spring.data.mybatis.version>
+        <spring.data.mybatis.version>1.0.17.BUILD-SNAPSHOT</spring.data.mybatis.version>
     </properties>
     <dependencies>
         <dependency>
