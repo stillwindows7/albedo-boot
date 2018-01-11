@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, SimpleChanges} from '@angular/core';
 import {ComboSearch} from "../base/model/combo.search.model";
 import {DictService} from "../sys/dict/dict.service";
 import {DictQuery} from "../sys/dict/dict.query.model";
@@ -6,12 +6,13 @@ import {ComboData} from "../base/model/combo.data.model";
 import {ResponseWrapper} from "../base/model/response-wrapper.model";
 import {Http, Response} from "@angular/http";
 import {convertResponse, createRequestOption} from "../base/request-util";
+import {OnChanges} from "@angular/core/src/metadata/lifecycle_hooks";
 
 @Component({
     selector: "alb-form",
-    template: "<span id=\"form-item-{{id}}\"></span>"
+    template: "<span id=\"form-item-{{id}}\" ></span>"
 })
-export class AlbFormComponent implements OnInit, AfterViewInit {
+export class AlbFormComponent implements OnInit, AfterViewInit,OnChanges {
 
     static BOX_TYPE_SELECT = "select";
     static BOX_TYPE_CHECKBOX = "checkbox";
@@ -90,10 +91,25 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
         return input ? input : "";
     }
 
-
+    ngOnChanges(changes: SimpleChanges): void {
+        if(changes.value && changes.value.currentValue){
+            var ngValue = changes.value.currentValue,$selfBox = $("#form-item-" + this.id).parent();
+            if(this.boxType == AlbFormComponent.BOX_TYPE_SELECT){
+                $selfBox.find("select option").removeAttr("selected");
+                $selfBox.find("select option[value='"+ngValue+"']").attr("selected", "selected");
+            }else {
+                $selfBox.find("input[type='"+this.boxType+"']").removeAttr("checked");
+                $selfBox.find("input[type='"+this.boxType+"'][value='"+ngValue+"']").attr("checked", "checked")
+            }
+        }
+    }
     private initTags() {
         if (this.afterViewInit != true || this.comboData == null) return;
-
+        if(!this.value){
+            var ngValue = $("#form-item-" + this.id).parent().attr("ng-reflect-value");
+            if(ngValue) this.value = ngValue;
+        }
+        console.log(this.value)
         let $formTag;
         this.operate = this.operate ? this.operate : 'like';
         if (this.boxType == AlbFormComponent.BOX_TYPE_SELECT) {
@@ -131,12 +147,12 @@ export class AlbFormComponent implements OnInit, AfterViewInit {
                     "itemValue=\"" + this.toStr(this.itemValue) + "\" " +
                     "value=\"" + valLabel + "\" " +
                     "class=\"" + this.toStr(this.cssClass) + "\"" +
-                    (valLabel == this.value && this.value.indexOf(valLabel) != -1 ? "checked=\"checked\"" : "") +
+                    (this.value && (valLabel == this.value || (","+this.value+",").indexOf(","+valLabel+",") != -1) ? "checked=\"checked\"" : "") +
                     "data-options=\"" + this.toStr(this.dataOptions) + "\"  />" + nameLabel + "<span></span></label>"));
                 i++;
             });
         }
-        $("#form-item-" + this.id).parent().parent().empty().append($formTag)
+        $("#form-item-" + this.id).parent().append($formTag)
             .find('.m-bootstrap-select').selectpicker();
         // this.scriptLoaderService.load(".m-bootstrap-select", "assets/common/formInit.js");
 

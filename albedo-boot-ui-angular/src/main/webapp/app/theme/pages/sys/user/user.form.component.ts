@@ -1,16 +1,16 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import { DictQuery } from "../../../../shared/sys/dict/dict.query.model";
 import { SERVER_API_URL } from "../../../../app.constants";
 import { ActivatedRoute } from "@angular/router";
 import { UserService } from "../../../../shared/sys/user/user.service";
 import { User } from "../../../../shared/sys/user/user.model";
+import {OnChanges} from "@angular/core/src/metadata/lifecycle_hooks";
 
 @Component({
     selector: ".sys-user-form.page-form",
     templateUrl: "./user.form.component.html"
 })
 export class UserFormComponent implements OnInit, OnDestroy, AfterViewInit {
-
 
     dictQueryStatus: DictQuery = new DictQuery("sys_status")
     user: User;
@@ -27,11 +27,15 @@ export class UserFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            console.log(params);
-            params['id'] && this.userService.find(params['id']).subscribe((data) => {
-                this.user = data;
-                console.log(this.user);
-            });
+            var id = params['id'];
+            if(id){
+                this.userService.find(params['id']).subscribe((data) => {
+                    this.user = data;
+                    this.initForm();
+                });
+            }else{
+                this.initForm();
+            }
         });
     }
 
@@ -42,7 +46,6 @@ export class UserFormComponent implements OnInit, OnDestroy, AfterViewInit {
     ngAfterViewInit() {
         // this._script.load('.sys-user-list',
         //     'assets/demo/default/custom/components/datatables/base/data-ajax.js');
-        this.initForm()
     }
 
     initForm() {

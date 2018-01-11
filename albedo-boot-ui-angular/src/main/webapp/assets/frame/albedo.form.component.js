@@ -616,6 +616,24 @@ var albedoForm = function () {
             $(this).summernote(options);
         });
     };
+    var handleFormValueInit = function ($target) {
+        $target = ($target && $target.length > 0) ? $target.find('alb-form') : $('alb-form');
+        $target.each(function () {
+            var $thiz = $(this);
+            // $("div.datetimepicker.dropdown-menu").remove();
+            var ngValue = $thiz.attr("ng-reflect-value"), boxtype=$thiz.attr("boxtype");
+            console.log(ngValue);
+            if(ngValue){
+                if(boxtype=="checkbox" || boxtype == "radio"){
+                    $thiz.find("input[type='"+boxtype+"']").removeAttr("checked");
+                    $thiz.find("input[type='"+boxtype+"'][value='"+ngValue+"']").attr("checked", "checked")
+                }else if(boxtype=="select"){
+                    $thiz.find("select option").removeAttr("selected");
+                    $thiz.find("select option[value='"+ngValue+"']").attr("selected", "selected");
+                }
+            }
+        });
+    };
 
     var handleFileUpload = function ($target) {
         $target = ($target && $target.length > 0) ? $target.find('input[type="file"]') : $('input[type="file"]');
@@ -870,6 +888,7 @@ var albedoForm = function () {
             handleDatePicker($target);
             handleFileUpload($target);
             handleSummernote($target);
+            // handleFormValueInit($target);
             albedoForm.initTree($target);
         }
     }
