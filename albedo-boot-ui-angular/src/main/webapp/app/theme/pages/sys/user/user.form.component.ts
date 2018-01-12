@@ -17,6 +17,8 @@ export class UserFormComponent implements OnInit, OnDestroy, AfterViewInit {
     routeSub: any;
     ctx: any;
 
+    private afterViewInit = false;
+    private afterLoad = false;
     constructor(
         private route: ActivatedRoute,
         private userService: UserService) {
@@ -31,9 +33,11 @@ export class UserFormComponent implements OnInit, OnDestroy, AfterViewInit {
             if(id){
                 this.userService.find(params['id']).subscribe((data) => {
                     this.user = data;
+                    this.afterLoad = true;
                     this.initForm();
                 });
             }else{
+                this.afterLoad = true;
                 this.initForm();
             }
         });
@@ -46,16 +50,20 @@ export class UserFormComponent implements OnInit, OnDestroy, AfterViewInit {
     ngAfterViewInit() {
         // this._script.load('.sys-user-list',
         //     'assets/demo/default/custom/components/datatables/base/data-ajax.js');
+        this.afterViewInit = true;
+        this.initForm();
     }
 
     initForm() {
+        if(!this.afterViewInit || !this.afterLoad) return;
+
+        var userId = this.user.id;
         albedoForm.initValidate($("#user-save-form"), {
             // define validation rules
             rules: {
-                loginId: { remote: SERVER_API_URL + '/sys/user/checkByProperty?_statusFalse&id=' + encodeURIComponent(this.user.id) },
+                loginId: { remote: SERVER_API_URL + '/sys/user/checkByProperty?_statusFalse&id=' + encodeURIComponent(userId) },
                 status: { required: true },
                 roleIdList: { required: true },
-                checkbox: { required: true },
             },
             messages: {
                 loginId: { message: '登录Id已存在' },

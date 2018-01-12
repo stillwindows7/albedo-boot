@@ -35,13 +35,14 @@
                 </div>
             </div>
             <div class="m-portlet__head-tools">
-                <a routerLink="/sys/user/list" title="用户列表" class="m-portlet__nav-link btn list btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill ">
+                <a href="#/sys/user/list" title="用户列表" class="m-portlet__nav-link btn list btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill ">
                     <i class="la la-th-list"></i>
                 </a>
             </div>
         </div>
         <!--begin::Form-->
         <form class="m-form m-form--fit m-form--label-align-right form-validation" action="{{ctx}}/sys/user/" method="post" id="user-save-form">
+            <input type="hidden" name="id" value="{{user.id}}" />
             <div class="m-portlet__body">
                 <div id="bootstrap-alerts" class="m-form__content">
 
@@ -124,7 +125,7 @@
                                   id="status"
                                   name="status"
                                   [dictQuery]="dictQueryStatus"
-                                  value="{{user.status}}">
+                                  value="{{user.status}}" cssClass="required">
                         </alb-form>
                     </div>
                 </div>
@@ -134,7 +135,7 @@
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
                         <alb-form name="roleIdList" id="roleIdList" url="{{ctx}}/sys/role/comboData" boxType="checkbox"
-                        value="{{user.roleIdList}}"> </alb-form>
+                        value="{{user.roleIdList}}" cssClass="required"> </alb-form>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
@@ -157,7 +158,7 @@
                             <button type="reset" class="btn btn-secondary">
                                 重置
                             </button>
-                            <button type="button" class="btn list" data-table-id="#data-table-user">返回</button>
+                            <button type="button" class="btn" data-table-id="#data-table-user">返回</button>
                         </div>
                     </div>
                 </div>

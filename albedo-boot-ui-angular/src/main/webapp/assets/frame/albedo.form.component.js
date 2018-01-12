@@ -751,33 +751,34 @@ var albedoForm = function () {
             var tableId = el.data("table-id"), refresh = el.data("refresh"), delay = el.data("delay"),
                 alertType = re.status == "0" ? "info" : re.status == "1" ? "success" : re.status == "-1" ? "danger" : "warning";
             icon = re.status == "0" ? "info" : re.status == "1" ? "check" : "warning";
-            if (re.status == "1" && (tableId || refresh)) {
+            // && (tableId || refresh)
+            if (re.status == "1") {
                 if (refresh) {
                     window.location.reload();
                 } else {
+                    console.log($modal.find(".list"));
                     if (!isModal) {
                         $modal.find(".list").trigger("click");
                     }
-                    if (delay) {
-                        $modal.modal('loading');
-                        setTimeout(function () {
-                            $(tableId).mDatatable().loadFilterGird();
-                            $modal.modal('removeLoading');
-                        }, delay)
-                    } else {
-                        $(tableId).mDatatable().loadFilterGird();
-                    }
+                    // if (delay) {
+                    //     $modal.modal('loading');
+                    //     setTimeout(function () {
+                    //         $(tableId).mDatatable().loadFilterGird();
+                    //         $modal.modal('removeLoading');
+                    //     }, delay)
+                    // } else {
+                    //     $(tableId).mDatatable().loadFilterGird();
+                    // }
                     var ajaxReloadAfterFu = el.data("reload-after");
                     if (albedo.isExitsFunction(ajaxReloadAfterFu)) {
                         eval(ajaxReloadAfterFu + "(re)");
                     }
                 }
-                isForm = false;
             }
         }
-        if (!isForm) $modal.modal('hide');
+        if (isModal) $modal.modal('hide');
         mApp.alert({
-            container: isForm ? $modal.find('#bootstrap-alerts') : el.parents(".portlet").find('#bootstrap-alerts'),
+            container: $modal.find('#bootstrap-alerts'),
             close: true,
             focus: true,
             type: alertType,
@@ -789,7 +790,16 @@ var albedoForm = function () {
     }
 
 
-    var $form = $('.form-validation'), validator;
+    var $form = $('.form-validation'), validators={};
+
+    var _getFormValidate = function (key) {
+        return validators ? validators[key] : null;
+    }
+    var _setFormValidate = function (key, validator) {
+        validators[key] = validator;
+    }
+
+
     var handleValidateConfig = function (config, form) {
         if (!config)
             config = {};
@@ -822,10 +832,9 @@ var albedoForm = function () {
             } catch (e) {
             }
             if (!config) config = {};
-
             config = $.extend(true, config, options);
-            console.log($formTagert)
-            validator = $formTagert.validate(handleValidateConfig(config, $formTagert));
+            var validator = $formTagert.validate(handleValidateConfig(config, $formTagert));
+            _setFormValidate($form.attr("id"), validator);
             // apply validation on select2 dropdown value change, this only needed
             // for chosen dropdown integration.
             $('.select2me', $formTagert).change(function () {
@@ -840,9 +849,11 @@ var albedoForm = function () {
 
     var doValidation = function ($formTagert) {
         if ($formTagert && $formTagert.length > 0) {
-            return handleValidation($formTagert).form();
+            var validator =_getFormValidate($formTagert.attr("id"));
+            console.log(validator);
+            return validator ? validator.form() : handleValidation($formTagert).form();
         }
-        return validator && validator.form();
+        return false;
     }
 
     //* END:CORE HANDLERS *//
