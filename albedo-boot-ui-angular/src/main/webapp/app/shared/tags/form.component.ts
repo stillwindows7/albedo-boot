@@ -7,7 +7,8 @@ import {ResponseWrapper} from "../base/model/response-wrapper.model";
 import {Http, Response} from "@angular/http";
 import {convertResponse, createRequestOption} from "../base/request-util";
 import {OnChanges} from "@angular/core/src/metadata/lifecycle_hooks";
-import {SERVER_API_URL} from "../../app.constants";
+import {CTX} from "../../app.constants";
+import set = Reflect.set;
 
 @Component({
     selector: "alb-form",
@@ -15,9 +16,6 @@ import {SERVER_API_URL} from "../../app.constants";
 })
 export class AlbFormComponent implements OnInit, AfterViewInit,OnChanges {
 
-    static BOX_TYPE_SELECT = "select";
-    static BOX_TYPE_CHECKBOX = "checkbox";
-    static BOX_TYPE_RADIO = "radio";
     @Input()
     public dictQuery?: DictQuery;
     @Input()
@@ -30,6 +28,8 @@ export class AlbFormComponent implements OnInit, AfterViewInit,OnChanges {
     public searchItem?: string;
     @Input()
     operate?: string;
+    @Input()
+    multiple?: string;
     @Input()
     analytiColumn?: string;
     @Input()
@@ -97,6 +97,7 @@ export class AlbFormComponent implements OnInit, AfterViewInit,OnChanges {
 
     ngOnChanges(changes: SimpleChanges): void {
         // if(changes.value && changes.value.currentValue){
+
         //     var ngValue = changes.value.currentValue,$selfBox = $("#form-item-" + this.id).parent();
         //     console.log(ngValue)
         //     if(this.boxType == AlbFormComponent.BOX_TYPE_SELECT){
@@ -113,8 +114,11 @@ export class AlbFormComponent implements OnInit, AfterViewInit,OnChanges {
         // }
     }
     private initTags() {
-
-        // if (this.afterViewInit != true || this.comboData == null) return;
+        if (this.afterViewInit != true || this.comboData == null) return;
+        console.log(this.comboData);
+        setTimeout(function () {
+            $('.m-bootstrap-select').selectpicker();
+        },400)
         // if(!this.value){
         //     var ngValue = $("#form-item-" + this.id).parent().attr("ng-reflect-value");
         //     if(ngValue) this.value = ngValue;

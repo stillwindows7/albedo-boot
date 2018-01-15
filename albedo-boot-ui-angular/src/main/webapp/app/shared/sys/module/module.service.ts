@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { SERVER_API_URL } from "../../../app.constants";
+import { CTX } from "../../../app.constants";
 import { ResponseWrapper } from "../../base/model/response-wrapper.model";
 import { DataService } from "../../base/service/data.service";
 import { Module } from "./module.model";
@@ -13,7 +13,7 @@ import { convertResponse } from "../../base/request-util";
 export class ModuleService extends DataService<Module> {
 
     constructor(protected http: Http) {
-        super(http, SERVER_API_URL + '/sys/module');
+        super(http, CTX + '/sys/module');
     }
 
 

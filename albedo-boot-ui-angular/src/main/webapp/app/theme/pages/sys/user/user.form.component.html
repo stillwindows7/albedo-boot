@@ -134,7 +134,7 @@
                         角色 *
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
-                        <alb-form name="roleIdList" id="roleIdList" url="{{ctx}}/sys/role/comboData" boxType="checkbox"
+                        <alb-form name="roleIdList" id="roleIdList" url="{{ctx}}/sys/role/comboData" boxType="select" multiple="multiple"
                         value="{{user.roleIdList}}" cssClass="required"> </alb-form>
                     </div>
                 </div>
@@ -155,10 +155,10 @@
                             <button type="button" class="btn btn-success save">
                                 <i class="fa fa-check"></i> 保存
                             </button>
-                            <button type="reset" class="btn btn-secondary">
+                            <button type="button" class="btn btn-secondary" onclick="albedoForm.resetForm('#user-save-form')">
                                 重置
                             </button>
-                            <button type="button" class="btn" data-table-id="#data-table-user">返回</button>
+                            <button type="button" class="btn" onclick="window.history.back()">返回</button>
                         </div>
                     </div>
                 </div>

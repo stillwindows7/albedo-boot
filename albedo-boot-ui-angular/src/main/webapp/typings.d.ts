@@ -5,6 +5,15 @@ interface NodeModule {
     id: string;
 }
 
+
+
+declare var albedoList: AlbedoList;
+
+interface AlbedoList {
+    init(target?: any): void;
+
+    initTable(table?: any, formBtn?: any, option?: any): void;
+}
 declare var albedoForm: AlbedoForm;
 
 interface AlbedoForm {
@@ -15,6 +24,8 @@ interface AlbedoForm {
     initValidate(target?: any, option?: any): void;
 
     validate(target?: any): void;
+
+    initFormData(selector: string, user: any): void;
 }
 
 declare var albedo: Albedo;
@@ -62,6 +73,8 @@ interface JQuery {
     loadFilterGird(): JQuery;
 
     selectpicker(): JQuery;
+
+    select2(): JQuery;
 
     valid(): JQuery;
 

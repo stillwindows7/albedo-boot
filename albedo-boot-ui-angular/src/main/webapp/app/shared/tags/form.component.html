@@ -4,10 +4,11 @@
         [attr.attrType]="attrType"
         [attr.operate]="operate"
         [attr.analytiColumn]="analytiColumn"
+        [attr.multiple]="multiple"
         [attr.analytiColumnPrefix]="analytiColumnPrefix"
         class="form-control m-bootstrap-select {{cssClass}}" >
-    <option *ngIf="cssClass || cssClass.indexOf('required')==-1" value="">请选择...</option>
-    <option *ngFor="let item of comboData" value="{{item.id}}" selected="{{value == item.id ? 'selected' : ''}}">{{item.name}}</option>
+    <option *ngIf="!cssClass || cssClass.indexOf('required')==-1" value="">请选择...</option>
+    <option *ngFor="let item of comboData" value="{{item.id}}" selected="{{equleValue(item.id) ? 'selected' : ''}}">{{item.name}}</option>
 </select>
 
 <div *ngIf="boxType == 'radio' || boxType == 'checkbox' " class="m-{{boxType}}-inline">

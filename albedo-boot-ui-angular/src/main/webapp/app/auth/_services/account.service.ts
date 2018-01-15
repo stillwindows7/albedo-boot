@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http, Response} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
-import {SERVER_API_URL} from '../../app.constants';
+import {CTX} from '../../app.constants';
 
 @Injectable()
 export class AccountService {
@@ -9,10 +9,10 @@ export class AccountService {
     }
 
     get(): Observable<any> {
-        return this.http.get(SERVER_API_URL + '/account').map((res: any) => res);
+        return this.http.get(CTX + '/account').map((res: any) => res);
     }
 
     save(account: any): Observable<any> {
-        return this.http.post(SERVER_API_URL + '/account', account);
+        return this.http.post(CTX + '/account', account);
     }
 }

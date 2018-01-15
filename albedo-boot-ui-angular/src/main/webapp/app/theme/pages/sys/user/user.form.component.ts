@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import { DictQuery } from "../../../../shared/sys/dict/dict.query.model";
-import { SERVER_API_URL } from "../../../../app.constants";
+import { CTX } from "../../../../app.constants";
 import { ActivatedRoute } from "@angular/router";
 import { UserService } from "../../../../shared/sys/user/user.service";
 import { User } from "../../../../shared/sys/user/user.model";
@@ -14,25 +14,27 @@ export class UserFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
     dictQueryStatus: DictQuery = new DictQuery("sys_status")
     user: User;
-    routeSub: any;
+    routerSub: any;
     ctx: any;
+    id: any;
 
     private afterViewInit = false;
     private afterLoad = false;
     constructor(
-        private route: ActivatedRoute,
+        private router: ActivatedRoute,
         private userService: UserService) {
-        this.ctx = SERVER_API_URL;
+        this.ctx = CTX;
         this.user = new User();
 
     }
 
     ngOnInit() {
-        this.routeSub = this.route.params.subscribe((params) => {
-            var id = params['id'];
-            if(id){
-                this.userService.find(params['id']).subscribe((data) => {
+        this.routerSub = this.router.params.subscribe((params) => {
+            this.id = params['id'];
+            if(this.id){
+                this.userService.find(this.id).subscribe((data) => {
                     this.user = data;
+                    albedoForm.initFormData("#user-save-form", this.user);
                     this.afterLoad = true;
                     this.initForm();
                 });
@@ -44,7 +46,7 @@ export class UserFormComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngOnDestroy() {
-        this.routeSub.unsubscribe();
+        this.routerSub.unsubscribe();
     }
 
     ngAfterViewInit() {
@@ -61,7 +63,7 @@ export class UserFormComponent implements OnInit, OnDestroy, AfterViewInit {
         albedoForm.initValidate($("#user-save-form"), {
             // define validation rules
             rules: {
-                loginId: { remote: SERVER_API_URL + '/sys/user/checkByProperty?_statusFalse&id=' + encodeURIComponent(userId) },
+                loginId: { remote: CTX + '/sys/user/checkByProperty?_statusFalse&id=' + encodeURIComponent(userId) },
                 status: { required: true },
                 roleIdList: { required: true },
             },
@@ -71,6 +73,7 @@ export class UserFormComponent implements OnInit, OnDestroy, AfterViewInit {
         });
         albedoForm.init();
         albedoForm.initSave();
+
 
     }
 

@@ -1,11 +1,12 @@
-import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import { ScriptLoaderService } from "../../../../shared/base/service/script-loader.service";
 import { DictQuery } from "../../../../shared/sys/dict/dict.query.model";
-import { SERVER_API_URL } from "../../../../app.constants";
+import { CTX } from "../../../../app.constants";
 import { LocalStorageService, SessionStorageService } from "ngx-webstorage";
 import { Helpers } from "../../../../helpers";
 import { ResponseWrapper } from "../../../../shared/base/model/response-wrapper.model";
-import { Router } from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {UrlSegment} from "@angular/router/src/url_tree";
 
 declare let datatable: any;
 @Component({
@@ -13,13 +14,13 @@ declare let datatable: any;
     templateUrl: "./user.component.html",
     encapsulation: ViewEncapsulation.None,
 })
-export class UserComponent implements OnInit, AfterViewInit {
+export class UserComponent implements OnInit,OnDestroy, AfterViewInit {
 
 
-    dictQueryStatus: DictQuery = new DictQuery("sys_status")
-
+    dictQueryStatus: DictQuery = new DictQuery("sys_status");
+    routerSub: any;
     constructor(private _script: ScriptLoaderService,
-        private router: Router,
+        private router: ActivatedRoute,
         private sessionStorage: SessionStorageService) {
 
     }
@@ -27,7 +28,15 @@ export class UserComponent implements OnInit, AfterViewInit {
 
 
     ngOnInit() {
+        this.routerSub = this.router.url.subscribe((urlSegment) => {
+            console.log(urlSegment)
+        });
     }
+
+    ngOnDestroy() {
+        this.routerSub.unsubscribe();
+    }
+
     ngAfterViewInit() {
         // this._script.load('.sys-user-list',
         //     'assets/demo/default/custom/components/datatables/base/data-ajax.js');
@@ -35,70 +44,19 @@ export class UserComponent implements OnInit, AfterViewInit {
         // Helpers.setBreadcrumbs();
     }
 
-    routeLink(href: String, params?: any) {
-        this.router.navigate([href], { queryParams: params });
-    }
-
     initTable() {
         // const token = this.localStorage.retrieve('authenticationToken') || this.sessionStorage.retrieve('authenticationToken');
         var options = {
-            // datasource definition
             data: {
-                type: 'remote',
                 source: {
                     read: {
-                        // headers:{Authorization:'Bearer' + token},
                         // sample GET method
                         method: 'GET',
-                        url: SERVER_API_URL + '/sys/user/',
-                        map: function(raw) {
-                            // sample data mapping
-                            var dataSet = raw;
-                            if (typeof raw.data !== 'undefined') {
-                                dataSet = raw.data;
-                            }
-                            return dataSet;
-                        },
+                        url: CTX + '/sys/user/',
                     },
                 },
                 pageSize: 10,
-                saveState: {
-                    cookie: true,
-                    webstorage: true,
-                },
-                serverPaging: true,
-                serverFiltering: true,
-                serverSorting: true,
             },
-
-            // layout definition
-            layout: {
-                theme: 'default', // datatable theme
-                class: '', // custom wrapper class
-                scroll: false, // enable/disable datatable scroll both horizontal and vertical when needed.
-                footer: false // display/hide footer
-            },
-
-            // column sorting
-            sortable: true,
-
-            pagination: true,
-
-            toolbar: {
-                // toolbar items
-                items: {
-                    // pagination
-                    pagination: {
-                        // page size select
-                        pageSizeSelect: [10, 20, 30, 50, 100],
-                    },
-                },
-            },
-
-            search: {
-                input: $('#generalSearch'),
-            },
-
             // columns definition
             columns: [
                 {
@@ -148,23 +106,23 @@ export class UserComponent implements OnInit, AfterViewInit {
                     overflow: 'visible',
                     template: function(row) {
                         return '\
-						<a href="#/sys/user/form/'+ row.id + '" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">\
+						<a href="#/sys/user/form/'+ row.id + '" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">\
 							<i class="la la-edit"></i>\
 						</a>\
-						<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">\
-							<i class="la la-trash"></i>\
+						<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="'+ (row.status == "正常" ? "锁定" : "解锁") + '用户"\
+						 data-table-id="#data-table-user" data-method="put"  data-title="你确认要操作【'+ row.loginId+ '】用户吗？" data-url="'+ CTX +'/sys/user/'+ row.id+ '">\
+							<i class="la la-'+ (row.status == "正常" ? "unlock" : "unlock-alt") + '"></i>\
 						</a>\
-					';
+					    <a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
+                             data-table-id="#data-table-user" data-method="delete"  data-title="你确认要删除【'+ row.loginId+ '】用户吗？" data-url="'+ CTX +'/sys/user/'+ row.id+ '">\
+                            <i class="la la-trash"></i>\
+                        </a>';
                     },
                 }],
         };
-        setTimeout(function() {
-            var dataTable = $('.m_datatable').mDatatable(options);
-            $('#table-form-search-user').click(function() {
-                dataTable.loadFilterGird();
-            })
-        }, 10)
 
+        albedoList.initTable($('.data-table-user'), $('#table-form-search-user'), options);
+        albedoList.init();
     }
 
 

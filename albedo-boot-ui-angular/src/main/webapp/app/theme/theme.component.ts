@@ -5,7 +5,7 @@ import {ScriptLoaderService} from '../shared/base/service/script-loader.service'
 import {ModuleService} from "../shared/sys/module/module.service";
 import {Module} from "../shared/sys/module/module.model";
 import {ResponseWrapper} from "../shared/base/model/response-wrapper.model";
-import {SERVER_API_URL} from "../app.constants";
+import {CTX} from "../app.constants";
 import {LocalStorageService, SessionStorageService} from "ngx-webstorage";
 
 declare let mApp: any;
@@ -50,7 +50,7 @@ export class ThemeComponent implements OnInit {
                 // optional js to be loaded once
                 this.scriptLoaderService.load('head', 'assets/vendors/custom/fullcalendar/fullcalendar.bundle.js');
                 const token = this.localStorage.retrieve('authenticationToken') || this.sessionStorage.retrieve('authenticationToken');
-                albedo.setCtx(SERVER_API_URL)
+                albedo.setCtx(CTX)
                 albedo.setToken(token)
             });
         this.router.events.subscribe((route) => {

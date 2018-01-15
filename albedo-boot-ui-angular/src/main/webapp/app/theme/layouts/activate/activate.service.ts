@@ -1,7 +1,7 @@
 // import {Injectable} from '@angular/core';
 // import {Http, Response, URLSearchParams} from '@angular/http';
 // import {Observable} from 'rxjs/Rx';
-// import {SERVER_API_URL} from "../../../app.constants";
+// import {CTX} from "../../../app.constants";
 //
 // @Injectable()
 // export class ActivateService {
@@ -12,7 +12,7 @@
 //         const params: URLSearchParams = new URLSearchParams();
 //         params.set('key', key);
 //
-//         return this.http.get(SERVER_API_URL + 'api/activate', {
+//         return this.http.get(CTX + 'api/activate', {
 //             search: params
 //         }).map((res: Response) => res);
 //     }

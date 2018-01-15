@@ -54,7 +54,13 @@ var albedoForm = function () {
             }
         }
     }
-
+    var _mapData={};
+    var _getData = function (key) {
+        return _mapData ? _mapData[key] : null;
+    }
+    var _setData = function (key, data) {
+        _mapData[key] = data;
+    }
     /**public**/
 
     var treeShow = function ($thiz) {
@@ -609,11 +615,59 @@ var albedoForm = function () {
         $target = ($target && $target.length > 0) ? $target.find('.summernote') : $('.summernote');
         $target.each(function () {
             var $tempInput = $target.find("input");
-            eval("var options=" + ($tempInput && $tempInput.length > 0 ? $tempInput.attr("options") : $(this).attr("options")));
+            var options = {};
+            eval("options=" + ($tempInput && $tempInput.length > 0 ? $tempInput.attr("options") : $(this).attr("options")));
             // default settings
-            options = $.extend(true, {height: 200}, options);
-            // $("div.datetimepicker.dropdown-menu").remove();
-            $(this).summernote(options);
+            var $thiz = $(this),placeholder = $thiz.attr("placeholder") || '',url = $thiz.attr("action") || '';
+            options = $.extend(true, {
+                lang : 'zh-CN',
+                placeholder : placeholder,
+                minHeight : 300,
+                dialogsFade : true,// Add fade effect on dialogs
+                dialogsInBody : true,// Dialogs can be placed in body, not in
+                // summernote.
+                disableDragAndDrop : false,// default false You can disable drag
+                // and drop
+                // callbacks : {
+                //     onImageUpload : function(files) {
+                //         var $files = $(files);
+                //         $files.each(function() {
+                //             var file = this;
+                //             var data = new FormData();
+                //             data.append("file", file);
+                //
+                //             $.ajax({
+                //                 data : data,
+                //                 type : "POST",
+                //                 url : url,
+                //                 cache : false,
+                //                 contentType : false,
+                //                 processData : false,
+                //                 success : function(response) {
+                //                     var json = YUNM.jsonEval(response);
+                //                     YUNM.debug(json);
+                //                     YUNM.ajaxDone(json);
+                //
+                //                     if (json[YUNM.keys.statusCode] == YUNM.statusCode.ok) {
+                //                         // 文件不为空
+                //                         if (json[YUNM.keys.result]) {
+                //                             var imageUrl = json[YUNM.keys.result].completeSavePath;
+                //                             $this.summernote('insertImage', imageUrl, function($image) {
+                //
+                //                             });
+                //                         }
+                //                     }
+                //
+                //                 },
+                //                 error : YUNM.ajaxError
+                //             });
+                //         });
+                //     }
+                // }
+            }, options);
+            setTimeout(function () {
+                $thiz.summernote(options);
+            },100)
         });
     };
     var handleFormValueInit = function ($target) {
@@ -756,19 +810,23 @@ var albedoForm = function () {
                 if (refresh) {
                     window.location.reload();
                 } else {
-                    console.log($modal.find(".list"));
                     if (!isModal) {
-                        $modal.find(".list").trigger("click");
+                        $modal.find(".list i").trigger("click");
                     }
-                    // if (delay) {
-                    //     $modal.modal('loading');
-                    //     setTimeout(function () {
-                    //         $(tableId).mDatatable().loadFilterGird();
-                    //         $modal.modal('removeLoading');
-                    //     }, delay)
-                    // } else {
-                    //     $(tableId).mDatatable().loadFilterGird();
-                    // }
+                    if(tableId){
+                        var dataTables = albedoList.getDataTable($(tableId).attr("id"));
+                        if(dataTables){
+                            if (delay) {
+                                // $modal.modal('loading');
+                                setTimeout(function () {
+                                    dataTables.loadFilterGird();
+                                    // $modal.modal('removeLoading');
+                                }, delay)
+                            } else {
+                                dataTables.loadFilterGird();
+                            }
+                        }
+                    }
                     var ajaxReloadAfterFu = el.data("reload-after");
                     if (albedo.isExitsFunction(ajaxReloadAfterFu)) {
                         eval(ajaxReloadAfterFu + "(re)");
@@ -777,28 +835,23 @@ var albedoForm = function () {
             }
         }
         if (isModal) $modal.modal('hide');
-        mApp.alert({
-            container: $modal.find('#bootstrap-alerts'),
-            close: true,
-            focus: true,
-            type: alertType,
-            closeInSeconds: 8,
-            message: (re && re.message) ? re.message : '网络异常，请检查您的网络!',
-            icon: icon
-        });
+        setTimeout(function () {
+            console.log($modal);
+            mApp.alert({
+                // container: $modal.find('#bootstrap-alerts'),
+                close: true,
+                focus: true,
+                type: alertType,
+                closeInSeconds: 8,
+                message: (re && re.message) ? re.message : '网络异常，请检查您的网络!',
+                icon: icon
+            });
+        },500)
 
     }
 
 
-    var $form = $('.form-validation'), validators={};
-
-    var _getFormValidate = function (key) {
-        return validators ? validators[key] : null;
-    }
-    var _setFormValidate = function (key, validator) {
-        validators[key] = validator;
-    }
-
+    var $form = $('.form-validation');
 
     var handleValidateConfig = function (config, form) {
         if (!config)
@@ -834,7 +887,7 @@ var albedoForm = function () {
             if (!config) config = {};
             config = $.extend(true, config, options);
             var validator = $formTagert.validate(handleValidateConfig(config, $formTagert));
-            _setFormValidate($form.attr("id"), validator);
+            _setData($form.attr("id"), validator);
             // apply validation on select2 dropdown value change, this only needed
             // for chosen dropdown integration.
             $('.select2me', $formTagert).change(function () {
@@ -846,10 +899,52 @@ var albedoForm = function () {
             return validator;
         }
     }
+    var handleInitFormData = function ($form, data) {
+        if ($form && $form.length > 0) {
+            for(var o in data){
+                var $target = $form.find("[name='"+o+"']"),val = data[o];
+                if(!$target || $target.length<1){continue}
+                if($target.is("input")){
+                    var type = $target.attr("type");
+                    if(type == "radio" || type == "checkbox"){
+                        $target.removeAttr("checked");
+                        if(val){
+                            if(val.indexOf(",")!=-1){val = val.toString().split(",");}
+                            if(val instanceof Array){
+                                for(var o in val){
+                                    $target.find("[value='"+val[o]+"']").attr("checked", "checked");
+                                }
+                            }else{
+                                $target.find("[value='"+val+"']").attr("checked", "checked");
+                            }
+                        }
+                    }else{
+                        if(type != "password") $target.val(val ? val : null);
+                    }
+                }else if($target.is("textarea")){
+                    $target.val(val);
+                    $target.hasClass('summernote')&&$target.summernote('code', val);;
+                }else if($target.is("select")){
+                    $target.find("option").removeAttr("selected");
+                    if(val){
+                        if(val.toString().indexOf(",")!=-1){val = val.toString().split(",")};
+                        if(val instanceof Array){
+                            for(var o in val){
+                                $target.find("option[value='"+val[o]+"']").attr("selected", "selected");
+                            }
+                        }else{
+                            $target.find("option[value='"+val+"']").attr("selected", "selected");
+                        }
+                    }
+                    $target.find('.m-bootstrap-select').selectpicker("val",val);
+                }
+            }
+        }
+    }
 
     var doValidation = function ($formTagert) {
         if ($formTagert && $formTagert.length > 0) {
-            var validator =_getFormValidate($formTagert.attr("id"));
+            var validator =_getData($formTagert.attr("id"));
             console.log(validator);
             return validator ? validator.form() : handleValidation($formTagert).form();
         }
@@ -882,7 +977,14 @@ var albedoForm = function () {
         initSave: function ($target) {
             handleSave($target)
         },
-
+        initFormData: function (selector, data) {
+            _setData(selector, data)
+        },
+        resetForm: function (selector) {
+            var data = _getData(selector);
+            console.log(data);
+            handleInitFormData($(selector), data)
+        },
         alertDialog: function ($modal, re, el) {
             alertDialog($modal, re, el);
         },

@@ -273,6 +273,47 @@ var mApp = function() {
             el.mCustomScrollbar("destroy");
         },
 
+        confirm: function (options) {
+            options = $.extend(true, {
+                title: "系统提示", //
+                width: null, //
+                content: "您确定吗？",
+                reset: true, // close all previouse alerts first
+                confirm: function () {
+                }
+            }, options);
+            var id = mUtil.getUniqueID("App_confirm");
+            if (options.reset) {
+                $('.confirm-modal').parents(".modal-scrollable").next().remove();
+                $('.confirm-modal').parents(".modal-scrollable").remove();
+            }
+            var tmpl = [
+                // tabindex is required for focus
+                '<div class="modal fade confirm-modal" id="' + id + '" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">',
+                '<div class="modal-dialog modal-sm" role="document">',
+                '<div class="modal-content">',
+                '<div class="modal-header">',
+                '<h4 class="modal-title">' + options.title + '</h4>',
+                '<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>',
+                '</div>',
+                '<div class="modal-body">',
+                '<div>' + options.content + '</div>',
+                '</div>',
+                '<div class="modal-footer">',
+                '<a href="javascript:void(0);" data-dismiss="modal" class="btn btn-default">取消</a>',
+                '<a href="javascript:void(0);" class="btn btn-primary modal-confirm">确认</a>',
+                '</div>',
+                '</div>',
+                '</div>',
+                '</div>'
+            ].join('');
+            // $.fn.modal.defaults.width = options.width;
+            var $modal = $(tmpl).modal();
+            $(document).off("click.modal-confirm").on("click.modal-confirm", ".confirm-modal a.modal-confirm", function () {
+                options.confirm($modal);
+                $modal.modal('hide');
+            });
+        },
         /**
         * Shows bootstrap alert
         * @param {object} options
