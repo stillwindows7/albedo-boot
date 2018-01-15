@@ -141,7 +141,7 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public PageModel findAll(PageModel pm, List<QueryCondition> queryConditions) {
+    public PageModel findPage(PageModel<User> pm, List<QueryCondition> queryConditions) {
         SpecificationDetail<User> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(), queryConditions,
                 QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE), QueryCondition.ne(User.F_ID, "1"));
         Page<User> page = repository.findAll(spec, pm);

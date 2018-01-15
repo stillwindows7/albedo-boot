@@ -111,7 +111,7 @@ export class UserComponent implements OnInit,OnDestroy, AfterViewInit {
 						</a>\
 						<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="'+ (row.status == "正常" ? "锁定" : "解锁") + '用户"\
 						 data-table-id="#data-table-user" data-method="put"  data-title="你确认要操作【'+ row.loginId+ '】用户吗？" data-url="'+ CTX +'/sys/user/'+ row.id+ '">\
-							<i class="la la-'+ (row.status == "正常" ? "unlock" : "unlock-alt") + '"></i>\
+							<i class="la la-'+ (row.status == "正常" ? "unlock-alt" : "unlock") + '"></i>\
 						</a>\
 					    <a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
                              data-table-id="#data-table-user" data-method="delete"  data-title="你确认要删除【'+ row.loginId+ '】用户吗？" data-url="'+ CTX +'/sys/user/'+ row.id+ '">\
