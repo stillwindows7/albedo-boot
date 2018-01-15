@@ -86,11 +86,24 @@ cloud版本发布，基于[jhipster-registry](https://github.com/somewhereMrli/j
 5. 密码加密：登录用户密码进行BCryptPasswordEncoder加密，此加密方法是不可逆的。保证密文泄露后的安全问题。
 6. 强制访问：系统对所有管理端链接都进行用户身份权限验证，防止用户直接填写url进行访问。
 
+## 系统预览
+
+![img](https://raw.githubusercontent.com/somewhereMrli/resources/master/3A2836395023558F5CCA6E244C058D28.png)
+![img](https://raw.githubusercontent.com/somewhereMrli/resources/master/42806357-49CB-4EA8-A907-FB01047AB669.png)
+![img](https://raw.githubusercontent.com/somewhereMrli/resources/master/759EF3EB2F74401EAB5399917D6DFD4F.png)
+
 
 ## 快速搭建
 
 #### 为了能够快速搭建请首先加入maven的阿里云镜像
-
+```
+<mirror>
+        <id>nexus-aliyun</id>
+        <mirrorOf>central</mirrorOf>
+        <name>Nexus aliyun</name>
+        <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+</mirror>
+```
 1. 具备运行环境：JDK1.8、Maven3.0+、MySql5+或Oracle10g+。
 2. 导入ide前，安装lombok插件
 3. 修改albedo-boot-web-starter src\main\resources\config\application-dev.yml文件中的数据库设置参数。
