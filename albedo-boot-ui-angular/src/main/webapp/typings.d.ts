@@ -12,14 +12,14 @@ declare var albedoList: AlbedoList;
 interface AlbedoList {
     init(target?: any): void;
 
-    initTable(table?: any, formBtn?: any, option?: any): void;
+    initTable(table: any, formBtn: any, option?: any): void;
 }
 declare var albedoForm: AlbedoForm;
 
 interface AlbedoForm {
     init(target?: any): void;
 
-    initSave(target?: any): void;
+    initSave(target?: any, validateFun?: any): void;
 
     initValidate(target?: any, option?: any): void;
 
@@ -81,4 +81,11 @@ interface JQuery {
     resetForm(): JQuery;
 
     markdown(): JQuery;
+
+    mTreeInit(obj: any, setting: any, data: any): JQuery;
+
+    mTreeObj(s: string): any;
 }
+
+
+

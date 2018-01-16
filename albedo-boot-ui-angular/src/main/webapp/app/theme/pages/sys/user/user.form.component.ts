@@ -1,10 +1,8 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
-import { DictQuery } from "../../../../shared/sys/dict/dict.query.model";
-import { CTX } from "../../../../app.constants";
-import { ActivatedRoute } from "@angular/router";
-import { UserService } from "../../../../shared/sys/user/user.service";
-import { User } from "../../../../shared/sys/user/user.model";
-import {OnChanges} from "@angular/core/src/metadata/lifecycle_hooks";
+import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {CTX} from "../../../../app.constants";
+import {ActivatedRoute} from "@angular/router";
+import {UserService} from "../../../../service/sys/user/user.service";
+import {User} from "../../../../service/sys/user/user.model";
 
 @Component({
     selector: ".sys-user-form.page-form",
@@ -12,7 +10,6 @@ import {OnChanges} from "@angular/core/src/metadata/lifecycle_hooks";
 })
 export class UserFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    dictQueryStatus: DictQuery = new DictQuery("sys_status")
     user: User;
     routerSub: any;
     ctx: any;

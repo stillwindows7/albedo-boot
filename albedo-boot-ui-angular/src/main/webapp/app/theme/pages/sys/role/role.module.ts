@@ -1,11 +1,11 @@
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LayoutModule} from "../../../layouts/layout.module";
-import {UserComponent} from "./user.component";
-import {UserService} from "../../../../service/sys/user/user.service";
+import {RoleComponent} from "./role.component";
 import {AlbedoBootSharedModule} from "../../../../shared/shared.module";
-import {UserFormComponent} from "./user.form.component";
+import {RoleFormComponent} from "./role.form.component";
 import {RouterModule} from "@angular/router";
+import {RoleService} from "../../../../service/sys/role/role.service";
 
 
 @NgModule({
@@ -16,19 +16,19 @@ import {RouterModule} from "@angular/router";
         // RouterModule.forChild(routes),
         LayoutModule
     ], exports: [
-        UserComponent,
+        RoleComponent,
         // RouterModule
     ], entryComponents: [
-        UserComponent,
+        RoleComponent,
     ], declarations: [
-        UserComponent,
-        UserFormComponent,
+        RoleComponent,
+        RoleFormComponent,
     ], providers: [
-        UserService,
+        RoleService,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class UserModule {
+export class RoleModule {
 
 
 

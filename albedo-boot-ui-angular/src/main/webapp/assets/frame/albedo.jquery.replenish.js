@@ -23,3 +23,17 @@
         }
     });
 })(jQuery);
+
+
+
+(function($){
+    $.fn.mTreeInit = function($target, setting, data){
+        /*obj, zSetting, zNodes*/
+        return $.fn.zTree.init($target, setting, data);
+    }
+
+    $.fn.mTreeObj = function(treeId){
+        /*treeId*/
+        return $.fn.zTree.getZTreeObj(treeId);
+    }
+})(jQuery)

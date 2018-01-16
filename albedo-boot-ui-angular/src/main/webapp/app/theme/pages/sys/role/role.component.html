@@ -3,7 +3,7 @@
     <div class="d-flex align-items-center">
         <div class="mr-auto">
             <h3 class="m-subheader__title">
-                用户管理
+                角色管理
             </h3>
             <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                 <li class="m-nav__item m-nav__item--home">
@@ -31,14 +31,14 @@
 				</div>
 			</div>
             <div class="m-portlet__head-tools">
-                <a routerLink="/sys/user/form/" title="添加用户" class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill ">
+                <a routerLink="/sys/role/form/" title="添加角色" class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill ">
                     <i class="la la-plus"></i>
                 </a>
             </div>
 		</div>
 		<div class="m-portlet__body">
 			<!--begin: Search Form -->
-			<div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30 search-form" id="user-search-form">
+			<div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30 search-form" id="role-search-form">
 				<div class="row align-items-center">
 					<div class="col-xl-8 order-2 order-xl-1">
 						<div class="form-group m-form__group row align-items-center">
@@ -61,15 +61,34 @@
 								</div>
 								<div class="d-md-none m--margin-bottom-10"></div>
 							</div>
-							<div class="col-md-4">
+                            <div class="col-md-4">
                                 <div class="m-form__group m-form__group--inline">
                                     <div class="m-form__label">
                                         <label class="m-label m-label--single">
-                                            登录Id:
+                                            是否系统数据:
                                         </label>
                                     </div>
                                     <div class="m-form__control">
-                                        <input type="text" name="loginId" searchItem="searchItem" class="form-control m-input" />
+                                        <alb-form boxType="checkbox"
+                                                  id="sysData"
+                                                  name="sysData"
+                                                  operate="in"
+                                                  dictCode="sys_yes_no"
+                                                  searchItem="searchItem" >
+                                        </alb-form>
+                                    </div>
+                                </div>
+                                <div class="d-md-none m--margin-bottom-10"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="m-form__group m-form__group--inline">
+                                    <div class="m-form__label">
+                                        <label class="m-label m-label--single">
+                                            角色名称:
+                                        </label>
+                                    </div>
+                                    <div class="m-form__control">
+                                        <input type="text" name="name" searchItem="searchItem" class="form-control m-input" />
                                     </div>
                                 </div>
                                 <div class="d-md-none m--margin-bottom-10"></div>
@@ -78,7 +97,7 @@
 						</div>
 					</div>
 					<div class="col-xl-4 order-1 order-xl-2 m--align-right">
-                        <button id="table-form-search-user" class="btn m-btn--pill m-btn--air btn-primary btn-sm m-btn m-btn--custom search-form-btn" type="button">
+                        <button id="table-form-search-role" class="btn m-btn--pill m-btn--air btn-primary btn-sm m-btn m-btn--custom search-form-btn" type="button">
                             查询
                         </button>
 						<div class="m-separator m-separator--dashed d-xl-none"></div>
@@ -86,7 +105,7 @@
 				</div>
 			</div>
 			<!--end: Search Form -->  		<!--begin: Datatable -->
-			<div class="m_datatable" id="data-table-user"></div>
+			<div class="m_datatable" id="data-table-role"></div>
 			<!--end: Datatable -->
 		</div>
 	</div>

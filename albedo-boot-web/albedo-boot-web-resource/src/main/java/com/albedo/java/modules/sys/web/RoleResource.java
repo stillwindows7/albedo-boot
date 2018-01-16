@@ -91,6 +91,9 @@ public class RoleResource extends DataVoResource<RoleService, RoleVo> {
                 roleVo.getId(), roleVo.getName()))) {
             throw new RuntimeMsgException("名称已存在");
         }
+        if(!RoleVo.DATA_SCOPE_CUSTOM.equals(roleVo.getDataScope())){
+            roleVo.getOrgIdList().clear();
+        }
         service.save(roleVo);
         SecurityUtil.clearUserJedisCache();
         return ResultBuilder.buildOk("保存", roleVo.getName(), "成功");

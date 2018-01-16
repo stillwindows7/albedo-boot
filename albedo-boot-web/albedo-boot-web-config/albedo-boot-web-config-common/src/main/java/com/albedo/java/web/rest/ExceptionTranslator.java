@@ -80,9 +80,9 @@ public class ExceptionTranslator {
             list.add(0, "数据验证失败：");
             message.addMessage(Collections3.convertToString(list, ""));
         } else {
+            log.error("{}", e);
             message.setCode(HttpStatus.INTERNAL_SERVER_ERROR);
             message.setStatus(Globals.MSG_TYPE_ERROR);
-            message.setData(e);
             message.addMessage("操作异常; ");
             message.addMessage(e.getMessage());
         }

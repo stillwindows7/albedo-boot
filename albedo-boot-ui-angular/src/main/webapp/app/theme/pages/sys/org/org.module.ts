@@ -1,11 +1,11 @@
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LayoutModule} from "../../../layouts/layout.module";
-import {UserComponent} from "./user.component";
-import {UserService} from "../../../../service/sys/user/user.service";
+import {OrgComponent} from "./org.component";
 import {AlbedoBootSharedModule} from "../../../../shared/shared.module";
-import {UserFormComponent} from "./user.form.component";
+import {OrgFormComponent} from "./org.form.component";
 import {RouterModule} from "@angular/router";
+import {OrgService} from "../../../../service/sys/org/org.service";
 
 
 @NgModule({
@@ -16,19 +16,19 @@ import {RouterModule} from "@angular/router";
         // RouterModule.forChild(routes),
         LayoutModule
     ], exports: [
-        UserComponent,
+        OrgComponent,
         // RouterModule
     ], entryComponents: [
-        UserComponent,
+        OrgComponent,
     ], declarations: [
-        UserComponent,
-        UserFormComponent,
+        OrgComponent,
+        OrgFormComponent,
     ], providers: [
-        UserService,
+        OrgService,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class UserModule {
+export class OrgModule {
 
 
 

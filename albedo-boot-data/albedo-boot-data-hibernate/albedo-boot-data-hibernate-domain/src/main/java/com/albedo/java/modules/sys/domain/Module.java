@@ -6,6 +6,8 @@ import com.albedo.java.util.annotation.DictType;
 import com.albedo.java.util.annotation.SearchField;
 import com.albedo.java.util.domain.RequestMethod;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicInsert;
@@ -25,6 +27,7 @@ import javax.persistence.Transient;
 @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Data
+@EqualsAndHashCode(callSuper=true)
 public class Module extends TreeEntity<Module> {
 
     public static final String F_ID = "id";

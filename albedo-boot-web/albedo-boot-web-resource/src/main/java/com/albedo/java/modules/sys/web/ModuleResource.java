@@ -58,8 +58,8 @@ public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
     }
 
 
-    @GetMapping(value = "treeData")
-    public ResponseEntity treeData(ModuleTreeQuery moduleTreeQuery) {
+    @GetMapping(value = "findTreeData")
+    public ResponseEntity findTreeData(ModuleTreeQuery moduleTreeQuery) {
         List<TreeResult> rs = moduleService.findTreeData(moduleTreeQuery, SecurityUtil.getModuleList());
         return ResultBuilder.buildOk(rs);
     }

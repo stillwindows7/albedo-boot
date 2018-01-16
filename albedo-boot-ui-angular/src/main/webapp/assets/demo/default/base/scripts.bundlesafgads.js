@@ -2024,7 +2024,6 @@ jQuery.fn.extend({
           params.method = API.getOption('data.source.read.method') || 'POST';
           var item = params.data['datatable']['sort'];
           if(item){
-              console.log(item)
               params.data['datatable']['sortName']=item.field+' '+item.sort;
               delete params.data['datatable']['sort'];
           }
@@ -3786,11 +3785,11 @@ jQuery.fn.extend({
        */
       setDataSourceParam: function(param, value) {
         var defaultSort = dt.getDefaultSortColumn();
-        datatable.API.params = $.extend({}, {
-          pagination: {page: 1, perpage: API.getOption('data.pageSize')},
-          sort: {sort: defaultSort.sort, field: defaultSort.field},
-          query: {},
-        }, datatable.API.params, dt.stateGet(dt.stateId));
+          datatable.API.params = $.extend({}, dt.stateGet(dt.stateId), datatable.API.params, {
+              pagination: {page: 1, perpage: API.getOption('data.pageSize')},
+              sort: {sort: defaultSort.sort, field: defaultSort.field},
+              query: {},
+          });
 
         datatable.API.params = dt.extendObj(datatable.API.params, param, value);
 
@@ -3803,16 +3802,16 @@ jQuery.fn.extend({
        */
       getDataSourceParam: function(param) {
         var defaultSort = dt.getDefaultSortColumn();
-        datatable.API.params = $.extend({}, {
-          pagination: {page: 1, perpage: API.getOption('data.pageSize')},
-            sortName: {sort: defaultSort.sort, field: defaultSort.field},
-          query: {},
-        }, datatable.API.params, dt.stateGet(dt.stateId));
+        datatable.API.params = $.extend({}, dt.stateGet(dt.stateId), datatable.API.params, {
+            pagination: {page: 1, perpage: API.getOption('data.pageSize')},
+            sort: {sort: defaultSort.sort, field: defaultSort.field},
+            query: {},
+        });
 
         if (typeof param === 'string') {
           return dt.getObject(param, datatable.API.params);
         }
-
+        console.log(datatable.API.params)
         return datatable.API.params;
       },
 

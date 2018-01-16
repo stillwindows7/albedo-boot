@@ -3,7 +3,7 @@
     <div class="d-flex align-items-center">
         <div class="mr-auto">
             <h3 class="m-subheader__title">
-                用户管理
+                角色管理
             </h3>
             <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                 <li class="m-nav__item m-nav__item--home">
@@ -27,7 +27,7 @@
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <h3 class="m-portlet__head-text">
-                        添加用户
+                        添加角色
                         <small>
                             数据表单
                         </small>
@@ -35,14 +35,14 @@
                 </div>
             </div>
             <div class="m-portlet__head-tools">
-                <a href="#/sys/user/list" title="用户列表" class="m-portlet__nav-link btn list btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill ">
+                <a href="#/sys/role/list" title="角色列表" class="m-portlet__nav-link btn list btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill ">
                     <i class="la la-th-list"></i>
                 </a>
             </div>
         </div>
         <!--begin::Form-->
-        <form class="m-form m-form--fit m-form--label-align-right form-validation" action="{{ctx}}/sys/user/" method="post" id="user-save-form">
-            <input type="hidden" name="id" value="{{user.id}}" />
+        <form class="m-form m-form--fit m-form--label-align-right form-validation" action="{{ctx}}/sys/role/" method="post" id="role-save-form">
+            <input type="hidden" name="id" value="{{role.id}}" />
             <div class="m-portlet__body">
                 <div id="bootstrap-alerts" class="m-form__content">
 
@@ -54,19 +54,19 @@
                     <div class="col-lg-4 col-md-9 col-sm-12">
                         <alb-tree-select id="org"
                              cssClass="required" allowClear="true" name="orgId"
-                             value="{{user.orgId}}" labelName="orgName"
-                             labelValue="{{user.orgName}}" title="选择组织"
+                             value="{{role.orgId}}" labelName="orgName"
+                             labelValue="{{role.orgName}}" title="选择组织"
                              url="{{ctx}}/sys/org/findTreeData" ></alb-tree-select>
 
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
-                        登录Id *
+                        名称 *
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
-                        <input type="text" name="loginId" value="{{user&&user.loginId}}"
-                               maxlength="64" data-required="1" class="form-control required"/>
+                        <input type="text" name="name" value="{{role&&role.name}}"
+                               maxlength="64" class="form-control required"/>
                         <span class="m-form__help">
 							唯一
 						</span>
@@ -74,46 +74,15 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
-                        密码 {{user.id==null?'*':''}}
+                        系统数据 *
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
-                        <input id="newPassword" name="password" type="password" value=""
-                               htmlEscape="false" maxlength="64"
-                               class="form-control {{user.id==null?'required':''}}"/>
-                        <span class="m-form__help {{user.id==null?'hide':''}}">
-							若不修改密码，请留空
-						</span>
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <label class="col-form-label col-lg-3 col-sm-12">
-                        确认密码 {{user.id?'*':''}}
-                    </label>
-                    <div class="col-lg-4 col-md-9 col-sm-12">
-                        <input name="confirmPassword" type="password" value=""
-                               htmlEscape="false" maxlength="64" class="form-control"
-                               equalTo="#newPassword"/>
-                        <span class="m-form__help">
-							重复输入密码
-						</span>
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <label class="col-form-label col-lg-3 col-sm-12">
-                        联系电话
-                    </label>
-                    <div class="col-lg-4 col-md-9 col-sm-12">
-                        <input name="phone" value="{{user.phone}}" htmlEscape="false"
-                               maxlength="32" class="form-control phone"/>
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <label class="col-form-label col-lg-3 col-sm-12">
-                        邮箱
-                    </label>
-                    <div class="col-lg-4 col-md-9 col-sm-12">
-                        <input name="email" value="{{user.email}}" htmlEscape="false"
-                               maxlength="32" class="form-control email"/>
+                        <alb-form boxType="radio"
+                                  id="sysData"
+                                  name="sysData"
+                                  dictCode="sys_yes_no"
+                                  value="{{role.sysData}}" cssClass="required">
+                        </alb-form>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
@@ -125,26 +94,50 @@
                                   id="status"
                                   name="status"
                                   dictCode="sys_status"
-                                  value="{{user.status}}" cssClass="required">
+                                  value="{{role.status}}" cssClass="required">
                         </alb-form>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
-                        角色 *
+                        系统数据 *
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
-                        <alb-form name="roleIdList" id="roleIdList" url="{{ctx}}/sys/role/comboData" boxType="select" multiple="multiple"
-                        value="{{user.roleIdList}}" cssClass="required"> </alb-form>
+                        <alb-form boxType="radio"
+                                  id="dataScope"
+                                  name="dataScope" [clickFunc]="refreshOrgTree"
+                                  dictCode="sys_role_scope"
+                                  value="{{role.dataScope}}" cssClass="required">
+                        </alb-form>
                     </div>
                 </div>
+
+                <div class="form-group m-form__group row operate-permision">
+                    <label class="col-form-label col-lg-3 col-sm-12">
+                        操作权限 *
+                    </label>
+                    <div class="col-lg-4 col-md-2 col-sm-12">
+                        <input *ngFor="let item of role.moduleIdList;" id="moduleId" name="moduleIdList" type="hidden"
+                               value="{{item}}"/>
+                        <div id="treeRoleModule" class="ztree"></div>
+                    </div>
+                    <label class="col-form-label col-lg-1 col-sm-12 treeRoleOrgBox {{role.dataScope != '5' ? 'hide' : ''}}">
+                        机构权限 *
+                    </label>
+                    <div class="col-lg-4 col-md-2 col-sm-12 treeRoleOrgBox {{role.dataScope != '5' ? 'hide' : ''}}">
+                        <input *ngFor="let item of role.orgIdList;" id="orgId" name="orgIdList" type="hidden"
+                               value="{{item}}"/>
+                        <div id="treeRoleOrg" class="ztree"></div>
+                    </div>
+                </div>
+
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
                         描述
                     </label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
                          <textarea class="summernote form-control" name="description"
-                                   rows="5">{{user.description}}</textarea>
+                                   rows="5">{{role.description}}</textarea>
                     </div>
                 </div>
             </div>
@@ -155,7 +148,7 @@
                             <button type="button" class="btn btn-success save">
                                 <i class="fa fa-check"></i> 保存
                             </button>
-                            <button type="button" class="btn btn-secondary" onclick="albedoForm.resetForm('#user-save-form')">
+                            <button type="button" class="btn btn-secondary" onclick="albedoForm.resetForm('#role-save-form')">
                                 重置
                             </button>
                             <button type="button" class="btn" onclick="window.history.back()">返回</button>

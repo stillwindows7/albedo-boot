@@ -31,17 +31,6 @@ import java.util.Set;
 @ToString
 public class Role extends IdEntity {
 
-    /*** 数据范围(所有数据) */
-    public static final Integer DATA_SCOPE_ALL = 1;
-    // 数据范围（1：所有数据；2：所在机构及以下数据；3：所在机构数据；4：仅本人数据；5：按明细设置）
-    /*** 数据范围(所在机构及以下数据) */
-    public static final Integer DATA_SCOPE_ORG_AND_CHILD = 2;
-    /*** 数据范围(所在机构数据) */
-    public static final Integer DATA_SCOPE_ORG = 3;
-    /*** 数据范围(仅本人数据) */
-    public static final Integer DATA_SCOPE_SELF = 4;
-    /*** 数据范围(按明细设置) */
-    public static final Integer DATA_SCOPE_CUSTOM = 5;
     public static final String F_SORT = "sort";
     public static final String F_NAME = "name";
     public static final String F_SYSDATA = "sysData";

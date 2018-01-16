@@ -2,9 +2,8 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {NavigationEnd, NavigationStart, Router} from '@angular/router';
 import {Helpers} from '../helpers';
 import {ScriptLoaderService} from '../shared/base/service/script-loader.service';
-import {ModuleService} from "../shared/sys/module/module.service";
-import {Module} from "../shared/sys/module/module.model";
-import {ResponseWrapper} from "../shared/base/model/response-wrapper.model";
+import {ModuleService} from "../service/sys/module/module.service";
+import {Module} from "../service/sys/module/module.model";
 import {CTX} from "../app.constants";
 import {LocalStorageService, SessionStorageService} from "ngx-webstorage";
 

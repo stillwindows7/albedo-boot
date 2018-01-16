@@ -11,6 +11,7 @@ import com.albedo.java.util.*;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.spring.SpringContextHolder;
+import com.albedo.java.vo.sys.RoleVo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
@@ -481,18 +482,18 @@ public final class SecurityUtil {
                 for (String oa : StringUtil.splitDefault(orgAlias)) {
                     if (!dataScope.contains(r.getDataScope()) && StringUtil.isNotBlank(oa)) {
                         tempOrgId = PublicUtil.toAppendStr(oa, idSql);
-                        if (Role.DATA_SCOPE_ALL.equals(r.getDataScope())) {
+                        if (RoleVo.DATA_SCOPE_ALL.equals(r.getDataScope())) {
                             isDataScopeAll = true;
-                        } else if (Role.DATA_SCOPE_ORG_AND_CHILD.equals(r.getDataScope())) {
+                        } else if (RoleVo.DATA_SCOPE_ORG_AND_CHILD.equals(r.getDataScope())) {
                             queryConditions.add(QueryCondition.eq(tempOrgId, userOrgId));
                             queryConditions.add(QueryCondition.like(PublicUtil.toAppendStr(oa, isSql ? ".parent_ids" : ".parentIds"),
                                     PublicUtil.toAppendStr(user.getOrg().getParentIds(), userOrgId, ",%'")));
-                        } else if (Role.DATA_SCOPE_ORG.equals(r.getDataScope())) {
+                        } else if (RoleVo.DATA_SCOPE_ORG.equals(r.getDataScope())) {
                             queryConditions.add(QueryCondition.eq(tempOrgId, userOrgId));
                             queryConditions
                                     .add(QueryCondition.eq(PublicUtil.toAppendStr(oa, isSql ? ".parent_id" : ".parentId"), userOrgId));
-                        } else if (Role.DATA_SCOPE_SELF.equals(r.getDataScope())
-                                || Role.DATA_SCOPE_CUSTOM.equals(r.getDataScope())) {
+                        } else if (RoleVo.DATA_SCOPE_SELF.equals(r.getDataScope())
+                                || RoleVo.DATA_SCOPE_CUSTOM.equals(r.getDataScope())) {
                             if (PublicUtil.isNotEmpty(r.getOrgIds())) {
                                 queryConditions.add(QueryCondition.in(tempOrgId,
                                         Lists.newArrayList(StringUtil.splitDefault(r.getOrgIds()))));

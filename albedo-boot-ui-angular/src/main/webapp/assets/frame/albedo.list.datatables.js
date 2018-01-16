@@ -8,7 +8,7 @@ var albedoList = function(){
         _mapData[key] = data;
     }
     var handleInitTable = function($table, $formBtn, options){
-        var  $table = $table && $table.length>0 ? $table : $('.m_datatable'),$formBtn = $formBtn && $formBtn.length>0 ? $formBtn : $('.search-form-btn');
+        var  $table = $table && $table.length>0 ? $table : $(document).find('.m_datatable'),$formBtn = $formBtn && $formBtn.length>0 ? $formBtn : $(document).find('.search-form-btn');
         options = $.extend(true, {// datasource definition
             data: {
                 type: 'remote',
@@ -59,12 +59,18 @@ var albedoList = function(){
             }
         }, options);
         setTimeout(function() {
-            var dataTable = $table.mDatatable(options);
-            _setData($table.attr("id"), dataTable);
-        }, 10)
-        $formBtn.click(function() {
-            _getData($table.attr("id")).loadFilterGird();
-        })
+            console.log($table);
+            $table.each(function (index, item) {
+                var dataTable = $(item).mDatatable(options);
+                console.log(dataTable);
+                _setData($(item).attr("id"), dataTable);
+                $($formBtn.get(index)).click(function() {
+                    _getData($(item).attr("id")).loadFilterGird();
+                })
+            })
+
+        }, 100)
+
     }
     var handleConfirmAjax = function ($target) {
         var $target = $target && $target.length>0 || $(document);

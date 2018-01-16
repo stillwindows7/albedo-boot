@@ -1,16 +1,16 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {ScriptLoaderService} from "../../../../shared/base/service/script-loader.service";
-import {CTX} from "../../../../app.constants";
+import {CTX, DATA_STATUS, DICT_SYS_DATA} from "../../../../app.constants";
 import {SessionStorageService} from "ngx-webstorage";
 import {ActivatedRoute} from "@angular/router";
 
 declare let datatable: any;
 @Component({
-    selector: ".sys-user-list.page-list",
-    templateUrl: "./user.component.html",
+    selector: ".sys-role-list.page-list",
+    templateUrl: "./role.component.html",
     encapsulation: ViewEncapsulation.None,
 })
-export class UserComponent implements OnInit,OnDestroy, AfterViewInit {
+export class RoleComponent implements OnInit,OnDestroy, AfterViewInit {
 
 
     routerSub: any;
@@ -33,7 +33,7 @@ export class UserComponent implements OnInit,OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        // this._script.load('.sys-user-list',
+        // this._script.load('.sys-role-list',
         //     'assets/demo/default/custom/components/datatables/base/data-ajax.js');
         this.initTable()
         // Helpers.setBreadcrumbs();
@@ -47,7 +47,7 @@ export class UserComponent implements OnInit,OnDestroy, AfterViewInit {
                     read: {
                         // sample GET method
                         method: 'GET',
-                        url: CTX + '/sys/user/',
+                        url: CTX + '/sys/role/',
                     },
                 },
                 pageSize: 10,
@@ -60,35 +60,25 @@ export class UserComponent implements OnInit,OnDestroy, AfterViewInit {
                     // width: 40,
                     textAlign: 'center',
                 }, {
-                    field: 'loginId',
-                    title: '登录Id',
+                    field: 'name',
+                    title: '名称',
                     sortable: 'asc',
                     width: 150,
                     // basic templating support for column rendering,
                     // template: '{{OrderID}} - {{ShipCountry}}',
                 }, {
-                    field: 'email',
-                    title: '邮箱',
+                    field: 'sysData',
+                    title: '是否系统数据',
                     width: 150,
-                    // template: function (row) {
-                    //     // callback function support for column rendering
-                    //     return row.ShipCountry + ' - ' + row.ShipCity;
-                    // },
+                    template: function (row) {
+                        return '<span class="m-badge ' + DICT_SYS_DATA[row.sysData].class + ' m-badge--wide">' + row.sysData + '</span>';
+                    },
                 }, {
                     field: 'status',
                     title: '状态',
                     // callback function support for column rendering
                     template: function(row) {
-                        var status = {
-                            // 1: {'title': 'Pending', 'class': 'm-badge--brand'},
-                            // 2: {'title': 'Delivered', 'class': ' m-badge--metal'},
-                            // 3: {'title': 'Canceled', 'class': ' m-badge--primary'},
-                            "正常": { 'title': 'Success', 'class': ' m-badge--success' },
-                            "审核": { 'title': 'Info', 'class': ' m-badge--info' },
-                            "删除": { 'title': 'Danger', 'class': ' m-badge--danger' },
-                            "失效": { 'title': 'Warning', 'class': ' m-badge--warning' },
-                        };
-                        return '<span class="m-badge ' + status[row.status].class + ' m-badge--wide">' + row.status + '</span>';
+                        return '<span class="m-badge ' + DATA_STATUS[row.status].class + ' m-badge--wide">' + row.status + '</span>';
                     },
                 }, {
                     field: 'lastModifiedDate',
@@ -101,22 +91,22 @@ export class UserComponent implements OnInit,OnDestroy, AfterViewInit {
                     overflow: 'visible',
                     template: function(row) {
                         return '\
-						<a href="#/sys/user/form/'+ row.id + '" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">\
+						<a href="#/sys/role/form/'+ row.id + '" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">\
 							<i class="la la-edit"></i>\
 						</a>\
-						<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="'+ (row.status == "正常" ? "锁定" : "解锁") + '用户"\
-						 data-table-id="#data-table-user" data-method="put"  data-title="你确认要操作【'+ row.loginId+ '】用户吗？" data-url="'+ CTX +'/sys/user/'+ row.id+ '">\
+						<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="'+ (row.status == "正常" ? "锁定" : "解锁") + '角色"\
+						 data-table-id="#data-table-role" data-method="put"  data-title="你确认要操作【'+ row.name+ '】角色吗？" data-url="'+ CTX +'/sys/role/'+ row.id+ '">\
 							<i class="la la-'+ (row.status == "正常" ? "unlock-alt" : "unlock") + '"></i>\
 						</a>\
 					    <a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
-                             data-table-id="#data-table-user" data-method="delete"  data-title="你确认要删除【'+ row.loginId+ '】用户吗？" data-url="'+ CTX +'/sys/user/'+ row.id+ '">\
+                             data-table-id="#data-table-role" data-method="delete"  data-title="你确认要删除【'+ row.name+ '】角色吗？" data-url="'+ CTX +'/sys/role/'+ row.id+ '">\
                             <i class="la la-trash"></i>\
                         </a>';
                     },
                 }],
         };
 
-        albedoList.initTable($('#data-table-user'), $('#table-form-search-user'), options);
+        albedoList.initTable($('#data-table-role'), $('#table-form-search-role'), options);
         albedoList.init();
     }
 

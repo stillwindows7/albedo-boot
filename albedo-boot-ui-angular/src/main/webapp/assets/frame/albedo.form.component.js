@@ -762,11 +762,12 @@ var albedoForm = function () {
         });
     };
 
-    var handleSave = function ($target) {
+    var handleSave = function ($target, validateFun) {
         var $target = $target || $(".m-content");
         $target.off('click', '.save').on('click', '.save', function () {
-            var el = $(this), $form = $target.find('.form-validation'), validateFun = $form.attr("validateFun"),
+            var el = $(this), $form = $target.find('.form-validation'),
                 flag = true;
+            if(!validateFun) validateFun = $form.attr("validateFun")
             if (doValidation($form)) {
                 albedo.isExitsFunction(validateFun) && eval("flag = " + validateFun + "()");
                 if (flag) {
@@ -945,7 +946,6 @@ var albedoForm = function () {
     var doValidation = function ($formTagert) {
         if ($formTagert && $formTagert.length > 0) {
             var validator =_getData($formTagert.attr("id"));
-            console.log(validator);
             return validator ? validator.form() : handleValidation($formTagert).form();
         }
         return false;
@@ -974,8 +974,8 @@ var albedoForm = function () {
             handleFileUpload($target);
         },
 
-        initSave: function ($target) {
-            handleSave($target)
+        initSave: function ($target, validateFun) {
+            handleSave($target, validateFun)
         },
         initFormData: function (selector, data) {
             _setData(selector, data)

@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {AlbedoBootSharedLibsModule} from "./shared-libs.module";
 import {AlbFormComponent, AlbTreeSelectComponent} from "./";
-import {DictService} from "./sys/dict/dict.service";
+import {DictService} from "../service/sys/dict/dict.service";
 
 
 @NgModule({

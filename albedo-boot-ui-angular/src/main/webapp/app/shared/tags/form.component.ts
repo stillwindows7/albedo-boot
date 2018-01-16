@@ -1,14 +1,11 @@
 import {AfterViewInit, Component, Input, OnInit, SimpleChanges} from '@angular/core';
 import {ComboSearch} from "../base/model/combo.search.model";
-import {DictService} from "../sys/dict/dict.service";
-import {DictQuery} from "../sys/dict/dict.query.model";
+import {DictService} from "../../service/sys/dict/dict.service";
+import {DictQuery} from "../../service/sys/dict/dict.query.model";
 import {ComboData} from "../base/model/combo.data.model";
-import {ResponseWrapper} from "../base/model/response-wrapper.model";
-import {Http, Response} from "@angular/http";
-import {convertResponse, createRequestOption} from "../base/request-util";
+import {Http} from "@angular/http";
+import {createRequestOption} from "../base/request-util";
 import {OnChanges} from "@angular/core/src/metadata/lifecycle_hooks";
-import {CTX} from "../../app.constants";
-import set = Reflect.set;
 
 @Component({
     selector: "alb-form",
@@ -23,11 +20,15 @@ export class AlbFormComponent implements OnInit, AfterViewInit,OnChanges {
     @Input()
     comboData?: ComboData[];
     @Input()
+    public dictCode?: string;
+    @Input()
     public name?: string;
     @Input()
     public searchItem?: string;
     @Input()
     operate?: string;
+    @Input()
+    clickFunc?: Function;
     @Input()
     multiple?: string;
     @Input()
@@ -63,6 +64,7 @@ export class AlbFormComponent implements OnInit, AfterViewInit,OnChanges {
     }
     ngOnInit(): void {
         if (!this.comboData) {
+            if(this.dictCode!=null) this.dictQuery = new DictQuery(this.dictCode);
             let params = this.dictQuery != null ? this.dictQuery : this.comboSearch;
             params && this.dictService.codes(params).subscribe(
                 (data: any) => {
@@ -114,62 +116,69 @@ export class AlbFormComponent implements OnInit, AfterViewInit,OnChanges {
         // }
     }
     private initTags() {
-        if (this.afterViewInit != true || this.comboData == null) return;
-        console.log(this.comboData);
+        var self = this;
+        if (self.afterViewInit != true || self.comboData == null) return;
+        console.log(self.comboData);
         setTimeout(function () {
-            $('.m-bootstrap-select').selectpicker();
+            $('.m-bootstrap-select').selectpicker().on('hidden.bs.select', function (e) {
+                self.changeVal();
+            });
         },400)
-        // if(!this.value){
-        //     var ngValue = $("#form-item-" + this.id).parent().attr("ng-reflect-value");
-        //     if(ngValue) this.value = ngValue;
+        // if(!self.value){
+        //     var ngValue = $("#form-item-" + self.id).parent().attr("ng-reflect-value");
+        //     if(ngValue) self.value = ngValue;
         // }
-        // console.log(this.value)
+        // console.log(self.value)
         // let $formTag;
-        // this.operate = this.operate ? this.operate : 'like';
-        // if (this.boxType == AlbFormComponent.BOX_TYPE_SELECT) {
+        // self.operate = self.operate ? self.operate : 'like';
+        // if (self.boxType == AlbFormComponent.BOX_TYPE_SELECT) {
         //     $formTag = $("<select " +
-        //         "id=\"" + this.toStr(this.id) + "\" " +
-        //         "name=\"" + this.toStr(this.name) + "\" " + (this.searchItem ? ("searchItem=\"" + this.toStr(this.searchItem) + "\" attrType=\"" + this.toStr(this.attrType) + "\" " +
-        //             "operate=\"" + this.toStr(this.operate) + "\" " +
-        //             "analytiColumn=\"" + this.toStr(this.analytiColumn) + "\" " +
-        //             "analytiColumnPrefix=\"" + this.toStr(this.analytiColumnPrefix) + "\" " ) : "") +
+        //         "id=\"" + self.toStr(self.id) + "\" " +
+        //         "name=\"" + self.toStr(self.name) + "\" " + (self.searchItem ? ("searchItem=\"" + self.toStr(self.searchItem) + "\" attrType=\"" + self.toStr(self.attrType) + "\" " +
+        //             "operate=\"" + self.toStr(self.operate) + "\" " +
+        //             "analytiColumn=\"" + self.toStr(self.analytiColumn) + "\" " +
+        //             "analytiColumnPrefix=\"" + self.toStr(self.analytiColumnPrefix) + "\" " ) : "") +
         //
-        //         "class=\"form-control m-bootstrap-select " + this.toStr(this.cssClass) + "\">" +
+        //         "class=\"form-control m-bootstrap-select " + self.toStr(self.cssClass) + "\">" +
         //         "</select>");
         //
-        //     if (!this.cssClass || this.cssClass.indexOf("required") == -1) {
+        //     if (!self.cssClass || self.cssClass.indexOf("required") == -1) {
         //         $formTag.append($("<option value=\"\">请选择...</option>"))
         //     }
-        //     this.comboData.forEach(item => {
-        //         $formTag.append($("<option value=\"" + this.toStr(item.id) + "\" " + (this.value == item.id ? "selected='selected'" : "") + ">" + item.name + "</option>"))
+        //     self.comboData.forEach(item => {
+        //         $formTag.append($("<option value=\"" + self.toStr(item.id) + "\" " + (self.value == item.id ? "selected='selected'" : "") + ">" + item.name + "</option>"))
         //     })
         // } else {
-        //     $formTag = $("<div class=\"m-" + this.toStr(this.boxType) + "-inline\"></div>");
+        //     $formTag = $("<div class=\"m-" + self.toStr(self.boxType) + "-inline\"></div>");
         //     let i = 1;
-        //     this.comboData.forEach(item => {
+        //     self.comboData.forEach(item => {
         //         let valLabel = item.id, nameLabel = item.name;
-        //         $formTag.append($("<label class=\"m-" + this.boxType + "\">" +
-        //             "<input type=\"" + (AlbFormComponent.BOX_TYPE_CHECKBOX == this.boxType ? AlbFormComponent.BOX_TYPE_CHECKBOX : AlbFormComponent.BOX_TYPE_RADIO) + "\" " +
-        //             "id=\"" + (this.id ? this.name : this.id) + (i) + "\" " +
-        //             "name=\"" + this.name + "\" " +(this.searchItem? (
-        //                 "searchItem=\"" + this.toStr(this.searchItem) + "\" " +
-        //                 "attrType=\"" + this.toStr(this.attrType) + "\"" +
-        //                 "operate=\"" + this.toStr(this.operate) + "\" " +
-        //                 "analytiColumn=\"" + this.toStr(this.analytiColumn) + "\" " +
-        //                 "analytiColumnPrefix=\"" + this.toStr(this.analytiColumnPrefix) + "\" "
-        //             ) : "")+"itemLabel=\"" + this.toStr(this.itemLabel) + "\" " +
-        //             "itemValue=\"" + this.toStr(this.itemValue) + "\" " +
+        //         $formTag.append($("<label class=\"m-" + self.boxType + "\">" +
+        //             "<input type=\"" + (AlbFormComponent.BOX_TYPE_CHECKBOX == self.boxType ? AlbFormComponent.BOX_TYPE_CHECKBOX : AlbFormComponent.BOX_TYPE_RADIO) + "\" " +
+        //             "id=\"" + (self.id ? self.name : self.id) + (i) + "\" " +
+        //             "name=\"" + self.name + "\" " +(self.searchItem? (
+        //                 "searchItem=\"" + self.toStr(self.searchItem) + "\" " +
+        //                 "attrType=\"" + self.toStr(self.attrType) + "\"" +
+        //                 "operate=\"" + self.toStr(self.operate) + "\" " +
+        //                 "analytiColumn=\"" + self.toStr(self.analytiColumn) + "\" " +
+        //                 "analytiColumnPrefix=\"" + self.toStr(self.analytiColumnPrefix) + "\" "
+        //             ) : "")+"itemLabel=\"" + self.toStr(self.itemLabel) + "\" " +
+        //             "itemValue=\"" + self.toStr(self.itemValue) + "\" " +
         //             "value=\"" + valLabel + "\" " +
-        //             "class=\"" + this.toStr(this.cssClass) + "\"" +
-        //             (this.value && (valLabel == this.value || (","+this.value+",").indexOf(","+valLabel+",") != -1) ? "checked=\"checked\"" : "") +
-        //             "data-options=\"" + this.toStr(this.dataOptions) + "\"  />" + nameLabel + "<span></span></label>"));
+        //             "class=\"" + self.toStr(self.cssClass) + "\"" +
+        //             (self.value && (valLabel == self.value || (","+self.value+",").indexOf(","+valLabel+",") != -1) ? "checked=\"checked\"" : "") +
+        //             "data-options=\"" + self.toStr(self.dataOptions) + "\"  />" + nameLabel + "<span></span></label>"));
         //         i++;
         //     });
         // }
-        // $("#form-item-" + this.id).parent().append($formTag)
+        // $("#form-item-" + self.id).parent().append($formTag)
         //     .find('.m-bootstrap-select').selectpicker();
-        // this.scriptLoaderService.load(".m-bootstrap-select", "assets/common/formInit.js");
+        // self.scriptLoaderService.load(".m-bootstrap-select", "assets/common/formInit.js");
 
+    }
+
+    changeVal(){
+        this.clickFunc();
     }
 
 }
