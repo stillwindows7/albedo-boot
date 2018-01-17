@@ -28,7 +28,7 @@
                 <form class="form-inline form-search" org="form">
                     <input id="parentId" name="parentId" type="hidden" operate="eq" searchItem="searchItem"/>
                     <div class="form-group">
-                        <label class="input-label" for="loginId">登录Id </label>
+                        <label class="input-label" for="loginId">名称 </label>
                         <input type="text" class="form-control" searchItem="searchItem" id="name" name="name"
                                placeholder="..."></div>
                     <div class="form-group">

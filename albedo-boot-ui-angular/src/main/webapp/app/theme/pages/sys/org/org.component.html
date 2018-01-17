@@ -22,8 +22,10 @@
 <div class="m-content">
     <div class="row">
         <div class="col-xl-3">
-
-        </div>
+            <alb-tree-show id="org_" title="组织机构" selectNodeId="nodeId" url="{{ctx}}/sys/org/findTreeData?all"
+            clickNodeFn="clickTreeNodeOrg" allowCancelSelect="true" cancelClickNodeFn="cancelClickNodeOrg" nodesLevel="3">
+            </alb-tree-show>
+    </div>
         <div class="col-xl-9">
             <div class="m-portlet m-portlet--mobile">
                 <div class="m-portlet__head">

@@ -13,11 +13,12 @@ declare let datatable: any;
 export class OrgComponent implements OnInit,OnDestroy, AfterViewInit {
 
 
+    ctx: any;
     routerSub: any;
     constructor(private _script: ScriptLoaderService,
         private router: ActivatedRoute,
         private sessionStorage: SessionStorageService) {
-
+        this.ctx = CTX;
     }
 
 
