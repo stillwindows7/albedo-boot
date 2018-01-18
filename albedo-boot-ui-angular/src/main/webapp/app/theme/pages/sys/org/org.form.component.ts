@@ -118,7 +118,7 @@ export class OrgFormComponent implements OnInit, OnDestroy, AfterViewInit {
                  var nodes = treeOrgModule.expandAll(true);
                  // 默认选择节点
                  $("input[name='moduleIdList']").each(function () {
-                     console.log( $(this).val())
+                     // console.log( $(this).val())
                      var node = treeOrgModule.getNodeByParam("id", $(this).val());
                      if (node) treeOrgModule.checkNode(node, true, false, false);
                  });

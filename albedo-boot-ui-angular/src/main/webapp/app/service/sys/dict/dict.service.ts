@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Rx';
 import {CTX} from "../../../app.constants";
 import {DataService} from "../../../shared/base/service/data.service";
 import {Dict} from "./dict.model";
-import {createRequestOption} from "../../../shared/base/request-util";
+import {createRequestOption} from "../../../shared/base/request.util";
 
 
 @Injectable()

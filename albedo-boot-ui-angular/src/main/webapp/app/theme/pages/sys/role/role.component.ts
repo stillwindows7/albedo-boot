@@ -24,7 +24,7 @@ export class RoleComponent implements OnInit,OnDestroy, AfterViewInit {
 
     ngOnInit() {
         this.routerSub = this.router.url.subscribe((urlSegment) => {
-            console.log(urlSegment)
+            // console.log(urlSegment)
         });
     }
 

@@ -60,7 +60,7 @@ export class AuthComponent implements OnInit {
         this.loading = true;
 
         this.loginService.login(this.model).then((data) => {
-            console.log(data);
+            // console.log(data);
             // this.authenticationError = false;
             this.activeModal.dismiss('login success');
             if (this._router.url === '/register' || (/^\/activate\//.test(this._router.url)) ||

@@ -3,7 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { ResponseWrapper } from "../../base/model/response-wrapper.model";
 import { Data } from "../model/data.model";
-import { createRequestOption, convertResponse } from "../request-util";
+import { createRequestOption, convertResponse } from "../request.util";
 
 
 @Injectable()

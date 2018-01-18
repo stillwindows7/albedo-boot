@@ -1,7 +1,6 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {ScriptLoaderService} from "../../../../shared/base/service/script-loader.service";
-import {CTX, DATA_STATUS, DICT_SYS_DATA} from "../../../../app.constants";
-import {SessionStorageService} from "ngx-webstorage";
+import {CTX, DATA_STATUS} from "../../../../app.constants";
 import {ActivatedRoute} from "@angular/router";
 
 declare let datatable: any;
@@ -15,17 +14,18 @@ export class OrgComponent implements OnInit,OnDestroy, AfterViewInit {
 
     ctx: any;
     routerSub: any;
+    nodeId: any;
     constructor(private _script: ScriptLoaderService,
-        private router: ActivatedRoute,
-        private sessionStorage: SessionStorageService) {
+        private router: ActivatedRoute) {
         this.ctx = CTX;
+        this.nodeId = albedo.getUserCookie("tree_org_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1;
     }
 
 
 
     ngOnInit() {
         this.routerSub = this.router.url.subscribe((urlSegment) => {
-            console.log(urlSegment)
+            // console.log(urlSegment)
         });
     }
 
@@ -41,7 +41,6 @@ export class OrgComponent implements OnInit,OnDestroy, AfterViewInit {
     }
 
     initTable() {
-        // const token = this.localStorage.retrieve('authenticationToken') || this.sessionStorage.retrieve('authenticationToken');
         var options = {
             data: {
                 source: {
@@ -56,24 +55,21 @@ export class OrgComponent implements OnInit,OnDestroy, AfterViewInit {
             // columns definition
             columns: [
                 {
-                    field: 'orgName',
-                    title: '所属组织',
-                    // width: 40,
-                    textAlign: 'center',
-                }, {
                     field: 'name',
                     title: '名称',
                     sortable: 'asc',
-                    width: 150,
-                    // basic templating support for column rendering,
-                    // template: '{{OrderID}} - {{ShipCountry}}',
                 }, {
-                    field: 'sysData',
-                    title: '是否系统数据',
-                    width: 150,
-                    template: function (row) {
-                        return '<span class="m-badge ' + DICT_SYS_DATA[row.sysData].class + ' m-badge--wide">' + row.sysData + '</span>';
-                    },
+                    field: 'code',
+                    title: '编码',
+                }, {
+                    field: 'type',
+                    title: '类型',
+                }, {
+                    field: 'grade',
+                    title: '等级',
+                }, {
+                    field: 'sort',
+                    title: '序号',
                 }, {
                     field: 'status',
                     title: '状态',
@@ -109,8 +105,26 @@ export class OrgComponent implements OnInit,OnDestroy, AfterViewInit {
 
         albedoList.initTable($('#data-table-org'), $('#table-form-search-org'), options);
         albedoList.init();
+        albedoForm.initTree();
     }
 
-
+    cancelClickNodeOrg(event, treeId, treeNode) {
+        // console.log(event)
+        albedo.setUserCookie("tree_org_select_node_id", '');
+        $("#parentId").val('');
+        $(".filter-submit-table-org").trigger("click");
+    }
+    refreshTreeOrg(re) {
+        $(".tree-refresh").trigger("click");
+    }
+    clickTreeNodeOrg(event, treeId, treeNode) {
+        // console.log(event)
+        var addUrl = $("#add-org").attr("data-url-temp");
+        if (addUrl) $("#add-org").attr("data-url", addUrl + (addUrl.indexOf("?") == -1 ? "?" : "&") + "parentId=" + treeNode.id);
+        this.nodeId = treeNode.id;
+        albedo.setUserCookie("tree_org_select_node_id", this.nodeId);
+        $("#parentId").val(treeNode.id);
+        $(".filter-submit-table-org").trigger("click");
+    }
 
 }

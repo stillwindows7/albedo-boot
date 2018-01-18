@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {AlbedoBootSharedLibsModule} from "./shared-libs.module";
 import {AlbFormComponent, AlbTreeSelectComponent} from "./";
 import {DictService} from "../service/sys/dict/dict.service";
+import {AlbTreeShowComponent} from "./tags/tree.show.component";
 
 
 @NgModule({
@@ -11,6 +12,7 @@ import {DictService} from "../service/sys/dict/dict.service";
     declarations: [
         AlbFormComponent,
         AlbTreeSelectComponent,
+        AlbTreeShowComponent,
         // AlbFormTestComponent
     ],
     providers: [
@@ -20,6 +22,7 @@ import {DictService} from "../service/sys/dict/dict.service";
         AlbedoBootSharedLibsModule,
         AlbFormComponent,
         AlbTreeSelectComponent,
+        AlbTreeShowComponent,
         // AlbFormTestComponent
     ]
 

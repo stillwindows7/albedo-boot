@@ -7,6 +7,6 @@ export * from './base/model/tree.model';
 export * from './base/service/data.service';
 export * from './base/service/error-handler.service';
 export * from './base/service/script-loader.service';
-export * from './base/request-util';
+export * from './base/request.util';
 export * from './tags/form.component';
 export * from './tags/tree.select.component';

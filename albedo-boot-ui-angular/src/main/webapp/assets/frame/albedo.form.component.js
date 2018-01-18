@@ -95,7 +95,14 @@ var albedoForm = function () {
                 beforeClick: function (treeId, treeNode) {
                     if (allowCancelSelect && tree && tree.getSelectedNodes()[0] && tree.getSelectedNodes()[0].id == treeNode.id) {
                         tree.cancelSelectedNode();
-                        cancelClickNodeFn && eval(cancelClickNodeFn + "(treeId, treeNode);")
+                        var cancelClickNodeFnName;
+                        console.log(cancelClickNodeFn)
+                        cancelClickNodeFn && cancelClickNodeFn.indexOf("function")!=1 && eval("cancelClickNodeFnName = "+cancelClickNodeFn);
+                        if ((typeof cancelClickNodeFnName) == "function") {
+                            var param = [treeId, treeNode];
+                            cancelClickNodeFnName.apply(tree, param);
+                        }
+                        // eval((cancelClickNodeFnName?cancelClickNodeFnName:cancelClickNodeFn) + "();")
                         return false;
                     } else if (notAllowSelect) {
                         return false;
@@ -112,9 +119,18 @@ var albedoForm = function () {
 
             }
         };
-        clickNodeFn && eval("setting.callback.onClick = " + clickNodeFn);
-        beforeCheckNodeFn && eval("setting.callback.beforeCheck = " + beforeCheckNodeFn);
 
+        console.log(clickNodeFn);
+        try{
+            clickNodeFn && eval("setting.callback.onClick = " + clickNodeFn);
+        }catch(e){
+            console.log(e);}
+        try{
+            beforeCheckNodeFn && eval("setting.callback.beforeCheck = " + beforeCheckNodeFn);
+        }catch(e){}
+        try{
+            checkNodeFn && eval("setting.callback.onCheck = " + checkNodeFn);
+        }catch(e){}
         if (checked && !checkNodeFn && checkShowInputId) {
             var _checkedNode_ = function (treeNode, showInput, showName) {
                 if (treeNode.checked) {
@@ -136,12 +152,10 @@ var albedoForm = function () {
                             }
                         }
                     }
-                    console.log(nodes);
                 }
                 showInput.val(showName);
             };
         }
-        checkNodeFn && eval("setting.callback.onCheck = " + checkNodeFn);
         var refreshTree = function () {
             $.get(url, function (rs) {
                 if (rs && rs.status != 1) {
@@ -163,16 +177,27 @@ var albedoForm = function () {
                         if (node) tree.checkNode(node, true, true);
                     }
                 });
-                var selectNodeId = $thiz.attr("_selectNodeId") ? $thiz.attr("_selectNodeId") : "";
-                eval("var selectId=" + selectNodeId);
-                if (selectNodeId) {
-                    if (selectId) selectNodeId = selectId;
-                    var node = (selectNodeId == 1 ? tree.getNodes()[0] : tree.getNodeByParam("id", selectNodeId));
+                var selectNodeId = $thiz.attr("_selectNodeId") ? $thiz.attr("_selectNodeId") : "",selectId;
+                try{
+                    eval("if("+selectNodeId+"){var selectId=" + selectNodeId+"}");
+                }catch(e){}
+                if (selectId) {
+                    var node = (selectId == 1 ? tree.getNodes()[0] : tree.getNodeByParam("id", selectId));
                     tree.selectNode(node);
                 }
             });
         }
-        refreshTree();
+        console.log(albedo.getToken())
+        if(albedo.getToken()){
+            refreshTree();
+        }else{
+            // while(!albedo.getToken()){
+                setTimeout(function () {
+                    console.log(albedo.getToken())
+                    albedo.getToken() && refreshTree()
+                }, 1000)
+            // }
+        }
         $thiz.prev("div").find("input").bind("focus", function () {
             _treeSearchInputFocusKey($(this));
         }).bind("blur", function () {
@@ -181,7 +206,7 @@ var albedoForm = function () {
             .bind("change keydown cut input propertychange", function () {
                 _treeSearchNode($(this), tree);
             });
-        var $portlet = $thiz.parents(".portlet");
+        var $portlet = $thiz.parents(".m-portlet");
         $portlet.find("a.tree-search").off("click").click(function () {
             $portlet.find(".tree-search-div").slideToggle(200);
             $portlet.find(".tree-search-input").focus();
@@ -1006,7 +1031,7 @@ var albedoForm = function () {
         }
     }
 }();
-jQuery(document).ready(function () {
-    albedoForm.init(); // init core componets
-});
+// jQuery(document).ready(function () {
+//     albedoForm.init(); // init core componets
+// });
 

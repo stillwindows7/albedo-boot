@@ -67,6 +67,7 @@ $.fn.serializeObject = function () {
 };
 
 var albedoConstants = {
+    userId: '',
     ctx: '/api',
     token: null,
 };
@@ -135,19 +136,25 @@ var albedo = {
         return Cookies.get(key);
     },
     setUserCookie: function (key, value) {
-        Cookies.set(key + userId, value, {
+        Cookies.set(key + this.getUserId(), value, {
             expires: 7,
             path: '/'
         });
     },
     getUserCookie: function (key) {
-        return Cookies.get(key + userId);
+        return Cookies.get(key + this.getUserId());
     },
     setCtx: function (ctx) {
         albedoConstants.ctx = ctx;
     },
     getCtx: function () {
         return albedoConstants.ctx;
+    },
+    setUserId: function (userId) {
+        albedoConstants.userId = userId;
+    },
+    getUserId: function () {
+        return albedoConstants.userId;
     },
     setToken: function (token) {
         albedoConstants.token = token;

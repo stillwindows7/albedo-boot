@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Module} from "../../../service/sys/module/module.model";
 import {ModuleService} from "../../../service/sys/module/module.service";
+import {setActiveItemMenu} from "../../../shared/base/base.util";
 
-declare let mLayout: any;
 @Component({
     selector: "app-aside-nav",
     templateUrl: "./aside-nav.component.html",
@@ -53,12 +53,7 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
         });
         setTimeout(function() {
             mLayout.initAside();
-            let menu = mLayout.getAsideMenu();
-            let item = $(menu).find('a[href="' + window.location.pathname + '"]').parent('.m-menu__item');
-            if (item.length < 1) {
-
-            }
-            (<any>$(menu).data('menu')).setActiveItem(item);
+            setActiveItemMenu()
         }, 100);
     }
 

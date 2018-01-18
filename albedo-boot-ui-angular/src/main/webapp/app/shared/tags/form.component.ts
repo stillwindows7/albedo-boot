@@ -4,7 +4,7 @@ import {DictService} from "../../service/sys/dict/dict.service";
 import {DictQuery} from "../../service/sys/dict/dict.query.model";
 import {ComboData} from "../base/model/combo.data.model";
 import {Http} from "@angular/http";
-import {createRequestOption} from "../base/request-util";
+import {createRequestOption} from "../base/request.util";
 import {OnChanges} from "@angular/core/src/metadata/lifecycle_hooks";
 
 @Component({
@@ -118,7 +118,7 @@ export class AlbFormComponent implements OnInit, AfterViewInit,OnChanges {
     private initTags() {
         var self = this;
         if (self.afterViewInit != true || self.comboData == null) return;
-        console.log(self.comboData);
+        // console.log(self.comboData);
         setTimeout(function () {
             $('.m-bootstrap-select').selectpicker().on('hidden.bs.select', function (e) {
                 self.changeVal();
@@ -178,7 +178,7 @@ export class AlbFormComponent implements OnInit, AfterViewInit,OnChanges {
     }
 
     changeVal(){
-        this.clickFunc();
+        this.clickFunc && this.clickFunc();
     }
 
 }

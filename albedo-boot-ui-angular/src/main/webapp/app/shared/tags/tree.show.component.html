@@ -15,8 +15,7 @@
         <div class="m-portlet__head-tools">
             <a href="javascript:void(0)" class="tree-search" title="搜索"><i class="fa fa-search"></i></a>
             <a href="javascript:void(0)" class="tree-refresh" title="刷新"><i class="fa fa-refresh"></i></a>
-            <a href="javascript:void(0)" id="expand_tree_{{id}}" expand="true" title="展开/折叠" class="tree-expand"><i
-                class="fa fa-expand"></i></a>
+            <a href="javascript:void(0)" id="expand_tree_{{id}}" expand="true" title="展开/折叠" class="tree-expand"><i class="fa fa-expand"></i></a>
 
 
             <!--<a routerLink="/sys/org/form/" title="添加机构" class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn&#45;&#45;outline-1x m-btn&#45;&#45;air m-btn&#45;&#45;icon m-btn&#45;&#45;icon-only m-btn&#45;&#45;pill ">-->
@@ -33,8 +32,9 @@
                 </div>
             </div>
         </div>
-        <div class="ztree ztree-show" _checked="{{checked}}"
-             [attr.id]="'tree-div-'+id"
+        <div class="ztree ztree-show"
+             id="tree-div-{{id}}"
+             [attr._checked]="checked"
              [attr._url]="url"
              [attr._checkNodeFn]="checkNodeFn"
              [attr._beforeCheckNodeFn]="beforeCheckNodeFn"

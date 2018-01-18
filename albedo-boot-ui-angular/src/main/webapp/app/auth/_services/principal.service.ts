@@ -93,4 +93,10 @@ export class Principal {
     getImageUrl(): String {
         return this.isIdentityResolved() ? this.userIdentity.imageUrl : null;
     }
+    getUserId(): String {
+        return this.isIdentityResolved() ? this.userIdentity.loginId : null;
+    }
+    getUserName(): String {
+        return this.isIdentityResolved() ? this.userIdentity.name : null;
+    }
 }

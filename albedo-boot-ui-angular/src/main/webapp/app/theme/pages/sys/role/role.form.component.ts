@@ -120,7 +120,7 @@ export class RoleFormComponent implements OnInit, OnDestroy, AfterViewInit {
                  var nodes = treeRoleModule.expandAll(true);
                  // 默认选择节点
                  $("input[name='moduleIdList']").each(function () {
-                     console.log( $(this).val())
+                     // console.log( $(this).val())
                      var node = treeRoleModule.getNodeByParam("id", $(this).val());
                      if (node) treeRoleModule.checkNode(node, true, false, false);
                  });

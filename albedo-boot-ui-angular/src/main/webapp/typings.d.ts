@@ -26,6 +26,8 @@ interface AlbedoForm {
     validate(target?: any): void;
 
     initFormData(selector: string, user: any): void;
+
+    initTree(target?: any): void;
 }
 
 declare var albedo: Albedo;
@@ -34,8 +36,14 @@ interface Albedo {
     setCtx(ctx: any): void;
 
     setToken(token: any): void;
-}
 
+    setUserCookie(key: string, value: any): void;
+
+    getUserCookie(s: string): any;
+
+    setUserId(userId: String): void;
+}
+declare let mLayout: any;
 declare var mApp: MApp;
 
 interface MApp {

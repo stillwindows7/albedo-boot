@@ -7,6 +7,8 @@ import {DefaultComponent} from "./pages/default/default.component";
 import {UserFormComponent} from "./pages/sys/user/user.form.component";
 import {RoleComponent} from "./pages/sys/role/role.component";
 import {RoleFormComponent} from "./pages/sys/role/role.form.component";
+import {OrgFormComponent} from "./pages/sys/org/org.form.component";
+import {OrgComponent} from "./pages/sys/org/org.component";
 
 const routes: Routes = [
     {
@@ -41,6 +43,18 @@ const routes: Routes = [
                     {
                         path: "sys/role/form/:id",
                         component: RoleFormComponent
+                    },
+                    {
+                        path: "sys/org/list",
+                        component: OrgComponent
+                    },
+                    {
+                        path: "sys/org/form",
+                        component: OrgFormComponent
+                    },
+                    {
+                        path: "sys/org/form/:id",
+                        component: OrgFormComponent
                     },
                 ]
             }

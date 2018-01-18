@@ -22,8 +22,8 @@
 <div class="m-content">
     <div class="row">
         <div class="col-xl-3">
-            <alb-tree-show id="org_" title="组织机构" selectNodeId="nodeId" url="{{ctx}}/sys/org/findTreeData?all"
-            clickNodeFn="clickTreeNodeOrg" allowCancelSelect="true" cancelClickNodeFn="cancelClickNodeOrg" nodesLevel="3">
+            <alb-tree-show id="org_" title="组织机构" [selectNodeId]="nodeId" url="{{ctx}}/sys/org/findTreeData?all"
+            [clickNodeFn]="clickTreeNodeOrg" allowCancelSelect="true" [cancelClickNodeFn]="cancelClickNodeOrg" nodesLevel="1">
             </alb-tree-show>
     </div>
         <div class="col-xl-9">
@@ -45,6 +45,7 @@
                 <div class="m-portlet__body">
                     <!--begin: Search Form -->
                     <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30 search-form" id="org-search-form">
+                        <input id="parentId" name="parentId" type="hidden" operate="eq" searchItem="searchItem"/>
                         <div class="row align-items-center">
                             <div class="col-xl-8 order-2 order-xl-1">
                                 <div class="form-group m-form__group row align-items-center">
@@ -71,25 +72,6 @@
                                         <div class="m-form__group m-form__group--inline">
                                             <div class="m-form__label">
                                                 <label class="m-label m-label--single">
-                                                    是否系统数据:
-                                                </label>
-                                            </div>
-                                            <div class="m-form__control">
-                                                <alb-form boxType="checkbox"
-                                                          id="sysData"
-                                                          name="sysData"
-                                                          operate="in"
-                                                          dictCode="sys_yes_no"
-                                                          searchItem="searchItem" >
-                                                </alb-form>
-                                            </div>
-                                        </div>
-                                        <div class="d-md-none m--margin-bottom-10"></div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="m-form__group m-form__group--inline">
-                                            <div class="m-form__label">
-                                                <label class="m-label m-label--single">
                                                     机构名称:
                                                 </label>
                                             </div>
@@ -103,7 +85,7 @@
                                 </div>
                             </div>
                             <div class="col-xl-4 order-1 order-xl-2 m--align-right">
-                                <button id="table-form-search-org" class="btn m-btn--pill m-btn--air btn-primary btn-sm m-btn m-btn--custom search-form-btn" type="button">
+                                <button id="table-form-search-org" class="btn m-btn--pill m-btn--air btn-primary btn-sm m-btn m-btn--custom search-form-btn filter-submit-table-org" type="button">
                                     查询
                                 </button>
                                 <div class="m-separator m-separator--dashed d-xl-none"></div>
