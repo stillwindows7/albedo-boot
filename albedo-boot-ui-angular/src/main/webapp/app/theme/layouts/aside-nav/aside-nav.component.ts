@@ -2,6 +2,7 @@ import {AfterViewInit, Component, OnInit, ViewEncapsulation} from '@angular/core
 import {Module} from "../../../service/sys/module/module.model";
 import {ModuleService} from "../../../service/sys/module/module.service";
 import {setActiveItemMenu} from "../../../shared/base/base.util";
+import {LocalStorageService} from "ngx-webstorage";
 
 @Component({
     selector: "app-aside-nav",
@@ -16,6 +17,7 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
 
     constructor(
         private moduleService: ModuleService,
+        private localStorage: LocalStorageService,
     ) {
         this.moduleService.menus().subscribe(
             (data: Module[]) => {
@@ -53,7 +55,7 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
         });
         setTimeout(function() {
             mLayout.initAside();
-            setActiveItemMenu()
+            setActiveItemMenu(this.localStorage)
         }, 100);
     }
 

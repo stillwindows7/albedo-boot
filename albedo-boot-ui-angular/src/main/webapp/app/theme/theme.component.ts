@@ -21,7 +21,7 @@ declare let mLayout: any;
 export class ThemeComponent implements OnInit {
 
     private modules: Module[];
-
+    ;
 
     constructor(private scriptLoaderService: ScriptLoaderService,
                 private moduleService: ModuleService,
@@ -82,7 +82,7 @@ export class ThemeComponent implements OnInit {
                 console.log(route.url)
                 this.initBreadcrumbs(route.url);
 
-                setActiveItemMenu();
+                setActiveItemMenu(this.localStorage);
             }
         });
     }
