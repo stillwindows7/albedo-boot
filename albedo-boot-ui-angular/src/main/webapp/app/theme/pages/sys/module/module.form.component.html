@@ -53,10 +53,10 @@
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
                         <alb-tree-select id="module"
-                             cssClass="required" allowClear="true" name="parentId"
-                             value="{{module.parentId}}" labelName="parentName"
-                             labelValue="{{module.parentName}}" title="上级模块"
-                             url="{{ctx}}/sys/module/findTreeData" ></alb-tree-select>
+                                         cssClass="required" allowClear="true" name="parentId"
+                                         value="{{module.parentId}}" labelName="parentName"
+                                         labelValue="{{module.parentName}}" title="上级模块"
+                                         url="{{ctx}}/sys/module/findTreeData" ></alb-tree-select>
 
                     </div>
                 </div>
@@ -96,11 +96,11 @@
                         图标
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
-                        <input type="text" name="iconCls" value="{{module.iconCls}}"
-                               maxlength="64" class="form-control"/>
+                        <alb-ico-show  id="iconCls"
+                                       cssClass="required" allowClear="true" name="iconCls"
+                                       value="{{module.iconCls}}" title="选择模块"></alb-ico-show>
                     </div>
                     <span class="m-form__help">
-							<a href="${ctx}/sys/module/ico" target="_blank">选择图标</a>
                     </span>
                 </div>
                 <div class="form-group m-form__group row">

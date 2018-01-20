@@ -60,12 +60,10 @@ export class ModuleFormComponent implements OnInit, OnDestroy, AfterViewInit {
         albedoForm.initValidate($("#module-save-form"), {
             // define validation rules
             rules: {
-                name: { remote: CTX + '/sys/module/checkByProperty?_statusFalse&id=' + encodeURIComponent(moduleId) },
-                code: { remote: CTX + '/sys/module/checkByProperty?_statusFalse&id=' + encodeURIComponent(moduleId) },
+                permission: { remote: CTX + '/sys/module/checkByProperty?_statusFalse&id=' + encodeURIComponent(moduleId) },
             },
             messages: {
-                name: { message: '模块已存在' },
-                code: { message: '编码已存在' },
+                permission: { message: '权限已存在' },
             },
         });
         albedoForm.init();

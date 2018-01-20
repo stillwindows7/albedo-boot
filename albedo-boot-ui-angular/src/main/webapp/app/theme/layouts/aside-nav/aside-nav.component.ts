@@ -54,9 +54,10 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
                 });
             }
         });
+        var thisLocalStorage = this.localStorage;
         setTimeout(function() {
             mLayout.initAside();
-            setActiveItemMenu(this.localStorage)
+            setActiveItemMenu(thisLocalStorage)
         }, 100);
     }
 

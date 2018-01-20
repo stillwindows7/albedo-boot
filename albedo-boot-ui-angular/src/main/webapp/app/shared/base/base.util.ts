@@ -1,5 +1,6 @@
 import {LocalStorageService} from "ngx-webstorage";
 
+declare let mLayout: any;
 export const setActiveItemMenu = (localStorage: LocalStorageService, url?: String) => {
     let menu = mLayout.getAsideMenu();
     url = (url ? url : window.location.hash);

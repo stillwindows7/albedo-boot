@@ -5,25 +5,24 @@ import {ActivatedRoute} from "@angular/router";
 import {Principal} from "../../../../auth/_services/principal.service";
 
 declare let datatable: any;
-
 @Component({
     selector: ".sys-module-list.page-list",
     templateUrl: "./module.component.html",
     encapsulation: ViewEncapsulation.None,
 })
-export class ModuleComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ModuleComponent implements OnInit,OnDestroy, AfterViewInit {
 
 
     ctx: any;
     routerSub: any;
     nodeId: any;
-
     constructor(private _script: ScriptLoaderService,
                 private principal: Principal,
-                private router: ActivatedRoute) {
+        private router: ActivatedRoute) {
         this.ctx = CTX;
         this.nodeId = albedo.getUserCookie("tree_module_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1;
     }
+
 
 
     ngOnInit() {
@@ -57,8 +56,7 @@ export class ModuleComponent implements OnInit, OnDestroy, AfterViewInit {
                 pageSize: 10,
             },
             // columns definition
-            columns: [
-                {
+            columns: [{
                     field: 'name',
                     title: '名称',
                     sortable: 'asc',
@@ -81,7 +79,7 @@ export class ModuleComponent implements OnInit, OnDestroy, AfterViewInit {
                     field: 'status',
                     title: '状态',
                     // callback function support for column rendering
-                    template: function (row) {
+                    template: function(row) {
                         return '<span class="m-badge ' + DATA_STATUS[row.status].class + ' m-badge--wide">' + row.status + '</span>';
                     },
                 }, {
@@ -93,7 +91,7 @@ export class ModuleComponent implements OnInit, OnDestroy, AfterViewInit {
                     title: '操作',
                     sortable: false,
                     overflow: 'visible',
-                    template: function (row) {
+                    template: function(row) {
                         var template = '';
                         if (thisPrincipal.hasAuthority("sys_module_edit"))
                             template += '<a href="#/sys/module/form/' + row.id + '" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">\
@@ -125,11 +123,9 @@ export class ModuleComponent implements OnInit, OnDestroy, AfterViewInit {
         $("#parentId").val('');
         $(".filter-submit-table-module").trigger("click");
     }
-
     refreshTreeModule(re) {
         $(".tree-refresh").trigger("click");
     }
-
     clickTreeNodeModule(event, treeId, treeNode) {
         // console.log(event)
         var addUrl = $("#add-module").attr("data-url-temp");
