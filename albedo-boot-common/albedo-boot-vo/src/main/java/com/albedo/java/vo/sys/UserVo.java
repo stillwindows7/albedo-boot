@@ -54,6 +54,7 @@ public class UserVo extends DataEntityVo {
     private String roleNames;
     private String orgName;
 
+    private List<String> authorities;
 
     public String getRoleIds() {
         return Collections3.convertToString(getRoleIdList(), ",");

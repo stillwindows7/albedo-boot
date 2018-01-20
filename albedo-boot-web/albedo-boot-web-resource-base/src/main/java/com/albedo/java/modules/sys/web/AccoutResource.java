@@ -10,6 +10,7 @@ import com.albedo.java.util.LoginUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.vo.base.LoginVo;
+import com.albedo.java.vo.sys.UserVo;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.BaseResource;
 import com.albedo.java.web.rest.util.CookieUtil;
@@ -33,6 +34,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing the current user's account.
@@ -92,8 +95,12 @@ public class AccoutResource extends BaseResource {
     @Timed
     public ResponseEntity getAccount() {
         String id = SecurityUtil.getCurrentUserId();
-        return ResultBuilder.buildOk(userService.findOneById(id)
-            .map(item -> userService.copyBeanToVo(item)));
+        Optional<UserVo> userVo = userService.findOneById(id)
+            .map(item -> userService.copyBeanToVo(item));
+        userVo.get().setAuthorities(SecurityUtil.getModuleList().stream()
+            .filter(item -> PublicUtil.isNotEmpty(item.getParentName()))
+            .map(item ->item.getPermission()).collect(Collectors.toList()));
+        return ResultBuilder.buildOk(userVo);
     }
     /**
      * GET  /authenticate : check if the user is authenticated, and return its login.

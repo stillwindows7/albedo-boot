@@ -1,12 +1,11 @@
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LayoutModule} from "../../../layouts/layout.module";
-import {UserComponent} from "./user.component";
-import {UserService} from "../../../../service/sys/user/user.service";
+import {DictComponent} from "./dict.component";
 import {AlbedoBootSharedModule} from "../../../../shared/shared.module";
-import {UserFormComponent} from "./user.form.component";
+import {DictFormComponent} from "./dict.form.component";
 import {RouterModule} from "@angular/router";
-import {Principal} from "../../../../auth/_services/principal.service";
+import {DictService} from "../../../../service/sys/dict/dict.service";
 
 
 @NgModule({
@@ -17,19 +16,19 @@ import {Principal} from "../../../../auth/_services/principal.service";
         // RouterModule.forChild(routes),
         LayoutModule
     ], exports: [
-        UserComponent,
+        DictComponent,
         // RouterModule
     ], entryComponents: [
-        UserComponent,
+        DictComponent,
     ], declarations: [
-        UserComponent,
-        UserFormComponent,
+        DictComponent,
+        DictFormComponent,
     ], providers: [
-        UserService,
+        DictService,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class UserModule {
+export class DictModule {
 
 
 

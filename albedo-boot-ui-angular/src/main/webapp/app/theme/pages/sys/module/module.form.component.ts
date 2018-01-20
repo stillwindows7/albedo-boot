@@ -1,17 +1,16 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {CTX} from "../../../../app.constants";
 import {ActivatedRoute} from "@angular/router";
-import {Org} from "../../../../service/sys/org/org.model";
+import {Module} from "../../../../service/sys/module/module.model";
 import {ModuleService} from "../../../../service/sys/module/module.service";
-import {OrgService} from "../../../../service/sys/org/org.service";
 
 @Component({
-    selector: ".sys-org-form.page-form",
-    templateUrl: "./org.form.component.html"
+    selector: ".sys-module-form.page-form",
+    templateUrl: "./module.form.component.html"
 })
-export class OrgFormComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ModuleFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    org: Org;
+    module: Module;
     routerSub: any;
     ctx: any;
     id: any;
@@ -20,9 +19,9 @@ export class OrgFormComponent implements OnInit, OnDestroy, AfterViewInit {
     private afterLoad = false;
     constructor(
         private router: ActivatedRoute,
-        private orgService: OrgService) {
+        private moduleService: ModuleService) {
         this.ctx = CTX;
-        this.org = new Org();
+        this.module = new Module();
 
     }
 
@@ -30,9 +29,9 @@ export class OrgFormComponent implements OnInit, OnDestroy, AfterViewInit {
         this.routerSub = this.router.params.subscribe((params) => {
             this.id = params['id'];
             if(this.id){
-                this.orgService.find(this.id).subscribe((data) => {
-                    this.org = data;
-                    albedoForm.initFormData("#org-save-form", this.org);
+                this.moduleService.find(this.id).subscribe((data) => {
+                    this.module = data;
+                    albedoForm.initFormData("#module-save-form", this.module);
                     this.afterLoad = true;
                     this.initForm();
                 });
@@ -48,7 +47,7 @@ export class OrgFormComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        // this._script.load('.sys-org-list',
+        // this._script.load('.sys-module-list',
         //     'assets/demo/default/custom/components/datatables/base/data-ajax.js');
         this.afterViewInit = true;
         this.initForm();
@@ -57,15 +56,15 @@ export class OrgFormComponent implements OnInit, OnDestroy, AfterViewInit {
     initForm() {
         if(!this.afterViewInit || !this.afterLoad) return;
 
-        var orgId = this.org.id;
-        albedoForm.initValidate($("#org-save-form"), {
+        var moduleId = this.module.id;
+        albedoForm.initValidate($("#module-save-form"), {
             // define validation rules
             rules: {
-                name: { remote: CTX + '/sys/org/checkByProperty?_statusFalse&id=' + encodeURIComponent(orgId) },
-                code: { remote: CTX + '/sys/org/checkByProperty?_statusFalse&id=' + encodeURIComponent(orgId) },
+                name: { remote: CTX + '/sys/module/checkByProperty?_statusFalse&id=' + encodeURIComponent(moduleId) },
+                code: { remote: CTX + '/sys/module/checkByProperty?_statusFalse&id=' + encodeURIComponent(moduleId) },
             },
             messages: {
-                name: { message: '机构已存在' },
+                name: { message: '模块已存在' },
                 code: { message: '编码已存在' },
             },
         });

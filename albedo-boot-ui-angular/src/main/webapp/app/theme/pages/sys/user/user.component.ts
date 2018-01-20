@@ -3,6 +3,7 @@ import {ScriptLoaderService} from "../../../../shared/base/service/script-loader
 import {CTX} from "../../../../app.constants";
 import {SessionStorageService} from "ngx-webstorage";
 import {ActivatedRoute} from "@angular/router";
+import {Principal} from "../../../../auth/_services/principal.service";
 
 declare let datatable: any;
 @Component({
@@ -16,6 +17,7 @@ export class UserComponent implements OnInit,OnDestroy, AfterViewInit {
     routerSub: any;
     constructor(private _script: ScriptLoaderService,
         private router: ActivatedRoute,
+                private    principal: Principal,
         private sessionStorage: SessionStorageService) {
 
     }
@@ -40,6 +42,7 @@ export class UserComponent implements OnInit,OnDestroy, AfterViewInit {
     }
 
     initTable() {
+        var thisPrincipal = this.principal;
         // const token = this.localStorage.retrieve('authenticationToken') || this.sessionStorage.retrieve('authenticationToken');
         var options = {
             data: {
@@ -100,18 +103,22 @@ export class UserComponent implements OnInit,OnDestroy, AfterViewInit {
                     sortable: false,
                     overflow: 'visible',
                     template: function(row) {
-                        return '\
-						<a href="#/sys/user/form/'+ row.id + '" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">\
-							<i class="la la-edit"></i>\
-						</a>\
-						<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="'+ (row.status == "正常" ? "锁定" : "解锁") + '用户"\
-						 data-table-id="#data-table-user" data-method="put"  data-title="你确认要操作【'+ row.loginId+ '】用户吗？" data-url="'+ CTX +'/sys/user/'+ row.id+ '">\
-							<i class="la la-'+ (row.status == "正常" ? "unlock-alt" : "unlock") + '"></i>\
-						</a>\
-					    <a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
-                             data-table-id="#data-table-user" data-method="delete"  data-title="你确认要删除【'+ row.loginId+ '】用户吗？" data-url="'+ CTX +'/sys/user/'+ row.id+ '">\
-                            <i class="la la-trash"></i>\
-                        </a>';
+                        var template = '';
+                        if (thisPrincipal.hasAuthority("sys_user_edit"))
+                            template += '<a href="#/sys/user/form/' + row.id + '" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">\
+                                \<i class="la la-edit"></i>\
+                                \</a>';
+                        if (thisPrincipal.hasAuthority("sys_user_lock"))
+                            template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="' + (row.status == "正常" ? "锁定" : "解锁") + '用户"\
+						 data-table-id="#data-table-user" data-method="put"  data-title="你确认要操作【' + row.loginId + '】用户吗？" data-url="' + CTX + '/sys/user/' + row.id + '">\
+                                \<i class="la la-'+ (row.status == "正常" ? "unlock-alt" : "unlock") + '"></i>\
+                                \</a>';
+                        if (thisPrincipal.hasAuthority("sys_user_delete"))
+                            template += '<a  href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
+                                   data-table-id="#data-table-user" data-method="delete"  data-title="你确认要删除【' + row.loginId + '】用户吗？" data-url="'+ CTX +'/sys/user/'+ row.id+ '">\
+                                \<i class="la la-trash"></i>\
+                                \</a>';
+                        return template;
                     },
                 }],
         };

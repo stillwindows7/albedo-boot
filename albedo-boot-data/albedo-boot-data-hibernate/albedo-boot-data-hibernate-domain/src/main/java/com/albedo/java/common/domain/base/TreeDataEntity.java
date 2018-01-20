@@ -27,7 +27,7 @@ public abstract class TreeDataEntity<T extends DataEntity> extends DataEntity {
     /*** 组织名称 */
     @Length(min = 1, max = 100)
     @Column(name = "name_")
-    @SearchField(op = Operator.like)
+    @SearchField
     protected String name;
     /*** 上级组织 */
     @Length(min = 0, max = 64)

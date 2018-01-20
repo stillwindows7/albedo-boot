@@ -1,17 +1,17 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {CTX} from "../../../../app.constants";
 import {ActivatedRoute} from "@angular/router";
-import {Org} from "../../../../service/sys/org/org.model";
+import {Dict} from "../../../../service/sys/dict/dict.model";
 import {ModuleService} from "../../../../service/sys/module/module.service";
-import {OrgService} from "../../../../service/sys/org/org.service";
+import {DictService} from "../../../../service/sys/dict/dict.service";
 
 @Component({
-    selector: ".sys-org-form.page-form",
-    templateUrl: "./org.form.component.html"
+    selector: ".sys-dict-form.page-form",
+    templateUrl: "./dict.form.component.html"
 })
-export class OrgFormComponent implements OnInit, OnDestroy, AfterViewInit {
+export class DictFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    org: Org;
+    dict: Dict;
     routerSub: any;
     ctx: any;
     id: any;
@@ -20,9 +20,9 @@ export class OrgFormComponent implements OnInit, OnDestroy, AfterViewInit {
     private afterLoad = false;
     constructor(
         private router: ActivatedRoute,
-        private orgService: OrgService) {
+        private dictService: DictService) {
         this.ctx = CTX;
-        this.org = new Org();
+        this.dict = new Dict();
 
     }
 
@@ -30,9 +30,9 @@ export class OrgFormComponent implements OnInit, OnDestroy, AfterViewInit {
         this.routerSub = this.router.params.subscribe((params) => {
             this.id = params['id'];
             if(this.id){
-                this.orgService.find(this.id).subscribe((data) => {
-                    this.org = data;
-                    albedoForm.initFormData("#org-save-form", this.org);
+                this.dictService.find(this.id).subscribe((data) => {
+                    this.dict = data;
+                    albedoForm.initFormData("#dict-save-form", this.dict);
                     this.afterLoad = true;
                     this.initForm();
                 });
@@ -48,7 +48,7 @@ export class OrgFormComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        // this._script.load('.sys-org-list',
+        // this._script.load('.sys-dict-list',
         //     'assets/demo/default/custom/components/datatables/base/data-ajax.js');
         this.afterViewInit = true;
         this.initForm();
@@ -57,15 +57,15 @@ export class OrgFormComponent implements OnInit, OnDestroy, AfterViewInit {
     initForm() {
         if(!this.afterViewInit || !this.afterLoad) return;
 
-        var orgId = this.org.id;
-        albedoForm.initValidate($("#org-save-form"), {
+        var dictId = this.dict.id;
+        albedoForm.initValidate($("#dict-save-form"), {
             // define validation rules
             rules: {
-                name: { remote: CTX + '/sys/org/checkByProperty?_statusFalse&id=' + encodeURIComponent(orgId) },
-                code: { remote: CTX + '/sys/org/checkByProperty?_statusFalse&id=' + encodeURIComponent(orgId) },
+                name: { remote: CTX + '/sys/dict/checkByProperty?_statusFalse&id=' + encodeURIComponent(dictId) },
+                code: { remote: CTX + '/sys/dict/checkByProperty?_statusFalse&id=' + encodeURIComponent(dictId) },
             },
             messages: {
-                name: { message: '机构已存在' },
+                name: { message: '字典已存在' },
                 code: { message: '编码已存在' },
             },
         });

@@ -6,11 +6,11 @@ import {Principal} from "../../../../auth/_services/principal.service";
 
 declare let datatable: any;
 @Component({
-    selector: ".sys-org-list.page-list",
-    templateUrl: "./org.component.html",
+    selector: ".sys-dict-list.page-list",
+    templateUrl: "./dict.component.html",
     encapsulation: ViewEncapsulation.None,
 })
-export class OrgComponent implements OnInit,OnDestroy, AfterViewInit {
+export class DictComponent implements OnInit,OnDestroy, AfterViewInit {
 
 
     ctx: any;
@@ -20,7 +20,7 @@ export class OrgComponent implements OnInit,OnDestroy, AfterViewInit {
                 private principal: Principal,
         private router: ActivatedRoute) {
         this.ctx = CTX;
-        this.nodeId = albedo.getUserCookie("tree_org_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1;
+        this.nodeId = albedo.getUserCookie("tree_dict_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1;
     }
 
 
@@ -36,7 +36,7 @@ export class OrgComponent implements OnInit,OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        // this._script.load('.sys-org-list',
+        // this._script.load('.sys-dict-list',
         //     'assets/demo/default/custom/components/datatables/base/data-ajax.js');
         this.initTable()
         // Helpers.setBreadcrumbs();
@@ -50,7 +50,7 @@ export class OrgComponent implements OnInit,OnDestroy, AfterViewInit {
                     read: {
                         // sample GET method
                         method: 'GET',
-                        url: CTX + '/sys/org/',
+                        url: CTX + '/sys/dict/',
                     },
                 },
                 pageSize: 10,
@@ -90,48 +90,44 @@ export class OrgComponent implements OnInit,OnDestroy, AfterViewInit {
                     sortable: false,
                     overflow: 'visible',
                     template: function(row) {
-                        var template = '';
-                        if (thisPrincipal.hasAuthority("sys_org_edit"))
-                            template += '<a href="#/sys/org/form/' + row.id + '" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">\
-                                \<i class="la la-edit"></i>\
-                                \</a>';
-                        if (thisPrincipal.hasAuthority("sys_org_lock"))
-                            template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="' + (row.status == "正常" ? "锁定" : "解锁") + '机构"\
-						 data-table-id="#data-table-org" data-method="put"  data-title="你确认要操作【' + row.name + '】机构吗？" data-url="' + CTX + '/sys/org/' + row.id + '">\
-                                \<i class="la la-\'+ (row.status == "正常" ? "unlock-alt" : "unlock") + \'"></i>\
-                                \</a>';
-                        if (thisPrincipal.hasAuthority("sys_org_delete"))
-                            template += '<a  href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
-                                   data-table-id="#data-table-org" data-method="delete"  data-title="你确认要删除【' + row.name + '】机构吗？" data-url="'+ CTX +'/sys/org/'+ row.id+ '">\
-                                \<i class="la la-trash"></i>\
-                                \</a>';
-                        return template;
+                        return '\
+						<a href="#/sys/dict/form/'+ row.id + '" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">\
+							<i class="la la-edit"></i>\
+						</a>\
+						<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="'+ (row.status == "正常" ? "锁定" : "解锁") + '字典"\
+						 data-table-id="#data-table-dict" data-method="put"  data-title="你确认要操作【'+ row.name+ '】字典吗？" data-url="'+ CTX +'/sys/dict/'+ row.id+ '">\
+							<i class="la la-'+ (row.status == "正常" ? "unlock-alt" : "unlock") + '"></i>\
+						</a>\
+					    <a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
+                             data-table-id="#data-table-dict" data-method="delete"  data-title="你确认要删除【'+ row.name+ '】字典吗？" data-url="'+ CTX +'/sys/dict/'+ row.id+ '">\
+                            <i class="la la-trash"></i>\
+                        </a>';
                     },
                 }],
         };
 
-        albedoList.initTable($('#data-table-org'), $('#table-form-search-org'), options);
+        albedoList.initTable($('#data-table-dict'), $('#table-form-search-dict'), options);
         albedoList.init();
         albedoForm.initTree();
     }
 
-    cancelClickNodeOrg(event, treeId, treeNode) {
+    cancelClickNodeDict(event, treeId, treeNode) {
         // console.log(event)
-        albedo.setUserCookie("tree_org_select_node_id", '');
+        albedo.setUserCookie("tree_dict_select_node_id", '');
         $("#parentId").val('');
-        $(".filter-submit-table-org").trigger("click");
+        $(".filter-submit-table-dict").trigger("click");
     }
-    refreshTreeOrg(re) {
+    refreshTreeDict(re) {
         $(".tree-refresh").trigger("click");
     }
-    clickTreeNodeOrg(event, treeId, treeNode) {
+    clickTreeNodeDict(event, treeId, treeNode) {
         // console.log(event)
-        var addUrl = $("#add-org").attr("data-url-temp");
-        if (addUrl) $("#add-org").attr("data-url", addUrl + (addUrl.indexOf("?") == -1 ? "?" : "&") + "parentId=" + treeNode.id);
+        var addUrl = $("#add-dict").attr("data-url-temp");
+        if (addUrl) $("#add-dict").attr("data-url", addUrl + (addUrl.indexOf("?") == -1 ? "?" : "&") + "parentId=" + treeNode.id);
         this.nodeId = treeNode.id;
-        albedo.setUserCookie("tree_org_select_node_id", this.nodeId);
+        albedo.setUserCookie("tree_dict_select_node_id", this.nodeId);
         $("#parentId").val(treeNode.id);
-        $(".filter-submit-table-org").trigger("click");
+        $(".filter-submit-table-dict").trigger("click");
     }
 
 }

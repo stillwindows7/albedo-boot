@@ -42,18 +42,6 @@ public class RoleResource extends DataVoResource<RoleService, RoleVo> {
     }
 
 
-    /**
-     * @param id
-     * @return
-     */
-    @GetMapping("/{id:" + Globals.LOGIN_REGEX + "}")
-    @Timed
-    public ResponseEntity getRole(@PathVariable String id) {
-        log.debug("REST request to get Role : {}", id);
-        return ResultBuilder.buildOk(service.findOneById(id)
-                .map(item -> service.copyBeanToVo(item)));
-    }
-
     @GetMapping(value = "/list")
     @Timed
     public String list() {

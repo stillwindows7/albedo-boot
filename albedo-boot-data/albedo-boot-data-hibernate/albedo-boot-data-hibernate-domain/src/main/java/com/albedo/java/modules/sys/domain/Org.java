@@ -2,6 +2,7 @@ package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.domain.base.TreeEntity;
 import com.albedo.java.util.annotation.DictType;
+import com.albedo.java.util.annotation.SearchField;
 import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.ToString;
@@ -30,6 +31,7 @@ public class Org extends TreeEntity<Org> {
     private static final long serialVersionUID = 1L;
     /*** 组织编码 */
     @Column(name = "code_")
+    @SearchField
     private String code;
 
     /*** 拼音简码 */

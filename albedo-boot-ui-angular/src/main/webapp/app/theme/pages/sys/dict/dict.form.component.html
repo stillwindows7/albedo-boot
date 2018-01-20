@@ -3,7 +3,7 @@
     <div class="d-flex align-items-center">
         <div class="mr-auto">
             <h3 class="m-subheader__title">
-                机构管理
+                字典管理
             </h3>
             <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                 <li class="m-nav__item m-nav__item--home">
@@ -27,7 +27,7 @@
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <h3 class="m-portlet__head-text">
-                        添加机构
+                        添加字典
                         <small>
                             数据表单
                         </small>
@@ -35,14 +35,14 @@
                 </div>
             </div>
             <div class="m-portlet__head-tools">
-                <a href="#/sys/org/list" title="机构列表" class="m-portlet__nav-link btn list btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill ">
+                <a href="#/sys/dict/list" title="字典列表" class="m-portlet__nav-link btn list btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill ">
                     <i class="la la-th-list"></i>
                 </a>
             </div>
         </div>
         <!--begin::Form-->
-        <form class="m-form m-form--fit m-form--label-align-right form-validation" action="{{ctx}}/sys/org/" method="post" id="org-save-form">
-            <input type="hidden" name="id" value="{{org.id}}" />
+        <form class="m-form m-form--fit m-form--label-align-right form-validation" action="{{ctx}}/sys/dict/" method="post" id="dict-save-form">
+            <input type="hidden" name="id" value="{{dict.id}}" />
             <div class="m-portlet__body">
                 <div id="bootstrap-alerts" class="m-form__content">
 
@@ -52,11 +52,11 @@
                         上级组织 *
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
-                        <alb-tree-select id="org"
+                        <alb-tree-select id="dict"
                              cssClass="required" allowClear="true" name="parentId"
-                             value="{{org.parentId}}" labelName="parentName"
-                             labelValue="{{org.parentName}}" title="上级组织"
-                             url="{{ctx}}/sys/org/findTreeData" ></alb-tree-select>
+                             value="{{dict.parentId}}" labelName="parentName"
+                             labelValue="{{dict.parentName}}" title="上级组织"
+                             url="{{ctx}}/sys/dict/findTreeData" ></alb-tree-select>
 
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                         名称 *
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
-                        <input type="text" name="name" value="{{org.name}}"
+                        <input type="text" name="name" value="{{dict.name}}"
                                maxlength="64" class="form-control required"/>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                         编码 *
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
-                        <input type="text" name="code" value="{{org.code}}"
+                        <input type="text" name="code" value="{{dict.code}}"
                                maxlength="64" class="form-control required"/>
                         <span class="m-form__help">
 							唯一
@@ -89,8 +89,8 @@
                         <alb-form boxType="radio"
                                   id="type"
                                   name="type"
-                                  dictCode="sys_org_type"
-                                  value="{{org.type}}" cssClass="required">
+                                  dictCode="sys_dict_type"
+                                  value="{{dict.type}}" cssClass="required">
                         </alb-form>
                     </div>
                 </div>
@@ -102,8 +102,8 @@
                         <alb-form boxType="select"
                                   id="grade"
                                   name="grade"
-                                  dictCode="sys_org_grade"
-                                  value="{{org.type}}" cssClass="required">
+                                  dictCode="sys_dict_grade"
+                                  value="{{dict.type}}" cssClass="required">
                         </alb-form>
                     </div>
                 </div>
@@ -112,7 +112,7 @@
                         序号 *
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
-                        <input type="text" name="sort" value="{{org.sort}}"
+                        <input type="text" name="sort" value="{{dict.sort}}"
                                maxlength="11" class="form-control digits"/>
                     </div>
                 </div>
@@ -125,7 +125,7 @@
                                   id="status"
                                   name="status"
                                   dictCode="sys_status"
-                                  value="{{org.status}}" cssClass="required">
+                                  value="{{dict.status}}" cssClass="required">
                         </alb-form>
                     </div>
                 </div>
@@ -135,7 +135,7 @@
                     </label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
                          <textarea class="summernote form-control" name="description"
-                                   rows="5">{{org.description}}</textarea>
+                                   rows="5">{{dict.description}}</textarea>
                     </div>
                 </div>
             </div>
@@ -146,7 +146,7 @@
                             <button type="button" class="btn btn-success save">
                                 <i class="fa fa-check"></i> 保存
                             </button>
-                            <button type="button" class="btn btn-secondary" onclick="albedoForm.resetForm('#org-save-form')">
+                            <button type="button" class="btn btn-secondary" onclick="albedoForm.resetForm('#dict-save-form')">
                                 重置
                             </button>
                             <button type="button" class="btn" onclick="window.history.back()">返回</button>
