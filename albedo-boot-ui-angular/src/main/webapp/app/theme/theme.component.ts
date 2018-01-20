@@ -21,7 +21,6 @@ declare let mLayout: any;
 export class ThemeComponent implements OnInit {
 
     private modules: Module[];
-    ;
 
     constructor(private scriptLoaderService: ScriptLoaderService,
                 private moduleService: ModuleService,
@@ -79,7 +78,6 @@ export class ThemeComponent implements OnInit {
                 $('.m-wrapper').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function (e) {
                     $('.m-wrapper').removeClass(animation);
                 }).removeClass(animation).addClass(animation);
-                console.log(route.url)
                 this.initBreadcrumbs(route.url);
 
                 setActiveItemMenu(this.localStorage);

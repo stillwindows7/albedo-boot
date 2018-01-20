@@ -9,6 +9,10 @@ import {RoleComponent} from "./pages/sys/role/role.component";
 import {RoleFormComponent} from "./pages/sys/role/role.form.component";
 import {OrgFormComponent} from "./pages/sys/org/org.form.component";
 import {OrgComponent} from "./pages/sys/org/org.component";
+import {DictComponent} from "./pages/sys/dict/dict.component";
+import {DictFormComponent} from "./pages/sys/dict/dict.form.component";
+import {ModuleFormComponent} from "./pages/sys/module/module.form.component";
+import {ModuleComponent} from "./pages/sys/module/module.component";
 
 const routes: Routes = [
     {
@@ -55,6 +59,30 @@ const routes: Routes = [
                     {
                         path: "sys/org/form/:id",
                         component: OrgFormComponent
+                    },
+                    {
+                        path: "sys/module/list",
+                        component: ModuleComponent
+                    },
+                    {
+                        path: "sys/module/form",
+                        component: ModuleFormComponent
+                    },
+                    {
+                        path: "sys/module/form/:id",
+                        component: ModuleFormComponent
+                    },
+                    {
+                        path: "sys/dict/list",
+                        component: DictComponent
+                    },
+                    {
+                        path: "sys/dict/form",
+                        component: DictFormComponent
+                    },
+                    {
+                        path: "sys/dict/form/:id",
+                        component: DictFormComponent
                     },
                 ]
             }

@@ -98,7 +98,7 @@ export class OrgComponent implements OnInit,OnDestroy, AfterViewInit {
                         if (thisPrincipal.hasAuthority("sys_org_lock"))
                             template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="' + (row.status == "正常" ? "锁定" : "解锁") + '机构"\
 						 data-table-id="#data-table-org" data-method="put"  data-title="你确认要操作【' + row.name + '】机构吗？" data-url="' + CTX + '/sys/org/' + row.id + '">\
-                                \<i class="la la-\'+ (row.status == "正常" ? "unlock-alt" : "unlock") + \'"></i>\
+                                \<i class="la la-'+ (row.status == "正常" ? "unlock-alt" : "unlock") + '"></i>\
                                 \</a>';
                         if (thisPrincipal.hasAuthority("sys_org_delete"))
                             template += '<a  href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\

@@ -102,7 +102,7 @@ export class ModuleComponent implements OnInit, OnDestroy, AfterViewInit {
                         if (thisPrincipal.hasAuthority("sys_module_lock"))
                             template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="' + (row.status == "正常" ? "锁定" : "解锁") + '模块"\
 						 data-table-id="#data-table-module" data-method="put"  data-title="你确认要操作【' + row.name + '】模块吗？" data-url="' + CTX + '/sys/module/' + row.id + '">\
-                                \<i class="la la-\'+ (row.status == "正常" ? "unlock-alt" : "unlock") + \'"></i>\
+                                \<i class="la la-'+ (row.status == "正常" ? "unlock-alt" : "unlock") + '"></i>\
                                 \</a>';
                         if (thisPrincipal.hasAuthority("sys_module_delete"))
                             template += '<a  href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\

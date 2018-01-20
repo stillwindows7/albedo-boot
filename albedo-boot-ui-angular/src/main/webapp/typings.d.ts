@@ -43,7 +43,6 @@ interface Albedo {
 
     setUserId(userId: String): void;
 }
-declare let mLayout: any;
 declare var mApp: MApp;
 
 interface MApp {

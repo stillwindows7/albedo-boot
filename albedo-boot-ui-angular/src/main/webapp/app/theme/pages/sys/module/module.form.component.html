@@ -49,13 +49,13 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
-                        上级组织 *
+                        上级模块 *
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
                         <alb-tree-select id="module"
                              cssClass="required" allowClear="true" name="parentId"
                              value="{{module.parentId}}" labelName="parentName"
-                             labelValue="{{module.parentName}}" title="上级组织"
+                             labelValue="{{module.parentName}}" title="上级模块"
                              url="{{ctx}}/sys/module/findTreeData" ></alb-tree-select>
 
                     </div>
@@ -71,14 +71,11 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
-                        编码 *
+                        服务名称 *
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
-                        <input type="text" name="code" value="{{module.code}}"
+                        <input type="text" name="microservice" value="{{module.microservice}}"
                                maxlength="64" class="form-control required"/>
-                        <span class="m-form__help">
-							唯一
-						</span>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
@@ -96,14 +93,53 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
-                        等级 *
+                        图标
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
-                        <alb-form boxType="select"
-                                  id="grade"
-                                  name="grade"
-                                  dictCode="sys_module_grade"
-                                  value="{{module.type}}" cssClass="required">
+                        <input type="text" name="iconCls" value="{{module.iconCls}}"
+                               maxlength="64" class="form-control"/>
+                    </div>
+                    <span class="m-form__help">
+							<a href="${ctx}/sys/module/ico" target="_blank">选择图标</a>
+                    </span>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label class="col-form-label col-lg-3 col-sm-12">
+                        权限
+                    </label>
+                    <div class="col-lg-4 col-md-9 col-sm-12">
+                        <input type="text" name="permission" value="{{module.permission}}"
+                               maxlength="64" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label class="col-form-label col-lg-3 col-sm-12">
+                        操作目标
+                    </label>
+                    <div class="col-lg-4 col-md-9 col-sm-12">
+                        <input type="text" name="target" value="{{module.target}}"
+                               maxlength="64" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label class="col-form-label col-lg-3 col-sm-12">
+                        链接
+                    </label>
+                    <div class="col-lg-4 col-md-9 col-sm-12">
+                        <input type="text" name="url" value="{{module.url}}"
+                               maxlength="64" class="form-control "/>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label class="col-form-label col-lg-3 col-sm-12">
+                        请求方法
+                    </label>
+                    <div class="col-lg-4 col-md-9 col-sm-12">
+                        <alb-form boxType="checkbox"
+                                  id="requestMethod"
+                                  name="requestMethod"
+                                  dictCode="sys_request_method"
+                                  value="{{module.requestMethod}}" cssClass="">
                         </alb-form>
                     </div>
                 </div>

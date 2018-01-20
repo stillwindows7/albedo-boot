@@ -4,6 +4,7 @@ import {ModuleService} from "../../../service/sys/module/module.service";
 import {setActiveItemMenu} from "../../../shared/base/base.util";
 import {LocalStorageService} from "ngx-webstorage";
 
+declare let mLayout: any;
 @Component({
     selector: "app-aside-nav",
     templateUrl: "./aside-nav.component.html",
