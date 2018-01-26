@@ -251,7 +251,7 @@ var mApp = function() {
                 el.mCustomScrollbar({
                     scrollInertia: 0,
                     autoDraggerLength: true,
-                    autoHideScrollbar: true,
+                    autoHideScrollbar: false,
                     autoExpandScrollbar: false,
                     alwaysShowScrollbar: 0,
                     axis: el.data('axis') ? el.data('axis') : 'y',
@@ -259,7 +259,7 @@ var mApp = function() {
                         scrollAmount: 120,
                         preventDefault: true
                     },
-                    setHeight: (options.height ? options.height : ''),
+                    setHeight: (options && options.height ? options.height : ''),
                     theme:"minimal-dark"
                 });
             }

@@ -3,11 +3,10 @@
            [attr.attrType]="attrType"
            [attr.operation]="operate" type="hidden" value="{{value}}"
            [attr.disabled]="disabled"/>
-    <span id="{{id}}Name" name="{{labelName}}"
+    <span id="{{id}}Name" [attr.name]="labelName"
           onclick="albedoForm.icoSelect($(this), $(this).prev('input._commonIcoId'));"
           readonly="readonly"
-          type="text"
-          value="{{labelValue}}"
+          [attr.value]="labelValue"
           class="{{cssClass}} _commonIcoInput form-control"
           [attr.disabled]="disabled"
           [attr._nameLevel]="nameLevel"
