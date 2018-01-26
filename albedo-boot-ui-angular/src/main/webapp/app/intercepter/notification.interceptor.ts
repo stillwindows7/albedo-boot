@@ -1,8 +1,8 @@
-import {JhiAlertService, JhiHttpInterceptor} from 'ng-jhipster';
-import {RequestOptionsArgs, Response} from '@angular/http';
-import {Injector} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {MSG_TYPE_ERROR, MSG_TYPE_INFO, MSG_TYPE_SUCCESS, MSG_TYPE_WARNING} from "../app.constants";
+import { JhiAlertService, JhiHttpInterceptor } from 'ng-jhipster';
+import { RequestOptionsArgs, Response } from '@angular/http';
+import { Injector } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { MSG_TYPE_ERROR, MSG_TYPE_INFO, MSG_TYPE_SUCCESS, MSG_TYPE_WARNING } from "../app.constants";
 
 export class NotificationInterceptor extends JhiHttpInterceptor {
 
@@ -32,7 +32,7 @@ export class NotificationInterceptor extends JhiHttpInterceptor {
                 if (typeof alertKey === 'string') {
                     if (toastr) {
                         const alertParam = headers.length >= 2 ? response.headers.get(headers[1]) : null;
-                        toastr.success(alertKey, {param: alertParam});
+                        toastr.success(alertKey, { param: alertParam });
                     }
                 }
             }
@@ -51,7 +51,7 @@ export class NotificationInterceptor extends JhiHttpInterceptor {
             }
             return obj.data ? obj.data : obj;
         }).catch((error) => {
-            toastr && toastr.error('网络异常，请检查您的网络连接！', {closeButton: true, positionClass: 'toast-bottom-right'})
+            toastr && toastr.error('网络异常，请检查您的网络连接！', { closeButton: true, positionClass: 'toast-bottom-right' })
             return Observable.throw(error); // here, response is an error
         });
     }

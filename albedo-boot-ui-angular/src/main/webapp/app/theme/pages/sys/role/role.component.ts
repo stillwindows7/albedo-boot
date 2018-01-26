@@ -1,9 +1,9 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {ScriptLoaderService} from "../../../../shared/base/service/script-loader.service";
-import {CTX, DATA_STATUS, DICT_SYS_DATA} from "../../../../app.constants";
-import {SessionStorageService} from "ngx-webstorage";
-import {ActivatedRoute} from "@angular/router";
-import {Principal} from "../../../../auth/_services/principal.service";
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ScriptLoaderService } from "../../../../shared/base/service/script-loader.service";
+import { CTX, DATA_STATUS, DICT_SYS_DATA } from "../../../../app.constants";
+import { SessionStorageService } from "ngx-webstorage";
+import { ActivatedRoute } from "@angular/router";
+import { Principal } from "../../../../auth/_services/principal.service";
 
 declare let datatable: any;
 @Component({
@@ -11,12 +11,12 @@ declare let datatable: any;
     templateUrl: "./role.component.html",
     encapsulation: ViewEncapsulation.None,
 })
-export class RoleComponent implements OnInit,OnDestroy, AfterViewInit {
+export class RoleComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     routerSub: any;
     constructor(private _script: ScriptLoaderService,
-                private principal: Principal,
+        private principal: Principal,
         private router: ActivatedRoute) {
 
     }
@@ -72,7 +72,7 @@ export class RoleComponent implements OnInit,OnDestroy, AfterViewInit {
                     field: 'sysData',
                     title: '是否系统数据',
                     width: 150,
-                    template: function (row) {
+                    template: function(row) {
                         return '<span class="m-badge ' + DICT_SYS_DATA[row.sysData].class + ' m-badge--wide">' + row.sysData + '</span>';
                     },
                 }, {
@@ -105,7 +105,7 @@ export class RoleComponent implements OnInit,OnDestroy, AfterViewInit {
                                 \</a>';
                         if (thisPrincipal.hasAuthority("sys_role_delete"))
                             template += '<a  href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
-                                   data-table-id="#data-table-role" data-method="delete"  data-title="你确认要删除【' + row.name + '】角色吗？" data-url="'+ CTX +'/sys/role/'+ row.id+ '">\
+                                   data-table-id="#data-table-role" data-method="delete"  data-title="你确认要删除【' + row.name + '】角色吗？" data-url="' + CTX + '/sys/role/' + row.id + '">\
                                 \<i class="la la-trash"></i>\
                                 \</a>';
                         return template;

@@ -1,13 +1,13 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {NavigationEnd, NavigationStart, Router} from '@angular/router';
-import {Helpers} from '../helpers';
-import {ScriptLoaderService} from '../shared/base/service/script-loader.service';
-import {ModuleService} from "../service/sys/module/module.service";
-import {Module} from "../service/sys/module/module.model";
-import {CTX} from "../app.constants";
-import {LocalStorageService, SessionStorageService} from "ngx-webstorage";
-import {Principal} from "../auth/_services/principal.service";
-import {setActiveItemMenu} from "../shared/base/base.util";
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { Helpers } from '../helpers';
+import { ScriptLoaderService } from '../shared/base/service/script-loader.service';
+import { ModuleService } from "../service/sys/module/module.service";
+import { Module } from "../service/sys/module/module.model";
+import { CTX } from "../app.constants";
+import { LocalStorageService, SessionStorageService } from "ngx-webstorage";
+import { Principal } from "../auth/_services/principal.service";
+import { setActiveItemMenu } from "../shared/base/base.util";
 
 declare let mApp: any;
 declare let mUtil: any;
@@ -23,11 +23,11 @@ export class ThemeComponent implements OnInit {
     private modules: Module[];
 
     constructor(private scriptLoaderService: ScriptLoaderService,
-                private moduleService: ModuleService,
-                private router: Router,
-                private principal: Principal,
-                private localStorage: LocalStorageService,
-                private sessionStorage: SessionStorageService) {
+        private moduleService: ModuleService,
+        private router: Router,
+        private principal: Principal,
+        private localStorage: LocalStorageService,
+        private sessionStorage: SessionStorageService) {
 
     }
 
@@ -58,7 +58,7 @@ export class ThemeComponent implements OnInit {
             });
         this.scriptLoaderService.load('body',
             'assets/frame/albedo.form.component.js',
-            'assets/frame/albedo.list.datatables.js',)
+            'assets/frame/albedo.list.datatables.js', )
         this.router.events.subscribe((route) => {
             if (route instanceof NavigationStart) {
                 (<any>mLayout).closeMobileAsideMenuOffcanvas();
@@ -75,7 +75,7 @@ export class ThemeComponent implements OnInit {
                 Helpers.setLoading(false);
                 // content m-wrapper animation
                 let animation = 'm-animate-fade-in-up';
-                $('.m-wrapper').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function (e) {
+                $('.m-wrapper').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(e) {
                     $('.m-wrapper').removeClass(animation);
                 }).removeClass(animation).addClass(animation);
                 this.initBreadcrumbs(route.url);
@@ -94,10 +94,10 @@ export class ThemeComponent implements OnInit {
         let thiz = this;
         if (thiz.modules) {
             var breadcrumbs = [];
-            thiz.getModules(function (module) {
+            thiz.getModules(function(module) {
                 if (module.url == url || module.url.indexOf(url) != -1) {
-                    module.parentIds.split(",").forEach(function (item) {
-                        item && thiz.getModules(function (temp) {
+                    module.parentIds.split(",").forEach(function(item) {
+                        item && thiz.getModules(function(temp) {
                             if (item == temp.id) {
                                 breadcrumbs.push({
                                     text: temp.name,

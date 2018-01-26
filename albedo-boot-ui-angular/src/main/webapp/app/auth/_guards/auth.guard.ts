@@ -1,17 +1,17 @@
-import {Injectable} from "@angular/core";
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
-import {UserService} from "../_services/user.service";
-import {Principal} from "../_services/principal.service";
-import {JhiEventManager} from "ng-jhipster";
+import { Injectable } from "@angular/core";
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from "@angular/router";
+import { UserService } from "../_services/user.service";
+import { Principal } from "../_services/principal.service";
+import { JhiEventManager } from "ng-jhipster";
 
 @Injectable()
 export class AlbedoBootAuthGuard implements CanActivate {
     account: Account;
 
     constructor(private principal: Principal,
-                private _router: Router,
-                private _userService: UserService,
-                private eventManager: JhiEventManager) {
+        private _router: Router,
+        private _userService: UserService,
+        private eventManager: JhiEventManager) {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Promise<boolean> {
@@ -25,7 +25,7 @@ export class AlbedoBootAuthGuard implements CanActivate {
                 return true;
             }
             // error when verify so redirect to login page with the return url
-            this._router.navigate(['/login'], {queryParams: {returnUrl: state.url}});
+            this._router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
             return false;
         }));
 

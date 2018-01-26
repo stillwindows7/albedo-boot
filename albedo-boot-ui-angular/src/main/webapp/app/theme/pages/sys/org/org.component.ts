@@ -1,9 +1,9 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {ScriptLoaderService} from "../../../../shared/base/service/script-loader.service";
-import {CTX, DATA_STATUS} from "../../../../app.constants";
-import {ActivatedRoute} from "@angular/router";
-import {Principal} from "../../../../auth/_services/principal.service";
-import {LocalStorageService, SessionStorageService} from "ngx-webstorage";
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ScriptLoaderService } from "../../../../shared/base/service/script-loader.service";
+import { CTX, DATA_STATUS } from "../../../../app.constants";
+import { ActivatedRoute } from "@angular/router";
+import { Principal } from "../../../../auth/_services/principal.service";
+import { LocalStorageService, SessionStorageService } from "ngx-webstorage";
 
 declare let datatable: any;
 @Component({
@@ -11,15 +11,15 @@ declare let datatable: any;
     templateUrl: "./org.component.html",
     encapsulation: ViewEncapsulation.None,
 })
-export class OrgComponent implements OnInit,OnDestroy, AfterViewInit {
+export class OrgComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     ctx: any;
     routerSub: any;
     nodeId: any;
     constructor(private _script: ScriptLoaderService,
-                private principal: Principal,
-                private sessionStorage: SessionStorageService,
+        private principal: Principal,
+        private sessionStorage: SessionStorageService,
         private router: ActivatedRoute) {
         this.ctx = CTX;
         this.nodeId = sessionStorage.retrieve("tree_org_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1;
@@ -104,7 +104,7 @@ export class OrgComponent implements OnInit,OnDestroy, AfterViewInit {
                                 \</a>';
                         if (thisPrincipal.hasAuthority("sys_org_delete"))
                             template += '<a  href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
-                                   data-table-id="#data-table-org" data-method="delete"  data-title="你确认要删除【' + row.name + '】机构吗？" data-url="'+ CTX +'/sys/org/'+ row.id+ '">\
+                                   data-table-id="#data-table-org" data-method="delete"  data-title="你确认要删除【' + row.name + '】机构吗？" data-url="' + CTX + '/sys/org/' + row.id + '">\
                                 \<i class="la la-trash"></i>\
                                 \</a>';
                         return template;

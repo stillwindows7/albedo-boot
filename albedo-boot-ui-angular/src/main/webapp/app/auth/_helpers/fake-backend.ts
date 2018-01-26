@@ -2,7 +2,7 @@ import {
     BaseRequestOptions, Http, RequestMethod, RequestOptions, Response, ResponseOptions,
     XHRBackend
 } from "@angular/http";
-import {MockBackend, MockConnection} from "@angular/http/testing";
+import { MockBackend, MockConnection } from "@angular/http/testing";
 
 export function mockBackEndFactory(backend: MockBackend, options: BaseRequestOptions, realBackend: XHRBackend) {
     // array in local storage for registered users
@@ -59,10 +59,10 @@ export function mockBackEndFactory(backend: MockBackend, options: BaseRequestOpt
                 // check for fake auth token in header and return users if valid, this security
                 // is implemented server side in a real application
                 if (connection.request.headers.get('Authorization') === 'Bearer ' + token) {
-                    connection.mockRespond(new Response(new ResponseOptions({status: 200, body: users})));
+                    connection.mockRespond(new Response(new ResponseOptions({ status: 200, body: users })));
                 } else {
                     // return 401 not authorised if token is null or invalid
-                    connection.mockRespond(new Response(new ResponseOptions({status: 401})));
+                    connection.mockRespond(new Response(new ResponseOptions({ status: 401 })));
                 }
 
                 return;
@@ -81,10 +81,10 @@ export function mockBackEndFactory(backend: MockBackend, options: BaseRequestOpt
                     let user = matchedUsers.length ? matchedUsers[0] : null;
 
                     // respond 200 OK with user
-                    connection.mockRespond(new Response(new ResponseOptions({status: 200, body: user})));
+                    connection.mockRespond(new Response(new ResponseOptions({ status: 200, body: user })));
                 } else {
                     // return 401 not authorised if token is null or invalid
-                    connection.mockRespond(new Response(new ResponseOptions({status: 401})));
+                    connection.mockRespond(new Response(new ResponseOptions({ status: 401 })));
                 }
 
                 return;
@@ -109,7 +109,7 @@ export function mockBackEndFactory(backend: MockBackend, options: BaseRequestOpt
                 localStorage.setItem('users', JSON.stringify(users));
 
                 // respond 200 OK
-                connection.mockRespond(new Response(new ResponseOptions({status: 200})));
+                connection.mockRespond(new Response(new ResponseOptions({ status: 200 })));
 
                 return;
             }
@@ -132,10 +132,10 @@ export function mockBackEndFactory(backend: MockBackend, options: BaseRequestOpt
                     }
 
                     // respond 200 OK
-                    connection.mockRespond(new Response(new ResponseOptions({status: 200})));
+                    connection.mockRespond(new Response(new ResponseOptions({ status: 200 })));
                 } else {
                     // return 401 not authorised if token is null or invalid
-                    connection.mockRespond(new Response(new ResponseOptions({status: 401})));
+                    connection.mockRespond(new Response(new ResponseOptions({ status: 401 })));
                 }
 
                 return;
@@ -146,10 +146,10 @@ export function mockBackEndFactory(backend: MockBackend, options: BaseRequestOpt
                 // check for fake auth token in header and return users if valid, this security
                 // is implemented server side in a real application
                 if (connection.request.headers.get('Authorization') === 'Bearer ' + token) {
-                    connection.mockRespond(new Response(new ResponseOptions({status: 200, body: {status: 'ok'}})));
+                    connection.mockRespond(new Response(new ResponseOptions({ status: 200, body: { status: 'ok' } })));
                 } else {
                     // return 401 not authorised if token is null or invalid
-                    connection.mockRespond(new Response(new ResponseOptions({status: 401})));
+                    connection.mockRespond(new Response(new ResponseOptions({ status: 401 })));
                 }
 
                 return;
@@ -168,7 +168,7 @@ export function mockBackEndFactory(backend: MockBackend, options: BaseRequestOpt
                 if (filteredUsers.length) {
                     // in real world, if email is valid, send email change password link
                     let user = filteredUsers[0];
-                    connection.mockRespond(new Response(new ResponseOptions({status: 200})));
+                    connection.mockRespond(new Response(new ResponseOptions({ status: 200 })));
                 } else {
                     // else return 400 bad request
                     connection.mockError(new Error('User with this email does not exist'));
@@ -189,11 +189,11 @@ export function mockBackEndFactory(backend: MockBackend, options: BaseRequestOpt
             });
             realHttp.request(connection.request.url, requestOptions)
                 .subscribe((response: Response) => {
-                        connection.mockRespond(response);
-                    },
-                    (error: any) => {
-                        connection.mockError(error);
-                    });
+                    connection.mockRespond(response);
+                },
+                (error: any) => {
+                    connection.mockError(error);
+                });
 
         }, 500);
 

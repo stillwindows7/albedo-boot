@@ -1,9 +1,9 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {CTX} from "../../../../app.constants";
-import {ActivatedRoute} from "@angular/router";
-import {Dict} from "../../../../service/sys/dict/dict.model";
-import {ModuleService} from "../../../../service/sys/module/module.service";
-import {DictService} from "../../../../service/sys/dict/dict.service";
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { CTX } from "../../../../app.constants";
+import { ActivatedRoute } from "@angular/router";
+import { Dict } from "../../../../service/sys/dict/dict.model";
+import { ModuleService } from "../../../../service/sys/module/module.service";
+import { DictService } from "../../../../service/sys/dict/dict.service";
 
 @Component({
     selector: ".sys-dict-form.page-form",
@@ -29,14 +29,14 @@ export class DictFormComponent implements OnInit, OnDestroy, AfterViewInit {
     ngOnInit() {
         this.routerSub = this.router.params.subscribe((params) => {
             this.id = params['id'];
-            if(this.id){
+            if (this.id) {
                 this.dictService.find(this.id).subscribe((data) => {
                     this.dict = data;
                     albedoForm.initFormData("#dict-save-form", this.dict);
                     this.afterLoad = true;
                     this.initForm();
                 });
-            }else{
+            } else {
                 this.afterLoad = true;
                 this.initForm();
             }
@@ -55,7 +55,7 @@ export class DictFormComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     initForm() {
-        if(!this.afterViewInit || !this.afterLoad) return;
+        if (!this.afterViewInit || !this.afterLoad) return;
 
         var dictId = this.dict.id;
         albedoForm.initValidate($("#dict-save-form"), {

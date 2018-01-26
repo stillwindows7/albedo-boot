@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {CTX} from "../../../../app.constants";
-import {ActivatedRoute} from "@angular/router";
-import {UserService} from "../../../../service/sys/user/user.service";
-import {User} from "../../../../service/sys/user/user.model";
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { CTX } from "../../../../app.constants";
+import { ActivatedRoute } from "@angular/router";
+import { UserService } from "../../../../service/sys/user/user.service";
+import { User } from "../../../../service/sys/user/user.model";
 
 @Component({
     selector: ".sys-user-form.page-form",
@@ -28,14 +28,14 @@ export class UserFormComponent implements OnInit, OnDestroy, AfterViewInit {
     ngOnInit() {
         this.routerSub = this.router.params.subscribe((params) => {
             this.id = params['id'];
-            if(this.id){
+            if (this.id) {
                 this.userService.find(this.id).subscribe((data) => {
                     this.user = data;
                     albedoForm.initFormData("#user-save-form", this.user);
                     this.afterLoad = true;
                     this.initForm();
                 });
-            }else{
+            } else {
                 this.afterLoad = true;
                 this.initForm();
             }
@@ -54,7 +54,7 @@ export class UserFormComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     initForm() {
-        if(!this.afterViewInit || !this.afterLoad) return;
+        if (!this.afterViewInit || !this.afterLoad) return;
 
         var userId = this.user.id;
         albedoForm.initValidate($("#user-save-form"), {

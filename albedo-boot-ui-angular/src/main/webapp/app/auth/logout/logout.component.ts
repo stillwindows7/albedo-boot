@@ -1,7 +1,7 @@
-import {Component, OnInit, ViewEncapsulation} from "@angular/core";
-import {Router} from "@angular/router";
-import {AuthenticationService} from "../_services/authentication.service";
-import {Helpers} from "../../helpers";
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Router } from "@angular/router";
+import { AuthenticationService } from "../_services/authentication.service";
+import { Helpers } from "../../helpers";
 
 @Component({
     selector: 'app-logout',
@@ -12,7 +12,7 @@ import {Helpers} from "../../helpers";
 export class LogoutComponent implements OnInit {
 
     constructor(private _router: Router,
-                private _authService: AuthenticationService) {
+        private _authService: AuthenticationService) {
     }
 
     ngOnInit(): void {

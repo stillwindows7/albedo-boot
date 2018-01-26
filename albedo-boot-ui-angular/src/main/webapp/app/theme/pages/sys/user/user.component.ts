@@ -1,9 +1,9 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {ScriptLoaderService} from "../../../../shared/base/service/script-loader.service";
-import {CTX} from "../../../../app.constants";
-import {SessionStorageService} from "ngx-webstorage";
-import {ActivatedRoute} from "@angular/router";
-import {Principal} from "../../../../auth/_services/principal.service";
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ScriptLoaderService } from "../../../../shared/base/service/script-loader.service";
+import { CTX } from "../../../../app.constants";
+import { SessionStorageService } from "ngx-webstorage";
+import { ActivatedRoute } from "@angular/router";
+import { Principal } from "../../../../auth/_services/principal.service";
 
 declare let datatable: any;
 @Component({
@@ -11,13 +11,13 @@ declare let datatable: any;
     templateUrl: "./user.component.html",
     encapsulation: ViewEncapsulation.None,
 })
-export class UserComponent implements OnInit,OnDestroy, AfterViewInit {
+export class UserComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     routerSub: any;
     constructor(private _script: ScriptLoaderService,
         private router: ActivatedRoute,
-                private    principal: Principal,
+        private principal: Principal,
         private sessionStorage: SessionStorageService) {
 
     }
@@ -115,7 +115,7 @@ export class UserComponent implements OnInit,OnDestroy, AfterViewInit {
                                 \</a>';
                         if (thisPrincipal.hasAuthority("sys_user_delete"))
                             template += '<a  href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
-                                   data-table-id="#data-table-user" data-method="delete"  data-title="你确认要删除【' + row.loginId + '】用户吗？" data-url="'+ CTX +'/sys/user/'+ row.id+ '">\
+                                   data-table-id="#data-table-user" data-method="delete"  data-title="你确认要删除【' + row.loginId + '】用户吗？" data-url="' + CTX + '/sys/user/' + row.id + '">\
                                 \<i class="la la-trash"></i>\
                                 \</a>';
                         return template;

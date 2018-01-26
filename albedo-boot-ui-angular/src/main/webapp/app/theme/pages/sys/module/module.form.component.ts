@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {CTX} from "../../../../app.constants";
-import {ActivatedRoute} from "@angular/router";
-import {Module} from "../../../../service/sys/module/module.model";
-import {ModuleService} from "../../../../service/sys/module/module.service";
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { CTX } from "../../../../app.constants";
+import { ActivatedRoute } from "@angular/router";
+import { Module } from "../../../../service/sys/module/module.model";
+import { ModuleService } from "../../../../service/sys/module/module.service";
 
 @Component({
     selector: ".sys-module-form.page-form",
@@ -28,14 +28,14 @@ export class ModuleFormComponent implements OnInit, OnDestroy, AfterViewInit {
     ngOnInit() {
         this.routerSub = this.router.params.subscribe((params) => {
             this.id = params['id'];
-            if(this.id){
+            if (this.id) {
                 this.moduleService.find(this.id).subscribe((data) => {
                     this.module = data;
                     albedoForm.initFormData("#module-save-form", this.module);
                     this.afterLoad = true;
                     this.initForm();
                 });
-            }else{
+            } else {
                 this.afterLoad = true;
                 this.initForm();
             }
@@ -54,7 +54,7 @@ export class ModuleFormComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     initForm() {
-        if(!this.afterViewInit || !this.afterLoad) return;
+        if (!this.afterViewInit || !this.afterLoad) return;
 
         var moduleId = this.module.id;
         albedoForm.initValidate($("#module-save-form"), {

@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Module} from "../../../service/sys/module/module.model";
-import {ModuleService} from "../../../service/sys/module/module.service";
-import {setActiveItemMenu} from "../../../shared/base/base.util";
-import {LocalStorageService} from "ngx-webstorage";
+import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Module } from "../../../service/sys/module/module.model";
+import { ModuleService } from "../../../service/sys/module/module.service";
+import { setActiveItemMenu } from "../../../shared/base/base.util";
+import { LocalStorageService } from "ngx-webstorage";
 
 declare let mLayout: any;
 @Component({

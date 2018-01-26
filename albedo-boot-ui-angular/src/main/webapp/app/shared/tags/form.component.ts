@@ -1,17 +1,17 @@
-import {AfterViewInit, Component, Input, OnInit, SimpleChanges} from '@angular/core';
-import {ComboSearch} from "../base/model/combo.search.model";
-import {DictService} from "../../service/sys/dict/dict.service";
-import {DictQuery} from "../../service/sys/dict/dict.query.model";
-import {ComboData} from "../base/model/combo.data.model";
-import {Http} from "@angular/http";
-import {createRequestOption} from "../base/request.util";
-import {OnChanges} from "@angular/core/src/metadata/lifecycle_hooks";
+import { AfterViewInit, Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { ComboSearch } from "../base/model/combo.search.model";
+import { DictService } from "../../service/sys/dict/dict.service";
+import { DictQuery } from "../../service/sys/dict/dict.query.model";
+import { ComboData } from "../base/model/combo.data.model";
+import { Http } from "@angular/http";
+import { createRequestOption } from "../base/request.util";
+import { OnChanges } from "@angular/core/src/metadata/lifecycle_hooks";
 
 @Component({
     selector: "alb-form",
     templateUrl: "./form.component.html"
 })
-export class AlbFormComponent implements OnInit, AfterViewInit,OnChanges {
+export class AlbFormComponent implements OnInit, AfterViewInit, OnChanges {
 
     @Input()
     public dictQuery?: DictQuery;
@@ -64,7 +64,7 @@ export class AlbFormComponent implements OnInit, AfterViewInit,OnChanges {
     }
     ngOnInit(): void {
         if (!this.comboData) {
-            if(this.dictCode!=null) this.dictQuery = new DictQuery(this.dictCode);
+            if (this.dictCode != null) this.dictQuery = new DictQuery(this.dictCode);
             let params = this.dictQuery != null ? this.dictQuery : this.comboSearch;
             params && this.dictService.codes(params).subscribe(
                 (data: any) => {
@@ -72,7 +72,7 @@ export class AlbFormComponent implements OnInit, AfterViewInit,OnChanges {
                     this.initTags();
                 }
             );
-            this.url && this.http.get(this.url, createRequestOption(this.params)).map((data: any) =>data).subscribe(
+            this.url && this.http.get(this.url, createRequestOption(this.params)).map((data: any) => data).subscribe(
                 (data: any) => {
                     this.comboData = data;
                     this.initTags();
@@ -83,8 +83,8 @@ export class AlbFormComponent implements OnInit, AfterViewInit,OnChanges {
     }
 
 
-    equleValue(valLabel): boolean{
-        return this.value && (valLabel == this.value || (","+this.value+",").indexOf(","+valLabel+",") != -1);
+    equleValue(valLabel): boolean {
+        return this.value && (valLabel == this.value || ("," + this.value + ",").indexOf("," + valLabel + ",") != -1);
     }
 
     /**/
@@ -119,11 +119,11 @@ export class AlbFormComponent implements OnInit, AfterViewInit,OnChanges {
         var self = this;
         if (self.afterViewInit != true || self.comboData == null) return;
         // console.log(self.comboData);
-        setTimeout(function () {
-            $('.m-bootstrap-select').selectpicker().on('hidden.bs.select', function (e) {
+        setTimeout(function() {
+            $('.m-bootstrap-select').selectpicker().on('hidden.bs.select', function(e) {
                 self.changeVal();
             });
-        },400)
+        }, 400)
         // if(!self.value){
         //     var ngValue = $("#form-item-" + self.id).parent().attr("ng-reflect-value");
         //     if(ngValue) self.value = ngValue;
@@ -177,7 +177,7 @@ export class AlbFormComponent implements OnInit, AfterViewInit,OnChanges {
 
     }
 
-    changeVal(){
+    changeVal() {
         this.clickFunc && this.clickFunc();
     }
 

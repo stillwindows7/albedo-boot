@@ -1,9 +1,9 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {CTX} from "../../../../app.constants";
-import {ActivatedRoute} from "@angular/router";
-import {Org} from "../../../../service/sys/org/org.model";
-import {ModuleService} from "../../../../service/sys/module/module.service";
-import {OrgService} from "../../../../service/sys/org/org.service";
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { CTX } from "../../../../app.constants";
+import { ActivatedRoute } from "@angular/router";
+import { Org } from "../../../../service/sys/org/org.model";
+import { ModuleService } from "../../../../service/sys/module/module.service";
+import { OrgService } from "../../../../service/sys/org/org.service";
 
 @Component({
     selector: ".sys-org-form.page-form",
@@ -29,14 +29,14 @@ export class OrgFormComponent implements OnInit, OnDestroy, AfterViewInit {
     ngOnInit() {
         this.routerSub = this.router.params.subscribe((params) => {
             this.id = params['id'];
-            if(this.id){
+            if (this.id) {
                 this.orgService.find(this.id).subscribe((data) => {
                     this.org = data;
                     albedoForm.initFormData("#org-save-form", this.org);
                     this.afterLoad = true;
                     this.initForm();
                 });
-            }else{
+            } else {
                 this.afterLoad = true;
                 this.initForm();
             }
@@ -55,7 +55,7 @@ export class OrgFormComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     initForm() {
-        if(!this.afterViewInit || !this.afterLoad) return;
+        if (!this.afterViewInit || !this.afterLoad) return;
 
         var orgId = this.org.id;
         albedoForm.initValidate($("#org-save-form"), {

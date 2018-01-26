@@ -1,4 +1,4 @@
-import {Data} from "../../../shared";
+import { Data } from "../../../shared";
 
 export class User extends Data {
     public id?: any;

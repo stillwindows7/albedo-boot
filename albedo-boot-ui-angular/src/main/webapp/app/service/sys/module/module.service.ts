@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
-import {Observable} from 'rxjs/Rx';
-import {CTX} from "../../../app.constants";
-import {DataService} from "../../../shared/base/service/data.service";
-import {Module} from "./module.model";
-import {createRequestOption} from "../../../shared";
+import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
+import { CTX } from "../../../app.constants";
+import { DataService } from "../../../shared/base/service/data.service";
+import { Module } from "./module.model";
+import { createRequestOption } from "../../../shared";
 
 
 @Injectable()

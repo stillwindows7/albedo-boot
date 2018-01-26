@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
-import {DictService} from "../../service/sys/dict/dict.service";
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { DictService } from "../../service/sys/dict/dict.service";
 
 @Component({
     selector: "alb-ico-show",

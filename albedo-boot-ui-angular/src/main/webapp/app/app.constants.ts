@@ -30,7 +30,7 @@ export const DATA_STATUS = {
 };
 
 export const DICT_SYS_DATA = {
-    "是": {  'class': ' m-badge--info' },
+    "是": { 'class': ' m-badge--info' },
     "否": { 'class': ' m-badge--warning' },
 };
 

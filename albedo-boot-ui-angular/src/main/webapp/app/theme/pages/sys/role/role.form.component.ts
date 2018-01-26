@@ -1,10 +1,10 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {CTX} from "../../../../app.constants";
-import {ActivatedRoute} from "@angular/router";
-import {RoleService} from "../../../../service/sys/role/role.service";
-import {Role} from "../../../../service/sys/role/role.model";
-import {ModuleService} from "../../../../service/sys/module/module.service";
-import {OrgService} from "../../../../service/sys/org/org.service";
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { CTX } from "../../../../app.constants";
+import { ActivatedRoute } from "@angular/router";
+import { RoleService } from "../../../../service/sys/role/role.service";
+import { Role } from "../../../../service/sys/role/role.model";
+import { ModuleService } from "../../../../service/sys/module/module.service";
+import { OrgService } from "../../../../service/sys/org/org.service";
 
 @Component({
     selector: ".sys-role-form.page-form",
@@ -32,14 +32,14 @@ export class RoleFormComponent implements OnInit, OnDestroy, AfterViewInit {
     ngOnInit() {
         this.routerSub = this.router.params.subscribe((params) => {
             this.id = params['id'];
-            if(this.id){
+            if (this.id) {
                 this.roleService.find(this.id).subscribe((data) => {
                     this.role = data;
                     albedoForm.initFormData("#role-save-form", this.role);
                     this.afterLoad = true;
                     this.initForm();
                 });
-            }else{
+            } else {
                 this.afterLoad = true;
                 this.initForm();
             }
@@ -58,7 +58,7 @@ export class RoleFormComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     initForm() {
-        if(!this.afterViewInit || !this.afterLoad) return;
+        if (!this.afterViewInit || !this.afterLoad) return;
 
         var roleId = this.role.id;
         albedoForm.initValidate($("#role-save-form"), {
@@ -107,37 +107,37 @@ export class RoleFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     }
-     initTree(){
-         var treeRoleModule, treeRoleOrg, data, setting = {
-             view: {selectedMulti: false}, check: {enable: true, nocheckInherit: true},
-             data: {key:{name:'label'},simpleData: {enable: true,idKey:'id',pIdKey: 'pid'}}
-         };
+    initTree() {
+        var treeRoleModule, treeRoleOrg, data, setting = {
+            view: { selectedMulti: false }, check: { enable: true, nocheckInherit: true },
+            data: { key: { name: 'label' }, simpleData: { enable: true, idKey: 'id', pIdKey: 'pid' } }
+        };
 
-         this.moduleService.treeData().subscribe(
-             (data: any) => {
-                 // 初始化树结构
-                 treeRoleModule = $.fn.mTreeInit($("#treeRoleModule"), setting, data);
-                 var nodes = treeRoleModule.expandAll(true);
-                 // 默认选择节点
-                 $("input[name='moduleIdList']").each(function () {
-                     // console.log( $(this).val())
-                     var node = treeRoleModule.getNodeByParam("id", $(this).val());
-                     if (node) treeRoleModule.checkNode(node, true, false, false);
-                 });
-             }
-         );
-         this.orgService.treeData().subscribe((data: any) => {
-             // 初始化树结构
-             treeRoleOrg = $.fn.mTreeInit($("#treeRoleOrg"), setting, data);
-             var nodes = treeRoleOrg.expandAll(true);
-             // 默认选择节点
-             $("input[name='orgIdList']").each(function () {
-                 var node = treeRoleOrg.getNodeByParam("id", $(this).val());
-                 if (node) treeRoleOrg.checkNode(node, true, true, false);
-             });
-         })
-     }
-     refreshOrgTree() {
+        this.moduleService.treeData().subscribe(
+            (data: any) => {
+                // 初始化树结构
+                treeRoleModule = $.fn.mTreeInit($("#treeRoleModule"), setting, data);
+                var nodes = treeRoleModule.expandAll(true);
+                // 默认选择节点
+                $("input[name='moduleIdList']").each(function() {
+                    // console.log( $(this).val())
+                    var node = treeRoleModule.getNodeByParam("id", $(this).val());
+                    if (node) treeRoleModule.checkNode(node, true, false, false);
+                });
+            }
+        );
+        this.orgService.treeData().subscribe((data: any) => {
+            // 初始化树结构
+            treeRoleOrg = $.fn.mTreeInit($("#treeRoleOrg"), setting, data);
+            var nodes = treeRoleOrg.expandAll(true);
+            // 默认选择节点
+            $("input[name='orgIdList']").each(function() {
+                var node = treeRoleOrg.getNodeByParam("id", $(this).val());
+                if (node) treeRoleOrg.checkNode(node, true, true, false);
+            });
+        })
+    }
+    refreshOrgTree() {
         $("input[name='dataScope']:checked").val() == 5 ? $(".treeRoleOrgBox").show() : $(".treeRoleOrgBox").hide();
     }
 
