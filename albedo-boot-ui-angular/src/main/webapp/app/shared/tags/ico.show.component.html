@@ -21,7 +21,7 @@
           [attr._notAllowSelectParent]="notAllowSelectParent"
           [attr._notAllowSelectRoot]="notAllowSelectRoot"
           [attr._selectScopeModule]="selectScopeModule">
-
+    <i *ngIf="value!=null" class="fa {{value}}"></i>
     </span>
     <span class="input-group-btn">
         <button class="btn btn-secondary" type="button"

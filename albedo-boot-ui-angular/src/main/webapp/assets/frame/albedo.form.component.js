@@ -1,55 +1,67 @@
 var albedoForm = function () {
-    var _treeSearchInputFocusKey = function ($key) {
+    var _searchInputFocusKey = function ($key) {
         if ($key.hasClass("empty")) {
             $key.removeClass("empty");
         }
     }
-    var _treeSearchInputBlurKey = function ($key, tree) {
+    var _searchInputBlurKey = function ($key, $container) {
         if ($key.get(0).value === "") {
             $key.addClass("empty");
         }
-        _treeSearchNode($key, tree);
+        _searchNode($key, $container);
     }
-    var _treeSearchNode = function ($key, tree) {
-        var $container = tree.setting.treeObj;
+    var _searchNode = function ($key, $container) {
         // 取得输入的关键字的值
         var value = $.trim($key.get(0).value);
-        // 按名字查询
-        var keyType = "name";
+
         if ($key.hasClass("empty")) {
             value = "";
         }
         // 如果和上次一次，就退出不查了。
         if ($key.attr("lastValue_") === value) {
-            return;
+            return value;
         }
         // 保存最后一次
         $key.attr("lastValue_", value);
         // 如果要查空字串，就退出不查了。
         if (value === "") {
             {
-                $container.mCustomScrollbar({
-                    'scrollTo': 0
-                });
+                $container&&$container.length>0&&$container.mCustomScrollbar('scrollTo', 0);
             }
-            return;
+            return value;
         }
-        _treeSearchUpdateNodes(tree, false, tree.transformToArray(tree.getNodes()));
-        _treeSearchUpdateNodes(tree, true, tree.getNodesByParamFuzzy(keyType, value, null));
+        return value;
+    }
+
+    var _searchTreeInputBlurKey = function ($key, tree) {
+        if ($key.get(0).value === "") {
+            $key.addClass("empty");
+        }
+        _searchTreeNode($key, tree);
+    }
+    var _searchTreeNode = function ($key, tree) {
+
+        var $container = tree.setting.treeObj;
+        var searchValue = _searchNode($key, $container);
+        if(searchValue && tree){
+            // 按名字查询
+            var keyType = "label";
+            _treeSearchUpdateNodes(tree, false, tree.transformToArray(tree.getNodes()));
+            _treeSearchUpdateNodes(tree, true, tree.getNodesByParamFuzzy(keyType, searchValue, null));
+        }
     }
     var _treeSearchUpdateNodes = function (tree, highlight, nodeList) {
         var $container = tree.setting.treeObj;
+        console.log(nodeList);
         for (var i = 0, l = nodeList.length; i < l; i++) {
-            console.log(nodeList[i])
             nodeList[i].highlight = highlight;
             tree.updateNode(nodeList[i]);
             tree.expandNode(nodeList[i].getParentNode(), true, false, true);
             if (i == 0 && highlight) {
-                var scorll = $("a[title='" + nodeList[i].name + "']").offset().top - $container.offset().top - 5;
+                // var scorll = $("a[title='" + nodeList[i].label + "']").offset().top - $container.offset().top - 5;
 //				$container.animate({scrollTop: scorll},500)
-                $container.mCustomScrollbar({
-                    'scrollTo': scorll
-                });
+                var $scorllTarget = $("a[title='" + nodeList[i].label + "']");
+                $container.mCustomScrollbar('scrollTo', $scorllTarget);
             }
         }
     }
@@ -196,23 +208,22 @@ var albedoForm = function () {
                 }, 1000)
             // }
         }
-        $thiz.prev("div").find("input").bind("focus", function () {
-            _treeSearchInputFocusKey($(this));
-        }).bind("blur", function () {
-            _treeSearchInputBlurKey($(this), tree);
-        })
-            .bind("change keydown cut input propertychange", function () {
-                _treeSearchNode($(this), tree);
+        $thiz.prev("div").find("input").off().on("focus", function () {
+            _searchInputFocusKey($(this));
+        }).on("blur", function () {
+            _searchTreeInputBlurKey($(this), tree);
+        }).on("change keydown cut input propertychange", function () {
+                _searchTreeNode($(this), tree);
             });
         var $portlet = $thiz.parents(".m-portlet");
-        $portlet.find("a.tree-search").off("click").click(function () {
+        $portlet.find("a.tree-search").off().click(function () {
             $portlet.find(".tree-search-div").slideToggle(200);
             $portlet.find(".tree-search-input").focus();
         });
-        $portlet.find("a.tree-refresh").off("click").click(function () {
+        $portlet.find("a.tree-refresh").off().click(function () {
             refreshTree();
         });
-        $portlet.find("a.tree-expand").off("click").click(function () {
+        $portlet.find("a.tree-expand").off().click(function () {
             var zTree = $.fn.zTree.getZTreeObj($thiz.attr("id"));
             var expand = ($(this).find("i").attr("class").indexOf("expand") == -1);
             $(this).find("i").attr("class", "fa fa-" + (expand == true ? "expand" : "compress"));
@@ -239,8 +250,8 @@ var albedoForm = function () {
             value = $thizVal.val() ? $thizVal.val() : "",
             allowClear = $thiz.attr("_allowClear") ? $thiz.attr("_allowClear") : "",
             notAllowSelectParent = $thiz.attr("_notAllowSelectParent") ? $thiz.attr("_notAllowSelectParent") : "",
-            dialogWidth = $thiz.attr("_dialogWidth") ? $thiz.attr("_dialogWidth") : 320,
-            dialogHeight = $thiz.attr("_dialogHeight") ? $thiz.attr("_dialogHeight") : 360,
+            dialogWidth = $thiz.attr("_dialogWidth") ? $thiz.attr("_dialogWidth") : 720,
+            dialogHeight = $thiz.attr("_dialogHeight") ? $thiz.attr("_dialogHeight") : 460,
             notAllowSelectRoot = $thiz.attr("_notAllowSelectRoot") ? $thiz.attr("_notAllowSelectRoot") : "",
             selectScopeModule = $thiz.attr("_selectScopeModule") ? $thiz.attr("_selectScopeModule") : "",
             selectedValueFn = $thiz.attr("_selectedValueFn") ? $thiz.attr("_selectedValueFn") : "",
@@ -249,14 +260,26 @@ var albedoForm = function () {
         if (name && name.indexOf(".") != -1) name = name.replace(".", "-");
 
         var html = '<div id="' + name + 'IcoModal" class="modal fade" tabindex="-1" data-focus-on="input:first">' +
-            '<div class="modal-dialog modal-sm" role="document">' +
+            '<div class="modal-dialog modal-xxxlg" role="document">' +
             '<div class="modal-content">' +
             '<div class="modal-header">' +
             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>' +
             '<h4 class="modal-title">' + (title ? title : "数据选择") + '</h4>' +
             '</div>' +
             '<div class="modal-body albedo-icoSelect-div albed-icoSelect-' + name + '">' +
+            '<div class="search-item-div" style="position:absolute;right:15px;top:30px;cursor:pointer;z-index:22;">' +
+            '<i class="fa fa-search icon-on-right fa-lg"></i><label id="txt">&nbsp;&nbsp;</label>' +
+            '</div>' +
+            '<div id="search" class="control-group" style="padding:0px 15px 15px;display: none;">' +
+            '<div class="portlet-input input-inline">' +
+            '<div class="input-icon right">' +
+            '<i class="icon-magnifier"></i>' +
+            '<input type="text" id="key" name="key" maxlength="50" class="form-control input-circle" placeholder="请输入..."> </div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="scrollable ico-select-div" style="height:' + (dialogHeight - 30) + 'px;">' +
             _icoObj.html +
+            '</div>' +
             '</div>' +
             '<div class="modal-footer">' +
             '<button type="button" class="btn btn-sm btn-primary m-btn m-btn--custom confirm">确定</button>' +
@@ -270,70 +293,74 @@ var albedoForm = function () {
         if(!isReload){
             $('body').append($(html));
         }
-        var $modal = $('#' + name + 'IcoModal'), lastValue = "", nodeList = [];
-        $modal.find(".m-demo-icon").click(function(){
-            console.log($(this).find(".m-demo-icon__preview i").attr("class"));
-            if($(this).attr("select")==""){
-                $(this).attr("select", select);
+        var $modal = $('#' + name + 'IcoModal'), lastValue = "", nodeList = [], $container = $modal.find('.scrollable');
+        var selectIconFn = function(){
+            if(!$(this).attr("select")){
+                if(!checked){
+                    $modal.find(".m-demo-icon").removeAttr("select").find(".m-demo-icon__preview i").removeClass("active");
+                    $modal.find(".m-demo-icon__class").removeClass("active");
+                }
+                $(this).attr("select", "select").find(".m-demo-icon__preview i").addClass("active");
+                $(this).find(".m-demo-icon__class").addClass("active");
             }else{
-                $(this).removeAttr("select");
+                $(this).removeAttr("select").find(".m-demo-icon__preview i").removeClass("active");
+                $(this).find(".m-demo-icon__class").removeClass("active");
             }
-        });
+        };
+        $modal.find('.m-demo-icon').off().click(selectIconFn);
         //, maxHeight: dialogHeight, height: dialogHeight
+        console.log(dialogWidth)
+
         $modal.modal({width: dialogWidth}).off('click', '.confirm').on('click', '.confirm', function () {
-            var tree = $.fn.zTree.getZTreeObj("tree-" + name);
-            var ids = [], names = [], nodes = [];
-            if (checked == "true") {
-                nodes = tree.getCheckedNodes(true);
-            } else {
-                nodes = tree.getSelectedNodes();
-            }
-            for (var i = 0; i < nodes.length; i++) {
-                if (checked == "true") {
-                    if (notAllowSelectParent && nodes[i].isParent) {
-                        continue; // 如果为复选框选择，则过滤掉父节点
-                    }
-                    if (nodes[i].getCheckStatus().half) {
-                        continue; // 过滤半选中状态
-                    }
-                }
-                if (notAllowSelectRoot && nodes[i].level == 0) {
-                    toastr.warning("不能选择根节点（" + nodes[i].name + "）请重新选择。");
-                    return false;
-                }
-                if (notAllowSelectParent && nodes[i].isParent) {
-                    toastr.warning("不能选择父节点（" + nodes[i].name + "）请重新选择。");
-                    return false;
-                }
-                if (!module && selectScopeModule) {
-                    if (nodes[i].module == "") {
-                        toastr.warning("不能选择公共模型（" + nodes[i].name + "）请重新选择。");
-                        return false;
-                    } else if (nodes[i].module != module) {
-                        toastr.warning("不能选择当前栏目以外的栏目模型，请重新选择。");
-                        return false;
-                    }
-                }
-                ids.push(nodes[i].id);
-                var t_node = nodes[i];
-                var t_name = "";
-                var name_l = 0;
-                do {
-                    name_l++;
-                    t_name = t_node.label + " " + t_name;
-                    t_node = t_node.getParentNode();
-                } while (name_l < nameLevel);
-                names.push(t_name);
-                if (checked != "true") break; // 如果为非复选框选择，则返回第一个选择
-            }
-            $thizVal.val(ids);
-            $thiz.val(names);
+            var vals = [];
+            $modal.find('.m-demo-icon[select="select"]').each(function(){
+                vals.push($(this).find('.m-demo-icon__class').text());
+            })
+            $thizVal.val(vals);
+            var icons = "";
+            vals.forEach(function(val, index){
+                icons+=("<i class='fa "+val+"'/>");
+            })
+            $thiz.html(icons);
             if (albedo.isExitsVariable(selectedValueFn) && albedo.isExitsFunction(selectedValueFn)) {
-                eval(selectedValueFn + "('" + ids + "','" + names + "')");
+                eval(selectedValueFn + "('" + vals + "')");
             }
             $modal.modal("hide");
         });
+
+        $modal.find("#key").off().on('focus',function () {
+            _searchInputFocusKey($(this));
+        }).on('blur', function () {
+            _searchInputBlurKey($(this));
+        }).on('change keydown cut input propertychange', function () {
+            var searchValue = _searchNode($(this), $container);
+            if(searchValue){
+                var $target = $modal.find('.m-demo-icon .m-demo-icon__class:contains("'+searchValue+'")');
+                if($target&& $target.length>0){
+                    $modal.find('.m-demo-icon .m-demo-icon__class').removeAttr("style");
+                    $target.attr("style", "font-weight: bold;")
+                    // var scorll = .offset().top - $modal.offset().top - 5;
+                    $container.mCustomScrollbar('scrollTo', $target.get(0));
+                }
+            }
+        });
+        $modal.find(".search-item-div").off().click(function () {
+            $modal.find("#search").slideToggle(200);
+            $modal.find("#txt").toggle();
+            $modal.find("#key").focus();
+        });
         // App.initSlimScroll('.scroller');
+        mApp.initScroller($modal.find('.scrollable'),{})
+        if(value){
+            var vals = value.split(",");
+            vals.forEach(function(val, index){
+                if(val){
+                    var $icoTarget = $modal.find(".m-demo-icon .m-demo-icon__class:contains('"+val+"')");
+                    $icoTarget.addClass("active").parents(".m-demo-icon").attr("select", "select").find(".m-demo-icon__preview i").addClass("active");
+                    if(index==0)setTimeout(function(){$container.mCustomScrollbar('scrollTo', $icoTarget.parents(".m-demo-icon"))},500);
+                }
+            })
+        }
         if (allowClear) {
             $modal.off('click', '.clear').on('click', '.clear', function () {
                 $thizVal.val("");
@@ -375,11 +402,11 @@ var albedoForm = function () {
             '<h4 class="modal-title">' + (title ? title : "数据选择") + '</h4>' +
             '</div>' +
             '<div class="modal-body albedo-treeSelect-div albed-treeSelect-' + name + '">' +
-            '<div class="search-item-div" style="position:absolute;right:15px;top:20px;cursor:pointer;z-index:22;">' +
+            '<div class="search-item-div" style="position:absolute;right:15px;top:30px;cursor:pointer;z-index:22;">' +
             '<i class="fa fa-search icon-on-right fa-lg"></i><label id="txt">&nbsp;&nbsp;</label>' +
             '</div>' +
-            '<div id="search" class="control-group" style="padding:0px 0 0px 15px;display: none;">' +
-            '<div class="portlet-input input-inline" style="width: 240px !important;">' +
+            '<div id="search" class="control-group" style="padding:0 15px 15px;display: none;">' +
+            '<div class="portlet-input input-inline">' +
             '<div class="input-icon right">' +
             '<i class="icon-magnifier"></i>' +
             '<input type="text" id="key" name="key" maxlength="50" class="form-control input-circle" placeholder="请输入..."> </div>' +
@@ -399,7 +426,7 @@ var albedoForm = function () {
         if(!isReload){
             $('body').append($(html));
         }
-        var $modal = $('#' + name + 'TreeModal'), lastValue = "", nodeList = [];
+        var $modal = $('#' + name + 'TreeModal'), lastValue = "", nodeList = [], $container = $modal.find('.scrollable');
         if(isReload){
             $modal.find(".ztree").remove();
             $modal.find(".modal-body").append($('<div id="tree-' + name + '" class="ztree scrollable" style="padding:0 15px 10px;height:' + (dialogHeight - 30) + 'px;"></div>'))
@@ -514,17 +541,21 @@ var albedoForm = function () {
                         tree.selectNode(node, true);
                     }
                 }
-                setTimeout(mApp.initScroller($modal.find('.scrollable'),{}), 500)
+                mApp.initScroller($modal.find('.scrollable'),{})
+                setTimeout(function(){
+                    var node = tree.getNodeByParam("id", ids[0]);
+                    node&&$container.mCustomScrollbar('scrollTo', $container.find(".node_name:contains('"+node.label+"')"))
+                },500);
             }
         });
-        $modal.find("#key").bind("focus", function (e) {
-            _treeSearchInputFocusKey($(this));
-        }).bind("blur", function (e) {
-            _treeSearchInputBlurKey($(this), $.fn.zTree.getZTreeObj("tree-" + name));
-        }).bind("change keydown cut input propertychange", function () {
-            _treeSearchNode($(this), $.fn.zTree.getZTreeObj("tree-" + name));
+        $modal.find("#key").on('focus', function () {
+            _searchInputFocusKey($(this));
+        }).on('blur', function (e) {
+            _searchTreeInputBlurKey($(this), $.fn.zTree.getZTreeObj("tree-" + name));
+        }).on('change keydown cut input propertychange', function () {
+            _searchTreeNode($(this), $.fn.zTree.getZTreeObj("tree-" + name));
         });
-        $modal.find(".search-item-div").click(function () {
+        $modal.off('click', '.search-item-div').on('click', '.search-item-div', function () {
             $modal.find("#search").slideToggle(200);
             $modal.find("#txt").toggle();
             $modal.find("#key").focus();
