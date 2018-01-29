@@ -70,6 +70,7 @@ var albedoConstants = {
     userId: '',
     ctx: '/api',
     token: null,
+    sessionStorage:null
 };
 var albedo = {
     language: {
@@ -119,6 +120,12 @@ var albedo = {
             "copyTitle": "复制到剪贴板",
             "copyInfo": "复制 %d 行数据"
         }
+    },
+    setSessionStorage: function (sessionStorage){
+        albedoConstants.sessionStorage=sessionStorage;
+    },
+    getSessionStorage: function (){
+       return albedoConstants.sessionStorage;
     },
     setCookie: function (key, value) {
         Cookies.set(key, value, {

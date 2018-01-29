@@ -426,7 +426,7 @@ var albedoForm = function () {
         if(!isReload){
             $('body').append($(html));
         }
-        var $modal = $('#' + name + 'TreeModal'), lastValue = "", nodeList = [], $container = $modal.find('.scrollable');
+        var $modal = $('#' + name + 'TreeModal'), lastValue = "", nodeList = [];
         if(isReload){
             $modal.find(".ztree").remove();
             $modal.find(".modal-body").append($('<div id="tree-' + name + '" class="ztree scrollable" style="padding:0 15px 10px;height:' + (dialogHeight - 30) + 'px;"></div>'))
@@ -543,7 +543,7 @@ var albedoForm = function () {
                 }
                 mApp.initScroller($modal.find('.scrollable'),{})
                 setTimeout(function(){
-                    var node = tree.getNodeByParam("id", ids[0]);
+                    var node = tree.getNodeByParam("id", ids[0]), $container = $modal.find('.scrollable');
                     node&&$container.mCustomScrollbar('scrollTo', $container.find(".node_name:contains('"+node.label+"')"))
                 },500);
             }

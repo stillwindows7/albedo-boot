@@ -52,6 +52,7 @@ export class ThemeComponent implements OnInit {
                 this.scriptLoaderService.load('head', 'assets/vendors/custom/fullcalendar/fullcalendar.bundle.js');
                 const token = this.localStorage.retrieve('authenticationToken') || this.sessionStorage.retrieve('authenticationToken');
                 albedo.setCtx(CTX)
+                albedo.setSessionStorage(this.sessionStorage)
                 albedo.setToken(token)
                 albedo.setUserId(this.principal.getUserId())
                 this.initBreadcrumbs(url);
@@ -92,6 +93,9 @@ export class ThemeComponent implements OnInit {
 
     private initBreadcrumbs(url: string) {
         let thiz = this;
+        if(url=="/"){
+            return;
+        }
         if (thiz.modules) {
             var breadcrumbs = [];
             thiz.getModules(function(module) {

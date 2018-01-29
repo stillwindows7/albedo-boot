@@ -3,6 +3,7 @@ import { ScriptLoaderService } from "../../../../shared/base/service/script-load
 import { CTX, DATA_STATUS } from "../../../../app.constants";
 import { ActivatedRoute } from "@angular/router";
 import { Principal } from "../../../../auth/_services/principal.service";
+import {SessionStorageService} from "ngx-webstorage";
 
 declare let datatable: any;
 @Component({
@@ -17,10 +18,11 @@ export class DictComponent implements OnInit, OnDestroy, AfterViewInit {
     routerSub: any;
     nodeId: any;
     constructor(private _script: ScriptLoaderService,
+                private sessionStorage: SessionStorageService,
         private principal: Principal,
         private router: ActivatedRoute) {
         this.ctx = CTX;
-        this.nodeId = albedo.getUserCookie("tree_dict_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1;
+        this.nodeId = sessionStorage.retrieve("tree_dict_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1;
     }
 
 
@@ -113,7 +115,7 @@ export class DictComponent implements OnInit, OnDestroy, AfterViewInit {
 
     cancelClickNodeDict(event, treeId, treeNode) {
         // console.log(event)
-        albedo.setUserCookie("tree_dict_select_node_id", '');
+        this.sessionStorage.store("tree_dict_select_node_id", '');
         $("#parentId").val('');
         $(".filter-submit-table-dict").trigger("click");
     }
@@ -125,7 +127,7 @@ export class DictComponent implements OnInit, OnDestroy, AfterViewInit {
         var addUrl = $("#add-dict").attr("data-url-temp");
         if (addUrl) $("#add-dict").attr("data-url", addUrl + (addUrl.indexOf("?") == -1 ? "?" : "&") + "parentId=" + treeNode.id);
         this.nodeId = treeNode.id;
-        albedo.setUserCookie("tree_dict_select_node_id", this.nodeId);
+        this.sessionStorage.store("tree_dict_select_node_id", this.nodeId);
         $("#parentId").val(treeNode.id);
         $(".filter-submit-table-dict").trigger("click");
     }

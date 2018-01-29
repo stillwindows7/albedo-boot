@@ -3,6 +3,7 @@ import { ScriptLoaderService } from "../../../../shared/base/service/script-load
 import { CTX, DATA_STATUS } from "../../../../app.constants";
 import { ActivatedRoute } from "@angular/router";
 import { Principal } from "../../../../auth/_services/principal.service";
+import {SessionStorageService} from "ngx-webstorage";
 
 declare let datatable: any;
 @Component({
@@ -17,10 +18,11 @@ export class ModuleComponent implements OnInit, OnDestroy, AfterViewInit {
     routerSub: any;
     nodeId: any;
     constructor(private _script: ScriptLoaderService,
+                private sessionStorage: SessionStorageService,
         private principal: Principal,
         private router: ActivatedRoute) {
         this.ctx = CTX;
-        this.nodeId = albedo.getUserCookie("tree_module_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1;
+        this.nodeId = sessionStorage.retrieve("tree_module_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1;
     }
 
 
@@ -57,9 +59,17 @@ export class ModuleComponent implements OnInit, OnDestroy, AfterViewInit {
             },
             // columns definition
             columns: [{
+                field: 'iconCls',
+                title: '图标',
+                width: 40,
+                // callback function support for column rendering
+                template: function(row) {
+                    return '<i class="fa ' + row.iconCls + '"></i>';
+                }
+            }, {
                 field: 'name',
                 title: '名称',
-                sortable: 'asc',
+                sortable: 'asc'
             }, {
                 field: 'type',
                 title: '类型',
@@ -117,21 +127,21 @@ export class ModuleComponent implements OnInit, OnDestroy, AfterViewInit {
         albedoForm.initTree();
     }
 
-    cancelClickNodeModule(event, treeId, treeNode) {
+    cancelClickNodeModule(treeId, treeNode) {
         // console.log(event)
-        albedo.setUserCookie("tree_module_select_node_id", '');
+        albedo.getSessionStorage().store("tree_module_select_node_id", '');
         $("#parentId").val('');
         $(".filter-submit-table-module").trigger("click");
     }
     refreshTreeModule(re) {
         $(".tree-refresh").trigger("click");
     }
-    clickTreeNodeModule(event, treeId, treeNode) {
+    clickTreeNodeModule(treeId, treeNode) {
         // console.log(event)
         var addUrl = $("#add-module").attr("data-url-temp");
         if (addUrl) $("#add-module").attr("data-url", addUrl + (addUrl.indexOf("?") == -1 ? "?" : "&") + "parentId=" + treeNode.id);
         this.nodeId = treeNode.id;
-        albedo.setUserCookie("tree_module_select_node_id", this.nodeId);
+        albedo.getSessionStorage().store("tree_module_select_node_id", this.nodeId);
         $("#parentId").val(treeNode.id);
         $(".filter-submit-table-module").trigger("click");
     }

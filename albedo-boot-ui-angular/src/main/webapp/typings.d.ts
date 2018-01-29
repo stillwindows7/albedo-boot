@@ -42,6 +42,9 @@ interface Albedo {
     getUserCookie(s: string): any;
 
     setUserId(userId: String): void;
+    setSessionStorage(sessionStorage: any): void;
+    getSessionStorage(): any;
+
 }
 declare var mApp: MApp;
 

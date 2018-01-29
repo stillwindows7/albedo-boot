@@ -22,14 +22,14 @@
 
                 <a *ngIf="menuParent.url!='' && menuParent.menuLeaf"
                    routerLink="{{menuParent.url}}" class="m-menu__link">
-                    <i class="m-menu__link-icon {{menuParent.iconCls}}"></i>
+                    <i class="m-menu__link-icon fa {{menuParent.iconCls}}"></i>
                     <span class="m-menu__link-text">
                         {{menuParent.name}}
                     </span>
                 </a>
                 <a *ngIf="!menuParent.menuTop && !menuParent.menuLeaf" href="#"
                    class="m-menu__link m-menu__toggle">
-                    <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                    <i class="m-menu__link-icon fa {{menuParent.iconCls}}">
                         <span></span>
                     </i>
                     <span class="m-menu__link-text">
@@ -42,7 +42,7 @@
                     <ul class="m-menu__subnav">
                         <li *ngFor="let menu of menuParent.childMenus;" [attr.href-name]="menu.hrefName" class="m-menu__item" routerLinkActiveOptions="{ exact: true }"  aria-haspopup="true" >
                             <a  routerLink="{{menu.url}}" class="m-menu__link">
-                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                <i class="m-menu__link-icon fa {{menu.iconCls}}">
                                     <span></span>
                                 </i>
                                 <span class="m-menu__link-text">
