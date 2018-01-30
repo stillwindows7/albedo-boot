@@ -67,14 +67,18 @@ export class DictComponent implements OnInit, OnDestroy, AfterViewInit {
                     field: 'code',
                     title: '编码',
                 }, {
-                    field: 'type',
-                    title: '类型',
+                    field: 'key',
+                    title: '键',
                 }, {
-                    field: 'grade',
-                    title: '等级',
+                    field: 'val',
+                    title: '值',
+                }, {
+                    field: 'isShow',
+                    title: '是否显示',
                 }, {
                     field: 'sort',
                     title: '序号',
+                    sortable: 'asc'
                 }, {
                     field: 'status',
                     title: '状态',
@@ -108,26 +112,23 @@ export class DictComponent implements OnInit, OnDestroy, AfterViewInit {
                 }],
         };
 
-        albedoList.initTable($('#data-table-dict'), $('#table-form-search-dict'), options);
+        albedoList.initTable($('#data-table-dict'), $('#dict-search-form'), options);
         albedoList.init();
         albedoForm.initTree();
     }
 
     cancelClickNodeDict(event, treeId, treeNode) {
         // console.log(event)
-        this.sessionStorage.store("tree_dict_select_node_id", '');
+        albedo.getSessionStorage().store("tree_dict_select_node_id", '');
         $("#parentId").val('');
         $(".filter-submit-table-dict").trigger("click");
-    }
-    refreshTreeDict(re) {
-        $(".tree-refresh").trigger("click");
     }
     clickTreeNodeDict(event, treeId, treeNode) {
         // console.log(event)
         var addUrl = $("#add-dict").attr("data-url-temp");
         if (addUrl) $("#add-dict").attr("data-url", addUrl + (addUrl.indexOf("?") == -1 ? "?" : "&") + "parentId=" + treeNode.id);
         this.nodeId = treeNode.id;
-        this.sessionStorage.store("tree_dict_select_node_id", this.nodeId);
+        albedo.getSessionStorage().store("tree_dict_select_node_id", this.nodeId);
         $("#parentId").val(treeNode.id);
         $(".filter-submit-table-dict").trigger("click");
     }

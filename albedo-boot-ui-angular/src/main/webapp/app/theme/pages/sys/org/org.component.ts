@@ -23,6 +23,7 @@ export class OrgComponent implements OnInit, OnDestroy, AfterViewInit {
         private router: ActivatedRoute) {
         this.ctx = CTX;
         this.nodeId = sessionStorage.retrieve("tree_org_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1;
+
     }
 
 
@@ -75,6 +76,7 @@ export class OrgComponent implements OnInit, OnDestroy, AfterViewInit {
                 }, {
                     field: 'sort',
                     title: '序号',
+                    sortable: 'asc'
                 }, {
                     field: 'status',
                     title: '状态',
@@ -112,26 +114,23 @@ export class OrgComponent implements OnInit, OnDestroy, AfterViewInit {
                 }],
         };
 
-        albedoList.initTable($('#data-table-org'), $('#table-form-search-org'), options);
+        albedoList.initTable($('#data-table-org'), $('#org-search-form'), options);
         albedoList.init();
         albedoForm.initTree();
     }
 
     cancelClickNodeOrg(event, treeId, treeNode) {
         // console.log(event)
-        this.sessionStorage.store("tree_org_select_node_id", '');
+        albedo.getSessionStorage().store("tree_org_select_node_id", '');
         $("#parentId").val('');
         $(".filter-submit-table-org").trigger("click");
-    }
-    refreshTreeOrg(re) {
-        $(".tree-refresh").trigger("click");
     }
     clickTreeNodeOrg(event, treeId, treeNode) {
         // console.log(event)
         var addUrl = $("#add-org").attr("data-url-temp");
         if (addUrl) $("#add-org").attr("data-url", addUrl + (addUrl.indexOf("?") == -1 ? "?" : "&") + "parentId=" + treeNode.id);
         this.nodeId = treeNode.id;
-        this.sessionStorage.store("tree_org_select_node_id", this.nodeId);
+        albedo.getSessionStorage().store("tree_org_select_node_id", this.nodeId);
         $("#parentId").val(treeNode.id);
         $(".filter-submit-table-org").trigger("click");
     }

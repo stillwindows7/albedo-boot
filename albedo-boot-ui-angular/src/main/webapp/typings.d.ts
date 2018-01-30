@@ -12,7 +12,7 @@ declare var albedoList: AlbedoList;
 interface AlbedoList {
     init(target?: any): void;
 
-    initTable(table: any, formBtn: any, option?: any): void;
+    initTable(table: any, formSearch: any, option?: any): void;
 }
 declare var albedoForm: AlbedoForm;
 
@@ -95,6 +95,9 @@ interface JQuery {
     mTreeInit(obj: any, setting: any, data: any): JQuery;
 
     mTreeObj(s: string): any;
+
+    modal(option: any):JQuery;
+    serializeObject(obj: any): any;
 }
 
 

@@ -7,8 +7,8 @@ var albedoList = function(){
     var _setData = function (key, data) {
         _mapData[key] = data;
     }
-    var handleInitTable = function($table, $formBtn, options){
-        var  $table = $table && $table.length>0 ? $table : $(document).find('.m_datatable'),$formBtn = $formBtn && $formBtn.length>0 ? $formBtn : $(document).find('.search-form-btn');
+    var handleInitTable = function($table, $formSearch, options){
+        var  $table = $table && $table.length>0 ? $table : $(document).find('.m_datatable'),$formSearch = $formSearch && $formSearch.length>0 ? $formSearch : $(document).find('.search-form');
         options = $.extend(true, {// datasource definition
             data: {
                 type: 'remote',
@@ -33,7 +33,7 @@ var albedoList = function(){
                 serverFiltering: true,
                 serverSorting: true,
             },
-            formSearch:$(".search-form"),
+            formSearch: $formSearch,
             // layout definition
             layout: {
                 theme: 'default', // datatable theme
@@ -59,12 +59,11 @@ var albedoList = function(){
             }
         }, options);
         setTimeout(function() {
-            console.log($table);
             $table.each(function (index, item) {
                 var dataTable = $(item).mDatatable(options);
                 console.log(dataTable);
                 _setData($(item).attr("id"), dataTable);
-                $($formBtn.get(index)).click(function() {
+                $formSearch.find(".search-form-btn").click(function() {
                     _getData($(item).attr("id")).loadFilterGird();
                 })
             })

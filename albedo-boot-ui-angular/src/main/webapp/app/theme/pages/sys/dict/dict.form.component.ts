@@ -62,10 +62,8 @@ export class DictFormComponent implements OnInit, OnDestroy, AfterViewInit {
             // define validation rules
             rules: {
                 name: { remote: CTX + '/sys/dict/checkByProperty?_statusFalse&id=' + encodeURIComponent(dictId) },
-                code: { remote: CTX + '/sys/dict/checkByProperty?_statusFalse&id=' + encodeURIComponent(dictId) },
             },
             messages: {
-                name: { message: '字典已存在' },
                 code: { message: '编码已存在' },
             },
         });

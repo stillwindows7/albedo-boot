@@ -42,7 +42,11 @@ public class GenTableResource extends DataVoResource<GenTableService, GenTableVo
         model.addAttribute("tableList", FormDirective.convertComboDataList(service.findTableListFormDb(null), GenTable.F_NAME, GenTable.F_NAMESANDCOMMENTS));
         return "modules/gen/genTableList";
     }
-
+    @GetMapping(value = "/tableList")
+    @Timed
+    public ResponseEntity tableList() {
+        return ResultBuilder.buildOk(FormDirective.convertComboDataList(service.findTableListFormDb(null), GenTable.F_NAME, GenTable.F_NAMESANDCOMMENTS));
+    }
     /**
      * @param pm
      * @return

@@ -351,8 +351,10 @@ var mApp = function() {
                 } else {
                     if ($('.page-bar').length > 0) {
                         $('.page-bar').after(html);
-                    } else {
+                    } else if ($('.m_datatable').length > 0) {
                         $('.m_datatable').prepend(html);
+                    } else {
+                        $('.bootstrap-alerts').append(html);
                     }
                 }
             } else {

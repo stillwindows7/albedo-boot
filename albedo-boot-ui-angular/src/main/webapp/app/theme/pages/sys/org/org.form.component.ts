@@ -2,7 +2,6 @@ import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { CTX } from "../../../../app.constants";
 import { ActivatedRoute } from "@angular/router";
 import { Org } from "../../../../service/sys/org/org.model";
-import { ModuleService } from "../../../../service/sys/module/module.service";
 import { OrgService } from "../../../../service/sys/org/org.service";
 
 @Component({

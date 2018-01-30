@@ -39,8 +39,7 @@ public class TreeVoResource<Service extends TreeVoService, V extends TreeEntityV
     @Timed
     public ResponseEntity get(@PathVariable String id) {
         log.debug("REST request to get Entity : {}", id);
-        return ResultBuilder.buildOk(service.findOneById(id)
-            .map(item -> service.copyBeanToVo((TreeEntity) item)));
+        return ResultBuilder.buildOk(service.findOneVo(id));
     }
 
     @ResponseBody

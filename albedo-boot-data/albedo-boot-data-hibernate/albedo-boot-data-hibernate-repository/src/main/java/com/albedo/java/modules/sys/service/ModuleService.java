@@ -2,6 +2,7 @@ package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.common.data.persistence.DynamicSpecifications;
 import com.albedo.java.common.domain.base.BaseEntity;
+import com.albedo.java.common.domain.base.TreeDataEntity;
 import com.albedo.java.common.service.TreeService;
 import com.albedo.java.common.service.TreeVoService;
 import com.albedo.java.modules.sys.domain.Module;
@@ -19,6 +20,8 @@ import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -91,7 +94,7 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
     public List<TreeResult> findTreeData(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
         String type = moduleTreeQuery != null ? moduleTreeQuery.getType() : null,
                 all = moduleTreeQuery != null ? moduleTreeQuery.getAll() : null;
-
+        Collections.sort(moduleList, Comparator.comparing(Module::getSort));
         List<TreeResult> mapList = Lists.newArrayList();
         for (Module e : moduleList) {
             TreeResult treeResult = null;
@@ -112,6 +115,7 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
                 mapList.add(treeResult);
             }
         }
+
         return mapList;
     }
 

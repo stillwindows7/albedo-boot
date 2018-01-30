@@ -20,6 +20,10 @@ export const MSG_TYPE_SUCCESS = 1;
 export const MSG_TYPE_WARNING = 2;
 /*** 返回消息类型 error */
 export const MSG_TYPE_ERROR = -1;
+/*** 否 */
+export const SYS_NO = 0;
+/*** 是 */
+export const SYS_YES = 1;
 
 
 export const DATA_STATUS = {

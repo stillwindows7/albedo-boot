@@ -14,12 +14,7 @@ export class UserService extends DataService<User> {
     }
 
 
-    authorities(): Observable<string[]> {
-        return this.http.get(CTX + '/sys/user/authorities').map((res: Response) => {
-            const json = res.json();
-            return <string[]>json;
-        });
-    }
+
 
 
 }

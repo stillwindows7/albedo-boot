@@ -132,7 +132,7 @@ public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
         log.debug("REST request to delete Module: {}", ids);
-        moduleService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+        service.deleteByParentIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentUserId());
         SecurityUtil.clearUserJedisCache();
         JedisUtil.removeSys(GlobalJedis.RESOURCE_MODULE_DATA_MAP);
         return ResultBuilder.buildOk("删除成功");
@@ -147,8 +147,8 @@ public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
     @Timed
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {
-        log.debug("REST request to lockOrUnLock User: {}", ids);
-        moduleService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+        log.debug("REST request to lockOrUnLock Module: {}", ids);
+        service.lockOrUnLockByParentIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentUserId());
         SecurityUtil.clearUserJedisCache();
         JedisUtil.removeSys(GlobalJedis.RESOURCE_MODULE_DATA_MAP);
         return ResultBuilder.buildOk("操作成功");

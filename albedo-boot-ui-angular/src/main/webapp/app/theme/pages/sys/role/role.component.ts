@@ -113,7 +113,7 @@ export class RoleComponent implements OnInit, OnDestroy, AfterViewInit {
                 }],
         };
 
-        albedoList.initTable($('#data-table-role'), $('#table-form-search-role'), options);
+        albedoList.initTable($('#data-table-role'), $('#role-search-form'), options);
         albedoList.init();
     }
 

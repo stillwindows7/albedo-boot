@@ -12,10 +12,6 @@ export class User extends Data {
     public activated?: Boolean;
     public langKey?: string;
     public authorities?: any[];
-    public createdBy?: string;
-    public createdDate?: Date;
-    public lastModifiedBy?: string;
-    public lastModifiedDate?: Date;
     public password?: string;
     public roleIdList?: string[];
 

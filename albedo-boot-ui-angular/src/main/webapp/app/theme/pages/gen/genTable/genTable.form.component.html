@@ -3,7 +3,7 @@
     <div class="d-flex align-items-center">
         <div class="mr-auto">
             <h3 class="m-subheader__title">
-                机构管理
+                业务表管理
             </h3>
             <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                 <li class="m-nav__item m-nav__item--home">
@@ -27,7 +27,7 @@
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <h3 class="m-portlet__head-text">
-                        添加机构
+                        添加业务表
                         <small>
                             数据表单
                         </small>
@@ -35,47 +35,38 @@
                 </div>
             </div>
             <div class="m-portlet__head-tools">
-                <a href="#/sys/org/list" title="机构列表" class="m-portlet__nav-link btn list btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill ">
+                <a href="#/gen/genTable/list" title="业务表列表" class="m-portlet__nav-link btn list btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill ">
                     <i class="la la-th-list"></i>
                 </a>
             </div>
         </div>
         <!--begin::Form-->
-        <form class="m-form m-form--fit m-form--label-align-right form-validation" action="{{ctx}}/sys/org/" method="post" id="org-save-form">
-            <input type="hidden" name="id" value="{{org.id}}" />
+        <form class="m-form m-form--fit m-form--label-align-right form-validation" action="{{ctx}}/gen/genTable/" method="post" id="genTable-save-form">
+            <input type="hidden" name="id" value="{{genTable.id}}" />
             <div class="m-portlet__body">
                 <div class="m-form__content bootstrap-alerts">
 
                 </div>
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
-                        上级组织 *
+                        所属组织 *
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
                         <alb-tree-select id="org"
-                             cssClass="required" allowClear="true" name="parentId"
-                             value="{{org.parentId}}" labelName="parentName"
-                             labelValue="{{org.parentName}}" title="上级组织"
-                             url="{{ctx}}/sys/org/findTreeData" ></alb-tree-select>
+                             cssClass="required" allowClear="true" name="orgId"
+                             value="{{genTable.orgId}}" labelName="orgName"
+                             labelValue="{{genTable.orgName}}" title="选择组织"
+                             url="{{ctx}}/gen/org/findTreeData" ></alb-tree-select>
 
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
-                        名称 *
+                        登录Id *
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
-                        <input type="text" name="name" value="{{org.name}}"
-                               maxlength="64" class="form-control required"/>
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <label class="col-form-label col-lg-3 col-sm-12">
-                        编码 *
-                    </label>
-                    <div class="col-lg-4 col-md-9 col-sm-12">
-                        <input type="text" name="code" value="{{org.code}}"
-                               maxlength="64" class="form-control required"/>
+                        <input type="text" name="loginId" value="{{genTable&&genTable.loginId}}"
+                               maxlength="64" data-required="1" class="form-control required"/>
                         <span class="m-form__help">
 							唯一
 						</span>
@@ -83,37 +74,46 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
-                        类型 *
+                        密码 {{genTable.id==null?'*':''}}
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
-                        <alb-form boxType="radio"
-                                  id="type"
-                                  name="type"
-                                  dictCode="sys_org_type"
-                                  value="{{org.type}}" cssClass="required">
-                        </alb-form>
+                        <input id="newPassword" name="password" type="password" value=""
+                               htmlEscape="false" maxlength="64"
+                               class="form-control {{genTable.id==null?'required':''}}"/>
+                        <span class="m-form__help {{genTable.id==null?'hide':''}}">
+							若不修改密码，请留空
+						</span>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
-                        等级 *
+                        确认密码 {{genTable.id?'*':''}}
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
-                        <alb-form boxType="select"
-                                  id="grade"
-                                  name="grade"
-                                  dictCode="sys_org_grade"
-                                  value="{{org.type}}" cssClass="required">
-                        </alb-form>
+                        <input name="confirmPassword" type="password" value=""
+                               htmlEscape="false" maxlength="64" class="form-control"
+                               equalTo="#newPassword"/>
+                        <span class="m-form__help">
+							重复输入密码
+						</span>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
-                        序号 *
+                        联系电话
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
-                        <input type="text" name="sort" value="{{org.sort}}"
-                               maxlength="11" class="form-control digits"/>
+                        <input name="phone" value="{{genTable.phone}}" htmlEscape="false"
+                               maxlength="32" class="form-control phone"/>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label class="col-form-label col-lg-3 col-sm-12">
+                        邮箱
+                    </label>
+                    <div class="col-lg-4 col-md-9 col-sm-12">
+                        <input name="email" value="{{genTable.email}}" htmlEscape="false"
+                               maxlength="32" class="form-control email"/>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
@@ -125,8 +125,17 @@
                                   id="status"
                                   name="status"
                                   dictCode="sys_status"
-                                  value="{{org.status}}" cssClass="required">
+                                  value="{{genTable.status}}" cssClass="required">
                         </alb-form>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label class="col-form-label col-lg-3 col-sm-12">
+                        角色 *
+                    </label>
+                    <div class="col-lg-4 col-md-9 col-sm-12">
+                        <alb-form name="roleIdList" id="roleIdList" url="{{ctx}}/gen/role/comboData" boxType="select" multiple="multiple"
+                        value="{{genTable.roleIdList}}" cssClass="required"> </alb-form>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
@@ -135,7 +144,7 @@
                     </label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
                          <textarea class="summernote form-control" name="description"
-                                   rows="5">{{org.description}}</textarea>
+                                   rows="5">{{genTable.description}}</textarea>
                     </div>
                 </div>
             </div>
@@ -146,7 +155,7 @@
                             <button type="button" class="btn btn-success save">
                                 <i class="fa fa-check"></i> 保存
                             </button>
-                            <button type="button" class="btn btn-secondary" onclick="albedoForm.resetForm('#org-save-form')">
+                            <button type="button" class="btn btn-secondary" onclick="albedoForm.resetForm('#genTable-save-form')">
                                 重置
                             </button>
                             <button type="button" class="btn" onclick="window.history.back()">返回</button>

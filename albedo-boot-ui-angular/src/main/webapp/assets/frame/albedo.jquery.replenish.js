@@ -97,7 +97,7 @@
                     state: 'primary'
                 });
                 var token = 'Bearer' + albedo.getToken();
-                console.log(token)
+                // console.log(token)
                 // settings.header = {"Authorization": token};
                 jqxhr.setRequestHeader("Authorization", token);
             },

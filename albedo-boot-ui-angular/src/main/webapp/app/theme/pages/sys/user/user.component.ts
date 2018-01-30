@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ScriptLoaderService } from "../../../../shared/base/service/script-loader.service";
-import { CTX } from "../../../../app.constants";
+import {CTX, DATA_STATUS} from "../../../../app.constants";
 import { SessionStorageService } from "ngx-webstorage";
 import { ActivatedRoute } from "@angular/router";
 import { Principal } from "../../../../auth/_services/principal.service";
@@ -11,39 +11,21 @@ declare let datatable: any;
     templateUrl: "./user.component.html",
     encapsulation: ViewEncapsulation.None,
 })
-export class UserComponent implements OnInit, OnDestroy, AfterViewInit {
+export class UserComponent implements AfterViewInit {
 
 
-    routerSub: any;
     constructor(private _script: ScriptLoaderService,
         private router: ActivatedRoute,
-        private principal: Principal,
-        private sessionStorage: SessionStorageService) {
+        private principal: Principal) {
 
-    }
-
-
-
-    ngOnInit() {
-        this.routerSub = this.router.url.subscribe((urlSegment) => {
-            // console.log(urlSegment)
-        });
-    }
-
-    ngOnDestroy() {
-        this.routerSub.unsubscribe();
     }
 
     ngAfterViewInit() {
-        // this._script.load('.sys-user-list',
-        //     'assets/demo/default/custom/components/datatables/base/data-ajax.js');
         this.initTable()
-        // Helpers.setBreadcrumbs();
     }
 
     initTable() {
         var thisPrincipal = this.principal;
-        // const token = this.localStorage.retrieve('authenticationToken') || this.sessionStorage.retrieve('authenticationToken');
         var options = {
             data: {
                 source: {
@@ -67,31 +49,16 @@ export class UserComponent implements OnInit, OnDestroy, AfterViewInit {
                     title: '登录Id',
                     sortable: 'asc',
                     width: 150,
-                    // basic templating support for column rendering,
-                    // template: '{{OrderID}} - {{ShipCountry}}',
                 }, {
                     field: 'email',
                     title: '邮箱',
                     width: 150,
-                    // template: function (row) {
-                    //     // callback function support for column rendering
-                    //     return row.ShipCountry + ' - ' + row.ShipCity;
-                    // },
                 }, {
                     field: 'status',
                     title: '状态',
-                    // callback function support for column rendering
                     template: function(row) {
-                        var status = {
-                            // 1: {'title': 'Pending', 'class': 'm-badge--brand'},
-                            // 2: {'title': 'Delivered', 'class': ' m-badge--metal'},
-                            // 3: {'title': 'Canceled', 'class': ' m-badge--primary'},
-                            "正常": { 'title': 'Success', 'class': ' m-badge--success' },
-                            "审核": { 'title': 'Info', 'class': ' m-badge--info' },
-                            "删除": { 'title': 'Danger', 'class': ' m-badge--danger' },
-                            "失效": { 'title': 'Warning', 'class': ' m-badge--warning' },
-                        };
-                        return '<span class="m-badge ' + status[row.status].class + ' m-badge--wide">' + row.status + '</span>';
+
+                        return '<span class="m-badge ' + DATA_STATUS[row.status].class + ' m-badge--wide">' + row.status + '</span>';
                     },
                 }, {
                     field: 'lastModifiedDate',
@@ -123,7 +90,7 @@ export class UserComponent implements OnInit, OnDestroy, AfterViewInit {
                 }],
         };
 
-        albedoList.initTable($('#data-table-user'), $('#table-form-search-user'), options);
+        albedoList.initTable($('#data-table-user'), $('#user-search-form'), options);
         albedoList.init();
     }
 

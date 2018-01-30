@@ -23,7 +23,7 @@
     <div class="row">
         <div class="col-xl-2">
             <alb-tree-show id="org_" title="组织机构" [selectNodeId]="nodeId" url="{{ctx}}/sys/org/findTreeData?all"
-            [clickNodeFn]="clickTreeNodeOrg" allowCancelSelect="true" [cancelClickNodeFn]="cancelClickNodeOrg" nodesLevel="1">
+            [clickNodeFn]="clickTreeNodeOrg" allowCancelSelect="true" [cancelClickNodeFn]="cancelClickNodeOrg" nodesLevel="1" >
             </alb-tree-show>
     </div>
         <div class="col-xl-10">
@@ -45,7 +45,7 @@
                 <div class="m-portlet__body">
                     <!--begin: Search Form -->
                     <div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30 search-form" id="org-search-form">
-                        <input id="parentId" name="parentId" type="hidden" operate="eq" searchItem="searchItem"/>
+                        <input id="parentId" name="parentId" type="hidden" operate="eq" searchItem="searchItem" value="{{nodeId}}"/>
                         <div class="row align-items-center">
                             <div class="col-xl-8 order-2 order-xl-1">
                                 <div class="form-group m-form__group row align-items-center">

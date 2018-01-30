@@ -24,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -79,7 +80,7 @@ public class RoleResource extends DataVoResource<RoleService, RoleVo> {
                 roleVo.getId(), roleVo.getName()))) {
             throw new RuntimeMsgException("名称已存在");
         }
-        if(!RoleVo.DATA_SCOPE_CUSTOM.equals(roleVo.getDataScope())){
+        if(!RoleVo.DATA_SCOPE_CUSTOM.equals(roleVo.getDataScope())&& roleVo.getOrgIdList()!=null){
             roleVo.getOrgIdList().clear();
         }
         service.save(roleVo);

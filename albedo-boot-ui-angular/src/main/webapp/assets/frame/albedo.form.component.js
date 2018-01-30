@@ -188,11 +188,12 @@ var albedoForm = function () {
                     }
                 });
                 var selectNodeId = $thiz.attr("_selectNodeId") ? $thiz.attr("_selectNodeId") : "",selectId;
-                try{
-                    eval("if("+selectNodeId+"){var selectId=" + selectNodeId+"}");
-                }catch(e){}
-                if (selectId) {
-                    var node = (selectId == 1 ? tree.getNodes()[0] : tree.getNodeByParam("id", selectId));
+                console.log(selectNodeId)
+                // try{
+                //     eval("if("+selectNodeId+"){var selectId=" + selectNodeId+"}");
+                // }catch(e){}
+                if (selectNodeId) {
+                    var node = (selectNodeId == 1 ? tree.getNodes()[0] : tree.getNodeByParam("id", selectNodeId));
                     tree.selectNode(node);
                 }
             });
@@ -203,7 +204,7 @@ var albedoForm = function () {
         }else{
             // while(!albedo.getToken()){
                 setTimeout(function () {
-                    console.log(albedo.getToken())
+                    // console.log(albedo.getToken())
                     albedo.getToken() && refreshTree()
                 }, 1000)
             // }
@@ -974,8 +975,22 @@ var albedoForm = function () {
                             alertDialog($target, re, el);
                         },
                         error: function (XMLHttpRequest, textStatus, errorThrown) {
-                            console.log(errorThrown);
-                            alertDialog($target, null, el);
+                            console.log(textStatus,errorThrown);
+                            alertDialog($target, XMLHttpRequest.responseJSON, el);
+                        }
+                    });
+                }
+            }
+        });
+        $(document).off("keydown").keydown(function (e) {
+            if (e.which == 13) {
+                $form = $target.find('.form-validation')
+                if (doValidation($form)) {
+                    mApp.confirm({
+                        content: "您确定要提交表单数据吗？",
+                        width: null, // "append" or "prepend" in container
+                        confirm: function () {
+                            $target.find(".save").trigger("click");
                         }
                     });
                 }

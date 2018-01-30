@@ -5,6 +5,7 @@ import com.albedo.java.common.domain.base.TreeEntity;
 import com.albedo.java.common.repository.TreeRepository;
 import com.albedo.java.modules.sys.domain.Area;
 import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.base.Assert;
 import com.albedo.java.vo.sys.query.TreeQuery;
 import com.albedo.java.vo.sys.query.TreeResult;
 import com.google.common.collect.Lists;
@@ -50,10 +51,69 @@ public class TreeService<Repository extends TreeRepository<T, PK>, T extends Tre
      * @return
      */
     public int deleteById(PK id, String likeParentIds, String lastModifiedBy) {
+        Assert.assertNotNull(id, "ids 信息为空，操作失败");
+        Assert.assertNotNull(likeParentIds, "likeParentIds 信息为空，操作失败");
+        Assert.assertNotNull(lastModifiedBy, "lastModifiedBy 信息为空，操作失败");
         return operateStatusById(id, likeParentIds, BaseEntity.FLAG_DELETE, lastModifiedBy);
+    }
+    /**
+     * 逻辑删除，更新子节点
+     *
+     * @param ids
+     * @param lastModifiedBy
+     * @return
+     */
+    public void deleteByParentIds(List<PK> ids,String lastModifiedBy) {
+        Assert.assertNotNull(ids, "ids 信息为空，操作失败");
+        Assert.assertNotNull(lastModifiedBy, "lastModifiedBy 信息为空，操作失败");
+        ids.forEach(id ->deleteByParentIds(id, lastModifiedBy));
+    }
+    /**
+     * 逻辑删除，更新子节点
+     *
+     * @param id
+     * @param lastModifiedBy
+     * @return
+     */
+    public void deleteByParentIds(PK id,String lastModifiedBy) {
+        Assert.assertNotNull(id, "id 信息为空，操作失败");
+        Assert.assertNotNull(lastModifiedBy, "lastModifiedBy 信息为空，操作失败");
+        T entity = repository.findOne(id);
+        operateStatusById(id, PublicUtil.toAppendStr(entity.getParentIds(), entity.getId(),","), BaseEntity.FLAG_DELETE, lastModifiedBy);
+    }
+    /**
+     * 锁定/启用，更新子节点
+     *
+     * @param id
+     * @param lastModifiedBy
+     * @return
+     */
+    public void lockOrUnLockByParentIds(PK id,String lastModifiedBy) {
+        Assert.assertNotNull(id, "id 信息为空，操作失败");
+        Assert.assertNotNull(lastModifiedBy, "lastModifiedBy 信息为空，操作失败");
+            T entity = repository.findOne(id);
+            Assert.assertNotNull(entity, "对象 " + id + " 信息为空，操作失败");
+            operateStatusById(id, PublicUtil.toAppendStr(entity.getParentIds(), entity.getId(),","), BaseEntity.FLAG_NORMAL.equals(entity.getStatus()) ? BaseEntity.FLAG_UNABLE : BaseEntity.FLAG_NORMAL, lastModifiedBy);
+            log.debug("LockOrUnLock Entity: {}", entity);
+    }
+    /**
+     * 锁定/启用，更新子节点
+     *
+     * @param ids
+     * @param lastModifiedBy
+     * @return
+     */
+    public void lockOrUnLockByParentIds(List<PK> ids,String lastModifiedBy) {
+        Assert.assertNotNull(ids, "ids 信息为空，操作失败");
+        Assert.assertNotNull(lastModifiedBy, "lastModifiedBy 信息为空，操作失败");
+        ids.forEach(id -> lockOrUnLockByParentIds(id, lastModifiedBy));
     }
 
     public int operateStatusById(PK id, String likeParentIds, Integer status, String lastModifiedBy) {
+        Assert.assertNotNull(id, "id 信息为空，操作失败");
+        Assert.assertNotNull(likeParentIds, "likeParentIds 信息为空，操作失败");
+        Assert.assertNotNull(status, "status 信息为空，操作失败");
+        Assert.assertNotNull(lastModifiedBy, "lastModifiedBy 信息为空，操作失败");
         return baseRepository.createQuery(
                 PublicUtil.toAppendStr("update ", getPersistentClass().getSimpleName(), " set status='", status,
                         "', lastModifiedBy=:p3, lastModifiedDate=:p4 where id = :p1 or parentIds like :p2"),
@@ -62,6 +122,7 @@ public class TreeService<Repository extends TreeRepository<T, PK>, T extends Tre
 
     @Override
     public T save(T entity) {
+        Assert.assertNotNull(entity, "entity 信息为空，操作失败");
         // 获取修改前的parentIds，用于更新子节点的parentIds
         String oldParentIds = entity.getParentIds();
         if (entity.getParentId() != null) {

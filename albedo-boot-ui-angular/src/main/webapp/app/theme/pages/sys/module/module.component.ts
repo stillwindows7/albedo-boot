@@ -68,8 +68,7 @@ export class ModuleComponent implements OnInit, OnDestroy, AfterViewInit {
                 }
             }, {
                 field: 'name',
-                title: '名称',
-                sortable: 'asc'
+                title: '名称'
             }, {
                 field: 'type',
                 title: '类型',
@@ -85,6 +84,7 @@ export class ModuleComponent implements OnInit, OnDestroy, AfterViewInit {
             }, {
                 field: 'sort',
                 title: '序号',
+                sortable: 'asc'
             }, {
                 field: 'status',
                 title: '状态',
@@ -122,7 +122,7 @@ export class ModuleComponent implements OnInit, OnDestroy, AfterViewInit {
             }],
         };
 
-        albedoList.initTable($('#data-table-module'), $('#table-form-search-module'), options);
+        albedoList.initTable($('#data-table-module'), $('#module-search-form'), options);
         albedoList.init();
         albedoForm.initTree();
     }
@@ -133,10 +133,7 @@ export class ModuleComponent implements OnInit, OnDestroy, AfterViewInit {
         $("#parentId").val('');
         $(".filter-submit-table-module").trigger("click");
     }
-    refreshTreeModule(re) {
-        $(".tree-refresh").trigger("click");
-    }
-    clickTreeNodeModule(treeId, treeNode) {
+    clickTreeNodeModule(event, treeId, treeNode) {
         // console.log(event)
         var addUrl = $("#add-module").attr("data-url-temp");
         if (addUrl) $("#add-module").attr("data-url", addUrl + (addUrl.indexOf("?") == -1 ? "?" : "&") + "parentId=" + treeNode.id);
