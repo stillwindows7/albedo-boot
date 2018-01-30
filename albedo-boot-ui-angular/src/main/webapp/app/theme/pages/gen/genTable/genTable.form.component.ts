@@ -8,42 +8,34 @@ import {GenTableService} from "../../../../service/gen/user/genTable.service";
     selector: ".sys-genTable-form.page-form",
     templateUrl: "./genTable.form.component.html"
 })
-export class GenTableFormComponent implements OnInit, OnDestroy, AfterViewInit {
+export class GenTableFormComponent implements AfterViewInit {
 
     genTable: GenTable;
-    routerSub: any;
+    routeData: any;
     ctx: any;
     id: any;
+    javaTypeList;
+    queryTypeList;
+    showTypeList;
 
     private afterViewInit = false;
     private afterLoad = false;
     constructor(
-        private router: ActivatedRoute,
+        private activatedRoute: ActivatedRoute,
         private genTableService: GenTableService) {
         this.ctx = CTX;
         this.genTable = new GenTable();
-
-    }
-
-    ngOnInit() {
-        this.routerSub = this.router.params.subscribe((params) => {
-            this.id = params['id'];
-            if (this.id) {
-                this.genTableService.find(this.id).subscribe((data) => {
-                    this.genTable = data;
-                    albedoForm.initFormData("#genTable-save-form", this.genTable);
-                    this.afterLoad = true;
-                    this.initForm();
-                });
-            } else {
+        this.routeData= this.activatedRoute.queryParams.subscribe((data) => {
+            this.genTableService.formData(data).subscribe((data) => {
+                if(data.genTableVo)this.genTable = data.genTableVo;
+                this.javaTypeList=data.javaTypeList;
+                this.queryTypeList=data.queryTypeList;
+                this.showTypeList=data.showTypeList;
+                albedoForm.initFormData("#genTable-save-form", this.genTable);
                 this.afterLoad = true;
                 this.initForm();
-            }
+            });
         });
-    }
-
-    ngOnDestroy() {
-        this.routerSub.unsubscribe();
     }
 
     ngAfterViewInit() {

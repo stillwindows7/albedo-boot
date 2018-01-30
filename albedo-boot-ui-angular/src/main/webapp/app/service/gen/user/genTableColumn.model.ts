@@ -29,31 +29,31 @@ export class GenTableColumn extends Data {
     /**
      * 是否主键（1：主键）
      */
-    private  isPk?: number;
+    public  isPk?: number;
     /**
      * 是否唯一（1：是；0：否）
      */
-    private  isUnique?: number;
+    public  isUnique?: number;
     /**
      * 是否可为空（1：可为空；0：不为空）
      */
-    private isNull?: number;
+    public isNull?: number;
     /**
      * 是否为插入字段（1：插入字段）
      */
-    private isInsert?:number;
+    public isInsert?:number;
     /**
      * 是否编辑字段（1：编辑字段）
      */
-    private isEdit?:number;
+    public isEdit?:number;
     /**
      * 是否列表字段（1：列表字段）
      */
-    private isList?:number;
+    public isList?:number;
     /**
      * 是否查询字段（1：查询字段）
      */
-    private isQuery?:number;
+    public isQuery?:number;
     /**
      * 查询方式（等于、不等于、大于、小于、范围、左LIKE、右LIKE、左右LIKE）
      */
@@ -69,7 +69,7 @@ export class GenTableColumn extends Data {
     /**
      * 排序（升序）
      */
-    private sort?: number;
+    public sort?: number;
 
     /**
      * hibernate验证表达式

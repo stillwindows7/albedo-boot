@@ -48,7 +48,7 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">父表表名</label>
                     <div class="col-md-3">
-                    <@albedo.form name="parentTable" cssClass="" value="${(genTableVo.parentTable)! }" data="${(tableList)!}" boxType="select" > </@albedo.form>
+                    <@albedo.form  > </@albedo.form>
                     </div>
                     <label class="col-md-1 control-label treeRoleOrgBox">当前表外键</label>
                     <div class="col-md-3 treeRoleOrgBox">

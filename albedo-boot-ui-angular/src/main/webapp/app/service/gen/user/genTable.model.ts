@@ -20,6 +20,7 @@ export class GenTable extends Data {
 
     public category?:string
 
+    public columnList?: GenTableColumn[];
     public columnFormList?: GenTableColumn[];
 
 

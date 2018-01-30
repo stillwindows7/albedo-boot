@@ -47,6 +47,15 @@ public class GenTableResource extends DataVoResource<GenTableService, GenTableVo
     public ResponseEntity tableList() {
         return ResultBuilder.buildOk(FormDirective.convertComboDataList(service.findTableListFormDb(null), GenTable.F_NAME, GenTable.F_NAMESANDCOMMENTS));
     }
+
+    @GetMapping(value = "/formData")
+    @Timed
+    public ResponseEntity formData(GenTableVo genTableVo) {
+        Map<String, Object> map = service.findFormData(genTableVo);
+        return ResultBuilder.buildOk(map);
+    }
+
+
     /**
      * @param pm
      * @return

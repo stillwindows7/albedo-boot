@@ -14,8 +14,8 @@ export class GenTableService extends DataService<GenTable> {
     }
 
 
-    tableList(): Observable<ComboData[]> {
-        return this.http.get(this.resourceUrl + '/tableList')
+    formData(params): Observable<any> {
+        return this.http.get(this.resourceUrl + '/formData', params)
             .map((data: any) => data);
     }
 

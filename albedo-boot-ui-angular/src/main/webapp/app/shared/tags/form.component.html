@@ -6,7 +6,7 @@
         [attr.analytiColumn]="analytiColumn"
         [attr.multiple]="multiple"
         [attr.analytiColumnPrefix]="analytiColumnPrefix"
-        class="form-control m-bootstrap-select {{cssClass}}" >
+        class="form-control m-bootstrap-select {{cssClass}}" [attr.data-live-search]="true">
     <option *ngIf="!cssClass || cssClass.indexOf('required')==-1" value="">请选择...</option>
     <option *ngFor="let item of comboData" value="{{item.id}}" selected="{{equleValue(item.id) ? 'selected' : ''}}">{{item.name}}</option>
 </select>

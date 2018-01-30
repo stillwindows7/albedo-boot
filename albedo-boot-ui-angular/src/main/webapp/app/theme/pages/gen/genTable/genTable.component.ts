@@ -13,17 +13,18 @@ declare let datatable: any;
 })
 export class GenTableComponent implements OnInit, AfterViewInit {
 
-    tableList;
+
+    ctx: any;
 
     constructor(private _script: ScriptLoaderService,
         private genTableService: GenTableService,
         private principal: Principal, private router: Router) {
-
+        this.ctx = CTX;
     }
     ngOnInit(): void {
-       this.genTableService.tableList().subscribe((data) => {
-           this.tableList = data;
-       });
+       // this.genTableService.tableList().subscribe((data) => {
+       //     this.tableList = data;
+       // });
     }
 
     ngAfterViewInit() {
@@ -106,10 +107,10 @@ export class GenTableComponent implements OnInit, AfterViewInit {
     initAddGenTable(){
         var thisRouter = this.router;
         $(".btn-add-genTable").click(function(){
-            $("#genTable-dialog-before").modal({width: 640}).off().on("click", ".confirm-modal", function () {
+            $("#genTable-dialog-before").modal({width: 740}).find(".confirm-modal").off().click(function () {
                 var $form = $("#genTable-form-before");
                 if(albedoForm.validate($form)){
-                    thisRouter.navigate(['/gen/genTable/form'], { queryParams: { data: $form.serializeObject($form) } });
+                    thisRouter.navigate(['/gen/genTable/form'], { queryParams: $form.serializeObject($form) });
                     $("#genTable-dialog-before").modal('hide');
                 }
             });

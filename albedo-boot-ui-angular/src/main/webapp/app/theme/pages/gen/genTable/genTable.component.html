@@ -109,12 +109,12 @@
                 <div class="modal-body">
                     <div id="bootstrap-alerts"></div>
                     <form id="genTable-form-before" class="form-horizontal form-validation">
-                        <div class="form-group">
-                            <label class="control-label col-md-2">表名</label>
-                            <div class="col-md-10">
-                                <div class="col-md-11">
-                                    <alb-form id="tableName" name="tableName" cssClass="required" data="{{tableList}}" boxType="select"></alb-form>
-                                </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-form-label col-lg-3 col-sm-12">
+                                表名 *
+                            </label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+                                <alb-form id="tableName" name="tableName" cssClass="required" url="{{ctx}}/gen/genTable/tableList" boxType="select"></alb-form>
                             </div>
                         </div>
                     </form>
@@ -132,4 +132,4 @@
     </div>
     <!--end::Modal-->
 </div>
-</div>
+
