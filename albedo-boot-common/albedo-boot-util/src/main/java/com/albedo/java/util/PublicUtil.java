@@ -655,11 +655,13 @@ public class PublicUtil {
         return fmtDate(val, PublicUtil.TIME_FORMAT);
     }
 
-    public static String convertComboDataList(List<?> dataList, String idFieldName, String nameFieldName) {
+    public static String convertComboDataListStr(List<?> dataList, String idFieldName, String nameFieldName) {
+        return Json.toJsonString(convertComboDataList(dataList, idFieldName, nameFieldName));
+    }
+    public static List<ComboData> convertComboDataList(List<?> dataList, String idFieldName, String nameFieldName) {
         List<ComboData> comboDataList = Lists.newArrayList();
         dataList.forEach(item -> comboDataList.add(new ComboData(PublicUtil.toStrString(Reflections.getFieldValue(item, idFieldName)),
-                PublicUtil.toStrString(Reflections.invokeGetter(item, nameFieldName)))));
-        return Json.toJsonString(comboDataList);
+            PublicUtil.toStrString(Reflections.invokeGetter(item, nameFieldName)))));
+        return comboDataList;
     }
-
 }// class end

@@ -21,11 +21,13 @@ export class DataService<T extends Data> {
             return data;
         });
     }
-
-    query(req?: any): Observable<ResponseWrapper> {
-        const options = createRequestOption(req);
-        return this.http.get(this.resourceUrl, options)
-            .map((res: Response) => convertResponse(res));
+    queryUrl(params?: any, url?: string): Observable<any> {
+        const options = createRequestOption(params);
+        return this.http.get(this.resourceUrl + '/' + (url?url:''), options)
+            .map((data: any) => data);
+    }
+    query(params?: any): Observable<any> {
+        return this.queryUrl(params);
     }
 
     delete(id: string): Observable<Response> {

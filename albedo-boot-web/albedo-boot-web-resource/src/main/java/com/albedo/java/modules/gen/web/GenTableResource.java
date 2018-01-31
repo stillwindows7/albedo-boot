@@ -11,6 +11,7 @@ import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
+import com.albedo.java.vo.gen.GenTableFormVo;
 import com.albedo.java.vo.gen.GenTableVo;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.DataVoResource;
@@ -50,7 +51,7 @@ public class GenTableResource extends DataVoResource<GenTableService, GenTableVo
 
     @GetMapping(value = "/formData")
     @Timed
-    public ResponseEntity formData(GenTableVo genTableVo) {
+    public ResponseEntity formData(GenTableFormVo genTableVo) {
         Map<String, Object> map = service.findFormData(genTableVo);
         return ResultBuilder.buildOk(map);
     }
@@ -70,8 +71,8 @@ public class GenTableResource extends DataVoResource<GenTableService, GenTableVo
     }
 
     @GetMapping(value = "/form")
-    public String form(GenTableVo genTableVo, Model model) {
-        Map<String, Object> map = service.findFormData(genTableVo);
+    public String form(GenTableFormVo genTableFormVo, Model model) {
+        Map<String, Object> map = service.findFormData(genTableFormVo);
         model.addAllAttributes(map);
         return "modules/gen/genTableForm";
     }

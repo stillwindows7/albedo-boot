@@ -17,8 +17,12 @@ export class AlbFormComponent implements OnInit, AfterViewInit, OnChanges {
     public dictQuery?: DictQuery;
     @Input()
     public comboSearch?: ComboSearch;
+    /**有延迟*/
     @Input()
     comboData?: ComboData[];
+    /**无延迟*/
+    @Input()
+    data?: string;
     @Input()
     public dictCode?: string;
     @Input()
@@ -31,6 +35,8 @@ export class AlbFormComponent implements OnInit, AfterViewInit, OnChanges {
     clickFunc?: Function;
     @Input()
     multiple?: string;
+    @Input()
+    dataLiveSearch: boolean;
     @Input()
     analytiColumn?: string;
     @Input()
@@ -78,7 +84,9 @@ export class AlbFormComponent implements OnInit, AfterViewInit, OnChanges {
                     this.initTags();
                 }
             )
+            this.data && eval("this.comboData ="+this.data);
         }
+        console.log(this.data)
 
     }
 

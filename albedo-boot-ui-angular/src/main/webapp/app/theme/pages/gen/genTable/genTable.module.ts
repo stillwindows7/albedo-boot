@@ -6,8 +6,26 @@ import { AlbedoBootSharedModule } from "../../../../shared/shared.module";
 import { GenTableFormComponent } from "./genTable.form.component";
 import { RouterModule } from "@angular/router";
 import { Principal } from "../../../../auth/_services/principal.service";
-import {GenTableService} from "../../../../service/gen/user/genTable.service";
+import {GenTableService} from "../../../../service/gen/genTable/genTable.service";
+import {GenSchemeFormComponent} from "../genScheme/genScheme.form.component";
+import {GenSchemeComponent} from "../genScheme/genScheme.component";
+import {routeChilds} from "../../../api.routing.module";
 
+const routesGenTable = [
+    {
+        path: "gen/genTable/list",
+        component: GenTableComponent
+    },
+    {
+        path: "gen/genTable/form",
+        component: GenTableFormComponent
+    },
+    {
+        path: "gen/genTable/form/:id",
+        component: GenTableFormComponent
+    },
+]
+routeChilds.push(...routesGenTable)
 
 @NgModule({
     imports: [

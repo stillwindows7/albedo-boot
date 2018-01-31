@@ -1,6 +1,7 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.config.template.tag.FormDirective;
+import com.albedo.java.common.domain.base.DataEntity;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Role;
@@ -77,7 +78,6 @@ public class UserResource extends DataVoResource<UserService, UserVo> {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private ModuleService moduleService;
-
 
     @GetMapping(value = "/list")
     @Timed

@@ -46,34 +46,14 @@
 								<div class="m-form__group m-form__group--inline">
 									<div class="m-form__label">
 										<label class="m-label m-label--single">
-											状态:
+											表名:
 										</label>
 									</div>
 									<div class="m-form__control">
-                                        <alb-form boxType="checkbox"
-                                                  id="status"
-                                                  name="status"
-                                                  operate="in"
-                                                  dictCode="sys_status"
-                                                  searchItem="searchItem" >
-                                        </alb-form>
+                                        <input type="text" name="name" searchItem="searchItem" class="form-control m-input" />
 									</div>
 								</div>
 								<div class="d-md-none m--margin-bottom-10"></div>
-							</div>
-							<div class="col-md-4">
-                                <div class="m-form__group m-form__group--inline">
-                                    <div class="m-form__label">
-                                        <label class="m-label m-label--single">
-                                            登录Id:
-                                        </label>
-                                    </div>
-                                    <div class="m-form__control">
-                                        <input type="text" name="loginId" searchItem="searchItem" class="form-control m-input" />
-                                    </div>
-                                </div>
-                                <div class="d-md-none m--margin-bottom-10"></div>
-
 							</div>
 						</div>
 					</div>
@@ -114,7 +94,7 @@
                                 表名 *
                             </label>
                             <div class="col-lg-9 col-md-9 col-sm-12">
-                                <alb-form id="tableName" name="tableName" cssClass="required" url="{{ctx}}/gen/genTable/tableList" boxType="select"></alb-form>
+                                <alb-form id="name" name="name" cssClass="required" [dataLiveSearch]="true" url="{{ctx}}/gen/genTable/tableList" boxType="select"></alb-form>
                             </div>
                         </div>
                     </form>

@@ -11,7 +11,7 @@
     <div class="d-flex align-items-center">
         <div class="mr-auto">
             <h3 class="m-subheader__title">
-                ${functionNameSimple}管理
+                用户管理
             </h3>
             <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                 <li class="m-nav__item m-nav__item--home">
@@ -27,77 +27,154 @@
 </div>
 <!-- END: Subheader -->
 
-<div class="m-content">
 
-	<div class="m-portlet m-portlet--mobile">
-		<div class="m-portlet__head">
-			<div class="m-portlet__head-caption">
-				<div class="m-portlet__head-title">
-					<h3 class="m-portlet__head-text">
-						数据列表
-					</h3>
-				</div>
-			</div>
+<div class="m-content">
+    <!--begin::Portlet-->
+    <div class="m-portlet">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+                        添加用户
+                        <small>
+                            数据表单
+                        </small>
+                    </h3>
+                </div>
+            </div>
             <div class="m-portlet__head-tools">
-                <a routerLink="/${urlPrefix}/form/" title="添加${functionNameSimple}" class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill ">
-                    <i class="la la-plus"></i>
+                <a href="#/sys/user/list" title="用户列表" class="m-portlet__nav-link btn list btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill ">
+                    <i class="la la-th-list"></i>
                 </a>
             </div>
-		</div>
-		<div class="m-portlet__body">
-			<!--begin: Search Form -->
-			<div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30 search-form" id="user-search-form">
-				<div class="row align-items-center">
-					<div class="col-xl-8 order-2 order-xl-1">
-						<div class="form-group m-form__group row align-items-center">
-							<div class="col-md-4">
-								<div class="m-form__group m-form__group--inline">
-									<div class="m-form__label">
-										<label class="m-label m-label--single">
-											状态:
-										</label>
-									</div>
-									<div class="m-form__control">
-                                        <alb-form boxType="checkbox"
-                                                  id="status"
-                                                  name="status"
-                                                  operate="in"
-                                                  dictCode="sys_status"
-                                                  searchItem="searchItem" >
-                                        </alb-form>
-									</div>
-								</div>
-								<div class="d-md-none m--margin-bottom-10"></div>
-							</div>
-							<div class="col-md-4">
-                                <div class="m-form__group m-form__group--inline">
-                                    <div class="m-form__label">
-                                        <label class="m-label m-label--single">
-                                            登录Id:
-                                        </label>
-                                    </div>
-                                    <div class="m-form__control">
-                                        <input type="text" name="loginId" searchItem="searchItem" class="form-control m-input" />
-                                    </div>
-                                </div>
-                                <div class="d-md-none m--margin-bottom-10"></div>
+        </div>
+        <!--begin::Form-->
+        <form class="m-form m-form--fit m-form--label-align-right form-validation" action="{{ctx}}/sys/user/" method="post" id="user-save-form">
+            <input type="hidden" name="id" value="{{user.id}}" />
+            <div class="m-portlet__body">
+                <div class="m-form__content bootstrap-alerts">
 
-							</div>
-						</div>
-					</div>
-					<div class="col-xl-4 order-1 order-xl-2 m--align-right">
-                        <button id="table-form-search-user" class="btn m-btn--pill m-btn--air btn-primary btn-sm m-btn m-btn--custom search-form-btn filter-submit-table-user" type="button">
-                            查询
-                        </button>
-						<div class="m-separator m-separator--dashed d-xl-none"></div>
-					</div>
-				</div>
-			</div>
-			<!--end: Search Form -->  		<!--begin: Datatable -->
-			<div class="m_datatable" id="data-table-user"></div>
-			<!--end: Datatable -->
-		</div>
-	</div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label class="col-form-label col-lg-3 col-sm-12">
+                        所属组织 *
+                    </label>
+                    <div class="col-lg-4 col-md-9 col-sm-12">
+                        <alb-tree-select id="org"
+                             cssClass="required" allowClear="true" name="orgId"
+                             value="{{user.orgId}}" labelName="orgName"
+                             labelValue="{{user.orgName}}" title="选择组织"
+                             url="{{ctx}}/sys/org/findTreeData" ></alb-tree-select>
+
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label class="col-form-label col-lg-3 col-sm-12">
+                        登录Id *
+                    </label>
+                    <div class="col-lg-4 col-md-9 col-sm-12">
+                        <input type="text" name="loginId" value="{{user&&user.loginId}}"
+                               maxlength="64" data-required="1" class="form-control required"/>
+                        <span class="m-form__help">
+							唯一
+						</span>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label class="col-form-label col-lg-3 col-sm-12">
+                        密码 {{user.id==null?'*':''}}
+                    </label>
+                    <div class="col-lg-4 col-md-9 col-sm-12">
+                        <input id="newPassword" name="password" type="password" value=""
+                               htmlEscape="false" maxlength="64"
+                               class="form-control {{user.id==null?'required':''}}"/>
+                        <span class="m-form__help {{user.id==null?'hide':''}}">
+							若不修改密码，请留空
+						</span>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label class="col-form-label col-lg-3 col-sm-12">
+                        确认密码 {{user.id?'*':''}}
+                    </label>
+                    <div class="col-lg-4 col-md-9 col-sm-12">
+                        <input name="confirmPassword" type="password" value=""
+                               htmlEscape="false" maxlength="64" class="form-control"
+                               equalTo="#newPassword"/>
+                        <span class="m-form__help">
+							重复输入密码
+						</span>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label class="col-form-label col-lg-3 col-sm-12">
+                        联系电话
+                    </label>
+                    <div class="col-lg-4 col-md-9 col-sm-12">
+                        <input name="phone" value="{{user.phone}}" htmlEscape="false"
+                               maxlength="32" class="form-control phone"/>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label class="col-form-label col-lg-3 col-sm-12">
+                        邮箱
+                    </label>
+                    <div class="col-lg-4 col-md-9 col-sm-12">
+                        <input name="email" value="{{user.email}}" htmlEscape="false"
+                               maxlength="32" class="form-control email"/>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label class="col-form-label col-lg-3 col-sm-12">
+                        状态 *
+                    </label>
+                    <div class="col-lg-4 col-md-9 col-sm-12">
+                        <alb-form boxType="radio"
+                                  id="status"
+                                  name="status"
+                                  dictCode="sys_status"
+                                  value="{{user.status}}" cssClass="required">
+                        </alb-form>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label class="col-form-label col-lg-3 col-sm-12">
+                        角色 *
+                    </label>
+                    <div class="col-lg-4 col-md-9 col-sm-12">
+                        <alb-form name="roleIdList" id="roleIdList" url="{{ctx}}/sys/role/comboData" boxType="select" multiple="multiple"
+                        value="{{user.roleIdList}}" cssClass="required"> </alb-form>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label class="col-form-label col-lg-3 col-sm-12">
+                        描述
+                    </label>
+                    <div class="col-lg-9 col-md-9 col-sm-12">
+                         <textarea class="summernote form-control" name="description"
+                                   rows="5">{{user.description}}</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="m-portlet__foot m-portlet__foot--fit">
+                <div class="m-form__actions m-form__actions">
+                    <div class="row">
+                        <div class="col-lg-9 ml-lg-auto">
+                            <button type="button" class="btn btn-success save">
+                                <i class="fa fa-check"></i> 保存
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="albedoForm.resetForm('#user-save-form')">
+                                重置
+                            </button>
+                            <button type="button" class="btn" onclick="window.history.back()">返回</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!--end::Form-->
+    </div>
+    <!--end::Portlet-->
 </div>
 
 ]]>

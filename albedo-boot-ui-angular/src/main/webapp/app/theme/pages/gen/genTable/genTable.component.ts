@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '
 import { ScriptLoaderService } from "../../../../shared/base/service/script-loader.service";
 import {CTX, DATA_STATUS} from "../../../../app.constants";
 import { Principal } from "../../../../auth/_services/principal.service";
-import {GenTableService} from "../../../../service/gen/user/genTable.service";
+import {GenTableService} from "../../../../service/gen/genTable/genTable.service";
 import {Router} from "@angular/router";
 
 declare let datatable: any;
@@ -11,7 +11,7 @@ declare let datatable: any;
     templateUrl: "./genTable.component.html",
     encapsulation: ViewEncapsulation.None,
 })
-export class GenTableComponent implements OnInit, AfterViewInit {
+export class GenTableComponent implements AfterViewInit {
 
 
     ctx: any;
@@ -21,12 +21,6 @@ export class GenTableComponent implements OnInit, AfterViewInit {
         private principal: Principal, private router: Router) {
         this.ctx = CTX;
     }
-    ngOnInit(): void {
-       // this.genTableService.tableList().subscribe((data) => {
-       //     this.tableList = data;
-       // });
-    }
-
     ngAfterViewInit() {
         this.initTable()
         this.initAddGenTable();
@@ -84,12 +78,12 @@ export class GenTableComponent implements OnInit, AfterViewInit {
                                 \</a>';
                         if (thisPrincipal.hasAuthority("sys_genTable_lock"))
                             template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="' + (row.status == "正常" ? "锁定" : "解锁") + '业务表"\
-						 data-table-id="#data-table-genTable" data-method="put"  data-title="你确认要操作【' + row.loginId + '】业务表吗？" data-url="' + CTX + '/gen/genTable/' + row.id + '">\
+						 data-table-id="#data-table-genTable" data-method="put"  data-title="你确认要操作【' + row.name + '】业务表吗？" data-url="' + CTX + '/gen/genTable/' + row.id + '">\
                                 \<i class="la la-'+ (row.status == "正常" ? "unlock-alt" : "unlock") + '"></i>\
                                 \</a>';
                         if (thisPrincipal.hasAuthority("sys_genTable_delete"))
                             template += '<a  href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
-                                   data-table-id="#data-table-genTable" data-method="delete"  data-title="你确认要删除【' + row.loginId + '】业务表吗？" data-url="' + CTX + '/gen/genTable/' + row.id + '">\
+                                   data-table-id="#data-table-genTable" data-method="delete"  data-title="你确认要删除【' + row.name + '】业务表吗？" data-url="' + CTX + '/gen/genTable/' + row.id + '">\
                                 \<i class="la la-trash"></i>\
                                 \</a>';
                         return template;

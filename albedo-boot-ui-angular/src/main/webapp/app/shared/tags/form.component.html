@@ -6,7 +6,7 @@
         [attr.analytiColumn]="analytiColumn"
         [attr.multiple]="multiple"
         [attr.analytiColumnPrefix]="analytiColumnPrefix"
-        class="form-control m-bootstrap-select {{cssClass}}" [attr.data-live-search]="true">
+        class="form-control m-bootstrap-select {{cssClass}}" [attr.data-live-search]="dataLiveSearch">
     <option *ngIf="!cssClass || cssClass.indexOf('required')==-1" value="">请选择...</option>
     <option *ngFor="let item of comboData" value="{{item.id}}" selected="{{equleValue(item.id) ? 'selected' : ''}}">{{item.name}}</option>
 </select>
@@ -24,6 +24,6 @@
                [attr.itemValue]="itemValue"
                [attr.data-options]="dataOptions"
                class="form-control {{cssClass}}"
-               checked="{{equleValue(item.id) ? 'selected' : ''}}" />{{item.name}}<span></span></label>
+               checked="{{equleValue(item.id) ? 'checked' : ''}}" />{{item.name}}<span></span></label>
 
 </div>

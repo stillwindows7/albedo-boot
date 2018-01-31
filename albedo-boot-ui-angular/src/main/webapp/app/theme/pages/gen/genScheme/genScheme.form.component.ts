@@ -1,69 +1,59 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {CTX} from "../../../../app.constants";
 import {ActivatedRoute} from "@angular/router";
-import {GenTable} from "../../../../service/gen/genTable/genTable.model";
-import {GenTableService} from "../../../../service/gen/genTable/genTable.service";
+import {GenScheme} from "../../../../service/gen/genScheme/genScheme.model";
+import {GenSchemeService} from "../../../../service/gen/genScheme/genScheme.service";
 
 @Component({
-    selector: ".sys-genTable-form.page-form",
-    templateUrl: "./genTable.form.component.html"
+    selector: ".sys-genScheme-form.page-form",
+    templateUrl: "./genScheme.form.component.html"
 })
-export class GenTableFormComponent implements AfterViewInit {
+export class GenSchemeFormComponent implements AfterViewInit {
 
-    genTable: GenTable;
-    routeData: any;
-    ctx: any;
-    id: any;
-    javaTypeList;
-    queryTypeList;
-    showTypeList;
-    tableList;
-    columnList;
+    genScheme: GenScheme
+    routeData: any
+    ctx: any
+    id: any
+    viewTypeList
+    categoryList
+    tableList
 
     private afterViewInit = false;
     private afterLoad = false;
     constructor(
         private activatedRoute: ActivatedRoute,
-        private genTableService: GenTableService) {
+        private genSchemeService: GenSchemeService) {
         this.ctx = CTX;
-        this.genTable = new GenTable();
-        this.activatedRoute.queryParams.subscribe((params) => {
-            params['name']&&this.initData(params)
-        });
-        this.activatedRoute.params.subscribe((params) => {
-            params['id']&&this.initData(params)
-        });
-    }
+        this.genScheme = new GenScheme();
+        this.routeData = this.activatedRoute.params.subscribe((params) => {
+            this.genSchemeService.formData(params).subscribe((data) => {
+                console.log(data)
+                if(data.genSchemeVo)this.genScheme = data.genSchemeVo;
+                this.viewTypeList = data.viewTypeList;
+                this.categoryList = data.categoryList;
+                this.tableList = data.tableList;
+                albedoForm.initFormData("#genScheme-save-form", this.genScheme);
+                this.afterLoad = true;
+                this.initForm();
+            });
 
-    initData(params){
-        params && this.genTableService.formData(params).subscribe((data) => {
-            if(data.genTableVo)this.genTable = data.genTableVo;
-            this.javaTypeList=data.javaTypeList;
-            this.queryTypeList=data.queryTypeList;
-            this.showTypeList=data.showTypeList;
-            this.tableList=data.tableList;
-            this.columnList=data.columnList;
-            albedoForm.initFormData("#genTable-save-form", this.genTable);
-            this.afterLoad = true;
-            this.initForm();
         });
     }
 
     ngAfterViewInit() {
-        // this._script.load('.sys-genTable-list',
-        //     'assets/demo/default/custom/components/datatables/base/data-ajax.js');
         this.afterViewInit = true;
         this.initForm();
+        this.initFormSyncModule();
     }
 
     initForm() {
         if (!this.afterViewInit || !this.afterLoad) return;
 
-        var genTableId = this.genTable.id;
-        albedoForm.initValidate($("#genTable-save-form"), {
+        var genSchemeId = this.genScheme.id;
+        albedoForm.initValidate($("#genScheme-save-form"), {
             // define validation rules
             rules: {
-                loginId: { remote: CTX + '/gen/genTable/checkByProperty?_statusFalse&id=' + encodeURIComponent(genTableId) },
+                loginId: { remote: CTX + '/gen/genScheme/checkByProperty?_statusFalse&id=' + encodeURIComponent(genSchemeId) },
                 status: { required: true },
                 roleIdList: { required: true },
             },
@@ -77,6 +67,10 @@ export class GenTableFormComponent implements AfterViewInit {
 
     }
 
-
+    initFormSyncModule(){
+        $("#syncModule").off().click(function () {
+            $(this).is(':checked') ? $("#parentModule_div").removeClass("hide").find("input#modularName").addClass("required") : $("#parentModule_div").addClass("hide").find("input#modularName").removeClass("required");
+        })
+    }
 
 }

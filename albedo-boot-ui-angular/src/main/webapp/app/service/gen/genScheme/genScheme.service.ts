@@ -1,25 +1,19 @@
-import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
-import { CTX } from "../../../app.constants";
-import { GenTable } from "./genTable.model";
-import {ComboData, DataService} from "../../../shared";
+import {Injectable} from '@angular/core';
+import {Http} from '@angular/http';
+import {CTX} from "../../../app.constants";
+import {GenScheme} from "./genScheme.model";
+import {DataService} from "../../../shared";
 import {createRequestOption} from "../../../shared/base/request.util";
+import {Observable} from "rxjs/Rx";
 
 
 @Injectable()
-export class GenTableService extends DataService<GenTable> {
+export class GenSchemeService extends DataService<GenScheme> {
 
     constructor(protected http: Http) {
-        super(http, CTX + '/gen/genTable');
+        super(http, CTX + '/gen/genScheme');
     }
-
-
-    formData(params): Observable<any> {
-        const options = createRequestOption(params);
-        return this.http.get(this.resourceUrl + '/formData', options)
-            .map((data: any) => data);
+    formData(params: any) {
+        return this.queryUrl(params, 'formData')
     }
-
-
 }

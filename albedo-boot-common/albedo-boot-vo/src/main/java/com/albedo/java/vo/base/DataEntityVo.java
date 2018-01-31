@@ -8,8 +8,8 @@ import lombok.Data;
 @Data
 public class DataEntityVo extends GeneralEntityVo {
 
-    private String id;
-    private Integer status = GeneralEntityVo.FLAG_NORMAL;
-    private String description;
+    protected String id;
+    protected Integer status = GeneralEntityVo.FLAG_NORMAL;
+    protected String description;
 
 }

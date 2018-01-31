@@ -15,87 +15,13 @@ import { ModuleFormComponent } from "./pages/sys/module/module.form.component";
 import { ModuleComponent } from "./pages/sys/module/module.component";
 import {GenTableComponent} from "./pages/gen/genTable/genTable.component";
 import {GenTableFormComponent} from "./pages/gen/genTable/genTable.form.component";
+import {GenSchemeComponent} from "./pages/gen/genScheme/genScheme.component";
+import {GenSchemeFormComponent} from "./pages/gen/genScheme/genScheme.form.component";
 
-const routesSys = [
-    {
-        path: "sys/user/list",
-        component: UserComponent
-    },
-    {
-        path: "sys/user/form",
-        component: UserFormComponent
-    },
-    {
-        path: "sys/user/form/:id",
-        component: UserFormComponent
-    },
-    {
-        path: "sys/role/list",
-        component: RoleComponent
-    },
-    {
-        path: "sys/role/form",
-        component: RoleFormComponent
-    },
-    {
-        path: "sys/role/form/:id",
-        component: RoleFormComponent
-    },
-    {
-        path: "sys/org/list",
-        component: OrgComponent
-    },
-    {
-        path: "sys/org/form",
-        component: OrgFormComponent
-    },
-    {
-        path: "sys/org/form/:id",
-        component: OrgFormComponent
-    },
-    {
-        path: "sys/module/list",
-        component: ModuleComponent
-    },
-    {
-        path: "sys/module/form",
-        component: ModuleFormComponent
-    },
-    {
-        path: "sys/module/form/:id",
-        component: ModuleFormComponent
-    },
-    {
-        path: "sys/dict/list",
-        component: DictComponent
-    },
-    {
-        path: "sys/dict/form",
-        component: DictFormComponent
-    },
-    {
-        path: "sys/dict/form/:id",
-        component: DictFormComponent
-    },
-];
-const routesGen = [
-    {
-        path: "gen/genTable/list",
-        component: GenTableComponent
-    },
-    {
-        path: "gen/genTable/form",
-        component: GenTableFormComponent
-    },
-    {
-        path: "gen/genTable/form/:id",
-        component: GenTableFormComponent
-    },
-]
 
-const routeChilds = []
-routeChilds.push(...routesSys)
-routeChilds.push(...routesGen)
+
+
+export const routeChilds = []
 const routes: Routes = [
     {
         path: "",

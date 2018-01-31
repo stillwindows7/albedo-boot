@@ -6,99 +6,105 @@
     <content><![CDATA[
 <#macro jspEl>${r"$"}</#macro>
 <#macro at>${r"@"}</#macro><#macro hash>${r"#"}</#macro>
-<!-- BEGIN: Subheader -->
-<div class="m-subheader">
-    <div class="d-flex align-items-center">
-        <div class="mr-auto">
-            <h3 class="m-subheader__title">
-                ${functionNameSimple}管理
-            </h3>
-            <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
-                <li class="m-nav__item m-nav__item--home">
-                    <a href="#" class="m-nav__link m-nav__link--icon">
-                        <i class="m-nav__link-icon la la-home"></i>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div>
-        </div>
-    </div>
-</div>
-<!-- END: Subheader -->
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ScriptLoaderService } from "../../../../shared/base/service/script-loader.service";
+import {CTX, DATA_STATUS} from "../../../../app.constants";
+import { SessionStorageService } from "ngx-webstorage";
+import { ActivatedRoute } from "@angular/router";
+import { Principal } from "../../../../auth/_services/principal.service";
 
-<div class="m-content">
+declare let datatable: any;
+@Component({
+    selector: ".sys-user-list.page-list",
+    templateUrl: "./user.component.html",
+    encapsulation: ViewEncapsulation.None,
+})
+export class UserComponent implements AfterViewInit {
 
-	<div class="m-portlet m-portlet--mobile">
-		<div class="m-portlet__head">
-			<div class="m-portlet__head-caption">
-				<div class="m-portlet__head-title">
-					<h3 class="m-portlet__head-text">
-						数据列表
-					</h3>
-				</div>
-			</div>
-            <div class="m-portlet__head-tools">
-                <a routerLink="/${urlPrefix}/form/" title="添加${functionNameSimple}" class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill ">
-                    <i class="la la-plus"></i>
-                </a>
-            </div>
-		</div>
-		<div class="m-portlet__body">
-			<!--begin: Search Form -->
-			<div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30 search-form" id="user-search-form">
-				<div class="row align-items-center">
-					<div class="col-xl-8 order-2 order-xl-1">
-						<div class="form-group m-form__group row align-items-center">
-							<div class="col-md-4">
-								<div class="m-form__group m-form__group--inline">
-									<div class="m-form__label">
-										<label class="m-label m-label--single">
-											状态:
-										</label>
-									</div>
-									<div class="m-form__control">
-                                        <alb-form boxType="checkbox"
-                                                  id="status"
-                                                  name="status"
-                                                  operate="in"
-                                                  dictCode="sys_status"
-                                                  searchItem="searchItem" >
-                                        </alb-form>
-									</div>
-								</div>
-								<div class="d-md-none m--margin-bottom-10"></div>
-							</div>
-							<div class="col-md-4">
-                                <div class="m-form__group m-form__group--inline">
-                                    <div class="m-form__label">
-                                        <label class="m-label m-label--single">
-                                            登录Id:
-                                        </label>
-                                    </div>
-                                    <div class="m-form__control">
-                                        <input type="text" name="loginId" searchItem="searchItem" class="form-control m-input" />
-                                    </div>
-                                </div>
-                                <div class="d-md-none m--margin-bottom-10"></div>
 
-							</div>
-						</div>
-					</div>
-					<div class="col-xl-4 order-1 order-xl-2 m--align-right">
-                        <button id="table-form-search-user" class="btn m-btn--pill m-btn--air btn-primary btn-sm m-btn m-btn--custom search-form-btn filter-submit-table-user" type="button">
-                            查询
-                        </button>
-						<div class="m-separator m-separator--dashed d-xl-none"></div>
-					</div>
-				</div>
-			</div>
-			<!--end: Search Form -->  		<!--begin: Datatable -->
-			<div class="m_datatable" id="data-table-user"></div>
-			<!--end: Datatable -->
-		</div>
-	</div>
-</div>
+    constructor(private _script: ScriptLoaderService,
+        private router: ActivatedRoute,
+        private principal: Principal) {
+
+    }
+
+    ngAfterViewInit() {
+        this.initTable()
+    }
+
+    initTable() {
+        var thisPrincipal = this.principal;
+        var options = {
+            data: {
+                source: {
+                    read: {
+                        // sample GET method
+                        method: 'GET',
+                        url: CTX + '/sys/user/',
+                    },
+                },
+                pageSize: 10,
+            },
+            // columns definition
+            columns: [
+                {
+                    field: 'orgName',
+                    title: '所属组织',
+                    // width: 40,
+                    textAlign: 'center',
+                }, {
+                    field: 'loginId',
+                    title: '登录Id',
+                    sortable: 'asc',
+                    width: 150,
+                }, {
+                    field: 'email',
+                    title: '邮箱',
+                    width: 150,
+                }, {
+                    field: 'status',
+                    title: '状态',
+                    template: function(row) {
+
+                        return '<span class="m-badge ' + DATA_STATUS[row.status].class + ' m-badge--wide">' + row.status + '</span>';
+                    },
+                }, {
+                    field: 'lastModifiedDate',
+                    title: '修改时间',
+                }, {
+                    field: 'Actions',
+                    width: 110,
+                    title: '操作',
+                    sortable: false,
+                    overflow: 'visible',
+                    template: function(row) {
+                        var template = '';
+                        if (thisPrincipal.hasAuthority("sys_user_edit"))
+                            template += '<a href="#/sys/user/form/' + row.id + '" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">\
+                                \<i class="la la-edit"></i>\
+                                \</a>';
+                        if (thisPrincipal.hasAuthority("sys_user_lock"))
+                            template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="' + (row.status == "正常" ? "锁定" : "解锁") + '用户"\
+						 data-table-id="#data-table-user" data-method="put"  data-title="你确认要操作【' + row.loginId + '】用户吗？" data-url="' + CTX + '/sys/user/' + row.id + '">\
+                                \<i class="la la-'+ (row.status == "正常" ? "unlock-alt" : "unlock") + '"></i>\
+                                \</a>';
+                        if (thisPrincipal.hasAuthority("sys_user_delete"))
+                            template += '<a  href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
+                                   data-table-id="#data-table-user" data-method="delete"  data-title="你确认要删除【' + row.loginId + '】用户吗？" data-url="' + CTX + '/sys/user/' + row.id + '">\
+                                \<i class="la la-trash"></i>\
+                                \</a>';
+                        return template;
+                    },
+                }],
+        };
+
+        albedoList.initTable($('#data-table-user'), $('#user-search-form'), options);
+        albedoList.init();
+    }
+
+
+
+}
 
 ]]>
     </content>

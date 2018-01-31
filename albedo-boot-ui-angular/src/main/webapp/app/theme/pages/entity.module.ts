@@ -6,6 +6,7 @@ import { OrgModule } from "./sys/org/org.module";
 import { ModuleModule } from "./sys/module/module.module";
 import { DictModule } from "./sys/dict/dict.module";
 import {GenTableModule} from "./gen/genTable/genTable.module";
+import {GenSchemeModule} from "./gen/genScheme/genScheme.module";
 
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
@@ -17,6 +18,7 @@ import {GenTableModule} from "./gen/genTable/genTable.module";
         ModuleModule,
         DictModule,
         GenTableModule,
+        GenSchemeModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

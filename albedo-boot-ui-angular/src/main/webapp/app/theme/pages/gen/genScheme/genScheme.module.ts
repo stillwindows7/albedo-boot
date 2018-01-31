@@ -1,14 +1,30 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LayoutModule } from "../../../layouts/layout.module";
-import { GenTableComponent } from "./genTable.component";
+import { GenSchemeComponent } from "./genScheme.component";
 import { AlbedoBootSharedModule } from "../../../../shared/shared.module";
-import { GenTableFormComponent } from "./genTable.form.component";
+import { GenSchemeFormComponent } from "./genScheme.form.component";
 import { RouterModule } from "@angular/router";
 import { Principal } from "../../../../auth/_services/principal.service";
-import {GenTableService} from "../../../../service/gen/genTable/genTable.service";
+import {GenSchemeService} from "../../../../service/gen/genScheme/genScheme.service";
+import {routeChilds} from "../../../api.routing.module";
 
+const routesGenScheme = [
+    {
+        path: "gen/genScheme/list",
+        component: GenSchemeComponent
+    },
+    {
+        path: "gen/genScheme/form",
+        component: GenSchemeFormComponent
+    },
+    {
+        path: "gen/genScheme/form/:id",
+        component: GenSchemeFormComponent
+    },
+]
 
+routeChilds.push(...routesGenScheme)
 @NgModule({
     imports: [
         AlbedoBootSharedModule,
@@ -17,19 +33,19 @@ import {GenTableService} from "../../../../service/gen/genTable/genTable.service
         // RouterModule.forChild(routes),
         LayoutModule
     ], exports: [
-        GenTableComponent,
+        GenSchemeComponent,
         // RouterModule
     ], entryComponents: [
-        GenTableComponent,
+        GenSchemeComponent,
     ], declarations: [
-        GenTableComponent,
-        GenTableFormComponent,
+        GenSchemeComponent,
+        GenSchemeFormComponent,
     ], providers: [
-        GenTableService,
+        GenSchemeService,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class GenTableModule {
+export class GenSchemeModule {
 
 
 

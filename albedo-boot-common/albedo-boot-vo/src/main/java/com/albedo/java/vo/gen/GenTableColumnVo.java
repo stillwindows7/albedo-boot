@@ -6,6 +6,7 @@ import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.vo.base.DataEntityVo;
 import com.albedo.java.vo.base.TreeEntityVo;
 import com.albedo.java.vo.util.GenTableColumnVoUtil;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,6 +34,7 @@ public class GenTableColumnVo extends DataEntityVo implements Comparable {
     /**
      * 归属表
      */
+    @JSONField(serialize = false)
     private GenTableVo genTable;
     /**
      * 列名
@@ -168,6 +170,7 @@ public class GenTableColumnVo extends DataEntityVo implements Comparable {
      *
      * @return
      */
+    @JSONField(serialize = false)
     public String getSimpleJavaType() {
         if ("This".equals(getJavaType())) {
             return StringUtil.capitalize(genTable.getClassName());

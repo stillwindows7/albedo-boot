@@ -8,25 +8,21 @@ import { User } from "../../../../service/sys/user/user.model";
     selector: ".sys-user-form.page-form",
     templateUrl: "./user.form.component.html"
 })
-export class UserFormComponent implements OnInit, OnDestroy, AfterViewInit {
+export class UserFormComponent implements AfterViewInit {
 
     user: User;
-    routerSub: any;
+    routeData: any;
     ctx: any;
     id: any;
 
     private afterViewInit = false;
     private afterLoad = false;
     constructor(
-        private router: ActivatedRoute,
+        private activatedRoute: ActivatedRoute,
         private userService: UserService) {
         this.ctx = CTX;
         this.user = new User();
-
-    }
-
-    ngOnInit() {
-        this.routerSub = this.router.params.subscribe((params) => {
+        this.routeData = this.activatedRoute.params.subscribe((params) => {
             this.id = params['id'];
             if (this.id) {
                 this.userService.find(this.id).subscribe((data) => {
@@ -42,13 +38,8 @@ export class UserFormComponent implements OnInit, OnDestroy, AfterViewInit {
         });
     }
 
-    ngOnDestroy() {
-        this.routerSub.unsubscribe();
-    }
 
     ngAfterViewInit() {
-        // this._script.load('.sys-user-list',
-        //     'assets/demo/default/custom/components/datatables/base/data-ajax.js');
         this.afterViewInit = true;
         this.initForm();
     }

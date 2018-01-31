@@ -2,6 +2,7 @@ package com.albedo.java.vo.gen;
 
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
+import com.albedo.java.util.annotation.JsonField;
 import com.albedo.java.util.base.Collections3;
 import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.exception.RuntimeMsgException;
@@ -24,7 +25,6 @@ import java.util.List;
  */
 @Data
 @ToString
-@NoArgsConstructor
 public class GenTableVo extends DataEntityVo {
 
     public static final String F_NAME = "name";
@@ -42,8 +42,10 @@ public class GenTableVo extends DataEntityVo {
     /*** 关联父表外键 */
     private String parentTableFk;
     /*** 父表对象 */
+    @JSONField(serialize = false)
     private GenTableVo parent;
     /*** 子表列表 */
+    @JSONField(serialize = false)
     private List<GenTableVo> childList;
     private String nameAndComments;
     /*** 按名称模糊查询 */
@@ -55,6 +57,7 @@ public class GenTableVo extends DataEntityVo {
     /**
      * 当前表主键列表
      */
+    @JSONField(serialize = false)
     private List<GenTableColumnVo> pkColumnList;
     /*** 列 - 列表 */
     private List<GenTableColumnVo> columnList;
@@ -65,6 +68,14 @@ public class GenTableVo extends DataEntityVo {
         this.name = name;
         this.comments = comments;
     }
+    public GenTableVo() {
+    }
+    public GenTableVo(GenTableFormVo genTableFormVo) {
+        this.setId(genTableFormVo.getId());
+        this.name=genTableFormVo.getName();
+
+    }
+
     public List<GenTableColumnVo> getPkColumnList() {
         if (PublicUtil.isEmpty(pkColumnList) && PublicUtil.isNotEmpty(columnList)) {
             if (pkColumnList == null) {
@@ -83,6 +94,7 @@ public class GenTableVo extends DataEntityVo {
         this.pkColumnList = pkColumnList;
     }
 
+    @JSONField(serialize = false)
     public boolean isCompositeId() {
         if (getPkList() == null) {
             throw new RuntimeMsgException("无法获取表的主键信息");
@@ -90,6 +102,7 @@ public class GenTableVo extends DataEntityVo {
         return getPkList().size() > 1;
     }
 
+    @JSONField(serialize = false,deserialize=false)
     public boolean isNotCompositeId() {
         return !isCompositeId();
     }
@@ -231,6 +244,7 @@ public class GenTableVo extends DataEntityVo {
     public Boolean getParentExists() {
         return parent != null && StringUtil.isNotBlank(parentTable) && StringUtil.isNotBlank(parentTableFk);
     }
+    @JSONField(serialize = false)
     public List<GenTableVo> getChildList() {
         return childList!=null ? childList : Lists.newArrayList();
     }

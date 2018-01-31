@@ -6,99 +6,76 @@
     <content><![CDATA[
 <#macro jspEl>${r"$"}</#macro>
 <#macro at>${r"@"}</#macro><#macro hash>${r"#"}</#macro>
-<!-- BEGIN: Subheader -->
-<div class="m-subheader">
-    <div class="d-flex align-items-center">
-        <div class="mr-auto">
-            <h3 class="m-subheader__title">
-                ${functionNameSimple}管理
-            </h3>
-            <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
-                <li class="m-nav__item m-nav__item--home">
-                    <a href="#" class="m-nav__link m-nav__link--icon">
-                        <i class="m-nav__link-icon la la-home"></i>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div>
-        </div>
-    </div>
-</div>
-<!-- END: Subheader -->
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { CTX } from "../../../../app.constants";
+import { ActivatedRoute } from "@angular/router";
+import { UserService } from "../../../../service/sys/user/user.service";
+import { User } from "../../../../service/sys/user/user.model";
 
-<div class="m-content">
+@Component({
+    selector: ".sys-user-form.page-form",
+    templateUrl: "./user.form.component.html"
+})
+export class UserFormComponent implements AfterViewInit {
 
-	<div class="m-portlet m-portlet--mobile">
-		<div class="m-portlet__head">
-			<div class="m-portlet__head-caption">
-				<div class="m-portlet__head-title">
-					<h3 class="m-portlet__head-text">
-						数据列表
-					</h3>
-				</div>
-			</div>
-            <div class="m-portlet__head-tools">
-                <a routerLink="/${urlPrefix}/form/" title="添加${functionNameSimple}" class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill ">
-                    <i class="la la-plus"></i>
-                </a>
-            </div>
-		</div>
-		<div class="m-portlet__body">
-			<!--begin: Search Form -->
-			<div class="m-form m-form--label-align-right m--margin-top-20 m--margin-bottom-30 search-form" id="user-search-form">
-				<div class="row align-items-center">
-					<div class="col-xl-8 order-2 order-xl-1">
-						<div class="form-group m-form__group row align-items-center">
-							<div class="col-md-4">
-								<div class="m-form__group m-form__group--inline">
-									<div class="m-form__label">
-										<label class="m-label m-label--single">
-											状态:
-										</label>
-									</div>
-									<div class="m-form__control">
-                                        <alb-form boxType="checkbox"
-                                                  id="status"
-                                                  name="status"
-                                                  operate="in"
-                                                  dictCode="sys_status"
-                                                  searchItem="searchItem" >
-                                        </alb-form>
-									</div>
-								</div>
-								<div class="d-md-none m--margin-bottom-10"></div>
-							</div>
-							<div class="col-md-4">
-                                <div class="m-form__group m-form__group--inline">
-                                    <div class="m-form__label">
-                                        <label class="m-label m-label--single">
-                                            登录Id:
-                                        </label>
-                                    </div>
-                                    <div class="m-form__control">
-                                        <input type="text" name="loginId" searchItem="searchItem" class="form-control m-input" />
-                                    </div>
-                                </div>
-                                <div class="d-md-none m--margin-bottom-10"></div>
+    user: User;
+    routeData: any;
+    ctx: any;
+    id: any;
 
-							</div>
-						</div>
-					</div>
-					<div class="col-xl-4 order-1 order-xl-2 m--align-right">
-                        <button id="table-form-search-user" class="btn m-btn--pill m-btn--air btn-primary btn-sm m-btn m-btn--custom search-form-btn filter-submit-table-user" type="button">
-                            查询
-                        </button>
-						<div class="m-separator m-separator--dashed d-xl-none"></div>
-					</div>
-				</div>
-			</div>
-			<!--end: Search Form -->  		<!--begin: Datatable -->
-			<div class="m_datatable" id="data-table-user"></div>
-			<!--end: Datatable -->
-		</div>
-	</div>
-</div>
+    private afterViewInit = false;
+    private afterLoad = false;
+    constructor(
+        private activatedRoute: ActivatedRoute,
+        private userService: UserService) {
+        this.ctx = CTX;
+        this.user = new User();
+        this.routeData = this.activatedRoute.params.subscribe((params) => {
+            this.id = params['id'];
+            if (this.id) {
+                this.userService.find(this.id).subscribe((data) => {
+                    this.user = data;
+                    albedoForm.initFormData("#user-save-form", this.user);
+                    this.afterLoad = true;
+                    this.initForm();
+                });
+            } else {
+                this.afterLoad = true;
+                this.initForm();
+            }
+        });
+    }
+
+
+    ngAfterViewInit() {
+        this.afterViewInit = true;
+        this.initForm();
+    }
+
+    initForm() {
+        if (!this.afterViewInit || !this.afterLoad) return;
+
+        var userId = this.user.id;
+        albedoForm.initValidate($("#user-save-form"), {
+            // define validation rules
+            rules: {
+                loginId: { remote: CTX + '/sys/user/checkByProperty?_statusFalse&id=' + encodeURIComponent(userId) },
+                status: { required: true },
+                roleIdList: { required: true },
+            },
+            messages: {
+                loginId: { message: '登录Id已存在' },
+            },
+        });
+        albedoForm.init();
+        albedoForm.initSave();
+
+
+    }
+
+
+
+}
 
 ]]>
     </content>

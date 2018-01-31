@@ -14,12 +14,7 @@ export class GenTableService extends DataService<GenTable> {
         super(http, CTX + '/gen/genTable');
     }
 
-
-    formData(params): Observable<any> {
-        const options = createRequestOption(params);
-        return this.http.get(this.resourceUrl + '/formData', options)
-            .map((data: any) => data);
+    formData(params: any) {
+        return this.queryUrl(params, 'formData')
     }
-
-
 }

@@ -18,6 +18,7 @@ import com.albedo.java.util.base.Collections3;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.vo.gen.GenSchemeVo;
+import com.albedo.java.vo.gen.GenTableFormVo;
 import com.albedo.java.vo.gen.GenTableVo;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.DataVoResource;
@@ -34,6 +35,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 生成方案Controller
@@ -70,35 +72,17 @@ public class GenSchemeResource extends DataVoResource<GenSchemeService, GenSchem
         JSON rs = JsonUtil.getInstance().setRecurrenceStr("genTable_name").toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
     }
-
+    @GetMapping(value = "/formData")
+    @Timed
+    public ResponseEntity formData(GenSchemeVo genSchemeVo) {
+        Map<String, Object> formData = service.findFormData(genSchemeVo, SecurityUtil.getCurrentUser().getLoginId());
+        return ResultBuilder.buildOk(formData);
+    }
     @GetMapping(value = "/form")
     @Timed
     public String form(GenSchemeVo genSchemeVo, Boolean isModal, Model model) {
-        if (StringUtil.isBlank(genSchemeVo.getPackageName())) {
-            genSchemeVo.setPackageName("com.albedo.java.modules");
-        }
-        if (StringUtil.isBlank(genSchemeVo.getFunctionAuthor())) {
-            genSchemeVo.setFunctionAuthor(SecurityUtil.getCurrentUser().getLoginId());
-        }
-        //同步模块数据
-        genSchemeVo.setSyncModule(true);
-        model.addAttribute("genSchemeVo", genSchemeVo);
-        GenConfig config = GenUtil.getConfig();
-        model.addAttribute("config", config);
-
-        model.addAttribute("categoryList", FormDirective.convertComboDataList(config.getCategoryList(), Dict.F_VAL, Dict.F_NAME));
-        model.addAttribute("viewTypeList", FormDirective.convertComboDataList(config.getViewTypeList(), Dict.F_VAL, Dict.F_NAME));
-
-        List<GenTable> tableList = genTableService.findAll(), list = Lists.newArrayList();
-        List<GenScheme> schemeList = genSchemeService.findAll(genSchemeVo.getId());
-        @SuppressWarnings("unchecked")
-        List<String> tableIds = Collections3.extractToList(schemeList, "genTableId");
-        for (GenTable table : tableList) {
-            if (!tableIds.contains(table.getId())) {
-                list.add(table);
-            }
-        }
-        model.addAttribute("tableList", FormDirective.convertComboDataList(list, GenTable.F_ID, GenTable.F_NAMESANDCOMMENTS));
+        Map<String, Object> formData = service.findFormData(genSchemeVo, SecurityUtil.getCurrentUser().getLoginId());
+        model.addAllAttributes(formData);
         return PublicUtil.toAppendStr("modules/gen/genSchemeForm", isModal ? "Modal" : "");
     }
 
