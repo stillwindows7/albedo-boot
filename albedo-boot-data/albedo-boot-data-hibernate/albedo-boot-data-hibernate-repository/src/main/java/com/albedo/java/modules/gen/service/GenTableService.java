@@ -18,6 +18,7 @@ import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.gen.GenTableColumnVo;
+import com.albedo.java.vo.gen.GenTableFormVo;
 import com.albedo.java.vo.gen.GenTableVo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -73,12 +74,12 @@ public class GenTableService extends DataVoService<GenTableRepository,
     }
 
     @Override
-    public GenTable save(GenTable genTable) {
+    public void save(GenTableVo genTableVo) {
+        GenTable genTable = new GenTable();
+        copyVoToBean(genTableVo, genTable);
         genTable.setColumnList(genTable.getColumnFormList());
         genTable = repository.save(genTable);
         log.debug("Save Information for GenTable: {}", genTable);
-
-        return genTable;
     }
 
     public void delete(List<String> ids, String currentAuditor) {
@@ -231,18 +232,25 @@ public class GenTableService extends DataVoService<GenTableRepository,
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public Map<String, Object> findFormData(GenTableVo genTableVo) {
+    public Map<String, Object> findFormData(GenTableFormVo genTableFormVo) {
         Map<String, Object> map = Maps.newHashMap();
+        //父表表名
         map.put("tableList", PublicUtil.convertComboDataList(findTableListFormDb(new GenTableVo()), GenTable.F_NAME, GenTable.F_NAMESANDCOMMENTS));
-        // 验证表是否存在
-        if (StringUtil.isBlank(genTableVo.getId()) && !checkTableName(genTableVo.getName())) {
-            throw new RuntimeMsgException(PublicUtil.toAppendStr("下一步失败！", genTableVo.getName(), " 表已经添加！"));
+        // 验证参数缺失
+        if (StringUtil.isBlank(genTableFormVo.getId()) && StringUtil.isBlank(genTableFormVo.getName())) {
+            throw new RuntimeMsgException(PublicUtil.toAppendStr("参数缺失！"));
         }
-        if (PublicUtil.isNotEmpty(genTableVo.getId())) {
-            genTableVo = findOneVo(genTableVo.getId());
+        // 验证表是否存在
+        if (StringUtil.isBlank(genTableFormVo.getId()) && !checkTableName(genTableFormVo.getName())) {
+            throw new RuntimeMsgException(PublicUtil.toAppendStr("下一步失败！", genTableFormVo.getName(), " 表已经添加！"));
+        }
+        GenTableVo genTableVo = new GenTableVo(genTableFormVo);
+        if (PublicUtil.isNotEmpty(genTableFormVo.getId())) {
+            genTableVo = findOneVo(genTableFormVo.getId());
         }
         // 获取物理表字段
         genTableVo = getTableFormDb(genTableVo);
+        //当前表外键
         map.put("columnList", PublicUtil.convertComboDataList(genTableVo.getColumnList(), GenTable.F_NAME, GenTable.F_NAMESANDCOMMENTS));
 
 

@@ -44,13 +44,9 @@
         <module>albedo-boot-common</module>
         <module>albedo-boot-data</module>
         <module>albedo-boot-api</module>
-        <!--<module>albedo-grpc</module>-->
-        <!--<module>albedo-rpc</module>-->
         <module>albedo-boot-web</module>
         <module>albedo-boot-cloud</module>
-        <!--<module>albedo-boot-ui-angular</module>-->
-        <module>albedo-boot-ui</module>
-        <!--<module>albedo-thrift</module>-->
+        <module>albedo-boot-ui-angular</module>
     </modules>
     <repositories>
         <repository>
