@@ -2,7 +2,7 @@ export class LoginCustom {
 
     static handleSignInFormSubmit() {
         $('#m_login_signin_submit').click(function(e) {
-            let form = $(this).closest('form');
+            let form = $(this).closest('form')
             form.validate({
                 rules: {
                     loginId: {
@@ -12,71 +12,71 @@ export class LoginCustom {
                         required: true
                     }
                 }
-            });
+            })
             if (!form.valid()) {
-                e.preventDefault();
-                return;
+                e.preventDefault()
+                return
             }
-        });
+        })
     }
 
     static displaySignUpForm() {
-        let login = $('#m_login');
-        login.removeClass('m-login--forget-password');
-        login.removeClass('m-login--signin');
+        let login = $('#m_login')
+        login.removeClass('m-login--forget-password')
+        login.removeClass('m-login--signin')
 
         login.addClass('m-login--signup');
-        (<any>login.find('.m-login__signup')).animateClass('flipInX animated');
+        (<any>login.find('.m-login__signup')).animateClass('flipInX animated')
     }
 
     static displaySignInForm() {
-        let login = $('#m_login');
-        login.removeClass('m-login--forget-password');
-        login.removeClass('m-login--signup');
+        let login = $('#m_login')
+        login.removeClass('m-login--forget-password')
+        login.removeClass('m-login--signup')
         try {
-            $('form').data('validator').resetForm();
+            $('form').data('validator').resetForm()
         } catch (e) {
         }
 
         login.addClass('m-login--signin');
-        (<any>login.find('.m-login__signin')).animateClass('flipInX animated');
+        (<any>login.find('.m-login__signin')).animateClass('flipInX animated')
     }
 
     static displayForgetPasswordForm() {
-        let login = $('#m_login');
-        login.removeClass('m-login--signin');
-        login.removeClass('m-login--signup');
+        let login = $('#m_login')
+        login.removeClass('m-login--signin')
+        login.removeClass('m-login--signup')
 
         login.addClass('m-login--forget-password');
-        (<any>login.find('.m-login__forget-password')).animateClass('flipInX animated');
+        (<any>login.find('.m-login__forget-password')).animateClass('flipInX animated')
     }
 
     static handleFormSwitch() {
         $('#m_login_forget_password').click(function(e) {
-            e.preventDefault();
-            LoginCustom.displayForgetPasswordForm();
-        });
+            e.preventDefault()
+            LoginCustom.displayForgetPasswordForm()
+        })
 
         $('#m_login_forget_password_cancel').click(function(e) {
-            e.preventDefault();
-            LoginCustom.displaySignInForm();
-        });
+            e.preventDefault()
+            LoginCustom.displaySignInForm()
+        })
 
         $('#m_login_signup').click(function(e) {
-            e.preventDefault();
-            LoginCustom.displaySignUpForm();
-        });
+            e.preventDefault()
+            LoginCustom.displaySignUpForm()
+        })
 
         $('#m_login_signup_cancel').click(function(e) {
-            e.preventDefault();
-            LoginCustom.displaySignInForm();
-        });
+            e.preventDefault()
+            LoginCustom.displaySignInForm()
+        })
     }
 
     static handleSignUpFormSubmit() {
         $('#m_login_signup_submit').click(function(e) {
-            let btn = $(this);
-            let form = $(this).closest('form');
+            let btn = $(this)
+            let form = $(this).closest('form')
             form.validate({
                 rules: {
                     fullname: {
@@ -96,18 +96,18 @@ export class LoginCustom {
                         required: true
                     }
                 }
-            });
+            })
             if (!form.valid()) {
-                e.preventDefault();
-                return;
+                e.preventDefault()
+                return
             }
-        });
+        })
     }
 
     static handleForgetPasswordFormSubmit() {
         $('#m_login_forget_password_submit').click(function(e) {
-            let btn = $(this);
-            let form = $(this).closest('form');
+            let btn = $(this)
+            let form = $(this).closest('form')
             form.validate({
                 rules: {
                     email: {
@@ -115,18 +115,18 @@ export class LoginCustom {
                         email: true
                     }
                 }
-            });
+            })
             if (!form.valid()) {
-                e.preventDefault();
-                return;
+                e.preventDefault()
+                return
             }
-        });
+        })
     }
 
     static init() {
-        LoginCustom.handleFormSwitch();
-        LoginCustom.handleSignInFormSubmit();
-        LoginCustom.handleSignUpFormSubmit();
-        LoginCustom.handleForgetPasswordFormSubmit();
+        LoginCustom.handleFormSwitch()
+        LoginCustom.handleSignInFormSubmit()
+        LoginCustom.handleSignUpFormSubmit()
+        LoginCustom.handleForgetPasswordFormSubmit()
     }
 }

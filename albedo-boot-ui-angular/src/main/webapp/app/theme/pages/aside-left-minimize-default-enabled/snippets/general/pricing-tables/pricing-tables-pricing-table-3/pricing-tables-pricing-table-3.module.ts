@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
-import { PricingTablesPricingTable3Component } from './pricing-tables-pricing-table-3.component';
-import { LayoutModule } from '../../../../../../layouts/layout.module';
-import { AsideLeftMinimizeDefaultEnabledComponent } from '../../../../aside-left-minimize-default-enabled.component';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { Routes, RouterModule } from '@angular/router'
+import { PricingTablesPricingTable3Component } from './pricing-tables-pricing-table-3.component'
+import { LayoutModule } from '../../../../../../layouts/layout.module'
+import { AsideLeftMinimizeDefaultEnabledComponent } from '../../../../aside-left-minimize-default-enabled.component'
 
 const routes: Routes = [
     {
@@ -16,7 +16,7 @@ const routes: Routes = [
             }
         ]
     }
-];
+]
 @NgModule({
     imports: [
         CommonModule, RouterModule.forChild(routes), LayoutModule

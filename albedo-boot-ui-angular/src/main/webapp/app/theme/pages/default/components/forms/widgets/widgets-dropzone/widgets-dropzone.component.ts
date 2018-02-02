@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
-import { Helpers } from '../../../../../../../helpers';
-import { ScriptLoaderService } from '../../../../../../../shared/base/service/script-loader.service';
+import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core'
+import { Helpers } from '../../../../../../../helpers'
+import { ScriptLoaderService } from '../../../../../../../shared/base/service/script-loader.service'
 
-declare let Dropzone: any;
+declare let Dropzone: any
 @Component({
     selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
     templateUrl: "./widgets-dropzone.component.html",
@@ -19,8 +19,8 @@ export class WidgetsDropzoneComponent implements OnInit, AfterViewInit {
     }
     ngAfterViewInit() {
         this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
-            'assets/demo/default/custom/components/forms/widgets/dropzone.js');
-        Dropzone._autoDiscoverFunction();
+            'assets/demo/default/custom/components/forms/widgets/dropzone.js')
+        Dropzone._autoDiscoverFunction()
     }
 
 }

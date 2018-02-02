@@ -1,10 +1,10 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { CTX } from "../../../../app.constants";
-import { ActivatedRoute } from "@angular/router";
-import { RoleService } from "../../../../service/sys/role/role.service";
-import { Role } from "../../../../service/sys/role/role.model";
-import { ModuleService } from "../../../../service/sys/module/module.service";
-import { OrgService } from "../../../../service/sys/org/org.service";
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core'
+import { CTX } from "../../../../app.constants"
+import { ActivatedRoute } from "@angular/router"
+import { RoleService } from "./service/role.service"
+import { Role } from "./service/role.model"
+import { ModuleService } from "../module/service/module.service"
+import { OrgService } from "../org/service/org.service"
 
 @Component({
     selector: ".sys-role-form.page-form",
@@ -12,55 +12,55 @@ import { OrgService } from "../../../../service/sys/org/org.service";
 })
 export class RoleFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    role: Role;
-    routerSub: any;
-    ctx: any;
-    id: any;
+    role: Role
+    routerSub: any
+    ctx: any
+    id: any
 
-    private afterViewInit = false;
-    private afterLoad = false;
+    private afterViewInit = false
+    private afterLoad = false
     constructor(
         private router: ActivatedRoute,
         private roleService: RoleService,
         private moduleService: ModuleService,
         private orgService: OrgService) {
-        this.ctx = CTX;
-        this.role = new Role();
+        this.ctx = CTX
+        this.role = new Role()
 
     }
 
     ngOnInit() {
         this.routerSub = this.router.params.subscribe((params) => {
-            this.id = params['id'];
+            this.id = params['id']
             if (this.id) {
                 this.roleService.find(this.id).subscribe((data) => {
-                    this.role = data;
-                    albedoForm.initFormData("#role-save-form", this.role);
-                    this.afterLoad = true;
-                    this.initForm();
-                });
+                    this.role = data
+                    albedoForm.setData("#role-save-form", this.role)
+                    this.afterLoad = true
+                    this.initForm()
+                })
             } else {
-                this.afterLoad = true;
-                this.initForm();
+                this.afterLoad = true
+                this.initForm()
             }
-        });
+        })
     }
 
     ngOnDestroy() {
-        this.routerSub.unsubscribe();
+        this.routerSub.unsubscribe()
     }
 
     ngAfterViewInit() {
         // this._script.load('.sys-role-list',
-        //     'assets/demo/default/custom/components/datatables/base/data-ajax.js');
-        this.afterViewInit = true;
-        this.initForm();
+        //     'assets/demo/default/custom/components/datatables/base/data-ajax.js')
+        this.afterViewInit = true
+        this.initForm()
     }
 
     initForm() {
-        if (!this.afterViewInit || !this.afterLoad) return;
+        if (!this.afterViewInit || !this.afterLoad) return
 
-        var roleId = this.role.id;
+        var roleId = this.role.id
         albedoForm.initValidate($("#role-save-form"), {
             // define validation rules
             rules: {
@@ -69,25 +69,25 @@ export class RoleFormComponent implements OnInit, OnDestroy, AfterViewInit {
             messages: {
                 name: { message: '角色已存在' },
             },
-        });
+        })
         this.initTree()
-        albedoForm.init();
+        albedoForm.init()
         albedoForm.initSave(null, function() {
-            let treeRoleModule = $.fn.mTreeObj("treeRoleModule");
+            let treeRoleModule = $.fn.mTreeObj("treeRoleModule")
             if (treeRoleModule) {
-                var nodes = treeRoleModule.getCheckedNodes();
-                $('input[name=\'moduleIdList\']').remove();
+                var nodes = treeRoleModule.getCheckedNodes()
+                $('input[name=\'moduleIdList\']').remove()
                 for (var o in nodes) {
-                    $('#treeRoleModule').before($('<input type=\'hidden\' name=\'moduleIdList\' />').val(nodes[o].id));
+                    $('#treeRoleModule').before($('<input type=\'hidden\' name=\'moduleIdList\' />').val(nodes[o].id))
                 }
             }
-            let treeRoleOrg = $.fn.mTreeObj("treeRoleOrg");
+            let treeRoleOrg = $.fn.mTreeObj("treeRoleOrg")
             if ($('#dataScope').val() == 5 && treeRoleOrg) {
-                var nodes = treeRoleOrg.getCheckedNodes();
-                $('input[name=\'orgIdList\']').remove();
-                for (var i = 0; i < nodes.length; i++) {
+                var nodes = treeRoleOrg.getCheckedNodes()
+                $('input[name=\'orgIdList\']').remove()
+                for (var i = 0 ;i < nodes.length; i++) {
                     if (!nodes[i].getCheckStatus().half) //排除半选中状态
-                        $('#treeRoleModule').before($('<input type=\'hidden\' name=\'orgIdList\' />').val(nodes[i].id));
+                        $('#treeRoleModule').before($('<input type=\'hidden\' name=\'orgIdList\' />').val(nodes[i].id))
                 }
             }
             if (!$('input[name=\'moduleIdList\']').val()) {
@@ -96,14 +96,14 @@ export class RoleFormComponent implements OnInit, OnDestroy, AfterViewInit {
                     closeInSeconds: 8,
                     type: "warning",
                     message: '请重新选择操作权限！',
-                });
+                })
                 $(".operate-permision").removeClass("has-success").addClass("has-danger")
-                return false;
+                return false
             } else {
                 $(".operate-permision").removeClass("has-danger").addClass("has-success")
-                return true;
+                return true
             }
-        });
+        })
 
 
     }
@@ -111,34 +111,34 @@ export class RoleFormComponent implements OnInit, OnDestroy, AfterViewInit {
         var treeRoleModule, treeRoleOrg, data, setting = {
             view: { selectedMulti: false }, check: { enable: true, nocheckInherit: true },
             data: { key: { name: 'label' }, simpleData: { enable: true, idKey: 'id', pIdKey: 'pid' } }
-        };
+        }
 
         this.moduleService.treeData().subscribe(
             (data: any) => {
                 // 初始化树结构
-                treeRoleModule = $.fn.mTreeInit($("#treeRoleModule"), setting, data);
-                var nodes = treeRoleModule.expandAll(true);
+                treeRoleModule = $.fn.mTreeInit($("#treeRoleModule"), setting, data)
+                var nodes = treeRoleModule.expandAll(true)
                 // 默认选择节点
                 $("input[name='moduleIdList']").each(function() {
                     // console.log( $(this).val())
-                    var node = treeRoleModule.getNodeByParam("id", $(this).val());
-                    if (node) treeRoleModule.checkNode(node, true, false, false);
-                });
+                    var node = treeRoleModule.getNodeByParam("id", $(this).val())
+                    if (node) treeRoleModule.checkNode(node, true, false, false)
+                })
             }
-        );
+        )
         this.orgService.treeData().subscribe((data: any) => {
             // 初始化树结构
-            treeRoleOrg = $.fn.mTreeInit($("#treeRoleOrg"), setting, data);
-            var nodes = treeRoleOrg.expandAll(true);
+            treeRoleOrg = $.fn.mTreeInit($("#treeRoleOrg"), setting, data)
+            var nodes = treeRoleOrg.expandAll(true)
             // 默认选择节点
             $("input[name='orgIdList']").each(function() {
-                var node = treeRoleOrg.getNodeByParam("id", $(this).val());
-                if (node) treeRoleOrg.checkNode(node, true, true, false);
-            });
+                var node = treeRoleOrg.getNodeByParam("id", $(this).val())
+                if (node) treeRoleOrg.checkNode(node, true, true, false)
+            })
         })
     }
     refreshOrgTree() {
-        $("input[name='dataScope']:checked").val() == 5 ? $(".treeRoleOrgBox").show() : $(".treeRoleOrgBox").hide();
+        $("input[name='dataScope']:checked").val() == 5 ? $(".treeRoleOrgBox").show() : $(".treeRoleOrgBox").hide()
     }
 
 }

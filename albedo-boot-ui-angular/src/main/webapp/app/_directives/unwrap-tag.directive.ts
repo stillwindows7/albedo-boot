@@ -1,5 +1,5 @@
-import { AfterViewInit, Directive, ElementRef } from '@angular/core';
-import { Helpers } from '../helpers';
+import { AfterViewInit, Directive, ElementRef } from '@angular/core'
+import { Helpers } from '../helpers'
 
 
 @Directive({
@@ -13,8 +13,8 @@ export class UnwrapTagDirective implements AfterViewInit {
     }
 
     ngAfterViewInit() {
-        let nativeElement: HTMLElement = this.el.nativeElement;
-        Helpers.unwrapTag(nativeElement);
+        let nativeElement: HTMLElement = this.el.nativeElement
+        Helpers.unwrapTag(nativeElement)
     }
 
 }

@@ -1,13 +1,12 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { LayoutModule } from "../../../layouts/layout.module";
-import { GenSchemeComponent } from "./genScheme.component";
-import { AlbedoBootSharedModule } from "../../../../shared/shared.module";
-import { GenSchemeFormComponent } from "./genScheme.form.component";
-import { RouterModule } from "@angular/router";
-import { Principal } from "../../../../auth/_services/principal.service";
-import {GenSchemeService} from "../../../../service/gen/genScheme/genScheme.service";
-import {routeChilds} from "../../../api.routing.module";
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core'
+import {CommonModule} from '@angular/common'
+import {LayoutModule} from "../../../layouts/layout.module"
+import {GenSchemeComponent} from "./genScheme.component"
+import {AlbedoBootSharedModule} from "../../../../shared/shared.module"
+import {GenSchemeFormComponent} from "./genScheme.form.component"
+import {RouterModule} from "@angular/router"
+import {GenSchemeService} from "./service/genScheme.service"
+import {routeChilds} from "../../../api.routing.module"
 
 const routesGenScheme = [
     {

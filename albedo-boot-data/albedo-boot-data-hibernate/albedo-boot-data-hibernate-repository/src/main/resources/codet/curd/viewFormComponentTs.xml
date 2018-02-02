@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <template>
-    <name>viewList</name>
-    <filePath>src/main/webapp/WEB-INF/views/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
-    <fileName>${className}List.ftl</fileName>
+    <name>viewFormComponentTs</name>
+    <filePath>src/main/webapp/app/theme/pages/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
+    <fileName>${className}.from.component.ts</fileName>
     <content><![CDATA[
-<#macro jspEl>${r"$"}</#macro>
-<#macro at>${r"@"}</#macro><#macro hash>${r"#"}</#macro>
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { CTX } from "../../../../app.constants";
 import { ActivatedRoute } from "@angular/router";
-import { UserService } from "../../../../service/sys/user/user.service";
-import { User } from "../../../../service/sys/user/user.model";
+import { ${ClassName}Service } from "../../../../service/${urlPrefix}/${className}.service";
+import { ${ClassName} } from "../../../../service/${urlPrefix}/${className}.model";
 
 @Component({
-    selector: ".sys-user-form.page-form",
-    templateUrl: "./user.form.component.html"
+    selector: ".${moduleName}-${className}-form.page-form",
+    templateUrl: "./${className}.form.component.html"
 })
-export class UserFormComponent implements AfterViewInit {
+export class ${ClassName}FormComponent implements AfterViewInit {
 
-    user: User;
+    ${className}: ${ClassName};
     routeData: any;
     ctx: any;
     id: any;
@@ -27,15 +25,15 @@ export class UserFormComponent implements AfterViewInit {
     private afterLoad = false;
     constructor(
         private activatedRoute: ActivatedRoute,
-        private userService: UserService) {
+        private ${className}Service: ${ClassName}Service) {
         this.ctx = CTX;
-        this.user = new User();
+        this.${className} = new ${ClassName}();
         this.routeData = this.activatedRoute.params.subscribe((params) => {
             this.id = params['id'];
             if (this.id) {
-                this.userService.find(this.id).subscribe((data) => {
-                    this.user = data;
-                    albedoForm.initFormData("#user-save-form", this.user);
+                this.${className}Service.find(this.id).subscribe((data) => {
+                    this.${className} = data;
+                    albedoForm.setData("#${className}-save-form", this.${className});
                     this.afterLoad = true;
                     this.initForm();
                 });
@@ -55,21 +53,18 @@ export class UserFormComponent implements AfterViewInit {
     initForm() {
         if (!this.afterViewInit || !this.afterLoad) return;
 
-        var userId = this.user.id;
-        albedoForm.initValidate($("#user-save-form"), {
+        var ${className}Id = this.${className}.id;
+        albedoForm.initValidate($("#${className}-save-form"), {
             // define validation rules
-            rules: {
-                loginId: { remote: CTX + '/sys/user/checkByProperty?_statusFalse&id=' + encodeURIComponent(userId) },
-                status: { required: true },
-                roleIdList: { required: true },
-            },
-            messages: {
-                loginId: { message: '登录Id已存在' },
-            },
-        });
+            rules:{<#list table.columnList as column><#if column.unique && !column.pk>
+				${column.simpleJavaField}: {remote: '<@jspEl/>{ctx}/${urlPrefix}/checkByProperty?id=' + encodeURIComponent(albedo.toStr($("#${className}-save-form").find("input[name='id']").val())}<#if column_has_next>,</#if></#if></#list>
+			},
+            messages:{<#list table.columnList as column><#if column.unique && !column.pk>
+				${column.simpleJavaField}: {remote: '${column.comments }已存在'}<#if column_has_next>,</#if></#if></#list>
+			}
+        })
         albedoForm.init();
         albedoForm.initSave();
-
 
     }
 

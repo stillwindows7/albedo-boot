@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {CTX} from "../../../../app.constants";
-import {ActivatedRoute} from "@angular/router";
-import {GenScheme} from "../../../../service/gen/genScheme/genScheme.model";
-import {GenSchemeService} from "../../../../service/gen/genScheme/genScheme.service";
+import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core'
+import {CTX} from "../../../../app.constants"
+import {ActivatedRoute} from "@angular/router"
+import {GenScheme} from "./service/genScheme.model"
+import {GenSchemeService} from "./service/genScheme.service"
 
 @Component({
     selector: ".sys-genScheme-form.page-form",
@@ -18,38 +18,38 @@ export class GenSchemeFormComponent implements AfterViewInit {
     categoryList
     tableList
 
-    private afterViewInit = false;
-    private afterLoad = false;
+    private afterViewInit = false
+    private afterLoad = false
     constructor(
         private activatedRoute: ActivatedRoute,
         private genSchemeService: GenSchemeService) {
-        this.ctx = CTX;
-        this.genScheme = new GenScheme();
+        this.ctx = CTX
+        this.genScheme = new GenScheme()
         this.routeData = this.activatedRoute.params.subscribe((params) => {
             this.genSchemeService.formData(params).subscribe((data) => {
                 console.log(data)
-                if(data.genSchemeVo)this.genScheme = data.genSchemeVo;
-                this.viewTypeList = data.viewTypeList;
-                this.categoryList = data.categoryList;
-                this.tableList = data.tableList;
-                albedoForm.initFormData("#genScheme-save-form", this.genScheme);
-                this.afterLoad = true;
-                this.initForm();
-            });
+                if(data.genSchemeVo)this.genScheme = data.genSchemeVo
+                this.viewTypeList = data.viewTypeList
+                this.categoryList = data.categoryList
+                this.tableList = data.tableList
+                albedoForm.setData("#genScheme-save-form", this.genScheme)
+                this.afterLoad = true
+                this.initForm()
+            })
 
-        });
+        })
     }
 
     ngAfterViewInit() {
-        this.afterViewInit = true;
-        this.initForm();
-        this.initFormSyncModule();
+        this.afterViewInit = true
+        this.initForm()
+        this.initFormSyncModule()
     }
 
     initForm() {
-        if (!this.afterViewInit || !this.afterLoad) return;
+        if (!this.afterViewInit || !this.afterLoad) return
 
-        var genSchemeId = this.genScheme.id;
+        var genSchemeId = this.genScheme.id
         albedoForm.initValidate($("#genScheme-save-form"), {
             // define validation rules
             rules: {
@@ -60,16 +60,16 @@ export class GenSchemeFormComponent implements AfterViewInit {
             messages: {
                 loginId: { message: '登录Id已存在' },
             },
-        });
-        albedoForm.init();
-        albedoForm.initSave();
+        })
+        albedoForm.init()
+        albedoForm.initSave()
 
 
     }
 
     initFormSyncModule(){
         $("#syncModule").off().click(function () {
-            $(this).is(':checked') ? $("#parentModule_div").removeClass("hide").find("input#modularName").addClass("required") : $("#parentModule_div").addClass("hide").find("input#modularName").removeClass("required");
+            $(this).is(':checked') ? $("#parentModule_div").removeClass("hide").find("input#modularName").addClass("required") : $("#parentModule_div").addClass("hide").find("input#modularName").removeClass("required")
         })
     }
 

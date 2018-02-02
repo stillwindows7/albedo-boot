@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
-import { Helpers } from '../../../../../../helpers';
-import { ScriptLoaderService } from '../../../../../../shared/base/service/script-loader.service';
+import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core'
+import { Helpers } from '../../../../../../helpers'
+import { ScriptLoaderService } from '../../../../../../shared/base/service/script-loader.service'
 
-declare let google: any;
-declare let GoogleChartsDemo: any;
+declare let google: any
+declare let GoogleChartsDemo: any
 @Component({
     selector: ".m-grid__item.m-grid__item--fluid.m-wrapper",
     templateUrl: "./charts-google-charts.component.html",
@@ -20,8 +20,8 @@ export class ChartsGoogleChartsComponent implements OnInit, AfterViewInit {
     }
     ngAfterViewInit() {
         this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
-            'assets/demo/default/custom/components/charts/google-charts.js');
-        google.load('visualization', '1', { packages: ['corechart', 'bar', 'line'], callback: GoogleChartsDemo.runDemos() });
+            'assets/demo/default/custom/components/charts/google-charts.js')
+        google.load('visualization', '1', { packages: ['corechart', 'bar', 'line'], callback: GoogleChartsDemo.runDemos() })
     }
 
 }

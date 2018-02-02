@@ -1,4 +1,4 @@
-import { Injectable, ErrorHandler } from "@angular/core";
+import { Injectable, ErrorHandler } from "@angular/core"
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {

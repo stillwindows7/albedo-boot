@@ -1,53 +1,41 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { ScriptLoaderService } from "../../../../shared/base/service/script-loader.service";
-import { CTX, DATA_STATUS } from "../../../../app.constants";
-import { ActivatedRoute } from "@angular/router";
-import { Principal } from "../../../../auth/_services/principal.service";
-import { LocalStorageService, SessionStorageService } from "ngx-webstorage";
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core'
+import {ScriptLoaderService} from "../../../../shared/base/service/script-loader.service"
+import {CTX, DATA_STATUS} from "../../../../app.constants"
+import {ActivatedRoute} from "@angular/router"
+import {Principal} from "../../../../auth/_services/principal.service"
+import {SessionStorageService} from "ngx-webstorage"
+import {Org} from "./service/org.model"
+import {OrgService} from "./service/org.service";
 
-declare let datatable: any;
+declare let datatable: any
 @Component({
     selector: ".sys-org-list.page-list",
     templateUrl: "./org.component.html",
     encapsulation: ViewEncapsulation.None,
 })
-export class OrgComponent implements OnInit, OnDestroy, AfterViewInit {
+export class OrgComponent implements  AfterViewInit {
 
 
-    ctx: any;
-    routerSub: any;
-    nodeId: any;
+    ctx: any
+    nodeId: any
+    org: Org
     constructor(private _script: ScriptLoaderService,
         private principal: Principal,
-        private sessionStorage: SessionStorageService,
-        private router: ActivatedRoute) {
-        this.ctx = CTX;
-        this.nodeId = sessionStorage.retrieve("tree_org_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1;
+        private sessionStorage: SessionStorageService,) {
+        this.ctx = CTX
+        this.org = new Org()
+        this.nodeId = sessionStorage.retrieve("tree_org_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1
 
-    }
-
-
-
-    ngOnInit() {
-        this.routerSub = this.router.url.subscribe((urlSegment) => {
-            // console.log(urlSegment)
-        });
-    }
-
-    ngOnDestroy() {
-        this.routerSub.unsubscribe();
     }
 
     ngAfterViewInit() {
-        // this._script.load('.sys-org-list',
-        //     'assets/demo/default/custom/components/datatables/base/data-ajax.js');
         this.initTable()
-        // Helpers.setBreadcrumbs();
     }
 
     initTable() {
-        var thisPrincipal = this.principal;
+        var thisPrincipal = this.principal
         var options = {
+
             data: {
                 source: {
                     read: {
@@ -82,7 +70,7 @@ export class OrgComponent implements OnInit, OnDestroy, AfterViewInit {
                     title: '状态',
                     // callback function support for column rendering
                     template: function(row) {
-                        return '<span class="m-badge ' + DATA_STATUS[row.status].class + ' m-badge--wide">' + row.status + '</span>';
+                        return '<span class="m-badge ' + DATA_STATUS[row.status].class + ' m-badge--wide">' + row.status + '</span>'
                     },
                 }, {
                     field: 'lastModifiedDate',
@@ -94,45 +82,62 @@ export class OrgComponent implements OnInit, OnDestroy, AfterViewInit {
                     sortable: false,
                     overflow: 'visible',
                     template: function(row) {
-                        var template = '';
+                        var template = ''
+
                         if (thisPrincipal.hasAuthority("sys_org_edit"))
-                            template += '<a href="#/sys/org/form/' + row.id + '" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">\
+                            template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill dialog-edit" title="编辑"\
+                                \data-method="get"  data-title="编辑【' + row.name + '】机构" data-url="' + CTX + '/sys/org/' + row.id + '" data-modal-id="#org-edit-modal">\
                                 \<i class="la la-edit"></i>\
-                                \</a>';
+                                \</a>'
                         if (thisPrincipal.hasAuthority("sys_org_lock"))
                             template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="' + (row.status == "正常" ? "锁定" : "解锁") + '机构"\
-						 data-table-id="#data-table-org" data-method="put"  data-title="你确认要操作【' + row.name + '】机构吗？" data-url="' + CTX + '/sys/org/' + row.id + '">\
+						    data-method="put"  data-title="你确认要操作【' + row.name + '】机构吗？" data-url="' + CTX + '/sys/org/' + row.id + '">\
                                 \<i class="la la-'+ (row.status == "正常" ? "unlock-alt" : "unlock") + '"></i>\
-                                \</a>';
+                                \</a>'
                         if (thisPrincipal.hasAuthority("sys_org_delete"))
                             template += '<a  href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
                                    data-table-id="#data-table-org" data-method="delete"  data-title="你确认要删除【' + row.name + '】机构吗？" data-url="' + CTX + '/sys/org/' + row.id + '">\
                                 \<i class="la la-trash"></i>\
-                                \</a>';
-                        return template;
+                                \</a>'
+                        return template
                     },
                 }],
-        };
+        }
 
-        albedoList.initTable($('#data-table-org'), $('#org-search-form'), options);
-        albedoList.init();
-        albedoForm.initTree();
+        albedoList.initTable($('#data-table-org'), $('#org-search-form'), options)
+        albedoList.init()
+
+
+        albedoForm.init()
+
+        albedoForm.initValidate($("#org-save-form"), {
+            // define validation rules
+            rules: {
+                name: { remote: CTX + '/sys/org/checkByProperty?_statusFalse&id=' + encodeURIComponent(albedo.toStr($("#org-save-form").find("input[name='id']").val())) },
+                code: { remote: CTX + '/sys/org/checkByProperty?_statusFalse&id=' + encodeURIComponent(albedo.toStr($("#org-save-form").find("input[name='id']").val())) },
+            },
+            messages: {
+                name: { message: '机构已存在' },
+                code: { message: '编码已存在' },
+            },
+        })
+        albedoForm.initSave($("#org-edit-modal"))
     }
 
     cancelClickNodeOrg(event, treeId, treeNode) {
         // console.log(event)
-        albedo.getSessionStorage().store("tree_org_select_node_id", '');
-        $("#parentId").val('');
-        $(".filter-submit-table-org").trigger("click");
+        albedo.getSessionStorage().store("tree_org_select_node_id", '')
+        $("#parentId").val('')
+        $(".filter-submit-table-org").trigger("click")
     }
     clickTreeNodeOrg(event, treeId, treeNode) {
         // console.log(event)
-        var addUrl = $("#add-org").attr("data-url-temp");
-        if (addUrl) $("#add-org").attr("data-url", addUrl + (addUrl.indexOf("?") == -1 ? "?" : "&") + "parentId=" + treeNode.id);
-        this.nodeId = treeNode.id;
-        albedo.getSessionStorage().store("tree_org_select_node_id", this.nodeId);
-        $("#parentId").val(treeNode.id);
-        $(".filter-submit-table-org").trigger("click");
+        var addUrl = $("#add-org").attr("data-url-temp")
+        if (addUrl) $("#add-org").attr("data-url", addUrl + (addUrl.indexOf("?") == -1 ? "?" : "&") + "parentId=" + treeNode.id)
+        this.nodeId = treeNode.id
+        albedo.getSessionStorage().store("tree_org_select_node_id", this.nodeId)
+        $("#parentId").val(treeNode.id)
+        $(".filter-submit-table-org").trigger("click")
     }
 
 }

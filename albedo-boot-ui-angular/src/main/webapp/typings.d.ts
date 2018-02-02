@@ -1,103 +1,113 @@
 /* SystemJS module definition */
-declare var module: NodeModule;
+declare var module: NodeModule
 
 interface NodeModule {
-    id: string;
+    id: string
 }
 
 
 
-declare var albedoList: AlbedoList;
+declare var albedoList: AlbedoList
 
 interface AlbedoList {
-    init(target?: any): void;
+    init(target?: any): void
 
-    initTable(table: any, formSearch: any, option?: any): void;
+    initTable(table: any, formSearch: any, option?: any): void
+
+    initModal(callback?: any, btn?: any, target?: any): void;
+
 }
-declare var albedoForm: AlbedoForm;
+declare var albedoForm: AlbedoForm
 
 interface AlbedoForm {
-    init(target?: any): void;
+    init(target?: any): void
 
-    initSave(target?: any, validateFun?: any): void;
+    initSave(target?: any, validateFun?: any): void
 
-    initValidate(target?: any, option?: any): void;
+    initValidate(target?: any, option?: any): void
 
-    validate(target?: any): void;
+    validate(target?: any): void
+    setData(selector: string, data: any): void
+    initFormData(selector: string, data: any): void
+    clearDataBylikeKey(keyLike: string): void
 
-    initFormData(selector: string, user: any): void;
+    clearData(): void
 
-    initTree(target?: any): void;
+    initTree(target?: any): void
 }
 
-declare var albedo: Albedo;
+declare var albedo: Albedo
 
 interface Albedo {
-    setCtx(ctx: any): void;
+    setCtx(ctx: any): void
 
-    setToken(token: any): void;
+    setToken(token: any): void
 
-    setUserCookie(key: string, value: any): void;
+    setUserCookie(key: string, value: any): void
 
-    getUserCookie(s: string): any;
+    getUserCookie(s: string): any
 
-    setUserId(userId: String): void;
-    setSessionStorage(sessionStorage: any): void;
-    getSessionStorage(): any;
+    setUserId(userId: String): void
+
+    setSessionStorage(sessionStorage: any): void
+
+    getSessionStorage(): any
+
+    toStr(obj: any): string;
 
 }
-declare var mApp: MApp;
+declare var mApp: MApp
 
 interface MApp {
-    alert(options: any): void;
+    alert(options: any): void
 }
 
 
-declare var toastr: Toastr;
+declare var toastr: Toastr
 
 interface Toastr {
-    info(message: string, options?: any): void;
-    warning(message: string, options?: any): void;
-    success(message: string, options?: any): void;
-    error(message: string, options?: any): void;
+    info(message: string, options?: any): void
+    warning(message: string, options?: any): void
+    success(message: string, options?: any): void
+    error(message: string, options?: any): void
 }
 
 
 
 
 interface JQuery {
-    mMenu(options: any): JQuery;
+    mMenu(options: any): JQuery
 
-    animateClass(options: any): JQuery;
+    animateClass(options: any): JQuery
 
-    setActiveItem(item: any): JQuery;
+    setActiveItem(item: any): JQuery
 
-    getPageTitle(item: any): JQuery;
+    getPageTitle(item: any): JQuery
 
-    getBreadcrumbs(item: any): JQuery;
+    getBreadcrumbs(item: any): JQuery
 
-    validate(options?: any): JQuery;
+    validate(options?: any): JQuery
 
-    mDatatable(options: any): JQuery;
+    mDatatable(options: any): JQuery
 
-    loadFilterGird(): JQuery;
+    loadFilterGird(): JQuery
 
-    selectpicker(): JQuery;
+    selectpicker(): JQuery
 
-    select2(): JQuery;
+    select2(): JQuery
 
-    valid(): JQuery;
+    valid(): JQuery
 
-    resetForm(): JQuery;
+    resetForm(): JQuery
 
-    markdown(): JQuery;
+    markdown(): JQuery
 
-    mTreeInit(obj: any, setting: any, data: any): JQuery;
+    mTreeInit(obj: any, setting: any, data: any): JQuery
 
-    mTreeObj(s: string): any;
+    mTreeObj(s: string): any
 
-    modal(option: any):JQuery;
-    serializeObject(obj: any): any;
+    modal(option?: any):JQuery
+    serializeObject(obj: any): any
 }
 
 

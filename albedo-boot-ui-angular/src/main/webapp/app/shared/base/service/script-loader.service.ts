@@ -1,25 +1,25 @@
-import { Injectable } from "@angular/core";
-import * as $ from 'jquery';
+import { Injectable } from "@angular/core"
+import * as $ from 'jquery'
 
-declare let document: any;
+declare let document: any
 
 interface Script {
-    src: string;
-    loaded: boolean;
+    src: string
+    loaded: boolean
 }
 
 @Injectable()
 export class ScriptLoaderService {
-    private _scripts: Script[] = [];
-    private tag: any;
+    private _scripts: Script[] = []
+    private tag: any
 
     load(tag, ...scripts: string[]) {
-        this.tag = tag;
-        scripts.forEach((script: string) => this._scripts[script] = { src: script, loaded: false });
+        this.tag = tag
+        scripts.forEach((script: string) => this._scripts[script] = { src: script, loaded: false })
 
-        let promises: any[] = [];
-        scripts.forEach((script) => promises.push(this.loadScript(script)));
-        return Promise.all(promises);
+        let promises: any[] = []
+        scripts.forEach((script) => promises.push(this.loadScript(script)))
+        return Promise.all(promises)
     }
 
     loadScript(src: string) {
@@ -27,18 +27,18 @@ export class ScriptLoaderService {
 
             //resolve if already loaded
             if (this._scripts[src].loaded) {
-                resolve({ script: src, loaded: true, status: 'Already Loaded' });
+                resolve({ script: src, loaded: true, status: 'Already Loaded' })
             }
             else {
                 //load script
                 let script = $('<script/>')
                     .attr('type', 'text/javascript')
-                    .attr('src', this._scripts[src].src);
+                    .attr('src', this._scripts[src].src)
 
                 // noinspection TypeScriptUnresolvedFunction
-                $(this.tag).append(script);
-                resolve({ script: src, loaded: true, status: 'Loaded' });
+                $(this.tag).append(script)
+                resolve({ script: src, loaded: true, status: 'Loaded' })
             }
-        });
+        })
     }
 }

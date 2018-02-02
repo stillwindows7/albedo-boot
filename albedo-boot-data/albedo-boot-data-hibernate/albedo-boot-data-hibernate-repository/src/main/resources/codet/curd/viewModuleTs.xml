@@ -6,15 +6,32 @@
     <content><![CDATA[
 <#macro jspEl>${r"$"}</#macro>
 <#macro at>${r"@"}</#macro><#macro hash>${r"#"}</#macro>
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { LayoutModule } from "../../../layouts/layout.module";
-import { UserComponent } from "./user.component";
-import { UserService } from "../../../../service/sys/user/user.service";
-import { AlbedoBootSharedModule } from "../../../../shared/shared.module";
-import { UserFormComponent } from "./user.form.component";
-import { RouterModule } from "@angular/router";
-import { Principal } from "../../../../auth/_services/principal.service";
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {LayoutModule} from "../../../layouts/layout.module";
+<#if scheme.modalView>import {${ClassName}Component} from "./${className}.component";</#if>
+import {${ClassName}Service} from "../../../../service/${urlPrefix}/${className}.service";
+import {AlbedoBootSharedModule} from "../../../../shared/shared.module";
+import {${ClassName}FormComponent} from "./${className}.form.component";
+import {RouterModule} from "@angular/router";
+import {routeChilds} from "../../../api.routing.module";
+
+const routesSys${ClassName} = [
+    {
+        path: "${urlPrefix}/list",
+        component: ${ClassName}Component
+    },
+    <#if scheme.modalView>{
+        path: "${urlPrefix}/form",
+        component: ${ClassName}FormComponent
+    },
+    {
+        path: "${urlPrefix}/form/:id",
+        component: ${ClassName}FormComponent
+    },</#if>
+];
+
+routeChilds.push(...routesSys${ClassName})
 
 
 @NgModule({
@@ -22,27 +39,23 @@ import { Principal } from "../../../../auth/_services/principal.service";
         AlbedoBootSharedModule,
         CommonModule,
         RouterModule,
-        // RouterModule.forChild(routes),
         LayoutModule
     ], exports: [
-        UserComponent,
-        // RouterModule
+        ${ClassName}Component,
     ], entryComponents: [
-        UserComponent,
+        ${ClassName}Component,
     ], declarations: [
-        UserComponent,
-        UserFormComponent,
+        ${ClassName}Component,
+        <#if scheme.modalView>${ClassName}FormComponent,</#if>
     ], providers: [
-        UserService,
+        ${ClassName}Service,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class UserModule {
-
+export class ${ClassName}Module {
 
 
 }
-
 
 ]]>
     </content>

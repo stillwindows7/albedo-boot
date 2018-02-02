@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
-import { Helpers } from '../../../helpers';
+import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core'
+import { Helpers } from '../../../helpers'
 
-declare let mLayout: any;
+declare let mLayout: any
 @Component({
     selector: "app-breadcrumb",
     templateUrl: "./breadcrumb.component.html",

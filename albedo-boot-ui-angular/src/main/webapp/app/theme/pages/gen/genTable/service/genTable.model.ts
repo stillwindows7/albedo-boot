@@ -1,5 +1,5 @@
-import {Data} from "../../../shared";
-import {GenTableColumn} from "./genTableColumn.model";
+import {Data} from "../../../../../shared/index"
+import {GenTableColumn} from "./genTableColumn.model"
 
 export class GenTable extends Data {
     /*** 编码 */
@@ -20,8 +20,8 @@ export class GenTable extends Data {
 
     public category?:string
 
-    public columnList?: GenTableColumn[];
-    public columnFormList?: GenTableColumn[];
+    public columnList?: GenTableColumn[]
+    public columnFormList?: GenTableColumn[]
 
 
 }

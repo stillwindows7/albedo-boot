@@ -37,7 +37,8 @@
                         </div>
                     </div>
                     <div class="m-portlet__head-tools">
-                        <a routerLink="/sys/org/form/" title="添加机构" class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill ">
+                        <a href="javascript:void(0)" id="btn-edit-org" title="添加机构" data-modal-id="#org-edit-modal"
+                           class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill dialog-add">
                             <i class="la la-plus"></i>
                         </a>
                     </div>
@@ -99,4 +100,139 @@
             </div>
         </div>
     </div>
+    <!--begin::Modal-->
+    <div id="org-edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                       添加组织
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">
+							&times;
+						</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="m-scrollable" data-scrollbar-shown="true" data-scrollable="true" data-max-height="500">
+                    <!--begin::Form-->
+                    <form class="m-form m-form--fit m-form--label-align-right form-validation" action="{{ctx}}/sys/org/" method="post" id="org-save-form">
+                        <input type="hidden" name="id" value="{{org.id}}" />
+                        <div class="m-portlet__body">
+                            <div class="m-form__content bootstrap-alerts">
+
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-form-label col-lg-2 col-sm-12">
+                                    上级组织 *
+                                </label>
+                                <div class="col-lg-9 col-md-9 col-sm-12">
+                                    <alb-tree-select id="org"
+                                                     cssClass="required" allowClear="true" name="parentId"
+                                                     value="{{org.parentId}}" labelName="parentName"
+                                                     labelValue="{{org.parentName}}" title="上级组织"
+                                                     url="{{ctx}}/sys/org/findTreeData" ></alb-tree-select>
+
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-form-label col-lg-2 col-sm-12">
+                                    名称 *
+                                </label>
+                                <div class="col-lg-9 col-md-9 col-sm-12">
+                                    <input type="text" name="name" value="{{org.name}}"
+                                           maxlength="64" class="form-control required"/>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-form-label col-lg-2 col-sm-12">
+                                    编码 *
+                                </label>
+                                <div class="col-lg-9 col-md-9 col-sm-12">
+                                    <input type="text" name="code" value="{{org.code}}"
+                                           maxlength="64" class="form-control required"/>
+                                    <span class="m-form__help">
+							唯一
+						</span>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-form-label col-lg-2 col-sm-12">
+                                    类型 *
+                                </label>
+                                <div class="col-lg-9 col-md-9 col-sm-12">
+                                    <alb-form boxType="radio"
+                                              id="type"
+                                              name="type"
+                                              dictCode="sys_org_type"
+                                              value="{{org.type}}" cssClass="required">
+                                    </alb-form>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-form-label col-lg-2 col-sm-12">
+                                    等级 *
+                                </label>
+                                <div class="col-lg-9 col-md-9 col-sm-12">
+                                    <alb-form boxType="select"
+                                              id="grade"
+                                              name="grade"
+                                              dictCode="sys_org_grade"
+                                              value="{{org.type}}" cssClass="required">
+                                    </alb-form>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-form-label col-lg-2 col-sm-12">
+                                    序号 *
+                                </label>
+                                <div class="col-lg-9 col-md-9 col-sm-12">
+                                    <input type="text" name="sort" value="{{org.sort}}"
+                                           maxlength="11" class="form-control digits"/>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-form-label col-lg-2 col-sm-12">
+                                    状态 *
+                                </label>
+                                <div class="col-lg-9 col-md-9 col-sm-12">
+                                    <alb-form boxType="radio"
+                                              id="status"
+                                              name="status"
+                                              dictCode="sys_status"
+                                              value="{{org.status}}" cssClass="required">
+                                    </alb-form>
+                                </div>
+                            </div>
+                            <div class="form-group m-form__group row">
+                                <label class="col-form-label col-lg-2 col-sm-12">
+                                    描述
+                                </label>
+                                <div class="col-lg-9 col-md-9 col-sm-12">
+                         <textarea class="summernote form-control" name="description"
+                                   rows="1">{{org.description}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!--end::Form-->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        关闭
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="albedoForm.resetForm('#org-save-form')">
+                        重置
+                    </button>
+                    <button type="button" class="btn btn-primary save" data-is-modal="true" data-table-id="#data-table-org">
+                        确认
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end::Modal-->
+
 </div>

@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
-import { LayoutModule } from '../../../layouts/layout.module';
-import { DefaultComponent } from '../default.component';
-import { NotFoundComponent } from './not-found.component';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { Routes, RouterModule } from '@angular/router'
+import { LayoutModule } from '../../../layouts/layout.module'
+import { DefaultComponent } from '../default.component'
+import { NotFoundComponent } from './not-found.component'
 
 const routes: Routes = [
     {
@@ -16,7 +16,7 @@ const routes: Routes = [
             },
         ],
     },
-];
+]
 
 @NgModule({
     imports: [

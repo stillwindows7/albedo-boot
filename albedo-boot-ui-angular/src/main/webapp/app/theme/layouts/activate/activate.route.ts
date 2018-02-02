@@ -1,7 +1,7 @@
-// import {Route} from '@angular/router';
+// import {Route} from '@angular/router'
 //
-// import {ActivateComponent} from './activate.component';
-// import {UserRouteAccessService} from "../../../auth/_services/user-route-access-service";
+// import {ActivateComponent} from './activate.component'
+// import {UserRouteAccessService} from "../../../auth/_services/user-route-access-service"
 //
 // export const activateRoute: Route = {
 //     path: 'activate',
@@ -11,4 +11,4 @@
 //         pageTitle: 'activate.title'
 //     },
 //     canActivate: [UserRouteAccessService]
-// };
+// }

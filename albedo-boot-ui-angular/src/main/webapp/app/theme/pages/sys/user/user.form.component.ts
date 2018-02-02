@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { CTX } from "../../../../app.constants";
-import { ActivatedRoute } from "@angular/router";
-import { UserService } from "../../../../service/sys/user/user.service";
-import { User } from "../../../../service/sys/user/user.model";
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core'
+import { CTX } from "../../../../app.constants"
+import { ActivatedRoute } from "@angular/router"
+import { UserService } from "./service/user.service"
+import { User } from "./service/user.model"
+import {Helpers} from "../../../../helpers";
 
 @Component({
     selector: ".sys-user-form.page-form",
@@ -10,44 +11,44 @@ import { User } from "../../../../service/sys/user/user.model";
 })
 export class UserFormComponent implements AfterViewInit {
 
-    user: User;
-    routeData: any;
-    ctx: any;
-    id: any;
+    user: User
+    routeData: any
+    ctx: any
+    id: any
 
-    private afterViewInit = false;
-    private afterLoad = false;
+    private afterViewInit = false
+    private afterLoad = false
     constructor(
         private activatedRoute: ActivatedRoute,
         private userService: UserService) {
-        this.ctx = CTX;
-        this.user = new User();
+        this.ctx = CTX
+        this.user = new User()
         this.routeData = this.activatedRoute.params.subscribe((params) => {
-            this.id = params['id'];
+            this.id = params['id']
             if (this.id) {
                 this.userService.find(this.id).subscribe((data) => {
-                    this.user = data;
-                    albedoForm.initFormData("#user-save-form", this.user);
-                    this.afterLoad = true;
-                    this.initForm();
-                });
+                    this.user = data
+                    albedoForm.setData("#user-save-form", this.user)
+                    this.afterLoad = true
+                    this.initForm()
+                })
             } else {
-                this.afterLoad = true;
-                this.initForm();
+                this.afterLoad = true
+                this.initForm()
             }
-        });
+        })
     }
 
 
     ngAfterViewInit() {
-        this.afterViewInit = true;
-        this.initForm();
+        this.afterViewInit = true
+        this.initForm()
     }
 
     initForm() {
-        if (!this.afterViewInit || !this.afterLoad) return;
+        if (!this.afterViewInit || !this.afterLoad) return
 
-        var userId = this.user.id;
+        var userId = this.user.id
         albedoForm.initValidate($("#user-save-form"), {
             // define validation rules
             rules: {
@@ -58,9 +59,9 @@ export class UserFormComponent implements AfterViewInit {
             messages: {
                 loginId: { message: '登录Id已存在' },
             },
-        });
-        albedoForm.init();
-        albedoForm.initSave();
+        })
+        albedoForm.init()
+        albedoForm.initSave()
 
 
     }

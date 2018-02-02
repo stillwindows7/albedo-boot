@@ -98,7 +98,7 @@ public class AccoutResource extends BaseResource {
         Optional<UserVo> userVo = userService.findOneById(id)
             .map(item -> userService.copyBeanToVo(item));
         userVo.get().setAuthorities(SecurityUtil.getModuleList().stream()
-            .filter(item -> PublicUtil.isNotEmpty(item.getParentName()))
+            .filter(item -> PublicUtil.isNotEmpty(item.getPermission()))
             .map(item ->item.getPermission()).collect(Collectors.toList()));
         return ResultBuilder.buildOk(userVo);
     }

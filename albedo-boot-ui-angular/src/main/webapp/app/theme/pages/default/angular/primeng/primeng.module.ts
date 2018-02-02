@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
-import { PrimengComponent } from './primeng.component';
-import { PrimeNgInputComponent } from './input/primeng-input.component';
-import { PrimeNgButtonComponent } from './button/primeng-button.component';
-import { PrimeNgPanelComponent } from './panel/primeng-panel.component';
-import { DefaultComponent } from '../../default.component';
-import { LayoutModule } from '../../../../layouts/layout.module';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { FormsModule } from '@angular/forms'
+import { RouterModule, Routes } from '@angular/router'
+import { PrimengComponent } from './primeng.component'
+import { PrimeNgInputComponent } from './input/primeng-input.component'
+import { PrimeNgButtonComponent } from './button/primeng-button.component'
+import { PrimeNgPanelComponent } from './panel/primeng-panel.component'
+import { DefaultComponent } from '../../default.component'
+import { LayoutModule } from '../../../../layouts/layout.module'
 
 import {
     AccordionModule,
@@ -26,7 +26,7 @@ import {
     SelectButtonModule,
     SplitButtonModule,
     TabViewModule
-} from 'primeng/primeng';
+} from 'primeng/primeng'
 
 
 const routes: Routes = [
@@ -45,7 +45,7 @@ const routes: Routes = [
             }
         ]
     },
-];
+]
 
 @NgModule({
     imports: [

@@ -1,4 +1,4 @@
-import { Headers } from '@angular/http';
+import { Headers } from '@angular/http'
 
 export class ResponseWrapper {
     constructor(

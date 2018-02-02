@@ -1,26 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <template>
-    <name>viewList</name>
-    <filePath>src/main/webapp/WEB-INF/views/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
-    <fileName>${className}List.ftl</fileName>
+    <name>viewComponentTs</name>
+    <filePath>src/main/webapp/app/theme/pages/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
+    <fileName>${className}.component.ts</fileName>
     <content><![CDATA[
-<#macro jspEl>${r"$"}</#macro>
-<#macro at>${r"@"}</#macro><#macro hash>${r"#"}</#macro>
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { ScriptLoaderService } from "../../../../shared/base/service/script-loader.service";
+import {AfterViewInit, Component, ViewEncapsulation} from '@angular/core';
+import {ScriptLoaderService} from "../../../../shared/base/service/script-loader.service";
 import {CTX, DATA_STATUS} from "../../../../app.constants";
-import { SessionStorageService } from "ngx-webstorage";
-import { ActivatedRoute } from "@angular/router";
-import { Principal } from "../../../../auth/_services/principal.service";
+import {ActivatedRoute} from "@angular/router";
+import {Principal} from "../../../../auth/_services/principal.service";
 
-declare let datatable: any;
 @Component({
-    selector: ".sys-user-list.page-list",
-    templateUrl: "./user.component.html",
+    selector: ".${moduleName}-${className}-list.page-list",
+    templateUrl: "./${className}.component.html",
     encapsulation: ViewEncapsulation.None,
 })
-export class UserComponent implements AfterViewInit {
-
+export class ${ClassName}Component implements AfterViewInit {
 
     constructor(private _script: ScriptLoaderService,
         private router: ActivatedRoute,
@@ -38,68 +33,79 @@ export class UserComponent implements AfterViewInit {
             data: {
                 source: {
                     read: {
-                        // sample GET method
                         method: 'GET',
-                        url: CTX + '/sys/user/',
+                        url: CTX + '/${urlPrefix}/',
                     },
                 },
                 pageSize: 10,
             },
             // columns definition
-            columns: [
-                {
-                    field: 'orgName',
-                    title: '所属组织',
-                    // width: 40,
-                    textAlign: 'center',
-                }, {
-                    field: 'loginId',
-                    title: '登录Id',
-                    sortable: 'asc',
-                    width: 150,
-                }, {
-                    field: 'email',
-                    title: '邮箱',
-                    width: 150,
-                }, {
-                    field: 'status',
-                    title: '状态',
-                    template: function(row) {
-
+            columns: [<#assign firstListField = true>
+					<#list table.columnList as column>
+					<#if column.isList?? && column.isList == 1>
+					<#if column.simpleJavaField = 'status'>
+					{title: '${column.comments}',data:'${column.simpleJavaField}',template: function(row) {
                         return '<span class="m-badge ' + DATA_STATUS[row.status].class + ' m-badge--wide">' + row.status + '</span>';
-                    },
-                }, {
-                    field: 'lastModifiedDate',
-                    title: '修改时间',
-                }, {
-                    field: 'Actions',
-                    width: 110,
-                    title: '操作',
-                    sortable: false,
-                    overflow: 'visible',
-                    template: function(row) {
-                        var template = '';
-                        if (thisPrincipal.hasAuthority("sys_user_edit"))
-                            template += '<a href="#/sys/user/form/' + row.id + '" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">\
-                                \<i class="la la-edit"></i>\
-                                \</a>';
-                        if (thisPrincipal.hasAuthority("sys_user_lock"))
-                            template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="' + (row.status == "正常" ? "锁定" : "解锁") + '用户"\
-						 data-table-id="#data-table-user" data-method="put"  data-title="你确认要操作【' + row.loginId + '】用户吗？" data-url="' + CTX + '/sys/user/' + row.id + '">\
-                                \<i class="la la-'+ (row.status == "正常" ? "unlock-alt" : "unlock") + '"></i>\
-                                \</a>';
-                        if (thisPrincipal.hasAuthority("sys_user_delete"))
-                            template += '<a  href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
-                                   data-table-id="#data-table-user" data-method="delete"  data-title="你确认要删除【' + row.loginId + '】用户吗？" data-url="' + CTX + '/sys/user/' + row.id + '">\
-                                \<i class="la la-trash"></i>\
-                                \</a>';
-                        return template;
-                    },
-                }],
+                    }},
+					<#else>
+					{title: '${column.comments}',data:'${column.simpleJavaField}<#if column.simpleJavaType == "User" || column.simpleJavaType == "Org" || column.simpleJavaType == "Area">${column.defaultJavaFieldName?cap_first}</#if>'
+					<#if firstListField> width: 110,sortable: 'asc',overflow: 'visible',template: function(row) {
+                        return thisPrincipal.hasAuthority("${permissionPrefix}_edit") ? ( '<a href="#/${urlPrefix}/form/' + row.id + '" class="m-link" title="点击编辑${functionNameSimple}">'+row.${column.simpleJavaField}+'</a>') : row.${column.simpleJavaField};
+                    },<#assign firstListField = false></#if>}
+					</#if>
+					</#if>
+					</#list>
+                ],
         };
-
-        albedoList.initTable($('#data-table-user'), $('#user-search-form'), options);
+        if(thisPrincipal.hasAnyAuthorityDirect(["${permissionPrefix}_edit","${permissionPrefix}_lock","${permissionPrefix}_delete"])){
+            options.columns.push({
+                field: 'Actions',
+                width: 110,
+                title: '操作',
+                sortable: false,
+                overflow: 'visible',
+                template: function(row) {
+                    var template = '';
+                    if (thisPrincipal.hasAuthority("${permissionPrefix}_edit"))
+                    <#if scheme.modalView>
+                        template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill dialog-edit" title="编辑"\
+                            \data-method="get"  data-title="编辑【' + row.name + '】机构" data-url="' + CTX + '/${urlPrefix}/' + row.id + '" data-modal-id="#${className}-edit-modal">\
+                            \<i class="la la-edit"></i>\
+                            \</a>'
+                    <#else>
+                        template += '<a href="#/${urlPrefix}/form/' + row.id + '" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">\
+                            \<i class="la la-edit"></i>\
+                            \</a>';
+                    </#if>
+                    if (thisPrincipal.hasAuthority("${permissionPrefix}_lock"))
+                        template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="' + (row.status == "正常" ? "锁定" : "解锁") + '${functionNameSimple}"\
+                     data-table-id="#data-table-${className}" data-method="put"  data-title="你确认要操作【' + row.loginId + '】${functionNameSimple}吗？" data-url="' + CTX + '/${urlPrefix}/' + row.id + '">\
+                            \<i class="la la-'+ (row.status == "正常" ? "unlock-alt" : "unlock") + '"></i>\
+                            \</a>';
+                    if (thisPrincipal.hasAuthority("${permissionPrefix}_delete"))
+                        template += '<a  href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
+                               data-table-id="#data-table-${className}" data-method="delete"  data-title="你确认要删除【' + row.loginId + '】${functionNameSimple}吗？" data-url="' + CTX + '/${urlPrefix}/' + row.id + '">\
+                            \<i class="la la-trash"></i>\
+                            \</a>';
+                    return template;
+                },
+            })
+        }
+        albedoList.initTable($('#data-table-${className}'), $('#${className}-search-form'), options);
         albedoList.init();
+        albedoForm.init();
+        <#if scheme.modalView>
+        albedoForm.initValidate($("#${className}-save-form"), {
+            // define validation rules
+            rules:{<#list table.columnList as column><#if column.unique && !column.pk>
+				${column.simpleJavaField}: {remote: '<@jspEl/>{ctx}/${urlPrefix}/checkByProperty?id=' + encodeURIComponent(albedo.toStr($("#${className}-save-form").find("input[name='id']").val())}<#if column_has_next>,</#if></#if></#list>
+			},
+            messages:{<#list table.columnList as column><#if column.unique && !column.pk>
+				${column.simpleJavaField}: {remote: '${column.comments }已存在'}<#if column_has_next>,</#if></#if></#list>
+			}
+        })
+        albedoForm.initSave($("#${className}-edit-modal"));
+        </#if>
     }
 
 

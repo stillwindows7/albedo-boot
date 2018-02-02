@@ -1,10 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Module } from "../../../service/sys/module/module.model";
-import { ModuleService } from "../../../service/sys/module/module.service";
-import { setActiveItemMenu } from "../../../shared/base/base.util";
-import { LocalStorageService } from "ngx-webstorage";
+import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core'
+import { Module } from "../../pages/sys/module/service/module.model"
+import { ModuleService } from "../../pages/sys/module/service/module.service"
+import { setActiveItemMenu } from "../../../shared/base/base.util"
+import { LocalStorageService } from "ngx-webstorage"
 
-declare let mLayout: any;
+declare let mLayout: any
 @Component({
     selector: "app-aside-nav",
     templateUrl: "./aside-nav.component.html",
@@ -12,9 +12,9 @@ declare let mLayout: any;
 })
 export class AsideNavComponent implements OnInit, AfterViewInit {
 
-    private menus: Module[];
-    menusData: Module[];
-    private afterViewInit = false;
+    private menus: Module[]
+    menusData: Module[]
+    private afterViewInit = false
 
     constructor(
         private moduleService: ModuleService,
@@ -22,49 +22,49 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
     ) {
         this.moduleService.menus().subscribe(
             (data: Module[]) => {
-                this.menus = data;
-                this.initMenuData();
+                this.menus = data
+                this.initMenuData()
             }
-        );
+        )
     }
     ngOnInit() {
-        // this.initMenuNav();
+        // this.initMenuNav()
     }
 
     ngAfterViewInit() {
-        this.afterViewInit = true;
+        this.afterViewInit = true
 
     }
 
     getChildMenus(id): Module[] {
         return this.menus.filter((item: Module) => {
-            return item.parentId == id;
-        });
+            return item.parentId == id
+        })
     }
     private initMenuData() {
-        this.menusData = [];
+        this.menusData = []
         this.menus.forEach(item => {
             if (item.menuTop) {
-                this.menusData.push(item);
+                this.menusData.push(item)
                 this.getChildMenus(item.id).forEach(itemChild => {
                     if (!itemChild.menuLeaf) {
-                        itemChild.childMenus = this.getChildMenus(itemChild.id);
+                        itemChild.childMenus = this.getChildMenus(itemChild.id)
                     }
-                    this.menusData.push(itemChild);
-                });
+                    this.menusData.push(itemChild)
+                })
             }
-        });
-        var thisLocalStorage = this.localStorage;
+        })
+        var thisLocalStorage = this.localStorage
         setTimeout(function() {
-            mLayout.initAside();
+            mLayout.initAside()
             setActiveItemMenu(thisLocalStorage)
-        }, 100);
+        }, 100)
     }
 
     private initMenuNav() {
-        if (this.menus == null || $("#m_ver_menu .m-menu__nav").length > 0) return;
+        if (this.menus == null || $("#m_ver_menu .m-menu__nav").length > 0) return
 
-        let $menuUl = $("<ul class=\"m-menu__nav  m-menu__nav--dropdown-submenu-arrow\" />");
+        let $menuUl = $("<ul class=\"m-menu__nav  m-menu__nav--dropdown-submenu-arrow\" />")
         this.menus.forEach(item => {
             if (item.menuTop) {
                 if (item.url != '') {
@@ -96,7 +96,7 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
                             "<div class=\"m-menu__submenu\">" +
                             "                    <span class=\"m-menu__arrow\"></span>" +
                             "                    <ul class=\"m-menu__subnav\">" +
-                            "                        </ul></div></li>");
+                            "                        </ul></div></li>")
 
                         this.getChildMenus(itemChild.id).forEach(itemMinChild => {
                             itemMinChild.show && $menuUl.find(".m-menu__item--submenu:contains('" + itemChild.name + "') ul.m-menu__subnav")
@@ -127,7 +127,7 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
         })
 
         // noinspection TypeScriptUnresolvedFunction
-        $("#m_ver_menu").append($menuUl);
+        $("#m_ver_menu").append($menuUl)
 
 
     }

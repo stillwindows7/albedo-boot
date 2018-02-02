@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { ScriptLoaderService } from "../../../../shared/base/service/script-loader.service";
-import { CTX, DATA_STATUS } from "../../../../app.constants";
-import { ActivatedRoute } from "@angular/router";
-import { Principal } from "../../../../auth/_services/principal.service";
-import {SessionStorageService} from "ngx-webstorage";
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
+import { ScriptLoaderService } from "../../../../shared/base/service/script-loader.service"
+import { CTX, DATA_STATUS } from "../../../../app.constants"
+import { ActivatedRoute } from "@angular/router"
+import { Principal } from "../../../../auth/_services/principal.service"
+import {SessionStorageService} from "ngx-webstorage"
 
-declare let datatable: any;
+declare let datatable: any
 @Component({
     selector: ".sys-dict-list.page-list",
     templateUrl: "./dict.component.html",
@@ -14,15 +14,15 @@ declare let datatable: any;
 export class DictComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
-    ctx: any;
-    routerSub: any;
-    nodeId: any;
+    ctx: any
+    routerSub: any
+    nodeId: any
     constructor(private _script: ScriptLoaderService,
                 private sessionStorage: SessionStorageService,
         private principal: Principal,
         private router: ActivatedRoute) {
-        this.ctx = CTX;
-        this.nodeId = sessionStorage.retrieve("tree_dict_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1;
+        this.ctx = CTX
+        this.nodeId = sessionStorage.retrieve("tree_dict_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1
     }
 
 
@@ -30,22 +30,22 @@ export class DictComponent implements OnInit, OnDestroy, AfterViewInit {
     ngOnInit() {
         this.routerSub = this.router.url.subscribe((urlSegment) => {
             // console.log(urlSegment)
-        });
+        })
     }
 
     ngOnDestroy() {
-        this.routerSub.unsubscribe();
+        this.routerSub.unsubscribe()
     }
 
     ngAfterViewInit() {
         // this._script.load('.sys-dict-list',
-        //     'assets/demo/default/custom/components/datatables/base/data-ajax.js');
+        //     'assets/demo/default/custom/components/datatables/base/data-ajax.js')
         this.initTable()
-        // Helpers.setBreadcrumbs();
+        // Helpers.setBreadcrumbs()
     }
 
     initTable() {
-        var thisPrincipal = this.principal;
+        var thisPrincipal = this.principal
         var options = {
             data: {
                 source: {
@@ -84,7 +84,7 @@ export class DictComponent implements OnInit, OnDestroy, AfterViewInit {
                     title: '状态',
                     // callback function support for column rendering
                     template: function(row) {
-                        return '<span class="m-badge ' + DATA_STATUS[row.status].class + ' m-badge--wide">' + row.status + '</span>';
+                        return '<span class="m-badge ' + DATA_STATUS[row.status].class + ' m-badge--wide">' + row.status + '</span>'
                     },
                 }, {
                     field: 'lastModifiedDate',
@@ -107,30 +107,30 @@ export class DictComponent implements OnInit, OnDestroy, AfterViewInit {
 					    <a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
                              data-table-id="#data-table-dict" data-method="delete"  data-title="你确认要删除【'+ row.name + '】字典吗？" data-url="' + CTX + '/sys/dict/' + row.id + '">\
                             <i class="la la-trash"></i>\
-                        </a>';
+                        </a>'
                     },
                 }],
-        };
+        }
 
-        albedoList.initTable($('#data-table-dict'), $('#dict-search-form'), options);
-        albedoList.init();
-        albedoForm.initTree();
+        albedoList.initTable($('#data-table-dict'), $('#dict-search-form'), options)
+        albedoList.init()
+        albedoForm.initTree()
     }
 
     cancelClickNodeDict(event, treeId, treeNode) {
         // console.log(event)
-        albedo.getSessionStorage().store("tree_dict_select_node_id", '');
-        $("#parentId").val('');
-        $(".filter-submit-table-dict").trigger("click");
+        albedo.getSessionStorage().store("tree_dict_select_node_id", '')
+        $("#parentId").val('')
+        $(".filter-submit-table-dict").trigger("click")
     }
     clickTreeNodeDict(event, treeId, treeNode) {
         // console.log(event)
-        var addUrl = $("#add-dict").attr("data-url-temp");
-        if (addUrl) $("#add-dict").attr("data-url", addUrl + (addUrl.indexOf("?") == -1 ? "?" : "&") + "parentId=" + treeNode.id);
-        this.nodeId = treeNode.id;
-        albedo.getSessionStorage().store("tree_dict_select_node_id", this.nodeId);
-        $("#parentId").val(treeNode.id);
-        $(".filter-submit-table-dict").trigger("click");
+        var addUrl = $("#add-dict").attr("data-url-temp")
+        if (addUrl) $("#add-dict").attr("data-url", addUrl + (addUrl.indexOf("?") == -1 ? "?" : "&") + "parentId=" + treeNode.id)
+        this.nodeId = treeNode.id
+        albedo.getSessionStorage().store("tree_dict_select_node_id", this.nodeId)
+        $("#parentId").val(treeNode.id)
+        $(".filter-submit-table-dict").trigger("click")
     }
 
 }

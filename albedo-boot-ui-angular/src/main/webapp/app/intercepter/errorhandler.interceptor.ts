@@ -1,15 +1,15 @@
-import { JhiEventManager, JhiHttpInterceptor } from 'ng-jhipster';
-import { RequestOptionsArgs, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { JhiEventManager, JhiHttpInterceptor } from 'ng-jhipster'
+import { RequestOptionsArgs, Response } from '@angular/http'
+import { Observable } from 'rxjs/Observable'
 
 export class ErrorHandlerInterceptor extends JhiHttpInterceptor {
 
     constructor(private eventManager: JhiEventManager) {
-        super();
+        super()
     }
 
     requestIntercept(options?: RequestOptionsArgs): RequestOptionsArgs {
-        return options;
+        return options
     }
 
     responseIntercept(observable: Observable<Response>): Observable<Response> {
@@ -17,10 +17,10 @@ export class ErrorHandlerInterceptor extends JhiHttpInterceptor {
             if (!(error.status === 401 && (error.text() === '' ||
                 (error.json().path && error.json().path.indexOf('/api/account') === 0)))) {
                 if (this.eventManager !== undefined) {
-                    this.eventManager.broadcast({ name: 'jhipsterAlbedoApp.httpError', content: error });
+                    this.eventManager.broadcast({ name: 'jhipsterAlbedoApp.httpError', content: error })
                 }
             }
-            return Observable.throw(error);
-        });
+            return Observable.throw(error)
+        })
     }
 }

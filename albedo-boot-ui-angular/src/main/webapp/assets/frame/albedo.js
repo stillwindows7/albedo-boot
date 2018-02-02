@@ -1,3 +1,4 @@
+
 if (!Array.prototype.map)
     Array.prototype.map = function (fn, scope) {
         var result = [], ri = 0;
@@ -252,13 +253,25 @@ var albedo = {
         return false;
     }
     // 是否存在指定变量
-    ,
-    isExitsVariable: function (variableName) {
+    ,isExitsVariable: function (variableName) {
         try {
             return typeof (variableName) == "undefined" ? false : true;
         } catch (e) {
         }
         return false;
+    },
+    toStr:function(obj){
+      return this.isNull(obj) ? "" : obj;
+    },
+    isNull: function (variable) {
+        try {
+            return variable == undefined || variable==null;
+        } catch (e) {
+        }
+        return false;
+    },
+    isNotNull: function (variable) {
+        return !this.isEmpty(variable);
     },
     setFormBoxValue: function ($thiz, val) {
         if ($thiz) {

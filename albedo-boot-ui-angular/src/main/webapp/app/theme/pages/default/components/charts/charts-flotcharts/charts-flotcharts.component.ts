@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
-import { Helpers } from '../../../../../../helpers';
-import { ScriptLoaderService } from '../../../../../../shared/base/service/script-loader.service';
+import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core'
+import { Helpers } from '../../../../../../helpers'
+import { ScriptLoaderService } from '../../../../../../shared/base/service/script-loader.service'
 
 
 @Component({
@@ -20,7 +20,7 @@ export class ChartsFlotchartsComponent implements OnInit, AfterViewInit {
     ngAfterViewInit() {
         this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
             'assets/vendors/custom/flot/flot.bundle.js',
-            'assets/demo/default/custom/components/charts/flotcharts.js');
+            'assets/demo/default/custom/components/charts/flotcharts.js')
 
     }
 

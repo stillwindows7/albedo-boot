@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { ThemeComponent } from './theme.component';
-import { RouterModule, Routes } from '@angular/router';
-import { AlbedoBootAuthGuard } from "../auth/_guards/auth.guard";
+import { NgModule } from '@angular/core'
+import { ThemeComponent } from './theme.component'
+import { RouterModule, Routes } from '@angular/router'
+import { AlbedoBootAuthGuard } from "../auth/_guards/auth.guard"
 
 const routes: Routes = [
     {
@@ -541,7 +541,7 @@ const routes: Routes = [
         "redirectTo": "404",
         "pathMatch": "full"
     }
-];
+]
 
 @NgModule({
     imports: [

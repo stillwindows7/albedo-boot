@@ -1,12 +1,12 @@
-import { JhiEventManager, JhiInterceptableHttp } from 'ng-jhipster';
-import { Injector } from '@angular/core';
-import { Http, RequestOptions, XHRBackend } from '@angular/http';
+import { JhiEventManager, JhiInterceptableHttp } from 'ng-jhipster'
+import { Injector } from '@angular/core'
+import { Http, RequestOptions, XHRBackend } from '@angular/http'
 
-import { AuthInterceptor } from './auth.interceptor';
-import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
-import { AuthExpiredInterceptor } from './auth-expired.interceptor';
-import { ErrorHandlerInterceptor } from './errorhandler.interceptor';
-import { NotificationInterceptor } from './notification.interceptor';
+import { AuthInterceptor } from './auth.interceptor'
+import { LocalStorageService, SessionStorageService } from 'ngx-webstorage'
+import { AuthExpiredInterceptor } from './auth-expired.interceptor'
+import { ErrorHandlerInterceptor } from './errorhandler.interceptor'
+import { NotificationInterceptor } from './notification.interceptor'
 
 
 export function interceptableFactory(backend: XHRBackend,
@@ -25,7 +25,7 @@ export function interceptableFactory(backend: XHRBackend,
             new ErrorHandlerInterceptor(eventManager),
             new NotificationInterceptor(injector)
         ]
-    );
+    )
 }
 
 export function customHttpProvider() {
@@ -40,5 +40,5 @@ export function customHttpProvider() {
             Injector,
             JhiEventManager
         ]
-    };
+    }
 }

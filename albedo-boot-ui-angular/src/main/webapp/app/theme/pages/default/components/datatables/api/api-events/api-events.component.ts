@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
-import { Helpers } from '../../../../../../../helpers';
-import { ScriptLoaderService } from '../../../../../../../shared/base/service/script-loader.service';
+import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core'
+import { Helpers } from '../../../../../../../helpers'
+import { ScriptLoaderService } from '../../../../../../../shared/base/service/script-loader.service'
 
 
 @Component({
@@ -19,7 +19,7 @@ export class ApiEventsComponent implements OnInit, AfterViewInit {
     }
     ngAfterViewInit() {
         this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
-            'assets/demo/default/custom/components/datatables/api/events.js');
+            'assets/demo/default/custom/components/datatables/api/events.js')
 
     }
 

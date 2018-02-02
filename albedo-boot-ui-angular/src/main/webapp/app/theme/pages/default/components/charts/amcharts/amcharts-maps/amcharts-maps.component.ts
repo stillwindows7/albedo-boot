@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
-import { Helpers } from '../../../../../../../helpers';
-import { ScriptLoaderService } from '../../../../../../../shared/base/service/script-loader.service';
+import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core'
+import { Helpers } from '../../../../../../../helpers'
+import { ScriptLoaderService } from '../../../../../../../shared/base/service/script-loader.service'
 
 
 @Component({
@@ -20,9 +20,9 @@ export class AmchartsMapsComponent implements OnInit, AfterViewInit {
     ngAfterViewInit() {
         this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
             '//www.amcharts.com/lib/3/plugins/export/export.min.js',
-            'assets/demo/default/custom/components/charts/amcharts/maps.js');
+            'assets/demo/default/custom/components/charts/amcharts/maps.js')
         Helpers.loadStyles('.m-grid__item.m-grid__item--fluid.m-wrapper', [
-            '//www.amcharts.com/lib/3/plugins/export/export.css']);
+            '//www.amcharts.com/lib/3/plugins/export/export.css'])
     }
 
 }

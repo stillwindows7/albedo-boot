@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { CTX } from "../../../../app.constants";
-import { ActivatedRoute } from "@angular/router";
-import { Module } from "../../../../service/sys/module/module.model";
-import { ModuleService } from "../../../../service/sys/module/module.service";
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core'
+import { CTX } from "../../../../app.constants"
+import { ActivatedRoute } from "@angular/router"
+import { Module } from "./service/module.model"
+import { ModuleService } from "./service/module.service"
 
 @Component({
     selector: ".sys-module-form.page-form",
@@ -10,53 +10,53 @@ import { ModuleService } from "../../../../service/sys/module/module.service";
 })
 export class ModuleFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    module: Module;
-    routerSub: any;
-    ctx: any;
-    id: any;
+    module: Module
+    routerSub: any
+    ctx: any
+    id: any
 
-    private afterViewInit = false;
-    private afterLoad = false;
+    private afterViewInit = false
+    private afterLoad = false
     constructor(
         private router: ActivatedRoute,
         private moduleService: ModuleService) {
-        this.ctx = CTX;
-        this.module = new Module();
+        this.ctx = CTX
+        this.module = new Module()
 
     }
 
     ngOnInit() {
         this.routerSub = this.router.params.subscribe((params) => {
-            this.id = params['id'];
+            this.id = params['id']
             if (this.id) {
                 this.moduleService.find(this.id).subscribe((data) => {
-                    this.module = data;
-                    albedoForm.initFormData("#module-save-form", this.module);
-                    this.afterLoad = true;
-                    this.initForm();
-                });
+                    this.module = data
+                    albedoForm.setData("#module-save-form", this.module)
+                    this.afterLoad = true
+                    this.initForm()
+                })
             } else {
-                this.afterLoad = true;
-                this.initForm();
+                this.afterLoad = true
+                this.initForm()
             }
-        });
+        })
     }
 
     ngOnDestroy() {
-        this.routerSub.unsubscribe();
+        this.routerSub.unsubscribe()
     }
 
     ngAfterViewInit() {
         // this._script.load('.sys-module-list',
-        //     'assets/demo/default/custom/components/datatables/base/data-ajax.js');
-        this.afterViewInit = true;
-        this.initForm();
+        //     'assets/demo/default/custom/components/datatables/base/data-ajax.js')
+        this.afterViewInit = true
+        this.initForm()
     }
 
     initForm() {
-        if (!this.afterViewInit || !this.afterLoad) return;
+        if (!this.afterViewInit || !this.afterLoad) return
 
-        var moduleId = this.module.id;
+        var moduleId = this.module.id
         albedoForm.initValidate($("#module-save-form"), {
             // define validation rules
             rules: {
@@ -65,9 +65,9 @@ export class ModuleFormComponent implements OnInit, OnDestroy, AfterViewInit {
             messages: {
                 permission: { message: '权限已存在' },
             },
-        });
-        albedoForm.init();
-        albedoForm.initSave(null);
+        })
+        albedoForm.init()
+        albedoForm.initSave(null)
 
 
     }

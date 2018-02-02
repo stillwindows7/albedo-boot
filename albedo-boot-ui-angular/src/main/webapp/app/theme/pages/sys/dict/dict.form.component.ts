@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { CTX } from "../../../../app.constants";
-import { ActivatedRoute } from "@angular/router";
-import { Dict } from "../../../../service/sys/dict/dict.model";
-import { ModuleService } from "../../../../service/sys/module/module.service";
-import { DictService } from "../../../../service/sys/dict/dict.service";
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core'
+import { CTX } from "../../../../app.constants"
+import { ActivatedRoute } from "@angular/router"
+import { Dict } from "./service/dict.model"
+import { ModuleService } from "../module/service/module.service"
+import { DictService } from "./service/dict.service"
 
 @Component({
     selector: ".sys-dict-form.page-form",
@@ -11,53 +11,53 @@ import { DictService } from "../../../../service/sys/dict/dict.service";
 })
 export class DictFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    dict: Dict;
-    routerSub: any;
-    ctx: any;
-    id: any;
+    dict: Dict
+    routerSub: any
+    ctx: any
+    id: any
 
-    private afterViewInit = false;
-    private afterLoad = false;
+    private afterViewInit = false
+    private afterLoad = false
     constructor(
         private router: ActivatedRoute,
         private dictService: DictService) {
-        this.ctx = CTX;
-        this.dict = new Dict();
+        this.ctx = CTX
+        this.dict = new Dict()
 
     }
 
     ngOnInit() {
         this.routerSub = this.router.params.subscribe((params) => {
-            this.id = params['id'];
+            this.id = params['id']
             if (this.id) {
                 this.dictService.find(this.id).subscribe((data) => {
-                    this.dict = data;
-                    albedoForm.initFormData("#dict-save-form", this.dict);
-                    this.afterLoad = true;
-                    this.initForm();
-                });
+                    this.dict = data
+                    albedoForm.setData("#dict-save-form", this.dict)
+                    this.afterLoad = true
+                    this.initForm()
+                })
             } else {
-                this.afterLoad = true;
-                this.initForm();
+                this.afterLoad = true
+                this.initForm()
             }
-        });
+        })
     }
 
     ngOnDestroy() {
-        this.routerSub.unsubscribe();
+        this.routerSub.unsubscribe()
     }
 
     ngAfterViewInit() {
         // this._script.load('.sys-dict-list',
-        //     'assets/demo/default/custom/components/datatables/base/data-ajax.js');
-        this.afterViewInit = true;
-        this.initForm();
+        //     'assets/demo/default/custom/components/datatables/base/data-ajax.js')
+        this.afterViewInit = true
+        this.initForm()
     }
 
     initForm() {
-        if (!this.afterViewInit || !this.afterLoad) return;
+        if (!this.afterViewInit || !this.afterLoad) return
 
-        var dictId = this.dict.id;
+        var dictId = this.dict.id
         albedoForm.initValidate($("#dict-save-form"), {
             // define validation rules
             rules: {
@@ -66,9 +66,9 @@ export class DictFormComponent implements OnInit, OnDestroy, AfterViewInit {
             messages: {
                 code: { message: '编码已存在' },
             },
-        });
-        albedoForm.init();
-        albedoForm.initSave(null);
+        })
+        albedoForm.init()
+        albedoForm.initSave(null)
 
 
     }

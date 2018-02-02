@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
-import { Helpers } from '../../../../../../helpers';
-import { ScriptLoaderService } from '../../../../../../shared/base/service/script-loader.service';
+import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core'
+import { Helpers } from '../../../../../../helpers'
+import { ScriptLoaderService } from '../../../../../../shared/base/service/script-loader.service'
 
 
 @Component({
@@ -20,7 +20,7 @@ export class MapsGoogleMapsComponent implements OnInit, AfterViewInit {
     ngAfterViewInit() {
         this._script.load('.m-grid__item.m-grid__item--fluid.m-wrapper',
             'assets/vendors/custom/gmaps/gmaps.js',
-            'assets/demo/default/custom/components/maps/google-maps.js');
+            'assets/demo/default/custom/components/maps/google-maps.js')
 
     }
 

@@ -32,7 +32,13 @@ var albedoForm = function () {
         }
         return value;
     }
-
+    var _getOptions = function($target){
+        var options={};
+        try {
+            eval("var options=" + ($target.attr("options")));
+        }catch (e){}
+        return options;
+    }
     var _searchTreeInputBlurKey = function ($key, tree) {
         if ($key.get(0).value === "") {
             $key.addClass("empty");
@@ -71,6 +77,20 @@ var albedoForm = function () {
     }
     var _setData = function (key, data) {
         _mapData[key] = data;
+    }
+    var handleClearData = function () {
+        if(_mapData){
+            _mapData = {}
+        }
+    }
+    var handleClearDataBylikeKey = function (key) {
+        if(_mapData){
+            for(var temp in _mapData){
+                if(temp.indexOf(key)!=-1){
+                    _mapData[temp] = null
+                }
+            }
+        }
     }
     /**public**/
 
@@ -759,57 +779,71 @@ var albedoForm = function () {
             });
         }
     };
-    var handleDateTimePicker = function ($target) {
 
+    var handleDateTimePicker = function ($target) {
         if (!jQuery().datetimepicker) {
             return;
         }
-        $target = ($target && $target.length > 0) ? $target.find('.date-time-picker') : $('.date-time-picker');
+        $target = ($target && $target.length > 0) ? $target.find('.m_datetimepicker') : $('.m_datetimepicker');
         $target.each(function () {
-            var $tempInput = $target.find("input");
-            eval("var options=" + ($tempInput && $tempInput.length > 0 ? $tempInput.attr("options") : $(this).attr("options")));
+            var $tempInput = $(this).find("input"),$targeOptions = $tempInput && $tempInput.length > 0 ? $tempInput: $(this);
             // default settings
-            options = $.extend(true, {
-                language: 'zh-CN',
+           var options = $.extend(true, {
+                todayHighlight: true,
                 autoclose: true,
-                isRTL: App.isRTL(),
-                format: "yyyy-mm-dd hh:ii:ss",
-                pickerPosition: (App.isRTL() ? "bottom-right" : "bottom-left")
-            }, options);
+                pickerPosition: 'bottom-left',
+                todayBtn: true,
+                format: 'yyyy-mm-dd hh:mm:ss'
+            }, _getOptions($targeOptions));
             // $("div.datetimepicker.dropdown-menu").remove();
             $(this).off("click");
-            $(this).datetimepicker("remove").datepicker("remove");
+            // $(this).datetimepicker("remove").datepicker("remove");
             $(this).datetimepicker(options);
         });
-        $('body').removeClass("modal-open"); // fix bug when inline picker is used in modal
     }
-    var handleDatePicker = function ($target) {
-        $target = ($target && $target.length > 0) ? $target.find('.date-picker') : $('.date-picker');
-        $target.each(function () {
-            var $tempInput = $target.find("input");
-            eval("var options=" + ($tempInput && $tempInput.length > 0 ? $tempInput.attr("options") : $(this).attr("options")));
-            // default settings
-            options = $.extend(true, {
-                language: 'zh-CN',
-                autoclose: true,
-                isRTL: App.isRTL(),
-                format: "yyyy-mm-dd"
-            }, options);
-            // $("div.datetimepicker.dropdown-menu").remove();
-            $(this).datetimepicker("remove").datepicker("remove");
-            $(this).datepicker(options);
+
+    var handleDateRangePicker = function ($target) {
+        $target = ($target && $target.length > 0) ? $target.find('.m_daterangepicker') : $('.m_daterangepicker');
+        // default settings
+        var options = $.extend(true, {
+            timePicker: true,
+            timePicker24Hour: true,
+            linkedCalendars: false,
+            autoUpdateInput: false,
+            locale: {
+                format: 'YYYY/MM/DD hh:mm:ss',
+                separator: '-',
+                applyLabel: "应用",
+                cancelLabel: "取消",
+                resetLabel: "重置",
+            }
+        }, _getOptions($target));
+        $target.daterangepicker(options, function(start, end, label) {
+
+            var formatVal = '';
+            if(this.startDate){
+                formatVal=this.startDate.format(this.locale.format) + this.locale.separator + this.endDate.format(this.locale.format);
+            }
+            if(this.element.is("input")){
+                this.element.val(formatVal)
+            }else{
+                var $targetInput = this.element.find("input");
+                if($targetInput.length>1){
+                    $targetInput.get(0).val(this.startDate.format(this.locale.format))
+                    $targetInput.get(1).val(this.endDate.format(this.locale.format))
+                }else{
+                    $targetInput.val(formatVal)
+                }
+            }
         });
-    };
+    }
 
     var handleSummernote = function ($target) {
         $target = ($target && $target.length > 0) ? $target.find('.summernote') : $('.summernote');
         $target.each(function () {
-            var $tempInput = $target.find("input");
-            var options = {};
-            eval("options=" + ($tempInput && $tempInput.length > 0 ? $tempInput.attr("options") : $(this).attr("options")));
+            var $thiz = $(this),placeholder = $thiz.attr("placeholder") || '',url = $thiz.attr("action") || '',$tempInput = $(this).find("input"),$targeOptions = $tempInput && $tempInput.length > 0 ? $tempInput: $thiz;
             // default settings
-            var $thiz = $(this),placeholder = $thiz.attr("placeholder") || '',url = $thiz.attr("action") || '';
-            options = $.extend(true, {
+            var options = $.extend(true, {
                 lang : 'zh-CN',
                 placeholder : placeholder,
                 minHeight : 300,
@@ -854,7 +888,7 @@ var albedoForm = function () {
                 //         });
                 //     }
                 // }
-            }, options);
+            }, _getOptions($targeOptions));
             setTimeout(function () {
                 $thiz.summernote(options);
             },100)
@@ -955,7 +989,7 @@ var albedoForm = function () {
     var handleSave = function ($target, validateFun) {
         var $target = $target || $(".m-content");
         $target.off('click', '.save').on('click', '.save', function () {
-            var el = $(this), $form = $target.find('.form-validation'),
+            var el = $(this), $form = $target.find('.m-form'),
                 flag = true;
             if(!validateFun) validateFun = $form.attr("validateFun")
             if (doValidation($form)) {
@@ -984,7 +1018,7 @@ var albedoForm = function () {
         });
         $(document).off("keydown").keydown(function (e) {
             if (e.which == 13) {
-                $form = $target.find('.form-validation')
+                $form = $target.find('.m-form')
                 if (doValidation($form)) {
                     mApp.confirm({
                         content: "您确定要提交表单数据吗？",
@@ -998,16 +1032,15 @@ var albedoForm = function () {
         });
     }
 
-
     var alertDialog = function ($modal, re, el) {
-        var alertType = "warning", icon = "warning", isModal = el && el.data("is-modal") == true;
+        var alertType = "warning", icon = "warning", isModal = el && el.attr("data-is-modal") == "true";
         try {
             $modal.modal('removeLoading');
         } catch (e) {
         }
-        var isForm = $modal.find('.form-validation').length > 0;
+        var isForm = $modal.find('.m-form').length > 0;
         if (re && el) {
-            var tableId = el.data("table-id"), refresh = el.data("refresh"), delay = el.data("delay"),
+            var tableId = el.attr("data-table-id"), refresh = el.attr("data-refresh"), delay = el.attr("data-delay"),
                 alertType = re.status == "0" ? "info" : re.status == "1" ? "success" : re.status == "-1" ? "danger" : "warning";
             icon = re.status == "0" ? "info" : re.status == "1" ? "check" : "warning";
             // && (tableId || refresh)
@@ -1018,8 +1051,12 @@ var albedoForm = function () {
                     if (!isModal) {
                         $modal.find(".list i").trigger("click");
                     }
+                    // clear form
+                    if(isForm){
+                        handleInitFormData($modal.find('.m-form'), null)
+                    }
                     if(tableId){
-                        var dataTables = albedoList.getDataTable($(tableId).attr("id"));
+                        var dataTables = albedoList.getData(tableId);
                         if(dataTables){
                             if (delay) {
                                 // $modal.modal('loading');
@@ -1032,7 +1069,7 @@ var albedoForm = function () {
                             }
                         }
                     }
-                    var ajaxReloadAfterFu = el.data("reload-after");
+                    var ajaxReloadAfterFu = el.attr("data-reload-after");
                     if (albedo.isExitsFunction(ajaxReloadAfterFu)) {
                         eval(ajaxReloadAfterFu + "(re)");
                     }
@@ -1055,8 +1092,6 @@ var albedoForm = function () {
 
     }
 
-
-    var $form = $('.form-validation');
 
     var handleValidateConfig = function (config, form) {
         if (!config)
@@ -1083,67 +1118,66 @@ var albedoForm = function () {
     // advance validation
     var handleValidation = function ($formTagert, options) {
         if ($formTagert && $formTagert.length > 0) {
-            $form = $formTagert;
+            var $formValidate = $formTagert;
             var config;
             try {
-                eval("config = " + $form.attr("config"));
+                eval("config = " + $formValidate.attr("config"));
             } catch (e) {
             }
             if (!config) config = {};
             config = $.extend(true, config, options);
-            var validator = $formTagert.validate(handleValidateConfig(config, $formTagert));
-            _setData($form.attr("id"), validator);
-            // apply validation on select2 dropdown value change, this only needed
-            // for chosen dropdown integration.
-            $('.select2me', $formTagert).change(function () {
-                $formTagert.validate().element($(this));
-            });
-            $form.find('.date-time-picker').change(function () {
-                $formTagert.validate().element($(this));
-            });
+            var validator = $formValidate.validate(handleValidateConfig(config, $formValidate));
+            _setData($formValidate.attr("id"), validator);
             return validator;
         }
     }
     var handleInitFormData = function ($form, data) {
         if ($form && $form.length > 0) {
-            for(var o in data){
-                var $target = $form.find("[name='"+o+"']"),val = data[o];
-                if(!$target || $target.length<1){continue}
-                if($target.is("input")){
-                    var type = $target.attr("type");
-                    if(type == "radio" || type == "checkbox"){
-                        $target.removeAttr("checked");
-                        if(val){
-                            if(val.indexOf(",")!=-1){val = val.toString().split(",");}
-                            if(val instanceof Array){
-                                for(var o in val){
-                                    $target.find("[value='"+val[o]+"']").attr("checked", "checked");
-                                }
-                            }else{
-                                $target.find("[value='"+val+"']").attr("checked", "checked");
-                            }
-                        }
-                    }else{
-                        if(type != "password") $target.val(val ? val : null);
+            console.log(data)
+            $form.find("[name]").each(function(){
+                var $target = $(this);
+                if($target && $target.length>0){
+                    var val = data && data[$target.attr("name")], isNullVal = albedo.isNull(val);
+                    if(isNullVal){
+                        $target.parents(".form-group").removeClass("has-danger").removeClass("has-success")
                     }
-                }else if($target.is("textarea")){
-                    $target.val(val);
-                    $target.hasClass('summernote')&&$target.summernote('code', val);;
-                }else if($target.is("select")){
-                    $target.find("option").removeAttr("selected");
-                    if(val){
-                        if(val.toString().indexOf(",")!=-1){val = val.toString().split(",")};
-                        if(val instanceof Array){
-                            for(var o in val){
-                                $target.find("option[value='"+val[o]+"']").attr("selected", "selected");
+                    var val = !isNullVal ? val.toString() : "";
+                    if($target.is("input")){
+                        var type = $target.attr("type");
+                        if(type == "radio" || type == "checkbox"){
+                            $target.removeAttr("checked").get(0).checked=false;
+                            if(val){
+                                if(val.indexOf(",")!=-1){val = val.split(",");}
+                                if(val instanceof Array){
+                                    for(var o in val){
+                                        $target.filter("[value='"+val[o]+"']").attr("checked", "checked").trigger("click");
+                                    }
+                                }else{
+                                    $target.filter("[value='"+val+"']").attr("checked", "checked").trigger("click");
+                                }
                             }
                         }else{
-                            $target.find("option[value='"+val+"']").attr("selected", "selected");
+                            if(type != "password") $target.val(val);
                         }
+                    }else if($target.is("textarea")){
+                        $target.val(val);
+                        $target.hasClass('summernote')&&$target.summernote('code', val);;
+                    }else if($target.is("select")){
+                        $target.find("option").removeAttr("selected");
+                        if(val){
+                            if(val.indexOf(",")!=-1){val = val.split(",")};
+                            if(val instanceof Array){
+                                for(var o in val){
+                                    $target.find("option[value='"+val[o]+"']").attr("selected", "selected");
+                                }
+                            }else{
+                                $target.find("option[value='"+val+"']").attr("selected", "selected");
+                            }
+                        }
+                        $target.selectpicker("val",val);
                     }
-                    $target.find('.m-bootstrap-select').selectpicker("val",val);
                 }
-            }
+            })
         }
     }
 
@@ -1160,8 +1194,8 @@ var albedoForm = function () {
     return {
         initDateTimePicker: function ($target) {
             handleDateTimePicker($target);
-        }, initDatePicker: function ($target) {
-            handleDatePicker($target);
+        }, initDateRangePicker: function ($target) {
+            handleDateRangePicker($target);
         }, gridSelect: function ($thiz, $thizVal) {
             handleGridSelect($thiz, $thizVal);
         }, treeSelect: function ($thiz, $thizVal) {
@@ -1169,7 +1203,6 @@ var albedoForm = function () {
         }, icoSelect: function ($thiz, $thizVal) {
             handleIcoSelect($thiz, $thizVal);
         },
-
         initTree: function ($targetShowTree) {
             $targetShowTree = ($targetShowTree && $targetShowTree.length > 0) ? $targetShowTree.find(".ztree-show") : $(".ztree-show");
             $targetShowTree.each(function () {
@@ -1184,12 +1217,15 @@ var albedoForm = function () {
         initSave: function ($target, validateFun) {
             handleSave($target, validateFun)
         },
+        setData: function (selector, data) {
+            _setData(selector, data)
+        },
         initFormData: function (selector, data) {
             _setData(selector, data)
+            handleInitFormData($(selector), data)
         },
         resetForm: function (selector) {
             var data = _getData(selector);
-            console.log(data);
             handleInitFormData($(selector), data)
         },
         alertDialog: function ($modal, re, el) {
@@ -1202,13 +1238,20 @@ var albedoForm = function () {
         validate: function ($formTagert) {
             return doValidation($formTagert);
         },
+        clearDataBylikeKey: function(likeKey){
+            handleClearDataBylikeKey(likeKey);
+        },
+        clearData: function(){
+            handleClearData();
+        },
+
         //main function to initiate the theme
         init: function ($target) {
+            // $.datetimepicker.setLocale('ch');
             handleDateTimePicker($target);
-            handleDatePicker($target);
+            handleDateRangePicker($target);
             handleFileUpload($target);
             handleSummernote($target);
-            // handleFormValueInit($target);
             albedoForm.initTree($target);
         }
     }
