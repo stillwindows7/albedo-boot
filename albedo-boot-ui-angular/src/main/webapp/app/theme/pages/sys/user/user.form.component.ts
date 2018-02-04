@@ -3,7 +3,7 @@ import { CTX } from "../../../../app.constants"
 import { ActivatedRoute } from "@angular/router"
 import { UserService } from "./service/user.service"
 import { User } from "./service/user.model"
-import {Helpers} from "../../../../helpers";
+import { Helpers } from "../../../../helpers";
 
 @Component({
     selector: ".sys-user-form.page-form",

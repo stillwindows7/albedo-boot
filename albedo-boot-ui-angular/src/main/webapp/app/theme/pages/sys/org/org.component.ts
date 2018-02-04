@@ -1,11 +1,11 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core'
-import {ScriptLoaderService} from "../../../../shared/base/service/script-loader.service"
-import {CTX, DATA_STATUS} from "../../../../app.constants"
-import {ActivatedRoute} from "@angular/router"
-import {Principal} from "../../../../auth/_services/principal.service"
-import {SessionStorageService} from "ngx-webstorage"
-import {Org} from "./service/org.model"
-import {OrgService} from "./service/org.service";
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
+import { ScriptLoaderService } from "../../../../shared/base/service/script-loader.service"
+import { CTX, DATA_STATUS } from "../../../../app.constants"
+import { ActivatedRoute } from "@angular/router"
+import { Principal } from "../../../../auth/_services/principal.service"
+import { SessionStorageService } from "ngx-webstorage"
+import { Org } from "./service/org.model"
+import { OrgService } from "./service/org.service";
 
 declare let datatable: any
 @Component({
@@ -13,7 +13,7 @@ declare let datatable: any
     templateUrl: "./org.component.html",
     encapsulation: ViewEncapsulation.None,
 })
-export class OrgComponent implements  AfterViewInit {
+export class OrgComponent implements AfterViewInit {
 
 
     ctx: any
@@ -21,7 +21,7 @@ export class OrgComponent implements  AfterViewInit {
     org: Org
     constructor(private _script: ScriptLoaderService,
         private principal: Principal,
-        private sessionStorage: SessionStorageService,) {
+        private sessionStorage: SessionStorageService, ) {
         this.ctx = CTX
         this.org = new Org()
         this.nodeId = sessionStorage.retrieve("tree_org_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1

@@ -93,7 +93,7 @@ public class UserResourceIntTest {
     private RoleService roleService;
     @Autowired
     private AlbedoProperties albedoProperties;
-    
+
 
     @Autowired
     private EntityManager em;
@@ -170,7 +170,7 @@ public class UserResourceIntTest {
                 null,
                 Collections3.extractToList(roles, Role.F_ID),
                 null,
-                null);
+                null,null);
 
         restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/edit"))
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -208,7 +208,7 @@ public class UserResourceIntTest {
                 null,
                 Collections3.extractToList(roles, Role.F_ID),
                 null,
-                null);
+                null,null);
 
         // Create the User
         restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/edit"))
@@ -289,7 +289,7 @@ public class UserResourceIntTest {
                 null,
                 Collections3.extractToList(roles, Role.F_ID),
                 null,
-                null);
+                null,null);
 
         restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/edit"))
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -333,7 +333,7 @@ public class UserResourceIntTest {
                 null,
                 Collections3.extractToList(roles, Role.F_ID),
                 null,
-                null);
+                null,null);
 
         restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/edit"))
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -366,7 +366,7 @@ public class UserResourceIntTest {
                 null,
                 null,
                 Collections3.extractToList(roles, Role.F_ID),
-                null,null
+                null,null,null
                 );
         restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/edit"))
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)

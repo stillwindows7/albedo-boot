@@ -230,14 +230,14 @@ public class UserServiceTest {
         pm.setSort(new Sort(new Sort.Order(Sort.Direction.ASC, "loginId")));
         userService.findPage(pm);
 
-        assertThat(pm.getData().size(), is(5));
-        assertThat(pm.getData().get(1).getLoginId(), is(user1.getLoginId()));
+        assertThat(pm.getData().size(), is(4));
+        assertThat(pm.getData().get(0).getLoginId(), is(user1.getLoginId()));
 
         User temp = userRepository.findOneByLoginId(user1.getLoginId()).get();
 
         List<Module> modules = moduleService.findAllAuthByUser("1");
 //        assertThat(modules.size()!=0, is(true));
-        assertThat(pm.getData().get(1), is(temp));
+        assertThat(pm.getData().get(0), is(temp));
 
 
     }

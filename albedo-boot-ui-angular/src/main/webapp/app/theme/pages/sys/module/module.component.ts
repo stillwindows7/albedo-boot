@@ -3,7 +3,7 @@ import { ScriptLoaderService } from "../../../../shared/base/service/script-load
 import { CTX, DATA_STATUS } from "../../../../app.constants"
 import { ActivatedRoute } from "@angular/router"
 import { Principal } from "../../../../auth/_services/principal.service"
-import {SessionStorageService} from "ngx-webstorage"
+import { SessionStorageService } from "ngx-webstorage"
 
 declare let datatable: any
 @Component({
@@ -18,7 +18,7 @@ export class ModuleComponent implements OnInit, OnDestroy, AfterViewInit {
     routerSub: any
     nodeId: any
     constructor(private _script: ScriptLoaderService,
-                private sessionStorage: SessionStorageService,
+        private sessionStorage: SessionStorageService,
         private principal: Principal,
         private router: ActivatedRoute) {
         this.ctx = CTX

@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, ViewEncapsulation} from '@angular/core'
-import {ScriptLoaderService} from "../../../../shared/base/service/script-loader.service"
-import {CTX, DATA_STATUS} from "../../../../app.constants"
-import {ActivatedRoute} from "@angular/router"
-import {Principal} from "../../../../auth/_services/principal.service"
+import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core'
+import { ScriptLoaderService } from "../../../../shared/base/service/script-loader.service"
+import { CTX, DATA_STATUS } from "../../../../app.constants"
+import { ActivatedRoute } from "@angular/router"
+import { Principal } from "../../../../auth/_services/principal.service"
 
 declare let datatable: any
 @Component({
@@ -50,7 +50,7 @@ export class UserComponent implements AfterViewInit {
                     overflow: 'visible',
                     width: 150,
                     template: function(row) {
-                        return thisPrincipal.hasAuthority("sys_user_edit") ? ( '<a href="#/sys/user/form/' + row.id + '" class="m-link" title="点击编辑">'+row.loginId+'</a>') : row.loginId
+                        return thisPrincipal.hasAuthority("sys_user_edit") ? ('<a href="#/sys/user/form/' + row.id + '" class="m-link" title="点击编辑">' + row.loginId + '</a>') : row.loginId
                     },
                 }, {
                     field: 'email',
@@ -67,7 +67,7 @@ export class UserComponent implements AfterViewInit {
                     title: '修改时间',
                 }],
         }
-        if(thisPrincipal.hasAnyAuthorityDirect(["sys_user_edit","sys_user_lock","sys_user_delete"])){
+        if (thisPrincipal.hasAnyAuthorityDirect(["sys_user_edit", "sys_user_lock", "sys_user_delete"])) {
             options.columns.push({
                 field: 'Actions',
                 width: 110,

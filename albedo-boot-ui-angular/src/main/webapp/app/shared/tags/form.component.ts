@@ -84,7 +84,7 @@ export class AlbFormComponent implements OnInit, AfterViewInit, OnChanges {
                     this.initTags()
                 }
             )
-            this.data && eval("this.comboData ="+this.data)
+            this.data && eval("this.comboData =" + this.data)
         }
         // console.log(this.data)
 

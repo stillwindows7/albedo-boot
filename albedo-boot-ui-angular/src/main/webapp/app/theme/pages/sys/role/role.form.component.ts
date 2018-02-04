@@ -85,7 +85,7 @@ export class RoleFormComponent implements OnInit, OnDestroy, AfterViewInit {
             if ($('#dataScope').val() == 5 && treeRoleOrg) {
                 var nodes = treeRoleOrg.getCheckedNodes()
                 $('input[name=\'orgIdList\']').remove()
-                for (var i = 0 ;i < nodes.length; i++) {
+                for (var i = 0; i < nodes.length; i++) {
                     if (!nodes[i].getCheckStatus().half) //排除半选中状态
                         $('#treeRoleModule').before($('<input type=\'hidden\' name=\'orgIdList\' />').val(nodes[i].id))
                 }

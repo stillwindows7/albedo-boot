@@ -47,7 +47,7 @@ export class ThemeComponent implements OnInit {
             'assets/frame/albedo.jquery.replenish.js',
             'assets/demo/default/base/scripts.bundle.js',
             'assets/frame/albedo.form.component.js',
-            'assets/frame/albedo.list.datatables.js',)
+            'assets/frame/albedo.list.datatables.js', )
             .then(result => {
                 Helpers.setLoading(false)
                 // optional js to be loaded once
@@ -96,7 +96,7 @@ export class ThemeComponent implements OnInit {
 
     private initBreadcrumbs(url: string) {
         let thiz = this
-        if(url=="/"){
+        if (url == "/") {
             return
         }
         if (thiz.modules) {

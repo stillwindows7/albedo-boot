@@ -106,7 +106,7 @@ interface JQuery {
 
     mTreeObj(s: string): any
 
-    modal(option?: any):JQuery
+    modal(option?: any): JQuery
     serializeObject(obj: any): any
 }
 

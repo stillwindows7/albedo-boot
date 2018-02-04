@@ -3,7 +3,7 @@ import { AlbedoBootSharedLibsModule } from "./shared-libs.module"
 import { AlbFormComponent, AlbTreeSelectComponent } from "./"
 import { DictService } from "../theme/pages/sys/dict/service/dict.service"
 import { AlbTreeShowComponent } from "./tags/tree.show.component"
-import {AlbIcoShowComponent} from "./tags/ico.show.component"
+import { AlbIcoShowComponent } from "./tags/ico.show.component"
 
 
 @NgModule({

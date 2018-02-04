@@ -23,7 +23,7 @@ export class DataService<T extends Data> {
     }
     queryUrl(params?: any, url?: string): Observable<any> {
         const options = createRequestOption(params)
-        return this.http.get(this.resourceUrl + '/' + (url?url:''), options)
+        return this.http.get(this.resourceUrl + '/' + (url ? url : ''), options)
             .map((data: any) => data)
     }
     query(params?: any): Observable<any> {

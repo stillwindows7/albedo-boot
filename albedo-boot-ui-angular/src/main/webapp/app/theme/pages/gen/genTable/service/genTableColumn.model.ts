@@ -1,5 +1,5 @@
-import {Data} from "../../../../../shared/index"
-import {SYS_NO} from "../../../../../app.constants"
+import { Data } from "../../../../../shared/index"
+import { SYS_NO } from "../../../../../app.constants"
 
 export class GenTableColumn extends Data {
     /**
@@ -29,11 +29,11 @@ export class GenTableColumn extends Data {
     /**
      * 是否主键（1：主键）
      */
-    public  isPk?: number
+    public isPk?: number
     /**
      * 是否唯一（1：是；0：否）
      */
-    public  isUnique?: number
+    public isUnique?: number
     /**
      * 是否可为空（1：可为空；0：不为空）
      */
@@ -41,19 +41,19 @@ export class GenTableColumn extends Data {
     /**
      * 是否为插入字段（1：插入字段）
      */
-    public isInsert?:number
+    public isInsert?: number
     /**
      * 是否编辑字段（1：编辑字段）
      */
-    public isEdit?:number
+    public isEdit?: number
     /**
      * 是否列表字段（1：列表字段）
      */
-    public isList?:number
+    public isList?: number
     /**
      * 是否查询字段（1：查询字段）
      */
-    public isQuery?:number
+    public isQuery?: number
     /**
      * 查询方式（等于、不等于、大于、小于、范围、左LIKE、右LIKE、左右LIKE）
      */
@@ -79,15 +79,15 @@ export class GenTableColumn extends Data {
 
     public nameAndComments?: string
 
-    constructor(){
+    constructor() {
         super()
-        this.isPk=SYS_NO
-        this.isUnique=SYS_NO
-        this.isNull=SYS_NO
-        this.isInsert=SYS_NO
-        this.isEdit=SYS_NO
-        this.isList=SYS_NO
-        this.isQuery=SYS_NO
+        this.isPk = SYS_NO
+        this.isUnique = SYS_NO
+        this.isNull = SYS_NO
+        this.isInsert = SYS_NO
+        this.isEdit = SYS_NO
+        this.isList = SYS_NO
+        this.isQuery = SYS_NO
     }
 
 }

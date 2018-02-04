@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
 import { ScriptLoaderService } from "../../../../shared/base/service/script-loader.service"
-import {CTX, DATA_STATUS} from "../../../../app.constants"
+import { CTX, DATA_STATUS } from "../../../../app.constants"
 import { Principal } from "../../../../auth/_services/principal.service"
-import {GenTableService} from "./service/genTable.service"
-import {Router} from "@angular/router"
+import { GenTableService } from "./service/genTable.service"
+import { Router } from "@angular/router"
 
 declare let datatable: any
 @Component({
@@ -98,12 +98,12 @@ export class GenTableComponent implements AfterViewInit {
         albedoForm.initSave()
     }
 
-    initAddGenTable(){
+    initAddGenTable() {
         var thisRouter = this.router
-        $(".btn-add-genTable").click(function(){
-            $("#genTable-dialog-before").modal({width: 740}).find(".confirm-modal").off().click(function () {
+        $(".btn-add-genTable").click(function() {
+            $("#genTable-dialog-before").modal({ width: 740 }).find(".confirm-modal").off().click(function() {
                 var $form = $("#genTable-form-before")
-                if(albedoForm.validate($form)){
+                if (albedoForm.validate($form)) {
                     thisRouter.navigate(['/gen/genTable/form'], { queryParams: $form.serializeObject($form) })
                     $("#genTable-dialog-before").modal('hide')
                 }

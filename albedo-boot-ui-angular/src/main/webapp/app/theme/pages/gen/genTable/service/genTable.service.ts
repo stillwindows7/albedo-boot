@@ -3,8 +3,8 @@ import { Http, Response } from '@angular/http'
 import { Observable } from 'rxjs/Rx'
 import { CTX } from "../../../../../app.constants"
 import { GenTable } from "./genTable.model"
-import {ComboData, DataService} from "../../../../../shared/index"
-import {createRequestOption} from "../../../../../shared/base/request.util"
+import { ComboData, DataService } from "../../../../../shared/index"
+import { createRequestOption } from "../../../../../shared/base/request.util"
 
 
 @Injectable()

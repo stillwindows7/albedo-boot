@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
 import { ScriptLoaderService } from "../../../../shared/base/service/script-loader.service"
-import {CTX, DATA_STATUS} from "../../../../app.constants"
+import { CTX, DATA_STATUS } from "../../../../app.constants"
 import { Principal } from "../../../../auth/_services/principal.service"
-import {GenSchemeService} from "./service/genScheme.service"
-import {Router} from "@angular/router"
+import { GenSchemeService } from "./service/genScheme.service"
+import { Router } from "@angular/router"
 
 declare let datatable: any
 @Component({

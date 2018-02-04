@@ -1,12 +1,12 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core'
-import {CommonModule} from '@angular/common'
-import {LayoutModule} from "../../../layouts/layout.module"
-import {ModuleComponent} from "./module.component"
-import {AlbedoBootSharedModule} from "../../../../shared/shared.module"
-import {ModuleFormComponent} from "./module.form.component"
-import {RouterModule} from "@angular/router"
-import {ModuleService} from "./service/module.service"
-import {routeChilds} from "../../../api.routing.module"
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { LayoutModule } from "../../../layouts/layout.module"
+import { ModuleComponent } from "./module.component"
+import { AlbedoBootSharedModule } from "../../../../shared/shared.module"
+import { ModuleFormComponent } from "./module.form.component"
+import { RouterModule } from "@angular/router"
+import { ModuleService } from "./service/module.service"
+import { routeChilds } from "../../../api.routing.module"
 
 const routesSysModule = [
     {

@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core'
-import {CTX} from "../../../../app.constants"
-import {ActivatedRoute} from "@angular/router"
-import {GenScheme} from "./service/genScheme.model"
-import {GenSchemeService} from "./service/genScheme.service"
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core'
+import { CTX } from "../../../../app.constants"
+import { ActivatedRoute } from "@angular/router"
+import { GenScheme } from "./service/genScheme.model"
+import { GenSchemeService } from "./service/genScheme.service"
 
 @Component({
     selector: ".sys-genScheme-form.page-form",
@@ -28,7 +28,7 @@ export class GenSchemeFormComponent implements AfterViewInit {
         this.routeData = this.activatedRoute.params.subscribe((params) => {
             this.genSchemeService.formData(params).subscribe((data) => {
                 console.log(data)
-                if(data.genSchemeVo)this.genScheme = data.genSchemeVo
+                if (data.genSchemeVo) this.genScheme = data.genSchemeVo
                 this.viewTypeList = data.viewTypeList
                 this.categoryList = data.categoryList
                 this.tableList = data.tableList
@@ -67,8 +67,8 @@ export class GenSchemeFormComponent implements AfterViewInit {
 
     }
 
-    initFormSyncModule(){
-        $("#syncModule").off().click(function () {
+    initFormSyncModule() {
+        $("#syncModule").off().click(function() {
             $(this).is(':checked') ? $("#parentModule_div").removeClass("hide").find("input#modularName").addClass("required") : $("#parentModule_div").addClass("hide").find("input#modularName").removeClass("required")
         })
     }

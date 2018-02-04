@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core'
-import {Http} from '@angular/http'
-import {User} from "./user.model"
-import {DataService} from "../../../../../shared"
-import {CTX} from "../../../../../app.constants"
+import { Injectable } from '@angular/core'
+import { Http } from '@angular/http'
+import { User } from "./user.model"
+import { DataService } from "../../../../../shared"
+import { CTX } from "../../../../../app.constants"
 
 
 @Injectable()
