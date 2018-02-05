@@ -30,8 +30,11 @@ import java.util.List;
 public class GenTableColumn extends IdEntity {
 
     private static final long serialVersionUID = 1L;
+    @Column(name = "gen_table_id")
+    @NotBlank
+    private String genTableId; // 归属表
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "gen_table_id", nullable = true)
+    @JoinColumn(name = "gen_table_id", nullable = true, updatable = false, insertable = false)
     @NotFound(action = NotFoundAction.IGNORE)
     private GenTable genTable; // 归属表
     @Length(min = 1, max = 200)
@@ -487,5 +490,13 @@ public class GenTableColumn extends IdEntity {
 
     public void setSize(String size) {
         this.size = size;
+    }
+
+    public String getGenTableId() {
+        return genTableId;
+    }
+
+    public void setGenTableId(String genTableId) {
+        this.genTableId = genTableId;
     }
 }
