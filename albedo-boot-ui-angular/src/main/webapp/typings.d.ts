@@ -28,6 +28,7 @@ interface AlbedoForm {
 
     validate(target?: any): void
     setData(selector: string, data: any): void
+    getData(selector: string): any
     initFormData(selector: string, data: any): void
     clearDataBylikeKey(keyLike: string): void
 

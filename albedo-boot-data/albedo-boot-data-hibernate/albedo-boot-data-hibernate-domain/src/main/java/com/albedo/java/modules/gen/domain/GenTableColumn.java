@@ -2,14 +2,15 @@ package com.albedo.java.modules.gen.domain;
 
 import com.albedo.java.common.domain.base.IdEntity;
 import com.albedo.java.common.domain.base.TreeEntity;
-import com.albedo.java.modules.gen.util.GenUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.config.SystemConfig;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.collect.Lists;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.*;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -36,6 +37,9 @@ public class GenTableColumn extends IdEntity {
     @Length(min = 1, max = 200)
     @Column(name = "name_")
     private String name; // 列名
+    @Column(name = "title_")
+    @NotBlank
+    private String title; // 标题
     @Column(name = "comments")
     private String comments; // 描述
     @Column(name = "jdbc_type")
@@ -109,7 +113,7 @@ public class GenTableColumn extends IdEntity {
         this.name = name;
     }
 
-    public String getComments() {
+    public String getTitle() {
         return comments;
     }
 
@@ -246,7 +250,7 @@ public class GenTableColumn extends IdEntity {
      *
      * @return
      */
-    public String getNameAndComments() {
+    public String getNameAndTitle() {
         return getName() + (comments == null ? "" : "  :  " + comments);
     }
 
@@ -367,11 +371,11 @@ public class GenTableColumn extends IdEntity {
         }
         // 导入JSR303验证依赖包
         if (!"1".equals(getIsNull()) && !SystemConfig.TYPE_STRING.equals(getJavaType())) {
-            list.add("javax.validation.constraints.NotNull(message=\"" + getComments() + "不能为空\")");
+            list.add("javax.validation.constraints.NotNull(message=\"" + getTitle() + "不能为空\")");
         } else if (!"1".equals(getIsNull()) && SystemConfig.TYPE_STRING.equals(getJavaType()) && !"0".equals(getDataLength())) {
-            list.add("org.hibernate.validator.constraints.Length(min=1, max=" + getDataLength() + ", message=\"" + getComments() + "长度必须介于 1 和 " + getDataLength() + " 之间\")");
+            list.add("org.hibernate.validator.constraints.Length(min=1, max=" + getDataLength() + ", message=\"" + getTitle() + "长度必须介于 1 和 " + getDataLength() + " 之间\")");
         } else if (SystemConfig.TYPE_STRING.equals(getJavaType()) && !"0".equals(getDataLength())) {
-            list.add("org.hibernate.validator.constraints.Length(min=0, max=" + getDataLength() + ", message=\"" + getComments() + "长度必须介于 0 和 " + getDataLength() + " 之间\")");
+            list.add("org.hibernate.validator.constraints.Length(min=0, max=" + getDataLength() + ", message=\"" + getTitle() + "长度必须介于 0 和 " + getDataLength() + " 之间\")");
         }
         return list;
     }
@@ -429,9 +433,42 @@ public class GenTableColumn extends IdEntity {
 
     public String getHibernateValidatorExprssion() {
         if (PublicUtil.isEmpty(hibernateValidatorExprssion)) {
-            hibernateValidatorExprssion = GenUtil.getHibernateValidatorExpression(this);
+            hibernateValidatorExprssion = getHibernateValidatorExpression(this);
         }
         return hibernateValidatorExprssion;
+    }
+
+    @JSONField(serialize = false)@Transient
+    public String getHibernateValidatorExpression(GenTableColumn c) {
+        if (!SystemConfig.YES.equals(c.getIsPk()) && !SystemConfig.YES.equals(c.getIsNull())) {
+            if (c.getJavaType().endsWith(SystemConfig.TYPE_STRING)) {
+                return (new StringBuilder()).append("@NotBlank ").append(getNotRequiredHibernateValidatorExpression(c)).toString();
+            } else {
+                return (new StringBuilder()).append("@NotNull ").append(getNotRequiredHibernateValidatorExpression(c)).toString();
+            }
+        } else {
+            return getNotRequiredHibernateValidatorExpression(c);
+        }
+    }
+
+    @JSONField(serialize = false)@Transient
+    public String getNotRequiredHibernateValidatorExpression(GenTableColumn c) {
+        String result = "", javaType = c.getJavaType(), jdbcType = c.getJdbcType();
+        if (c.getName().indexOf("mail") >= 0) {
+            result = (new StringBuilder()).append(result).append("@Email ").toString();
+        }
+        ;
+        if (javaType.endsWith(SystemConfig.TYPE_STRING)) {
+            Integer size = jdbcType.equals("text") ? 65535 : Integer.valueOf(jdbcType.substring(jdbcType.indexOf("(") + 1, jdbcType.length() - 1));
+            result = (new StringBuilder()).append(result).append(String.format("@Length(max=%s)", new Object[]{size})).toString();
+        }
+        if (javaType.endsWith(SystemConfig.TYPE_LONG) || javaType.endsWith(SystemConfig.TYPE_INTEGER) || javaType.endsWith(SystemConfig.TYPE_SHORT) || javaType.endsWith("Byte")) {
+            if (javaType.toLowerCase().indexOf("short") >= 0)
+                result = (new StringBuilder()).append(result).append(" @Max(32767)").toString();
+            else if (javaType.toLowerCase().indexOf("byte") >= 0)
+                result = (new StringBuilder()).append(result).append(" @Max(127)").toString();
+        }
+        return result.trim();
     }
 
     public void setHibernateValidatorExprssion(String hibernateValidatorExprssion) {

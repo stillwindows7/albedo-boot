@@ -2,13 +2,12 @@ package com.albedo.java.modules.gen.service;
 
 import com.albedo.java.common.data.persistence.DynamicSpecifications;
 import com.albedo.java.common.data.persistence.SpecificationDetail;
-import com.albedo.java.common.service.DataService;
 import com.albedo.java.common.service.DataVoService;
 import com.albedo.java.modules.gen.domain.GenTable;
 import com.albedo.java.modules.gen.domain.GenTableColumn;
 import com.albedo.java.modules.gen.domain.xml.GenConfig;
 import com.albedo.java.modules.gen.repository.GenTableRepository;
-import com.albedo.java.modules.gen.util.GenUtil;
+import com.albedo.java.util.GenUtil;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
@@ -235,7 +234,7 @@ public class GenTableService extends DataVoService<GenTableRepository,
     public Map<String, Object> findFormData(GenTableFormVo genTableFormVo) {
         Map<String, Object> map = Maps.newHashMap();
         //父表表名
-        map.put("tableList", PublicUtil.convertComboDataList(findTableListFormDb(new GenTableVo()), GenTable.F_NAME, GenTable.F_NAMESANDCOMMENTS));
+        map.put("tableList", PublicUtil.convertComboDataList(findTableListFormDb(new GenTableVo()), GenTable.F_NAME, GenTable.F_NAMESANDTITLE));
         // 验证参数缺失
         if (StringUtil.isBlank(genTableFormVo.getId()) && StringUtil.isBlank(genTableFormVo.getName())) {
             throw new RuntimeMsgException(PublicUtil.toAppendStr("参数缺失！"));
@@ -251,7 +250,7 @@ public class GenTableService extends DataVoService<GenTableRepository,
         // 获取物理表字段
         genTableVo = getTableFormDb(genTableVo);
         //当前表外键
-        map.put("columnList", PublicUtil.convertComboDataList(genTableVo.getColumnList(), GenTable.F_NAME, GenTable.F_NAMESANDCOMMENTS));
+        map.put("columnList", PublicUtil.convertComboDataList(genTableVo.getColumnList(), GenTable.F_NAME, GenTable.F_NAMESANDTITLE));
 
 
         map.put("genTableVo", genTableVo);

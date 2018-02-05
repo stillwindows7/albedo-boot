@@ -116,16 +116,6 @@ public class GenScheme extends IdEntity {
         this.viewType = viewType;
     }
 
-    /**
-     * true 使用ajax视图
-     *
-     * @return
-     */
-    @Transient
-    public boolean getModalView() {
-        return SystemConfig.YES.equals(viewType);
-    }
-
     public String getModuleName() {
         return moduleName;
     }

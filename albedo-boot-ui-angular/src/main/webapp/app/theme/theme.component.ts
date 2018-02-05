@@ -2,12 +2,12 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core'
 import { NavigationEnd, NavigationStart, Router } from '@angular/router'
 import { Helpers } from '../helpers'
 import { ScriptLoaderService } from '../shared/base/service/script-loader.service'
-import { ModuleService } from "./pages/sys/module/service/module.service"
-import { Module } from "./pages/sys/module/service/module.model"
 import { CTX } from "../app.constants"
 import { LocalStorageService, SessionStorageService } from "ngx-webstorage"
 import { Principal } from "../auth/_services/principal.service"
 import { setActiveItemMenu } from "../shared/base/base.util"
+import {Module} from "./pages/modules/sys/module/service/module.model";
+import {ModuleService} from "./pages/modules/sys/module/service/module.service";
 
 declare let mApp: any
 declare let mUtil: any
@@ -57,7 +57,7 @@ export class ThemeComponent implements OnInit {
                 albedo.setSessionStorage(this.sessionStorage)
                 albedo.setToken(token)
                 albedo.setUserId(this.principal.getUserId())
-                this.initBreadcrumbs(url)
+                this.initData()
             })
         // this.scriptLoaderService.load('body',
         //     'assets/frame/albedo.form.component.js',
@@ -83,7 +83,7 @@ export class ThemeComponent implements OnInit {
                     $('.m-wrapper').removeClass(animation)
                 }).removeClass(animation).addClass(animation)
                 this.initBreadcrumbs(route.url)
-
+                this.initData()
                 setActiveItemMenu(this.localStorage)
             }
         })
@@ -92,7 +92,12 @@ export class ThemeComponent implements OnInit {
     private getModules(callbackfn: (value: Module, index: number, array: Module[]) => void, thisArg?: any): void {
         this.modules && this.modules.forEach(callbackfn)
     }
-
+    private initData() {
+        if(typeof (albedoForm) != "undefined"){
+            console.log("clearData")
+            albedoForm.clearData()
+        }
+    }
 
     private initBreadcrumbs(url: string) {
         let thiz = this
@@ -118,8 +123,6 @@ export class ThemeComponent implements OnInit {
             })
             Helpers.setBreadcrumbs(breadcrumbs)
         }
-        typeof (albedoForm) != "undefined" && albedoForm.clearData()
-
     }
 
 }

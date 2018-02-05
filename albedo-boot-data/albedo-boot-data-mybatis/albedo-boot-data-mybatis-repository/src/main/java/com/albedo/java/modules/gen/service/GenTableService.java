@@ -132,7 +132,7 @@ public class GenTableService extends DataVoService<GenTableRepository, GenTable,
                 if (StringUtil.isBlank(genTableVo.getId())) {
                     genTableVo = list.get(0);
                     // 设置字段说明
-                    if (StringUtil.isBlank(genTableVo.getComments())) {
+                    if (StringUtil.isBlank(genTableVo.getTitle())) {
                         genTableVo.setComments(genTableVo.getName());
                     }
                     genTableVo.setClassName(StringUtil.toCapitalizeCamelCase(genTableVo.getName()));

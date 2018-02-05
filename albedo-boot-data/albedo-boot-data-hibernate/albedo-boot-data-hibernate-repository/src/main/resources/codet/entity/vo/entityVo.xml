@@ -27,17 +27,17 @@ import javax.validation.constraints.NotNull;
  */
 @Data @ToString @NoArgsConstructor @AllArgsConstructor
 public class ${ClassName}Vo extends DataEntityVo {
-	
+
 	private static final long serialVersionUID = 1L;
 	<#list table.columnList as column>
 		<#if !column.pk && column.isNotBaseField>
-	/** F_${column.constantJavaField} ${column.nameAndComments} */
+	/** F_${column.constantJavaField} ${column.nameAndTitle} */
 	public static final String F_${column.constantJavaField} = "${column.simpleJavaField}";
 		</#if>
 	</#list>
-	
-	<@generateFields/>
 
+	<@generateFields/>
+	<@generateCompositeIdConstructorIfis/>
 
 	@Override
 	public boolean equals(Object obj) {
@@ -67,6 +67,18 @@ public class ${ClassName}Vo extends DataEntityVo {
 	//columns END
 </#macro>
 
+<#macro generateCompositeIdConstructorIfis>
+
+	<#if table.compositeId>
+	public ${ClassName}Vo(${ClassName}Id id) {
+		this.id = id;
+	}
+	<#else>
+	public ${ClassName}Vo(${table.pkJavaType} id) {
+		this.id = id;
+	}
+	</#if>
+</#macro>
 ]]>
     </content>
 </template>

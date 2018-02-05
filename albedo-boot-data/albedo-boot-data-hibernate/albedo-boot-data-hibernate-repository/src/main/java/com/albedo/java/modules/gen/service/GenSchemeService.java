@@ -1,22 +1,20 @@
 package com.albedo.java.modules.gen.service;
 
 import com.albedo.java.common.data.persistence.DynamicSpecifications;
-import com.albedo.java.common.service.DataService;
 import com.albedo.java.common.service.DataVoService;
 import com.albedo.java.modules.gen.domain.GenScheme;
 import com.albedo.java.modules.gen.domain.GenTable;
 import com.albedo.java.modules.gen.domain.GenTemplate;
 import com.albedo.java.modules.gen.domain.xml.GenConfig;
 import com.albedo.java.modules.gen.repository.GenSchemeRepository;
-import com.albedo.java.modules.gen.repository.GenTableRepository;
-import com.albedo.java.modules.gen.util.GenUtil;
+import com.albedo.java.util.GenUtil;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.Collections3;
+import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.vo.gen.GenSchemeVo;
-import com.albedo.java.vo.gen.GenTableFormVo;
 import com.albedo.java.vo.gen.GenTableVo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -52,6 +50,9 @@ public class GenSchemeService extends DataVoService<GenSchemeRepository,
 
         // 获取所有代码模板
         GenConfig config = GenUtil.getConfig();
+
+        //使用弹窗视图
+        genSchemeVo.setViewType(genSchemeVo.getCategory().indexOf("modal")!=-1 ? SystemConfig.YES : SystemConfig.NO);
 
         // 获取模板列表
         List<GenTemplate> templateList = GenUtil.getTemplateList(config, genSchemeVo.getCategory(), false);
@@ -110,7 +111,7 @@ public class GenSchemeService extends DataVoService<GenSchemeRepository,
                 list.add(table);
             }
         }
-        map.put("tableList", PublicUtil.convertComboDataList(list, GenTable.F_ID, GenTable.F_NAMESANDCOMMENTS));
+        map.put("tableList", PublicUtil.convertComboDataList(list, GenTable.F_ID, GenTable.F_NAMESANDTITLE));
 return map;
     }
 }

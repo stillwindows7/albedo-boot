@@ -40,13 +40,13 @@ public class GenTableResource extends DataVoResource<GenTableService, GenTableVo
     @GetMapping(value = "/list")
     @Timed
     public String list(Model model) {
-        model.addAttribute("tableList", FormDirective.convertComboDataList(service.findTableListFormDb(null), GenTable.F_NAME, GenTable.F_NAMESANDCOMMENTS));
+        model.addAttribute("tableList", FormDirective.convertComboDataList(service.findTableListFormDb(null), GenTable.F_NAME, GenTable.F_NAMESANDTITLE));
         return "modules/gen/genTableList";
     }
     @GetMapping(value = "/tableList")
     @Timed
     public ResponseEntity tableList() {
-        return ResultBuilder.buildOk(FormDirective.convertComboDataList(service.findTableListFormDb(null), GenTable.F_NAME, GenTable.F_NAMESANDCOMMENTS));
+        return ResultBuilder.buildOk(FormDirective.convertComboDataList(service.findTableListFormDb(null), GenTable.F_NAME, GenTable.F_NAMESANDTITLE));
     }
 
     @GetMapping(value = "/formData")

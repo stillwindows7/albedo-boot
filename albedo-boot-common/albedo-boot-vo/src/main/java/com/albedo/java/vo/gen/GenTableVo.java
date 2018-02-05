@@ -28,7 +28,7 @@ import java.util.List;
 public class GenTableVo extends DataEntityVo {
 
     public static final String F_NAME = "name";
-    public static final String F_NAMESANDCOMMENTS = "nameAndComments";
+    public static final String F_NAMESANDCOMMENTS = "nameAndTitle";
     private static final long serialVersionUID = 1L;
     // 名称
     /*** 编码 */
@@ -47,7 +47,7 @@ public class GenTableVo extends DataEntityVo {
     /*** 子表列表 */
     @JSONField(serialize = false)
     private List<GenTableVo> childList;
-    private String nameAndComments;
+    private String nameAndTitle;
     /*** 按名称模糊查询 */
     private String nameLike;
     /*** 当前表主键列表 */
@@ -60,6 +60,7 @@ public class GenTableVo extends DataEntityVo {
     @JSONField(serialize = false)
     private List<GenTableColumnVo> pkColumnList;
     /*** 列 - 列表 */
+    @JSONField(serialize = false)
     private List<GenTableColumnVo> columnList;
     /*** 表单提交列 - 列表 */
     @NotNull
@@ -143,18 +144,21 @@ public class GenTableVo extends DataEntityVo {
      *
      * @return
      */
-    public String getNameAndComments() {
-        if (PublicUtil.isEmpty(nameAndComments)) {
-            nameAndComments = getName() + (comments == null ? "" : "  :  " + comments);
+    public String getNameAndTitle() {
+        if (PublicUtil.isEmpty(nameAndTitle)) {
+            nameAndTitle = getName() + (comments == null ? "" : "  :  " + comments);
         }
-        return nameAndComments;
+        return nameAndTitle;
     }
 
-    public void setNameAndComments(String nameAndComments) {
-        this.nameAndComments = nameAndComments;
+    public void setNameAndComments(String nameAndTitle) {
+        this.nameAndTitle = nameAndTitle;
     }
 
     public List<GenTableColumnVo> getColumnFormList() {
+        if(PublicUtil.isEmpty(columnFormList) && PublicUtil.isNotEmpty(columnList)){
+            columnFormList = columnList;
+        }
         return columnFormList;
     }
 

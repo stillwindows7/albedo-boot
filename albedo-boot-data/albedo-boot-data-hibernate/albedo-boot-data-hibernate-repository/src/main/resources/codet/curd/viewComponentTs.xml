@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <template>
     <name>viewComponentTs</name>
-    <filePath>src/main/webapp/app/theme/pages/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
+    <filePath>src/main/webapp/app/theme/pages/${lastPackageName}/${moduleName}/${subModuleName}/${className}</filePath>
     <fileName>${className}.component.ts</fileName>
     <content><![CDATA[
 import {AfterViewInit, Component, ViewEncapsulation} from '@angular/core';
-import {ScriptLoaderService} from "../../../../shared/base/service/script-loader.service";
-import {CTX, DATA_STATUS} from "../../../../app.constants";
+import {ScriptLoaderService} from "../../../../../shared/base/service/script-loader.service";
+import {CTX, DATA_STATUS} from "../../../../../app.constants";
 import {ActivatedRoute} from "@angular/router";
-import {Principal} from "../../../../auth/_services/principal.service";
+import {Principal} from "../../../../../auth/_services/principal.service";
 
 @Component({
     selector: ".${moduleName}-${className}-list.page-list",
@@ -17,10 +17,15 @@ import {Principal} from "../../../../auth/_services/principal.service";
 })
 export class ${ClassName}Component implements AfterViewInit {
 
+    <#if scheme.modalView>
+    ${className}: ${ClassName}
+    ctx: any
+    <#/if>
     constructor(private _script: ScriptLoaderService,
         private router: ActivatedRoute,
         private principal: Principal) {
-
+        <#if scheme.modalView>this.ctx = CTX
+       this.${className} = new ${ClassName}()<#/if>
     }
 
     ngAfterViewInit() {
@@ -44,14 +49,14 @@ export class ${ClassName}Component implements AfterViewInit {
 					<#list table.columnList as column>
 					<#if column.isList?? && column.isList == 1>
 					<#if column.simpleJavaField = 'status'>
-					{title: '${column.comments}',data:'${column.simpleJavaField}',template: function(row) {
+					{title: '${column.comments}',field:'${column.simpleJavaField}',template: function(row) {
                         return '<span class="m-badge ' + DATA_STATUS[row.status].class + ' m-badge--wide">' + row.status + '</span>';
                     }},
 					<#else>
-					{title: '${column.comments}',data:'${column.simpleJavaField}<#if column.simpleJavaType == "User" || column.simpleJavaType == "Org" || column.simpleJavaType == "Area">${column.defaultJavaFieldName?cap_first}</#if>'
-					<#if firstListField> width: 110,sortable: 'asc',overflow: 'visible',template: function(row) {
+					{title: '${column.comments}',field:'${column.simpleJavaField}<#if column.simpleJavaType == "User" || column.simpleJavaType == "Org" || column.simpleJavaType == "Area">${column.defaultJavaFieldName?cap_first}</#if>'
+					<#if firstListField> ,width: 110,sortable: 'asc',overflow: 'visible',template: function(row) {
                         return thisPrincipal.hasAuthority("${permissionPrefix}_edit") ? ( '<a href="#/${urlPrefix}/form/' + row.id + '" class="m-link" title="点击编辑${functionNameSimple}">'+row.${column.simpleJavaField}+'</a>') : row.${column.simpleJavaField};
-                    },<#assign firstListField = false></#if>}
+                    },<#assign firstListField = false></#if>},
 					</#if>
 					</#if>
 					</#list>
@@ -69,7 +74,7 @@ export class ${ClassName}Component implements AfterViewInit {
                     if (thisPrincipal.hasAuthority("${permissionPrefix}_edit"))
                     <#if scheme.modalView>
                         template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill dialog-edit" title="编辑"\
-                            \data-method="get"  data-title="编辑【' + row.name + '】机构" data-url="' + CTX + '/${urlPrefix}/' + row.id + '" data-modal-id="#${className}-edit-modal">\
+                            \data-method="get"  data-title="编辑【' + row.name + '】" data-url="' + CTX + '/${urlPrefix}/' + row.id + '" data-modal-id="#${className}-edit-modal">\
                             \<i class="la la-edit"></i>\
                             \</a>'
                     <#else>
@@ -79,12 +84,12 @@ export class ${ClassName}Component implements AfterViewInit {
                     </#if>
                     if (thisPrincipal.hasAuthority("${permissionPrefix}_lock"))
                         template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="' + (row.status == "正常" ? "锁定" : "解锁") + '${functionNameSimple}"\
-                     data-table-id="#data-table-${className}" data-method="put"  data-title="你确认要操作【' + row.loginId + '】${functionNameSimple}吗？" data-url="' + CTX + '/${urlPrefix}/' + row.id + '">\
+                     data-table-id="#data-table-${className}" data-method="put"  data-title="你确认要操作选中的${functionNameSimple}吗？" data-url="' + CTX + '/${urlPrefix}/' + row.id + '">\
                             \<i class="la la-'+ (row.status == "正常" ? "unlock-alt" : "unlock") + '"></i>\
                             \</a>';
                     if (thisPrincipal.hasAuthority("${permissionPrefix}_delete"))
                         template += '<a  href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
-                               data-table-id="#data-table-${className}" data-method="delete"  data-title="你确认要删除【' + row.loginId + '】${functionNameSimple}吗？" data-url="' + CTX + '/${urlPrefix}/' + row.id + '">\
+                               data-table-id="#data-table-${className}" data-method="delete"  data-title="你确认要删除选中的${functionNameSimple}吗？" data-url="' + CTX + '/${urlPrefix}/' + row.id + '">\
                             \<i class="la la-trash"></i>\
                             \</a>';
                     return template;
@@ -98,7 +103,7 @@ export class ${ClassName}Component implements AfterViewInit {
         albedoForm.initValidate($("#${className}-save-form"), {
             // define validation rules
             rules:{<#list table.columnList as column><#if column.unique && !column.pk>
-				${column.simpleJavaField}: {remote: '<@jspEl/>{ctx}/${urlPrefix}/checkByProperty?id=' + encodeURIComponent(albedo.toStr($("#${className}-save-form").find("input[name='id']").val())}<#if column_has_next>,</#if></#if></#list>
+				${column.simpleJavaField}: {remote: '{{ctx}}/${urlPrefix}/checkByProperty?id=' + encodeURIComponent(albedo.toStr($("#${className}-save-form").find("input[name='id']").val()))}<#if column_has_next>,</#if></#if></#list>
 			},
             messages:{<#list table.columnList as column><#if column.unique && !column.pk>
 				${column.simpleJavaField}: {remote: '${column.comments }已存在'}<#if column_has_next>,</#if></#if></#list>

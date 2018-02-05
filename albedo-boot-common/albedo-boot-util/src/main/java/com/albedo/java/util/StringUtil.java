@@ -343,13 +343,13 @@ public class StringUtil extends org.apache.commons.lang3.StringUtils {
      *
      * @return
      */
-    public static String getProjectPath() {
+    public static String getProjectPath(String fileName,String relativeUIPath) {
         String projectPath = "";
         try {
             File file = new DefaultResourceLoader().getResource("").getFile();
             if (file != null) {
                 while (true) {
-                    File f = new File(file.getPath() + File.separator + "src" + File.separator + "main");
+                    File f = new File( file.getPath() + File.separator + "src" + File.separator + "main");
                     if (f == null || f.exists()) {
                         break;
                     }
@@ -359,6 +359,13 @@ public class StringUtil extends org.apache.commons.lang3.StringUtils {
                         break;
                     }
                 }
+                if(!fileName.endsWith(".java") && PublicUtil.isNotEmpty(relativeUIPath)){
+                   File fileTemp = new File(file.getPath() + File.separator+ relativeUIPath);
+                   if(fileTemp == null || fileTemp.exists()){
+                       file = fileTemp;
+                   }
+                }
+
                 projectPath = file.toString();
             }
         } catch (IOException e) {

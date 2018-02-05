@@ -27,15 +27,15 @@ import javax.validation.constraints.NotNull;
  */
 @Data @ToString @NoArgsConstructor @AllArgsConstructor
 public class ${ClassName}Vo extends DataEntityVo {
-	
+
 	private static final long serialVersionUID = 1L;
 	<#list table.columnList as column>
 		<#if !column.pk && column.isNotBaseField>
-	/** F_${column.constantJavaField} ${column.nameAndComments} */
+	/** F_${column.constantJavaField} ${column.nameAndTitle} */
 	public static final String F_${column.constantJavaField} = "${column.simpleJavaField}";
 		</#if>
 	</#list>
-	
+
 	<@generateFields/>
 
 

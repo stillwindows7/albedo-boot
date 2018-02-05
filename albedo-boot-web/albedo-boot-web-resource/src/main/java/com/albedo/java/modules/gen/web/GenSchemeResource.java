@@ -1,24 +1,16 @@
 package com.albedo.java.modules.gen.web;
 
-import com.albedo.java.common.config.template.tag.FormDirective;
 import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.common.security.SecurityUtil;
-import com.albedo.java.modules.gen.domain.GenScheme;
-import com.albedo.java.modules.gen.domain.GenTable;
-import com.albedo.java.modules.gen.domain.xml.GenConfig;
 import com.albedo.java.modules.gen.service.GenSchemeService;
 import com.albedo.java.modules.gen.service.GenTableService;
-import com.albedo.java.modules.gen.util.GenUtil;
-import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.service.ModuleService;
 import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
-import com.albedo.java.util.base.Collections3;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.vo.gen.GenSchemeVo;
-import com.albedo.java.vo.gen.GenTableFormVo;
 import com.albedo.java.vo.gen.GenTableVo;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.DataVoResource;
@@ -34,7 +26,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Map;
 
 /**

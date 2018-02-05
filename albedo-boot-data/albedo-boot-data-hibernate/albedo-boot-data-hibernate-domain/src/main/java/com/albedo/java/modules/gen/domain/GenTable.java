@@ -34,7 +34,7 @@ import java.util.List;
 public class GenTable extends IdEntity {
 
     public static final String F_NAME = "name";
-    public static final String F_NAMESANDCOMMENTS = "nameAndComments";
+    public static final String F_NAMESANDTITLE = "nameAndTitle";
     private static final long serialVersionUID = 1L;
     @Column(name = "name_")
     @SearchField
@@ -68,7 +68,7 @@ public class GenTable extends IdEntity {
     private List<GenTable> childList; // 子表列表
 
     @Transient
-    private String nameAndComments;
+    private String nameAndTitle;
     @Transient
     private String nameLike; // 按名称模糊查询
     @Transient
@@ -106,7 +106,7 @@ public class GenTable extends IdEntity {
         this.name = name;
     }
 
-    public String getComments() {
+    public String getTitle() {
         return comments;
     }
 
@@ -219,14 +219,10 @@ public class GenTable extends IdEntity {
      *
      * @return
      */
-    public String getNameAndComments() {
-        if (PublicUtil.isEmpty(nameAndComments))
-            nameAndComments = getName() + (comments == null ? "" : "  :  " + comments);
-        return nameAndComments;
-    }
-
-    public void setNameAndComments(String nameAndComments) {
-        this.nameAndComments = nameAndComments;
+    public String getNameAndTitle() {
+        if (PublicUtil.isEmpty(nameAndTitle))
+            nameAndTitle = getName() + (comments == null ? "" : "  :  " + comments);
+        return nameAndTitle;
     }
 
     public List<GenTableColumn> getColumnFormList() {

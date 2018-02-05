@@ -42,15 +42,15 @@ import java.util.Date;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Data @ToString @NoArgsConstructor @AllArgsConstructor
 public class ${ClassName} extends DataEntity {
-	
+
 	private static final long serialVersionUID = 1L;
 	<#list table.columnList as column>
 		<#if !column.pk && column.isNotBaseField>
-	/** F_${column.constantJavaField} ${column.nameAndComments} */
+	/** F_${column.constantJavaField} ${column.nameAndTitle} */
 	public static final String F_${column.constantJavaField} = "${column.simpleJavaField}";
 		</#if>
 	</#list>
-	
+
 	<@generateFields/>
 	<@generateCompositeIdConstructorIfis/>
 	@PrePersist
@@ -85,7 +85,7 @@ public class ${ClassName} extends DataEntity {
 	@EmbeddedId
 	private ${ClassName}Id id;
 <#else>
-	@Id 
+	@Id
 	@Column(name = "${table.pkSqlName}"<#if table.pkJavaType = 'java.lang.String'>, length = ${table.pkSize}</#if>)
 	@SearchField
 	private ${table.pkJavaType} id;
@@ -132,7 +132,7 @@ public class ${ClassName} extends DataEntity {
 	public ${ClassName}Id getId() {
 		return this.id;
 	}
-	
+
 	public void setId(${ClassName}Id id) {
 		this.id = id;
 	}
@@ -146,7 +146,7 @@ public class ${ClassName} extends DataEntity {
 		return this.id;
 	}
 	</#if>
-	
+
 </#macro>
 
 <#macro generateNotPkProperties>

@@ -41,7 +41,7 @@
 				<#list table.columnList as c>
 					<#if c.simpleJavaField == 'parentId'>
 				<div class="form-group">
-                    <label class="control-label col-md-3">${c.comments}<span class="required">*</span>
+                    <label class="control-label col-md-3">${c.title}<span class="required">*</span>
                     </label>
                     <div class="col-md-5">
                         <<@at />albedo.treeSelect id="${className}" cssClass="required" allowClear="true" name="parentId" value="<@jspEl />{(${className}Vo.parentId)!}" labelName="parentName"
@@ -50,7 +50,7 @@
                 </div>
 			<#elseif c.isEdit?? && c.isEdit == 1 && (c.isNotBaseTreeField || c.simpleJavaField == 'name' || c.simpleJavaField == 'sort') && (c.isNotBaseField || c.simpleJavaField == 'description')>
 				<div class="form-group">
-					<label class="control-label col-md-3">${c.comments}<#if !c.nullable><span class="required">*</span></#if></label>
+					<label class="control-label col-md-3">${c.title}<#if !c.nullable><span class="required">*</span></#if></label>
 					<div class="col-md-5">
 					<#if c.showType == "input">
 						<input type="text" name="${c.javaFieldId}" id="${c.javaFieldId}" class="form-control<#if !c.nullable> required</#if><#if c.javaType == "Long" || c.javaType == "Integer"> digits</#if><#if c.javaType == "Double"> number</#if>" value="<@jspEl />{(${className}Vo.${c.javaFieldId})!}" htmlEscape="false"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if>>

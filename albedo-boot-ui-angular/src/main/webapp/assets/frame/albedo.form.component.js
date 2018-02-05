@@ -936,7 +936,7 @@ var albedoForm = function () {
             options = $.extend(true, {
                 autoUpload: true,
                 singleFileUploads: false,
-                url: App.getCtxPath() + "/file/upload",
+                url: albedo.getCtx() + "/file/upload",
                 type: "POST",
                 dataType: 'json',
                 done: function (e, data) {
@@ -992,6 +992,7 @@ var albedoForm = function () {
             var el = $(this), $form = $target.find('.m-form'),
                 flag = true;
             if(!validateFun) validateFun = $form.attr("validateFun")
+            console.log(doValidation($form))
             if (doValidation($form)) {
                 albedo.isExitsFunction(validateFun) && eval("flag = " + validateFun + "()");
                 if (flag) {
@@ -1137,11 +1138,12 @@ var albedoForm = function () {
             $form.find("[name]").each(function(){
                 var $target = $(this);
                 if($target && $target.length>0){
-                    var val = data && data[$target.attr("name")], isNullVal = albedo.isNull(val);
+                    var val,isNullVal;
+                    eval("val = data && data."+$target.attr("name")+", isNullVal = albedo.isNull(val);")
                     if(isNullVal){
                         $target.parents(".form-group").removeClass("has-danger").removeClass("has-success")
                     }
-                    var val = !isNullVal ? val.toString() : "";
+                    val = !isNullVal ? val.toString() : "";
                     if($target.is("input")){
                         var type = $target.attr("type");
                         if(type == "radio" || type == "checkbox"){
@@ -1219,6 +1221,9 @@ var albedoForm = function () {
         },
         setData: function (selector, data) {
             _setData(selector, data)
+        },
+        getData: function (selector) {
+            return _getData(selector)
         },
         initFormData: function (selector, data) {
             _setData(selector, data)

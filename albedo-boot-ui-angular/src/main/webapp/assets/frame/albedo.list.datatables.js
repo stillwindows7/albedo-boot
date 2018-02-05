@@ -64,7 +64,7 @@ var albedoList = function(){
                 // console.log(dataTable);
                 _setData("#"+$(item).attr("id"), dataTable);
                 $formSearch.find(".search-form-btn").click(function() {
-                    _getData($(item).attr("id")).loadFilterGird();
+                    _getData("#"+$(item).attr("id")).loadFilterGird();
                 })
             })
 

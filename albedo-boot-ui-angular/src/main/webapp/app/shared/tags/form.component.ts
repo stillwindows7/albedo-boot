@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, Input, OnInit, SimpleChanges } from '@angular/core'
 import { ComboSearch } from "../base/model/combo.search.model"
-import { DictService } from "../../theme/pages/sys/dict/service/dict.service"
-import { DictQuery } from "../../theme/pages/sys/dict/service/dict.query.model"
 import { ComboData } from "../base/model/combo.data.model"
 import { Http } from "@angular/http"
 import { createRequestOption } from "../base/request.util"
 import { OnChanges } from "@angular/core/src/metadata/lifecycle_hooks"
+import {DictQuery} from "../../theme/pages/modules/sys/dict/service/dict.query.model";
+import {DictService} from "../../theme/pages/modules/sys/dict/service/dict.service";
 
 @Component({
     selector: "alb-form",

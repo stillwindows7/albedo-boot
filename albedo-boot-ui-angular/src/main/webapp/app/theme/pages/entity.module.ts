@@ -1,14 +1,14 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core'
 
-import { UserModule } from "./sys/user/user.module"
-import { RoleModule } from "./sys/role/role.module"
-import { OrgModule } from "./sys/org/org.module"
-import { ModuleModule } from "./sys/module/module.module"
-import { DictModule } from "./sys/dict/dict.module"
-import { GenTableModule } from "./gen/genTable/genTable.module"
-import { GenSchemeModule } from "./gen/genScheme/genScheme.module"
+import { UserModule } from "./modules/sys/user/user.module"
+import { RoleModule } from "./modules/sys/role/role.module"
+import { OrgModule } from "./modules/sys/org/org.module"
+import { ModuleModule } from "./modules/sys/module/module.module"
+import { DictModule } from "./modules/sys/dict/dict.module"
+import { GenTableModule } from "./modules/gen/genTable/genTable.module"
+import { GenSchemeModule } from "./modules/gen/genScheme/genScheme.module"
+import {TaskScheduleJobModule} from "./modules/sys/taskScheduleJob/taskScheduleJob.module";
 
-/* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
     imports: [
@@ -19,7 +19,8 @@ import { GenSchemeModule } from "./gen/genScheme/genScheme.module"
         DictModule,
         GenTableModule,
         GenSchemeModule,
-        /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
+        TaskScheduleJobModule,
+        /* albedo-boot-needle-add-entity-module */
     ],
     declarations: [],
     entryComponents: [],

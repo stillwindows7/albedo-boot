@@ -57,8 +57,8 @@ public class GenUtil {
             }
 
             // 设置字段说明
-            if (StringUtil.isBlank(column.getComments())) {
-                column.setComments(column.getName());
+            if (StringUtil.isBlank(column.getTitle())) {
+                column.setTitle(column.getName());
             }
 
             // 设置java类型
@@ -120,21 +120,21 @@ public class GenUtil {
             if (StringUtil.startsWithIgnoreCase(column.getName(), "user_id")) {
                 column.setJavaType(User.class.getName());
                 column.setJavaField(column.getJavaField().replaceAll("Id", ".id|name"));
-                column.setComments("用户");
+                column.setTitle("用户");
                 column.setShowType("userselect");
             }
             // 部门
             else if (StringUtil.startsWithIgnoreCase(column.getName(), "org_id")) {
                 column.setJavaType(Org.class.getName());
                 column.setJavaField(column.getJavaField().replaceAll("Id", ".id|name"));
-                column.setComments("机构");
+                column.setTitle("机构");
                 column.setShowType("orgselect");
             }
             // 区域
             else if (StringUtil.startsWithIgnoreCase(column.getName(), "area_id")) {
                 column.setJavaType(Area.class.getName());
                 column.setJavaField(column.getJavaField().replaceAll("Id", ".id|name"));
-                column.setComments("区域");
+                column.setTitle("区域");
                 column.setShowType("areaselect");
             }
             // 创建者、更新者
@@ -155,14 +155,14 @@ public class GenUtil {
                 column.setJavaType("This");
                 column.setJavaField("parent.id|name");
                 column.setShowType("treeselect");
-                column.setComments("父节点");
+                column.setTitle("父节点");
             }
             // 所有父级ID
             else if (StringUtil.equalsIgnoreCase(column.getName(), TreeEntity.F_PARENTIDS)) {
                 column.setQueryType("like");
                 // 列表字段
                 column.setIsList(SystemConfig.NO);
-                column.setComments("所有父级");
+                column.setTitle("所有父级");
             }
             // 删除标记
             else if (StringUtil.equalsIgnoreCase(column.getJavaField(), DataEntity.F_STATUS)) {
