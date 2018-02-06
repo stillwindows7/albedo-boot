@@ -4,6 +4,9 @@
     <filePath>src/main/webapp/app/theme/pages/${lastPackageName}/${moduleName}/${subModuleName}/${className}</filePath>
     <fileName>${className}.module.ts</fileName>
     <content><![CDATA[
+/**
+ * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
+ */
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from "@angular/router";
@@ -12,7 +15,7 @@ import {routeChilds} from "../../../../api.routing.module";
 import {AlbedoBootSharedModule} from "../../../../../shared/shared.module";
 import {LayoutModule} from "../../../../layouts/layout.module";
 import {${ClassName}Service} from "./service/${className}.service";
-import {${ClassName}FormComponent} from "./${className}.form.component";
+<#if !scheme.modalView>import {${ClassName}FormComponent} from "./${className}.form.component";</#if>
 
 const routes${moduleName?cap_first}${ClassName} = [
     {

@@ -4,11 +4,14 @@
     <filePath>src/main/webapp/app/theme/pages/${lastPackageName}/${moduleName}/${subModuleName}/${className}</filePath>
     <fileName>${className}.form.component.ts</fileName>
     <content><![CDATA[
+/**
+ * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
+ */
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { CTX } from "../../../../../app.constants";
 import { ActivatedRoute } from "@angular/router";
-import {TaskScheduleJob} from "./service/${className}.model";
-import {TaskScheduleJobService} from "./service/${className}.service";
+import {${ClassName}} from "./service/${className}.model";
+import {${ClassName}Service} from "./service/${className}.service";
 
 @Component({
     selector: ".${moduleName}-${className}-form.page-form",
@@ -60,7 +63,7 @@ export class ${ClassName}FormComponent implements AfterViewInit {
 				${column.simpleJavaField}: {remote: CTX + '/${urlPrefix}/checkByProperty?id=' + ${className}Id}<#if column_has_next>,</#if></#if></#list>
 			},
             messages:{<#list table.columnList as column><#if column.unique && !column.pk>
-				${column.simpleJavaField}: {remote: '${column.comments }已存在'}<#if column_has_next>,</#if></#if></#list>
+				${column.simpleJavaField}: {remote: '${column.title }已存在'}<#if column_has_next>,</#if></#if></#list>
 			}
         })
         albedoForm.init();

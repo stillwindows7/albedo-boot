@@ -41,8 +41,9 @@
                 </div>
             </div>
             <div class="m-portlet__head-tools">
-                <a href="#/${urlPrefix}/list" title="${functionNameSimple}列表" class="m-portlet__nav-link btn list btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill ">
-                    <i class="la la-th-list"></i>
+                <a <#if scheme.modalView>href="javascript:void(0)" data-modal-id="#${className}-edit-modal"<#else>href="#/${urlPrefix}/form/"</#if> id="btn-edit-${className}" title="添加${functionNameSimple}"
+                   class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill dialog-add">
+                    <i class="la la-plus"></i>
                 </a>
             </div>
         </div>
@@ -87,7 +88,7 @@
                         <<@at/>albedo.fileInput name="${c.javaFieldId}" value="{{${className}.${c.javaFieldId}}}" cssClass="<#if !c.nullable>required</#if>" type="files"> </<@at/>albedo.fileInput>
                     </#if>
                         <span class="m-form__help">
-							${c.comments}
+							${(c.comments)!}
 						</span>
                     </div>
                 </div>

@@ -4,6 +4,9 @@
     <filePath>src/main/webapp/app/theme/pages/${lastPackageName}/${moduleName}/${subModuleName}/${className}/service</filePath>
     <fileName>${className}.service.ts</fileName>
     <content><![CDATA[
+/**
+ * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
+ */
 import {Injectable} from '@angular/core'
 import {Http} from '@angular/http'
 import {CTX} from "../../../../../../app.constants"

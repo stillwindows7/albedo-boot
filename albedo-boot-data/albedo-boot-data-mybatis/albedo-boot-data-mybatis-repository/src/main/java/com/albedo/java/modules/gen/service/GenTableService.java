@@ -8,9 +8,9 @@ import com.albedo.java.modules.gen.domain.GenTableColumn;
 import com.albedo.java.modules.gen.domain.vo.GenTableQuery;
 import com.albedo.java.modules.gen.domain.xml.GenConfig;
 import com.albedo.java.modules.gen.repository.GenTableRepository;
-import com.albedo.java.modules.gen.util.GenUtil;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.util.GenUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.Assert;
@@ -132,7 +132,7 @@ public class GenTableService extends DataVoService<GenTableRepository, GenTable,
                 if (StringUtil.isBlank(genTableVo.getId())) {
                     genTableVo = list.get(0);
                     // 设置字段说明
-                    if (StringUtil.isBlank(genTableVo.getTitle())) {
+                    if (StringUtil.isBlank(genTableVo.getComments())) {
                         genTableVo.setComments(genTableVo.getName());
                     }
                     genTableVo.setClassName(StringUtil.toCapitalizeCamelCase(genTableVo.getName()));

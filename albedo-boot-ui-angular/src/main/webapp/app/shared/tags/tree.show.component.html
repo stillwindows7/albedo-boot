@@ -26,13 +26,18 @@
     <div class="m-portlet__body  scroller albedo-treeSelect-div">
         <div class="control-group tree-search-div" style="display: none; padding-bottom: 5px;">
             <div class="portlet-input input-inline">
-                <div class="input-icon right"><i class="icon-magnifier"></i>
-                    <input type="text" id="key" name="key" maxlength="50"
-                           class="form-control input-circle tree-search-input" placeholder="请输入...">
+                <div class="input-group">
+                    <input id="key" name="key" class="form-control input-circle tree-search-input"
+                           placeholder="请输入..." type="text">
+                    <span class="input-group-btn">
+							<button class="btn btn-secondary btn-search" type="button">
+								查询
+							</button>
+						</span>
                 </div>
             </div>
         </div>
-        <div class="ztree ztree-show scrollable"
+        <div class="ztree ztree-show scrollable" style="height:600px;"
              id="tree-div-{{id}}"
              [attr._checked]="checked"
              [attr._url]="url"

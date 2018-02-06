@@ -31,7 +31,6 @@ public class GenTableColumn extends IdEntity {
 
     private static final long serialVersionUID = 1L;
     @Column(name = "gen_table_id")
-    @NotBlank
     private String genTableId; // 归属表
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "gen_table_id", nullable = true, updatable = false, insertable = false)
@@ -40,6 +39,7 @@ public class GenTableColumn extends IdEntity {
     @Length(min = 1, max = 200)
     @Column(name = "name_")
     private String name; // 列名
+
     @Column(name = "title_")
     @NotBlank
     private String title; // 标题
@@ -114,14 +114,6 @@ public class GenTableColumn extends IdEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getTitle() {
-        return comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
     }
 
     public String getJdbcType() {
@@ -498,5 +490,18 @@ public class GenTableColumn extends IdEntity {
 
     public void setGenTableId(String genTableId) {
         this.genTableId = genTableId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+    public String getComments() {
+        return comments;
     }
 }

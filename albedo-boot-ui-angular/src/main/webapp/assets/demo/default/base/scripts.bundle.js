@@ -247,7 +247,9 @@ var mApp = function() {
             if (mUtil.isMobileDevice()) {
                 el.css('overflow', 'auto');
             } else {
-                el.mCustomScrollbar("destroy");
+                if(el.hasClass("mCustomScrollbar")){
+                    el.mCustomScrollbar("destroy");
+                }
                 el.mCustomScrollbar({
                     scrollInertia: 0,
                     autoDraggerLength: true,

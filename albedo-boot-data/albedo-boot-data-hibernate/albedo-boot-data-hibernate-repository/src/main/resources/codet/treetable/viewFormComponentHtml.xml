@@ -63,7 +63,7 @@
                         <alb-tree-select id="${className}" cssClass="required" allowClear="true" name="parentId" value="{{${className}.parentId}}" labelName="parentName"
                         labelValue="{{${className}.parentName}}" title="选择上级${functionNameSimple}" url="{{ctx}}/${urlPrefix}/findTreeData"> </alb-tree-select>
                         <span class="m-form__help">
-							${c.comments}
+							${(c.comments)!}
 						</span>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
                         <<@at/>albedo.fileInput name="${c.javaFieldId}" value="{{${className}.${c.javaFieldId}}}" cssClass="<#if !c.nullable>required</#if>" type="files"> </<@at/>albedo.fileInput>
                     </#if>
                     <span class="m-form__help">
-                        ${c.comments}
+                        ${(c.comments)!}
                     </span>
                     </div>
                 </div>

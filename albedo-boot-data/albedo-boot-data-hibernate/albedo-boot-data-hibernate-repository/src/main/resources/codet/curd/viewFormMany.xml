@@ -24,7 +24,7 @@
 				messages: {
 					<#list table.columnList as column>
 					<#if column.unique && !column.pk>
-					${column.simpleJavaField}: {remote: "${column.comments }已存在"}<#if column_has_next>,</#if>
+					${column.simpleJavaField}: {remote: "${column.title }已存在"}<#if column_has_next>,</#if>
 					</#if>
 					</#list>
 				},

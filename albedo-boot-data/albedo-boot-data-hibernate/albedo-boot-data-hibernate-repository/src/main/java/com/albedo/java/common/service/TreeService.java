@@ -25,7 +25,7 @@ public class TreeService<Repository extends TreeRepository<T, PK>, T extends Tre
     public List<TreeResult> findTreeData(TreeQuery query) {
         String extId = query != null ? query.getExtId() : null, all = query != null ? query.getAll() : null;
         List<TreeResult> mapList = Lists.newArrayList();
-        List<T> list = repository.findAllByStatusNot(BaseEntity.FLAG_DELETE);
+        List<T> list = repository.findAllByStatusNotOrderBySort(BaseEntity.FLAG_DELETE);
         TreeResult treeResult = null;
         for (T e : list) {
             if ((PublicUtil.isEmpty(extId)

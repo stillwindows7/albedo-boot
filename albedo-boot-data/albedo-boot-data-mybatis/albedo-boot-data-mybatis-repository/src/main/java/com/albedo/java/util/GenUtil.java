@@ -1,4 +1,4 @@
-package com.albedo.java.modules.gen.util;
+package com.albedo.java.util;
 
 import com.albedo.java.common.domain.base.DataEntity;
 import com.albedo.java.common.domain.base.TreeEntity;
@@ -8,10 +8,6 @@ import com.albedo.java.modules.gen.domain.xml.GenConfig;
 import com.albedo.java.modules.sys.domain.Area;
 import com.albedo.java.modules.sys.domain.Org;
 import com.albedo.java.modules.sys.domain.User;
-import com.albedo.java.util.DateUtil;
-import com.albedo.java.util.FileUtil;
-import com.albedo.java.util.PublicUtil;
-import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.FreeMarkers;
 import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.mapper.JaxbMapper;
@@ -309,9 +305,9 @@ public class GenUtil {
      */
     public static String generateToFile(GenTemplate tpl, Map<String, Object> model, boolean replaceFile) {
         // 获取生成文件 "c:\\temp\\"//
-        String fileName = StringUtil.getProjectPath() + File.separator
-                + StringUtil.replaceEach(FreeMarkers.renderString(tpl.getFilePath() + "/", model), new String[]{"//", "/", "."}, new String[]{File.separator, File.separator, File.separator})
-                + FreeMarkers.renderString(tpl.getFileName(), model);
+        String realFileName = FreeMarkers.renderString(tpl.getFileName(), model),fileName = StringUtil.getProjectPath(realFileName, DictUtil.getCodeItemVal("sys_gen_code_ui_path")) + File.separator
+            + StringUtil.replaceEach(FreeMarkers.renderString(tpl.getFilePath() + "/", model), new String[]{"//", "/", "."}, new String[]{File.separator, File.separator, File.separator})
+            + realFileName;
 
         logger.debug(" fileName === " + fileName);
         if ("entityId".equals(tpl.getName())) {

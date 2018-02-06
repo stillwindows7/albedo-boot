@@ -44,7 +44,7 @@ public class ${ClassName}Resource extends DataVoResource<${ClassName}Service, ${
 
 	/**
 	 * GET / : get all ${className}.
-	 * 
+	 *
 	 * @param pm
 	 *            the pagination information
 	 * @return the ResponseEntity with status 200 (OK) and with body all ${className}
@@ -80,7 +80,7 @@ public class ${ClassName}Resource extends DataVoResource<${ClassName}Service, ${
 		<#if firstListField><#assign firstListField = false>${ClassName} </#if>${className}Validate = new ${ClassName}(${className}Vo.getId());
 		${className}Validate.set${column.simpleJavaField?cap_first}(${className}Vo.get${column.simpleJavaField?cap_first}());
 		if (<#if column.nullable>PublicUtil.isNotEmpty(${className}Vo.get${column.simpleJavaField?cap_first}()) && </#if>!checkByProperty(${className}Validate)) {
-			throw new RuntimeMsgException(PublicUtil.toAppendStr("保存${functionNameSimple}'", ${className}Vo.get${column.simpleJavaField?cap_first}(),"'失败，${column.comments }已存在"));
+			throw new RuntimeMsgException(PublicUtil.toAppendStr("保存${functionNameSimple}'", ${className}Vo.get${column.simpleJavaField?cap_first}(),"'失败，${column.title }已存在"));
 		}
 			</#if>
 		</#list>

@@ -34,7 +34,7 @@
 						${column.simpleJavaField}: {remote: '<@jspEl/>{ctx}/${urlPrefix}/checkByProperty?id=' + encodeURIComponent('<@jspEl/>{(${className}Vo.id)!} />')}<#if column_has_next>,</#if></#if></#list>
 						},
                        messages:{<#list table.columnList as column><#if column.unique && !column.pk>
-						${column.simpleJavaField}: {remote: '${column.comments }已存在'}<#if column_has_next>,</#if></#if></#list>
+						${column.simpleJavaField}: {remote: '${column.title }已存在'}<#if column_has_next>,</#if></#if></#list>
 					   }}}">
 			<div class="form-body">
 				<input type="hidden" name="id" value="<@jspEl />{(${className}Vo.id)!}" />

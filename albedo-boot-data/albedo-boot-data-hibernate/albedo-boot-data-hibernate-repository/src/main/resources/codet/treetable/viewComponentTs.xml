@@ -4,6 +4,9 @@
     <filePath>src/main/webapp/app/theme/pages/${lastPackageName}/${moduleName}/${subModuleName}/${className}</filePath>
     <fileName>${className}.component.ts</fileName>
     <content><![CDATA[
+/**
+ * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
+ */
 import {AfterViewInit, Component, ViewEncapsulation} from '@angular/core'
 import {ScriptLoaderService} from "../../../../../shared/base/service/script-loader.service"
 import {CTX, DATA_STATUS} from "../../../../../app.constants"
@@ -20,16 +23,17 @@ declare let datatable: any
 export class ${ClassName}Component implements AfterViewInit {
 
     nodeId: any
+    ctx: any
     <#if scheme.modalView>
     ${className}: ${ClassName}
-    ctx: any
-    <#/if>
+    </#if>
     constructor(private _script: ScriptLoaderService,
         private principal: Principal,
         private sessionStorage: SessionStorageService, ) {
-        <#if scheme.modalView>this.ctx = CTX
-       this.${className} = new ${ClassName}()<#/if>
-        this.nodeId = sessionStorage.retrieve("tree_${className}_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1
+        <#if scheme.modalView>
+       this.${className} = new ${ClassName}()</#if>
+       this.ctx = CTX
+       this.nodeId = sessionStorage.retrieve("tree_${className}_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1
 
     }
 
@@ -54,15 +58,16 @@ export class ${ClassName}Component implements AfterViewInit {
             // columns definition
             columns: [<#assign firstListField = true>
                 <#list table.columnList as column>
-                <#if column.isList?? && column.isList == 1>
+                <#if column.isList?? && column.isList == 1 && column.simpleJavaField!="parentId" && column.simpleJavaField!="parentIds" && column.simpleJavaField!="parent">
                 <#if column.simpleJavaField = 'status'>
-                {title: '${column.comments}',field:'${column.simpleJavaField}',template: function(row) {
+                {title: '${column.title}',field:'${column.simpleJavaField}',template: function(row) {
                     return '<span class="m-badge ' + DATA_STATUS[row.status].class + ' m-badge--wide">' + row.status + '</span>';
                 }},
                 <#else>
-                {title: '${column.comments}',field:'${column.simpleJavaField}<#if column.simpleJavaType == "User" || column.simpleJavaType == "Org" || column.simpleJavaType == "Area">${column.defaultJavaFieldName?cap_first}</#if>'
+                {title: '${column.title}',field:'${column.simpleJavaField}<#if column.simpleJavaType == "User" || column.simpleJavaType == "Org" || column.simpleJavaType == "Area">${column.defaultJavaFieldName?cap_first}</#if>'
                 <#if firstListField> ,width: 110,sortable: 'asc',overflow: 'visible',template: function(row) {
-                    return thisPrincipal.hasAuthority("${permissionPrefix}_edit") ? ( '<a href="#/${urlPrefix}/form/' + row.id + '" class="m-link" title="点击编辑${functionNameSimple}">'+row.${column.simpleJavaField}+'</a>') : row.${column.simpleJavaField};
+                    return thisPrincipal.hasAuthority("${permissionPrefix}_edit") ? ( '<a <#if scheme.modalView> href="javascript:void(0)" class="m-link dialog-edit" title="点击编辑"\
+                            \data-method="get"  data-title="编辑【' + row.name + '】" data-url="' + CTX + '/${urlPrefix}/' + row.id + '" data-modal-id="#${className}-edit-modal" <#else>href="#/${urlPrefix}/form/' + row.id + '" class="m-link" title="点击编辑"</#if>>'+row.${column.simpleJavaField}+'</a>') : row.${column.simpleJavaField};
                 },<#assign firstListField = false></#if>},
                 </#if>
                 </#if>
@@ -116,7 +121,7 @@ export class ${ClassName}Component implements AfterViewInit {
 				${column.simpleJavaField}: {remote: '{{ctx}}/${urlPrefix}/checkByProperty?id=' + encodeURIComponent(albedo.toStr($("#${className}-save-form").find("input[name='id']").val()))}<#if column_has_next>,</#if></#if></#list>
 			},
             messages:{<#list table.columnList as column><#if column.unique && !column.pk>
-				${column.simpleJavaField}: {remote: '${column.comments }已存在'}<#if column_has_next>,</#if></#if></#list>
+				${column.simpleJavaField}: {remote: '${column.title }已存在'}<#if column_has_next>,</#if></#if></#list>
 			}
         })
         albedoForm.initSave($("#${className}-edit-modal"));

@@ -5,7 +5,7 @@
     <fileName>${ClassName}.java</fileName>
     <content><![CDATA[
 /**
- * Copyright &copy; 2015 <a href="http://www.bs-innotech.com/">bs-innotech</a> All rights reserved.
+ * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
  */
 package ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>;
 
@@ -92,7 +92,7 @@ public class ${ClassName} extends DataEntity {
 </#if>
 	<#list table.columnList as column>
 		<#if !column.pk && column.isNotBaseField>
-	/** ${column.simpleJavaField} ${column.comments} */<#if table.parentExists && table.parentTableFk == column.name>
+	/** ${column.simpleJavaField} ${column.title} */<#if table.parentExists && table.parentTableFk == column.name>
 	@ManyToOne(fetch = FetchType.LAZY)@JoinColumn(name = "${table.parentTableFk}")@NotFound(action = NotFoundAction.IGNORE)
 	private ${table.parent.className} ${column.simpleJavaField};
 	<#elseif column.showType == "userselect" || column.showType == "orgselect" || column.showType == "areaselect">
@@ -153,30 +153,30 @@ public class ${ClassName} extends DataEntity {
 	<#list table.columnList as column>
 		<#if !column.pk && column.isNotBaseField>
 			<#if table.parentExists && table.parentTableFk == column.name>
-	/** ${column.simpleJavaField} ${column.comments} */
+	/** ${column.simpleJavaField} ${column.title} */
 	public ${table.parent.className} get${column.simpleJavaField?cap_first}() {
 		return ${column.simpleJavaField};
 	}
-	/** ${column.simpleJavaField} ${column.comments} */
+	/** ${column.simpleJavaField} ${column.title} */
 	public void set${column.simpleJavaField?cap_first}(${table.parent.className} ${column.simpleJavaField}) {
 		this.${column.simpleJavaField} = ${column.simpleJavaField};
 	}
 			<#else>
-	/** ${column.simpleJavaField} ${column.comments} */
+	/** ${column.simpleJavaField} ${column.title} */
 	public ${column.javaType} get${column.simpleJavaField?cap_first}() {
 		return this.${column.simpleJavaField};
 	}
-	/** ${column.simpleJavaField} ${column.comments} */
+	/** ${column.simpleJavaField} ${column.title} */
 	public void set${column.simpleJavaField?cap_first}(${column.javaType} value) {
 		this.${column.simpleJavaField} = value;
 	}
 			</#if>
 			<#if column.showType == "userselect" || column.showType == "orgselect" || column.showType == "areaselect">
-	/** ${column.simpleJavaField} ${column.comments} */
+	/** ${column.simpleJavaField} ${column.title} */
 	public String get${column.simpleJavaField?cap_first}Id() {
 		return this.${column.simpleJavaField}Id;
 	}
-	/** ${column.simpleJavaField} ${column.comments} */
+	/** ${column.simpleJavaField} ${column.title} */
 	public void set${column.simpleJavaField?cap_first}Id(String value) {
 		this.${column.simpleJavaField}Id = value;
 	}

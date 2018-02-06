@@ -95,7 +95,7 @@
                                 <thead>
                                 <tr role="row" class="heading">
                                 <#list table.columnList as column><#if column.isList?? && column.isList == 1>
-                                	<th width="10%"> ${column.comments} </th>
+                                	<th width="10%"> ${column.title} </th>
                                 </#if></#list>
                                 <<@hash/>if SecurityUtil.hasPermission('${permissionPrefix}_edit,${permissionPrefix}_delete,${permissionPrefix}_lock')><th width="10%"> 操作 </th></<@hash/>if>
                                 </tr>

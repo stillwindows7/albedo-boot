@@ -106,7 +106,7 @@ public class GenTable extends IdEntity {
         this.name = name;
     }
 
-    public String getTitle() {
+    public String getComments() {
         return comments;
     }
 

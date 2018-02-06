@@ -4,6 +4,9 @@
     <filePath>src/main/java/${packageName}/${moduleName}/web/${subModuleName}</filePath>
     <fileName>${ClassName}Resource.java</fileName>
     <content><![CDATA[
+/**
+ * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
+ */
 package ${packageName}.${moduleName}.web<#if subModuleName != "">.${subModuleName}</#if>;
 
 import com.albedo.java.common.security.SecurityUtil;
@@ -80,7 +83,7 @@ public class ${ClassName}Resource extends DataVoResource<${ClassName}Service, ${
 		<#if firstListField><#assign firstListField = false>${ClassName}Vo </#if>${className}Validate = new ${ClassName}Vo(${className}Vo.getId());
 		${className}Validate.set${column.simpleJavaField?cap_first}(${className}Vo.get${column.simpleJavaField?cap_first}());
 		if (<#if column.nullable>PublicUtil.isNotEmpty(${className}Vo.get${column.simpleJavaField?cap_first}()) && </#if>!checkByProperty(${className}Validate)) {
-			throw new RuntimeMsgException(PublicUtil.toAppendStr("保存${functionNameSimple}'", ${className}Vo.get${column.simpleJavaField?cap_first}(),"'失败，${column.comments }已存在"));
+			throw new RuntimeMsgException(PublicUtil.toAppendStr("保存${functionNameSimple}'", ${className}Vo.get${column.simpleJavaField?cap_first}(),"'失败，${column.title }已存在"));
 		}
 			</#if>
 		</#list>

@@ -64,10 +64,10 @@ public class GenScheme extends IdEntity {
     @Column(name = "function_author")
     private String functionAuthor; // 生成功能作者
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "gen_table_id", nullable = true)
+    @JoinColumn(name = "gen_table_id", nullable = true, updatable = false, insertable = false)
     @NotFound(action = NotFoundAction.IGNORE)
     private GenTable genTable; // 业务表名
-    @Column(name = "gen_table_id", nullable = true, updatable = false, insertable = false)
+    @Column(name = "gen_table_id")
     private String genTableId; // 业务表名
 
     @JSONField(serialize = false)

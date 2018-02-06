@@ -4,6 +4,9 @@
     <filePath>src/main/java/${packageName}/${moduleName}/web/${subModuleName}</filePath>
     <fileName>${ClassName}Resource.java</fileName>
     <content><![CDATA[
+/**
+ * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
+ */
 package ${packageName}.${moduleName}.web<#if subModuleName != "">.${subModuleName}</#if>;
 
 import com.albedo.java.common.security.SecurityUtil;
@@ -18,7 +21,7 @@ import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.sys.query.TreeQuery;
 import com.albedo.java.vo.sys.query.TreeResult;
 import com.albedo.java.web.rest.ResultBuilder;
-import com.albedo.TreeVoResource;
+import com.albedo.java.web.rest.base.TreeVoResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.Lists;
@@ -62,7 +65,7 @@ public class ${ClassName}Resource extends TreeVoResource<${ClassName}Service, ${
 
 	/**
 	 * GET / : 获取分页数据源 ${functionNameSimple}.
-	 * 
+	 *
 	 * @param pm the pagination information
 	 * @return the ResponseEntity with status 200 (OK) and with body all ${className}
 	 */
@@ -106,10 +109,10 @@ public class ${ClassName}Resource extends TreeVoResource<${ClassName}Service, ${
 		log.debug("REST request to save ${ClassName} : {}", ${className}Vo);
 		<#assign firstListField = true><#list table.columnList as column>
 			<#if column.unique && !column.pk>
-		<#if firstListField><#assign firstListField = false>${ClassName} </#if>${className}Validate = new ${ClassName}(${className}.getId());
+		<#if firstListField><#assign firstListField = false>${ClassName}Vo </#if>${className}Validate = new ${ClassName}Vo(${className}Vo.getId());
 		${className}Validate.set${column.simpleJavaField?cap_first}(${className}Vo.get${column.simpleJavaField?cap_first}());
 		if (<#if column.nullable>PublicUtil.isNotEmpty(${className}Vo.get${column.simpleJavaField?cap_first}()) && </#if>!checkByProperty(${className}Validate)) {
-			throw new RuntimeMsgException(PublicUtil.toAppendStr("保存${functionNameSimple}'", ${className}Vo.get${column.simpleJavaField?cap_first}(),"'失败，${column.comments }已存在"));
+			throw new RuntimeMsgException(PublicUtil.toAppendStr("保存${functionNameSimple}'", ${className}Vo.get${column.simpleJavaField?cap_first}(),"'失败，${column.title }已存在"));
 		}
 			</#if>
 		</#list>

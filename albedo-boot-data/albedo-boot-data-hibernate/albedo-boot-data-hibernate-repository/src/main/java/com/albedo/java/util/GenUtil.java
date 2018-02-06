@@ -158,10 +158,20 @@ public class GenUtil {
             }
             // 删除标记
             else if (StringUtil.equalsIgnoreCase(column.getJavaField(), DataEntity.F_STATUS)) {
-                column.setShowType("radiobox");
+                column.setShowType("radio");
                 column.setDictType("sys_status");
-
             }
+
+            if(PublicUtil.isEmpty(column.getShowType())){
+                column.setShowType("input");
+            }
+            if(PublicUtil.isEmpty(column.getQueryType())){
+                column.setQueryType("eq");
+            }
+            if(PublicUtil.isEmpty(column.getJavaType())){
+                column.setJavaType("String");
+            }
+
         }
     }
 

@@ -8,6 +8,7 @@ import { DictModule } from "./modules/sys/dict/dict.module"
 import { GenTableModule } from "./modules/gen/genTable/genTable.module"
 import { GenSchemeModule } from "./modules/gen/genScheme/genScheme.module"
 import {TaskScheduleJobModule} from "./modules/sys/taskScheduleJob/taskScheduleJob.module";
+import {AreaModule} from "./modules/sys/area/area.module";
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import {TaskScheduleJobModule} from "./modules/sys/taskScheduleJob/taskScheduleJ
         GenTableModule,
         GenSchemeModule,
         TaskScheduleJobModule,
+        AreaModule,
         /* albedo-boot-needle-add-entity-module */
     ],
     declarations: [],
