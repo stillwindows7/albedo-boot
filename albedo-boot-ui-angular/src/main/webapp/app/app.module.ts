@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations"
 
 import { AppRoutingModule } from './app.routing.module'
 import { AppComponent } from './app.component'
-import { ThemeRoutingModule } from "./theme/theme.routing.module"
+// import { ThemeRoutingModule } from "./theme/theme.routing.module"
 import { customHttpProvider } from "./intercepter/http.provider"
 import { Ng2Webstorage } from 'ngx-webstorage'
 import { NgJhipsterModule } from "ng-jhipster"
@@ -33,7 +33,7 @@ import { ApiRoutingModule } from "./theme/api.routing.module"
         BrowserAnimationsModule,
         AppRoutingModule,
         ApiRoutingModule,
-        ThemeRoutingModule,
+        // ThemeRoutingModule,
         // ThemeRoutingTestModule,
         AlbedoBootAuthModule,
         AlbedoBootSharedModule,
