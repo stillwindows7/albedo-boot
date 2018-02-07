@@ -10,7 +10,7 @@ AlbedoBoot是在Spring Boot基础上搭建的一个Java基础开发平台，以S
 SpringSecurity为权限授权层，Ehcahe对常用数据进行缓存，是JavaEE界的最佳整合。
 
 AlbedoBoot主要定位于企业信息化领域，已内置企业信息化系统的基础功能和高效的**代码生成**工具，
-包括：系统权限组件、数据权限组件、数据字典组件、核心工具组件、视图操作组件、工作流组件、代码生成等。
+包括：系统权限组件、数据权限组件、数据字典组件、核心工具组件、视图操作组件、代码生成等。
 前端界面风格采用了结构简单、性能优良、页面美观大气的METRONIC Bootstrap页面展示框架。
 采用分层设计、双重验证、提交数据安全编码、密码加密、访问验证、数据权限验证。
 使用Maven做项目管理，提高项目的易开发性、扩展性。
@@ -36,14 +36,6 @@ AlbedoBoot 提供了常用工具进行封装，包括日志工具、缓存工具
 9.	回话管理：管理登录用户。
 9.	接口管理：基于swagger实现的在线接口文档。
 
-## spring cloud  
-
-cloud版本发布，基于[jhipster-registry](https://github.com/somewhereMrli/jhipster-registry)为注册中心。 同时也可以docker环境搭建，基于docker-compose启动，配置文件位于albedo-boot-cloud/docker/jhipster-registy.yml
-1.	启动cloud前请升级数据库，重新执行albedo-new.sql
-2.	使用docker-compose命令启动albedo-boot-cloud/docker/jhipster-registry.yml
-3.	启动albedo-boot-cloud/albedo-boot-cloud-micro AlbedoBootCloudMicro
-4.	启动albedo-boot-cloud/albedo-boot-cloud-gateway AlbedoBootCloudGateway
-
 
 ## 为何选择AlbedoBoot
 
@@ -59,7 +51,7 @@ cloud版本发布，基于[jhipster-registry](https://github.com/somewhereMrli/j
 
 ## 技术选型
 
-* 核心框架：Spring Boot 1.5.7.RELEASE
+* 核心框架：Spring Boot 1.5.7.RELEASE 
 * 安全框架：spring-security-data spring-boot-starter-security jwt
 * web框架：spring-boot-starter-web
 * 服务端验证：Hibernate Validator 5.2
@@ -69,7 +61,7 @@ cloud版本发布，基于[jhipster-registry](https://github.com/somewhereMrli/j
 * 缓存框架：Ehcache 2.6、Redis
 * 日志管理：Logback
 * 工具类：Apache Commons、Jackson 2.2、Xstream 1.4、Dozer 5.3、POI 3.9
-* 前端模版框架： metronic <http://keenthemes.com/metronic/>
+* 前端模版框架： AngularJS5.0 metronic_v5 <http://keenthemes.com/metronic/>
 
 ## 开发平台
 
@@ -86,22 +78,50 @@ cloud版本发布，基于[jhipster-registry](https://github.com/somewhereMrli/j
 5. 密码加密：登录用户密码进行BCryptPasswordEncoder加密，此加密方法是不可逆的。保证密文泄露后的安全问题。
 6. 强制访问：系统对所有管理端链接都进行用户身份权限验证，防止用户直接填写url进行访问。
 
+## 系统预览
+
+![img](https://raw.githubusercontent.com/somewhereMrli/resources/master/3A2836395023558F5CCA6E244C058D28.png)
+![img](https://raw.githubusercontent.com/somewhereMrli/resources/master/42806357-49CB-4EA8-A907-FB01047AB669.png)
+![img](https://raw.githubusercontent.com/somewhereMrli/resources/master/759EF3EB2F74401EAB5399917D6DFD4F.png)
 
 ## 快速搭建
 
 #### 为了能够快速搭建请首先加入maven的阿里云镜像
+```
+<mirror>
+        <id>nexus-aliyun</id>
+        <mirrorOf>central</mirrorOf>
+        <name>Nexus aliyun</name>
+        <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+</mirror>
+```
 
 1. 具备运行环境：JDK1.8、Maven3.0+、MySql5+或Oracle10g+。
 2. 导入ide前，安装lombok插件
-3. 修改albedo-boot-web-starter src\main\resources\config\application-dev.yml文件中的数据库设置参数。
-4. 根据修改参数创建对应MySql或Oracle数据库用户和参数。
-5. 运行albedo-new.sql脚本初始化数据库
-6. 最高管理员账号，用户名：admin 密码：admin 
+3. 运行albedo-new.sql脚本初始化数据库,修改albedo-boot-web-starter src\main\resources\config\application-dev.yml文件中的数据库设置参数。
+4. 在albedo-boot目录下执行mvn clean install
+5. 最高管理员账号，用户名：admin 密码：admin 
+
+
+## 启动篇
+
+### 单体应用
+ 1.	启动redis 默认本地 127.0.0.1:6379
+ 2.	启动albedo-boot-web/albedo-boot-web-starter AlbedoBootWebApp
+
+### spring cloud  
+
+cloud版本发布，基于[jhipster-registry](https://github.com/somewhereMrli/jhipster-registry)为注册中心。 同时也可以docker环境搭建，基于docker-compose启动，配置文件位于albedo-boot-cloud/docker/jhipster-registy.yml
+1.	启动cloud前请升级数据库，重新执行albedo-new.sql
+2.	使用docker-compose命令启动albedo-boot-cloud/docker/jhipster-registry.yml
+3.	启动albedo-boot-cloud/albedo-boot-cloud-micro AlbedoBootCloudMicro
+4.	启动albedo-boot-cloud/albedo-boot-cloud-gateway AlbedoBootCloudGateway
+
 
 ## 常见问题
 
 1. 用一段时间提示内存溢出，请修改JVM参数：-Xmx512m -XX:MaxPermSize=256m
-2. 如果坚持使用hibernate版本，请切换分支 albedo-boot-hibernate
+2. 如果坚持使用非angularjs版本，请切换分支 master-old
 
 ## 如何交流、反馈、参与贡献？
 

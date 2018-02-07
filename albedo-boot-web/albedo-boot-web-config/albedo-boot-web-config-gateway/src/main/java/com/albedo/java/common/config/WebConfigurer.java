@@ -119,13 +119,9 @@ public class WebConfigurer extends WebMvcConfigurerAdapter implements ServletCon
         File root;
         String prefixPath = env.getProperty(DefaultProfileUtil.SPRING_WEB_ROOT_PREFIX);
         if (PublicUtil.isEmpty(prefixPath)) {
-            prefixPath = DefaultProfileUtil.resolvePathPrefix(this.getClass());
+            prefixPath = DefaultProfileUtil.resolvePathPrefix(this.getClass()) + "src/main/webapp/";
         }
-//        if (env.acceptsProfiles(Globals.SPRING_PROFILE_PRODUCTION)) {
-//            root = new File(prefixPath + "target/www/");
-//        } else {
-            root = new File(prefixPath + "src/main/webapp/");
-//        }
+        root = new File(prefixPath);
         if (root.exists() && root.isDirectory()) {
             log.info("root {}", root.getAbsolutePath());
             container.setDocumentRoot(root);

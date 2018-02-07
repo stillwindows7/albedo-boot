@@ -84,27 +84,6 @@ public class OperateInterceptor implements HandlerInterceptor {
                     } else {
                         flag = true;
                     }
-                    // } else {
-
-                    // String sessionId = session.getId();
-                    // Integer count = sessionPassCountMap.get(sessionId);
-                    // if ((PublicUtil.isEmpty(sessionToken) &&
-                    // requestURI.equals(PublicUtil.toAppendStr(SystemConfig.getAdminPath(),
-                    // "/")) && (count == null || count < 3))) {
-                    // sessionPassCountMap.put(sessionId, count == null ? 1 :
-                    // ++count);
-                    // flag = true;
-                    // } else if(DesUtil.checkSessionKey(sessionToken,
-                    // checkTime) || (PublicUtil.isNotEmpty(sessionToken) &&
-                    // sessionToken.equals(request.getParameter(REQUEST_TOKEN)))){
-                    // flag = true;
-                    // } else {
-                    // logger.warn("客户端防重复验证生效：客户端多次提交 requestToken:{}",
-                    // sessionToken);
-                    // msg =
-                    // "{\"_success\" : false,\"_operationMsg\" : \"对不起,请勿重复提交!\"}";
-                    // }
-                    // }
                 } catch (IllegalStateException e) {
                     flag = false;
                     msg = PublicUtil.toAppendStr(
@@ -115,8 +94,6 @@ public class OperateInterceptor implements HandlerInterceptor {
                 if (!flag) {
                     response.setCharacterEncoding("UTF-8");
                     response.getWriter().write(msg);
-                    // request.getSession().setAttribute(SESSION_TOKEN,
-                    // DesUtil.getSessionKey());
                     return flag;
                 }
             }

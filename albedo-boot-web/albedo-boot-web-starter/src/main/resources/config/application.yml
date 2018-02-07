@@ -54,9 +54,9 @@ security:
 
 albedo:
     application: albedoBootWebApp
-    adminPath: /a
+    adminPath: /api
     frontPath: /f
-    defaultView:
+    defaultView: redirect:/index.html
     staticFileDirectory: D:/temp/files/
     urlSuffix: html
     cluster: false
@@ -89,4 +89,4 @@ albedo:
         # comma seperated list of profiles to show a ribbon on the GUI
         displayOnActiveProfiles: dev
     http:
-        restful: false
+        restful: true

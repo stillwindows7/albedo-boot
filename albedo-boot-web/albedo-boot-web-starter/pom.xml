@@ -47,19 +47,19 @@
     <build>
         <finalName>albedo-boot-web-starter</finalName>
         <resources>
-            <resource>
-                <directory>${basedir}/../../albedo-boot-ui/src/main/webapp</directory>
-                <!--注意此次必须要放在此目录下才能被访问到-->
-                <targetPath>META-INF/resources</targetPath>
-                <includes>
-                    <include>WEB-INF/**</include>
-                    <include>statics/frame/**</include>
-                    <!--<include>**/**</include>-->
-                </includes>
-                <excludes>
-                    <exclude>**/*.jar</exclude>
-                </excludes>
-            </resource>
+            <!--<resource>-->
+                <!--<directory>${basedir}/../../albedo-boot-ui/src/main/webapp</directory>-->
+                <!--&lt;!&ndash;注意此次必须要放在此目录下才能被访问到&ndash;&gt;-->
+                <!--<targetPath>META-INF/resources</targetPath>-->
+                <!--<includes>-->
+                    <!--<include>WEB-INF/**</include>-->
+                    <!--<include>statics/frame/**</include>-->
+                    <!--&lt;!&ndash;<include>**/**</include>&ndash;&gt;-->
+                <!--</includes>-->
+                <!--<excludes>-->
+                    <!--<exclude>**/*.jar</exclude>-->
+                <!--</excludes>-->
+            <!--</resource>-->
 
             <resource>
                 <directory>${basedir}/src/main/resources</directory>
@@ -121,15 +121,12 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-war-plugin</artifactId>
                         <configuration>
-                            <warSourceDirectory>${basedir}/../../albedo-boot-ui/src/main/webapp</warSourceDirectory>
-                            <!--<webResources>-->
-                                <!--<resource>-->
-                                    <!--<directory></directory>-->
-                                    <!--<includes>-->
-                                        <!--<include>WEB-INF/**</include>-->
-                                    <!--</includes>-->
-                                <!--</resource>-->
-                            <!--</webResources>-->
+                            <warSourceDirectory>${basedir}/../../albedo-boot-ui-angular/target/www/app/</warSourceDirectory>
+                            <webResources>
+                                <resource>
+                                    <directory>src/main/webapp</directory>
+                                </resource>
+                            </webResources>
                         </configuration>
                     </plugin>
                 </plugins>

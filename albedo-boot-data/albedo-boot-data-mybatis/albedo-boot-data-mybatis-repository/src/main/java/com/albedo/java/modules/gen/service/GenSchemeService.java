@@ -9,7 +9,7 @@ import com.albedo.java.modules.gen.domain.GenTemplate;
 import com.albedo.java.modules.gen.domain.xml.GenConfig;
 import com.albedo.java.modules.gen.repository.GenSchemeRepository;
 import com.albedo.java.modules.gen.repository.GenTableRepository;
-import com.albedo.java.modules.gen.util.GenUtil;
+import com.albedo.java.util.GenUtil;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.vo.gen.GenSchemeVo;
 import com.albedo.java.vo.gen.GenTableVo;

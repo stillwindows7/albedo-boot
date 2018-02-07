@@ -6,10 +6,10 @@ import { MockBackend } from "@angular/http/testing"
 
 import { AuthRoutingModule } from "./auth-routing.routing"
 import { AuthComponent } from "./auth.component"
-import { AlertComponent } from "../shared/tags/alert.component"
+// import { AlertComponent } from "../shared/tags/alert.component"
 import { LogoutComponent } from "./logout/logout.component"
-import { AlertService } from "./_services/alert.service"
-import { AuthenticationService } from "./_services/authentication.service"
+// import { AlertService } from "./_services/alert.service"
+// import { AuthenticationService } from "./_services/authentication.service"
 import { UserService } from "./_services/user.service"
 import { Principal } from "./_services/principal.service"
 import { AccountService } from "./_services/account.service"
@@ -22,7 +22,7 @@ import { AlbedoBootAuthGuard } from "./_guards"
 @NgModule({
     declarations: [
         AuthComponent,
-        AlertComponent,
+        // AlertComponent,
         LogoutComponent
     ],
     imports: [
@@ -36,8 +36,8 @@ import { AlbedoBootAuthGuard } from "./_guards"
         Principal,
         AccountService,
         AlbedoBootAuthGuard,
-        AlertService,
-        AuthenticationService,
+        // AlertService,
+        // AuthenticationService,
         LoginService,
         AuthServerProvider,
         StateStorageService,
@@ -48,7 +48,7 @@ import { AlbedoBootAuthGuard } from "./_guards"
         MockBackend,
         BaseRequestOptions,
     ],
-    entryComponents: [AlertComponent],
+    entryComponents: [],
     schemas: []
 })
 
