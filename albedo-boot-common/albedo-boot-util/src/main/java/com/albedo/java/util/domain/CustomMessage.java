@@ -98,7 +98,8 @@ public class CustomMessage<T> implements Serializable {
         return code;
     }
 
-    public void setCode(HttpStatus code) {
+    public CustomMessage setCode(HttpStatus code) {
         this.code = code;
+        return this;
     }
 }

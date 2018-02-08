@@ -15,8 +15,6 @@ export class AlbedoBootAuthGuard implements CanActivate {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Promise<boolean> {
-        // let currentUser = JSON.parse(localStorage.getItem('currentUser'))
-
 
         return Promise.resolve(this.principal.identity().then((account) => {
             this.account = account
@@ -29,22 +27,6 @@ export class AlbedoBootAuthGuard implements CanActivate {
             return false
         }))
 
-
-        // return this._userService.verify().map(
-        //     data => {
-        //         if (data !== null) {
-        //             // logged in so return true
-        //             return true
-        //         }
-        //         // error when verify so redirect to login page with the return url
-        //         this._router.navigate(['/login'], { queryParams: { returnUrl: state.url } })
-        //         return false
-        //     },
-        //     error => {
-        //         // error when verify so redirect to login page with the return url
-        //         this._router.navigate(['/login'], { queryParams: { returnUrl: state.url } })
-        //         return false
-        //     })
     }
 
 

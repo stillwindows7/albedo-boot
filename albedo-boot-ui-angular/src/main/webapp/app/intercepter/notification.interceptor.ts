@@ -51,7 +51,10 @@ export class NotificationInterceptor extends JhiHttpInterceptor {
             }
             return obj.data ? obj.data : obj
         }).catch((error) => {
-            toastr && toastr.error('网络异常，请检查您的网络连接！', { closeButton: true, positionClass: 'toast-bottom-right' })
+            if(error.status!=403 && toastr){
+                 toastr.error(error.json() && error.json().message ? error.json().message : '网络异常，请检查您的网络连接！', { closeButton: true, positionClass: 'toast-bottom-right' })
+            }
+
             return Observable.throw(error) // here, response is an error
         })
     }
