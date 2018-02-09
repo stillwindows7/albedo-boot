@@ -8,7 +8,7 @@
  * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
  */
 import {Injectable} from '@angular/core'
-import {Http} from '@angular/http'
+import {HttpClient} from "@angular/common/http";
 import {CTX} from "../../../../../../app.constants"
 import {DataService} from "../../../../../../shared/base/service/data.service";
 import {${ClassName}} from "./${className}.model";
@@ -17,7 +17,7 @@ import {${ClassName}} from "./${className}.model";
 @Injectable()
 export class ${ClassName}Service extends DataService<${ClassName}> {
 
-    constructor(protected http: Http) {
+    constructor(protected http: HttpClient) {
         super(http, CTX + '/${urlPrefix}')
     }
 

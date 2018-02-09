@@ -9,6 +9,8 @@ export class AlbIcoShowComponent implements OnInit, AfterViewInit {
 
     @Input() id?: string
     @Input() title?: string //标题
+    @Input() name?: string //标题
+    @Input() disabled?: string //标题
     @Input() value?: string  //隐藏域值（ID）
     @Input() checked?: string  //是否显示复选框
     @Input() url?: string // 树结构数据地址

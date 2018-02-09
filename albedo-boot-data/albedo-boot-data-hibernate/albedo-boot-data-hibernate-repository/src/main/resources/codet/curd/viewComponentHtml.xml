@@ -37,7 +37,7 @@
 				</div>
 			</div>
             <div class="m-portlet__head-tools">
-                <a <#if scheme.modalView>href="javascript:void(0)" data-modal-id="#${className}-edit-modal"<#else>routerLink="/${urlPrefix}/form/"</#if> title="添加${functionNameSimple}" class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill ">
+                <a *ngIf="this.principal.hasAnyAuthorityDirectOne('${permissionPrefix}_edit') "<#if scheme.modalView>href="javascript:void(0)" data-modal-id="#${className}-edit-modal"<#else>routerLink="/${urlPrefix}/form/"</#if> title="添加${functionNameSimple}" class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill ">
                     <i class="la la-plus"></i>
                 </a>
             </div>
@@ -50,7 +50,7 @@
 						<div class="form-group m-form__group row align-items-center">
 							<#list table.columnList as c>
 						<#if c.isQuery?? && c.isQuery == 1>
-						    <div class="col-md-4 m--margin-bottom-20">
+						    <div class="col-md-3 m--margin-bottom-20">
                                 <div class="m-form__group m-form__group--inline">
                                     <div class="m-form__label">
                                         <label class="m-label m-label--single">
@@ -64,7 +64,7 @@
                                         <alb-form name="${c.javaFieldId}" searchItem="searchItem" dictCode="${c.dictType}" boxType="${c.showType}" operate="${c.queryType}" attrType="${c.javaType}"> </alb-form>
                                     <#elseif c.showType == "dateselect">
                                         <div class="input-group date ${c.queryType == "between" ? string('m_daterangepicker','m_datetimepicker')} " >
-                                            <input class="form-control m-input" name="${c.javaFieldId}" searchItem="searchItem" operate="${c.queryType}" attrType="${c.javaType}" readonly readonly= type="text" />
+                                            <input class="form-control m-input" name="${c.javaFieldId}" searchItem="searchItem" format="yyyy-MM-dd HH:mm:ss" operate="${c.queryType}" attrType="${c.javaType}" type="text" />
                                             <span class="input-group-addon">
                                                 <i class="la la-calendar-check-o glyphicon-th"></i>
                                             </span>

@@ -31,7 +31,7 @@
 				</div>
 			</div>
             <div class="m-portlet__head-tools">
-                <a routerLink="/gen/genScheme/form/" title="添加方案配置" class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill btn-add-genScheme">
+                <a *ngIf="this.principal.hasAnyAuthorityDirectOne('gen_genScheme_edit')" routerLink="/gen/genScheme/form/" title="添加方案配置" class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill btn-add-genScheme">
                     <i class="la la-plus"></i>
                 </a>
             </div>

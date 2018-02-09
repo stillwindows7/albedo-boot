@@ -6,6 +6,7 @@ import { createRequestOption } from "../base/request.util"
 import { OnChanges } from "@angular/core/src/metadata/lifecycle_hooks"
 import {DictQuery} from "../../theme/pages/modules/sys/dict/service/dict.query.model";
 import {DictService} from "../../theme/pages/modules/sys/dict/service/dict.service";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
     selector: "alb-form",
@@ -64,7 +65,7 @@ export class AlbFormComponent implements OnInit, AfterViewInit, OnChanges {
     private afterViewInit = false
 
     // tslint:disable-next-line: no-unused-variable
-    constructor(protected http: Http, private dictService: DictService) {
+    constructor(protected http: HttpClient, private dictService: DictService) {
 
 
     }
@@ -73,14 +74,14 @@ export class AlbFormComponent implements OnInit, AfterViewInit, OnChanges {
             if (this.dictCode != null) this.dictQuery = new DictQuery(this.dictCode)
             let params = this.dictQuery != null ? this.dictQuery : this.comboSearch
             params && this.dictService.codes(params).subscribe(
-                (data: any) => {
-                    this.comboData = data
+                (res: any) => {
+                    this.comboData = res.data
                     this.initTags()
                 }
             )
-            this.url && this.http.get(this.url, createRequestOption(this.params)).map((data: any) => data).subscribe(
-                (data: any) => {
-                    this.comboData = data
+            this.url && this.http.get(this.url, createRequestOption(this.params)).map((res: any) => res).subscribe(
+                (res: any) => {
+                    this.comboData = res.data
                     this.initTags()
                 }
             )

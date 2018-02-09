@@ -52,6 +52,7 @@ public class ExceptionTranslator {
         message.setStatus(Globals.MSG_TYPE_WARNING);
         if (e instanceof RuntimeMsgException) {
             RuntimeMsgException msg = (RuntimeMsgException) e;
+            message.setCode(msg.getCode());
             message.setData(msg.getData());
             message.addMessage(msg.getMessage());
         } else if (e instanceof BindException ||

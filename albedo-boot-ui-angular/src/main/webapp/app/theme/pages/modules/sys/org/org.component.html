@@ -37,7 +37,7 @@
                         </div>
                     </div>
                     <div class="m-portlet__head-tools">
-                        <a href="javascript:void(0)" id="btn-edit-org" title="添加机构" data-modal-id="#org-edit-modal"
+                        <a  *ngIf="this.principal.hasAnyAuthorityDirectOne('sys_org_edit')" href="javascript:void(0)" id="btn-edit-org" title="添加机构" data-modal-id="#org-edit-modal"
                            class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill dialog-add">
                             <i class="la la-plus"></i>
                         </a>

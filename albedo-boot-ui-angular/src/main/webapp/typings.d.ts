@@ -11,7 +11,7 @@ declare var albedoList: AlbedoList
 
 interface AlbedoList {
     init(target?: any): void
-
+    initHtmlTable(table?: any, option?: any): void
     initTable(table: any, formSearch: any, option?: any): void
 
     initModal(callback?: any, btn?: any, target?: any): void;

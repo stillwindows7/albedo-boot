@@ -21,7 +21,9 @@ export class Principal {
     hasAnyAuthority(authorities: string[]): Promise<boolean> {
         return Promise.resolve(this.hasAnyAuthorityDirect(authorities))
     }
-
+    hasAnyAuthorityDirectOne(authority: string): boolean {
+        return this.hasAnyAuthorityDirect([authority])
+    }
     hasAnyAuthorityDirect(authorities: string[]): boolean {
         console.log(this.authenticated)
         if (!this.authenticated || !this.userIdentity || !this.userIdentity.authorities) {

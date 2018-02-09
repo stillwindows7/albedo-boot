@@ -2041,11 +2041,13 @@ jQuery.fn.extend({
             delete params.data['datatable']['sortName'];
           }
         }
+        var size = params.data['datatable']['pagination']['perpage'];
+          var page = params.data['datatable']['pagination']['page'];
         params.data = {
             sortName: params.data['datatable']['sortName'],
           // pm.draw = d.draw;
-          size: params.data['datatable']['pagination']['perpage'],
-          page: params.data['datatable']['pagination']['page'],
+          size: size ? size : undefined,
+          page: page ? page : undefined,
             queryConditionJson: albedo.parseJsonItemFormTarget($formSearch && $formSearch.length > 0 ? $formSearch : $("body form-search:eq(0)")),
         };
         // params.data['sortName'] = params.data['datatable']['sortName'];

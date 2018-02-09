@@ -22,6 +22,7 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
     ) {
         this.moduleService.menus().subscribe(
             (data: Module[]) => {
+                console.log(data)
                 this.menus = data
                 this.initMenuData()
             }

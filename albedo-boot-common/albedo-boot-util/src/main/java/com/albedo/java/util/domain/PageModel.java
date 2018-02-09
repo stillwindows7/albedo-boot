@@ -122,11 +122,17 @@ public class PageModel<T> implements Pageable, Serializable {
     public void setPage(int page) {
         this.page = page;
     }
-
+    public void setPage(Integer page) {
+        if(page!=null)
+        this.page = page;
+    }
     public int getSize() {
         return size;
     }
-
+    public void setSize(Integer size) {
+        if(size!=null)
+        this.size = size;
+    }
     public void setSize(int size) {
         this.size = size;
     }

@@ -1,6 +1,7 @@
 package com.albedo.java.util.exception;
 
 import com.albedo.java.util.PublicUtil;
+import org.springframework.http.HttpStatus;
 
 public class RuntimeMsgException extends RuntimeException {
 
@@ -8,6 +9,7 @@ public class RuntimeMsgException extends RuntimeException {
 
     private String url;
 
+    private HttpStatus code;
     private Object data;
 
 
@@ -32,7 +34,10 @@ public class RuntimeMsgException extends RuntimeException {
     public RuntimeMsgException(String message) {
         super(message);
     }
-
+    public RuntimeMsgException(String message, HttpStatus httpStatus) {
+        super(message);
+        this.code=httpStatus;
+    }
     public RuntimeMsgException(String message, String url) {
         super(message);
         this.url = url;
@@ -58,4 +63,11 @@ public class RuntimeMsgException extends RuntimeException {
         this.data = data;
     }
 
+    public HttpStatus getCode() {
+        return code;
+    }
+
+    public void setCode(HttpStatus code) {
+        this.code = code;
+    }
 }

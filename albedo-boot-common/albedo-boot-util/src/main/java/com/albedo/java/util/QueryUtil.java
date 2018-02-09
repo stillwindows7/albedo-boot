@@ -220,7 +220,7 @@ public class QueryUtil {
             } else if (SystemConfig.TYPE_DOUBLE.equalsIgnoreCase(type)) {
                 val = Double.parseDouble(String.valueOf(val));
             } else if (SystemConfig.TYPE_DATE.equalsIgnoreCase(type)) {
-                val = PublicUtil.parseDate(String.valueOf(val), queryCondition.getFormat());
+                val = PublicUtil.isNotEmpty(queryCondition.getFormat()) ? PublicUtil.parseDate(String.valueOf(val), queryCondition.getFormat()) : DateUtil.parseDate(val);
             }
         }
         return val;

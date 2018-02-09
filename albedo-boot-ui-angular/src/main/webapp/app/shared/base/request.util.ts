@@ -1,19 +1,26 @@
-import { BaseRequestOptions, Response } from '@angular/http'
-import { ResponseWrapper } from "./model/response-wrapper.model"
+import {HttpParams} from "@angular/common/http";
 
-export const createRequestOption = (req?: any): BaseRequestOptions => {
-    const options: BaseRequestOptions = new BaseRequestOptions()
+
+export const createRequest = (req?: any): HttpParams => {
+    let options: HttpParams = new HttpParams();
     if (req) {
-        options.params = req
+        Object.keys(req).forEach((key) => {
+            if (key !== 'sort') {
+                options = options.set(key, req[key]);
+            }
+        });
+        if (req.sort) {
+            req.sort.forEach((val) => {
+                options = options.append('sort', val);
+            });
+        }
     }
-    return options
-}
+    return options;
+};
 
-
-export const convertResponse = (res: Response): ResponseWrapper => {
-    const jsonResponse = res.json()
-    return new ResponseWrapper(res.headers, jsonResponse, res.status)
-}
+export const createRequestOption = (req?: any): any => {
+    return { params: createRequest(req), observe: 'body' };
+};
 
 
 

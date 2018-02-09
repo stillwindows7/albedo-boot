@@ -31,7 +31,7 @@
 				</div>
 			</div>
             <div class="m-portlet__head-tools">
-                <a title="添加业务表" class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill btn-add-genTable">
+                <a  *ngIf="this.principal.hasAnyAuthorityDirectOne('gen_genTable_edit')" title="添加业务表" class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill btn-add-genTable">
                     <i class="la la-plus"></i>
                 </a>
             </div>

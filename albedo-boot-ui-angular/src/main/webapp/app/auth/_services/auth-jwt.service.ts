@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core'
-import { Http } from '@angular/http'
-import { Observable } from 'rxjs/Rx'
-import { LocalStorageService, SessionStorageService } from 'ngx-webstorage'
-import { CTX } from '../../app.constants'
+import {Injectable} from '@angular/core'
+import {Observable} from 'rxjs/Rx'
+import {LocalStorageService, SessionStorageService} from 'ngx-webstorage'
+import {CTX} from '../../app.constants'
+import {HttpClient} from "@angular/common/http";
+import {createRequest} from "../../shared/base/request.util";
 
 @Injectable()
 export class AuthServerProvider {
-    constructor(private http: Http,
+    constructor(private http: HttpClient,
         private $localStorage: LocalStorageService,
         private $sessionStorage: SessionStorageService) {
     }
@@ -23,13 +24,16 @@ export class AuthServerProvider {
             password: credentials.password,
             rememberMe: credentials.rememberMe
         }
-        return this.http.post(CTX + '/authenticate', data).map(authenticateSuccess.bind(this))
+        console.log(data)
+        return this.http.post(CTX + '/authenticate', data, {observe : 'response'}).map(authenticateSuccess.bind(this))
 
         function authenticateSuccess(resp) {
+            console.log(resp)
             const bearerToken = resp.headers.get('Authorization')
             if (bearerToken && bearerToken.slice(0, 6) === 'Bearer') {
                 const jwt = bearerToken.slice(6, bearerToken.length)
                 this.storeAuthenticationToken(jwt, credentials.rememberMe)
+                console.log(jwt)
                 return jwt
             }
         }

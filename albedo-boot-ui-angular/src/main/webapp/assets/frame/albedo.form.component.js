@@ -816,8 +816,8 @@ var albedoForm = function () {
             linkedCalendars: false,
             autoUpdateInput: false,
             locale: {
-                format: 'YYYY/MM/DD hh:mm:ss',
-                separator: '-',
+                format: 'YYYY-MM-DD hh:mm:ss',
+                separator: ' ~ ',
                 applyLabel: "应用",
                 cancelLabel: "取消",
                 resetLabel: "重置",

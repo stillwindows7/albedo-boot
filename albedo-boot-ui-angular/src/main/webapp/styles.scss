@@ -3,7 +3,7 @@
     white-space: nowrap;
 }
 
-.page-form,.page-list {
+.page-form,.page-list,.page {
     width: 100%;
 }
 
@@ -18,5 +18,9 @@
 
 .ico-select-div .active{
     color: #716aca !important;
+}
+
+.hand {
+    cursor: pointer;
 }
 

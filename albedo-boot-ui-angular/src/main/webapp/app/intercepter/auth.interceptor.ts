@@ -1,29 +1,31 @@
-import { Observable } from 'rxjs/Observable'
-import { RequestOptionsArgs, Response } from '@angular/http'
-import { LocalStorageService, SessionStorageService } from 'ngx-webstorage'
-import { JhiHttpInterceptor } from 'ng-jhipster'
+import {Observable} from 'rxjs/Observable'
+import {LocalStorageService, SessionStorageService} from 'ngx-webstorage'
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
+import {CTX} from "../app.constants";
 
-export class AuthInterceptor extends JhiHttpInterceptor {
+export class AuthInterceptor implements HttpInterceptor {
 
-    constructor(private localStorage: LocalStorageService,
-        private sessionStorage: SessionStorageService) {
-        super()
+    constructor(
+        private localStorage: LocalStorageService,
+        private sessionStorage: SessionStorageService
+    ) {
     }
 
-    requestIntercept(options?: RequestOptionsArgs): RequestOptionsArgs {
-        if (!options || !options.url || /^http/.test(options.url)) {
-            return options
+    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        const token = this.localStorage.retrieve('authenticationToken') || this.sessionStorage.retrieve('authenticationToken');
+        if (!request || !request.url || (/^http/.test(request.url) && !(CTX && request.url.startsWith(CTX)))) {
+            return next.handle(request);
         }
 
-        const token = this.localStorage.retrieve('authenticationToken') || this.sessionStorage.retrieve('authenticationToken')
+
         if (!!token) {
-            options.headers.append('Authorization', 'Bearer' + token)
+            request = request.clone({
+                setHeaders: {
+                    Authorization: 'Bearer' + token
+                }
+            });
         }
-        return options
-    }
-
-    responseIntercept(observable: Observable<Response>): Observable<Response> {
-        return observable // by pass
+        return next.handle(request);
     }
 
 }

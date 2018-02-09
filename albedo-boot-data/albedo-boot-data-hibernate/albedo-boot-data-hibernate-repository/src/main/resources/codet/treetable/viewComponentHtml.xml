@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     <div class="m-portlet__head-tools">
-                        <a <#if scheme.modalView>href="javascript:void(0)" data-modal-id="#${className}-edit-modal"<#else>href="#/${urlPrefix}/form/"</#if> id="btn-edit-${className}" title="添加${functionNameSimple}"
+                        <a *ngIf="this.principal.hasAnyAuthorityDirectOne('${permissionPrefix}_edit') <#if scheme.modalView>href="javascript:void(0)" data-modal-id="#${className}-edit-modal"<#else>href="#/${urlPrefix}/form/"</#if> id="btn-edit-${className}" title="添加${functionNameSimple}"
                            class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill dialog-add">
                             <i class="la la-plus"></i>
                         </a>

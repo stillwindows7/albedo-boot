@@ -358,11 +358,11 @@ var albedo = {
                         .attr('type') == 'checkbox')
                     && !$(this).is(":checked"))
                     return true;
-                var s = $(this).val() ? ($(this).attr("format") != "yyyy-MM-dd HH:mm:ss" ? $(
-                    this).val().replaceAll(" ", "")
-                    : $(this).val())
+                var format=$(this).attr("format"),val = $(this).val(),s = val ? ( format && format.indexOf(" ")!=-1 ? val.trim()
+                    : val.replaceAll(" ", ""))
                     : undefined;
                 if (s) {
+                    console.log(s)
                     var fieldName = $(this).attr("realName") ? $(this)
                         .attr("realName") : $(this).attr("name");
                     if ($(this).attr('type') == 'checkbox' && json_list
@@ -376,12 +376,12 @@ var albedo = {
                     }
                     var _json = {};
                     _json.fieldName = fieldName;
+                    _json.fieldName = fieldName;
                     _json.attrType = $(this).attr("attrType") ? $(this)
-                        .attr("attrType") : 'String';
+                        .attr("attrType") : format ? 'Date' : 'String';
                     if (_json.attrType == "date"
                         || _json.attrType == "Date") {
-                        _json.format = $(this).attr("format") ? $(this)
-                            .attr("format") : 'yyyy-MM-dd';
+                        _json.format = format ? format : 'yyyy-MM-dd';
                     }
                     _json.fieldNode = $(this).attr("fieldNode") ? $(this)
                         .attr("fieldNode") : '';
@@ -395,9 +395,15 @@ var albedo = {
                         "analytiColumnPrefix") : null;
                     if (_json.operate == "between") {
                         var endValue = $("input[for-date='" + $(this).attr("name") + "']").val();
-                        _json.endValue = endValue ? ($(this)
-                                .attr("format") != "yyyy-MM-dd HH:mm:ss" ? endValue.replaceAll(" ", "") : endValue)
-                            : undefined;
+                        if(!endValue && s.toString().indexOf(" ~ ")!=-1){
+                            var vals = s.split(" ~ ");
+                            _json.endValue = vals[1].trim();
+                            s = vals[0].trim();
+                        }else{
+                            _json.endValue = endValue ? (format && format.indexOf(" ")!=-1 ? endValue.trim() : endValue.replaceAll(" ", ""))
+                                : undefined;
+                        }
+
                         if (!_json.endValue)
                             return true;
                     }

@@ -1,36 +1,36 @@
-import { Injectable } from '@angular/core'
-import { Http, Response } from '@angular/http'
-import { Observable } from 'rxjs/Rx'
-import { ResponseWrapper } from "../../base/model/response-wrapper.model"
-import { Data } from "../model/data.model"
-import { createRequestOption, convertResponse } from "../request.util"
+import {Injectable} from '@angular/core'
+import {Observable} from 'rxjs/Rx'
+import {Data} from "../model/data.model"
+import {createRequestOption} from "../request.util"
+import {HttpClient, HttpResponse} from "@angular/common/http";
 
 
 @Injectable()
 export class DataService<T extends Data> {
 
-    constructor(protected http: Http, protected resourceUrl) { }
+    constructor(protected http: HttpClient, protected resourceUrl) { }
 
-    save(entity: T): Observable<ResponseWrapper> {
+
+    save(entity: T): Observable<T> {
         return this.http.post(this.resourceUrl, entity)
-            .map((data: any) => convertResponse(data))
+            .map((res: any) => res && res.data)
     }
 
     find(id: string): Observable<T> {
-        return this.http.get(`${this.resourceUrl}/${id}`).map((data: any) => {
-            return data
+        return this.http.get(`${this.resourceUrl}/${id}`).map((res: any) => {
+            return res && res.data
         })
     }
     queryUrl(params?: any, url?: string): Observable<any> {
         const options = createRequestOption(params)
         return this.http.get(this.resourceUrl + '/' + (url ? url : ''), options)
-            .map((data: any) => data)
+            .map((res: any) => res && res.data)
     }
     query(params?: any): Observable<any> {
         return this.queryUrl(params)
     }
 
-    delete(id: string): Observable<Response> {
+    delete(id: string):  Observable<any> {
         return this.http.delete(`${this.resourceUrl}/${id}`)
     }
 

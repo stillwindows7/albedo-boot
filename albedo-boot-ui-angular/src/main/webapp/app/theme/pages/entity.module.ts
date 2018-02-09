@@ -9,6 +9,11 @@ import { GenTableModule } from "./modules/gen/genTable/genTable.module"
 import { GenSchemeModule } from "./modules/gen/genScheme/genScheme.module"
 import {TaskScheduleJobModule} from "./modules/sys/taskScheduleJob/taskScheduleJob.module";
 import {AreaModule} from "./modules/sys/area/area.module";
+import {MetricsModule} from "./modules/admin/metrics/metrics.module";
+import {LogsModule} from "./modules/admin/logs/logs.module";
+import {HealthModule} from "./modules/admin/health/health.module";
+import {ConfigurationModule} from "./modules/admin/configuration/configuration.module";
+import {AuditsModule} from "./modules/admin/audits/audits.module";
 
 
 @NgModule({
@@ -22,6 +27,11 @@ import {AreaModule} from "./modules/sys/area/area.module";
         GenSchemeModule,
         TaskScheduleJobModule,
         AreaModule,
+        MetricsModule,
+        LogsModule,
+        HealthModule,
+        ConfigurationModule,
+        AuditsModule,
         /* albedo-boot-needle-add-entity-module */
     ],
     declarations: [],

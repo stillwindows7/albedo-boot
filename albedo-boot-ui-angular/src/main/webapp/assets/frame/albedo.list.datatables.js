@@ -7,6 +7,21 @@ var albedoList = function(){
     var _setData = function (key, data) {
         if(key)_mapData[key] = data;
     }
+    var handleInitHtmlTable = function($table, options){
+        var  $table = $table && $table.length>0 ? $table : $(document).find('.m_datatable');
+        console.log($table)
+        options = $.extend(true, {
+            data: {
+                saveState: {cookie: false},
+            }}, options);
+        setTimeout(function() {
+            $table.each(function (index, item) {
+                var dataTable = $(item).mDatatable(options);
+                // console.log(dataTable);
+                $(item).attr("id")&&_setData("#"+$(item).attr("id"), dataTable);
+            })
+        }, 100)
+    }
     var handleInitTable = function($table, $formSearch, options){
         var  $table = $table && $table.length>0 ? $table : $(document).find('.m_datatable'),$formSearch = $formSearch && $formSearch.length>0 ? $formSearch : $(document).find('.search-form');
         options = $.extend(true, {// datasource definition
@@ -62,7 +77,7 @@ var albedoList = function(){
             $table.each(function (index, item) {
                 var dataTable = $(item).mDatatable(options);
                 // console.log(dataTable);
-                _setData("#"+$(item).attr("id"), dataTable);
+                $(item).attr("id")&&_setData("#"+$(item).attr("id"), dataTable);
                 $formSearch.find(".search-form-btn").click(function() {
                     _getData("#"+$(item).attr("id")).loadFilterGird();
                 })
@@ -149,6 +164,9 @@ var albedoList = function(){
     return {
         getData: function(key){
             return _getData(key);
+        },
+        initHtmlTable: function($table, options){
+            handleInitHtmlTable($table, options)
         },
         initTable: function($table, $formBtn, options){
             handleInitTable($table, $formBtn, options)
