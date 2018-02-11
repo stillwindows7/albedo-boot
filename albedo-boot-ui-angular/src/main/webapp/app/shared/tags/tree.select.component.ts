@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core'
-import {DictService} from "../../theme/pages/modules/sys/dict/service/dict.service";
+import {DictService} from "../../theme/pages/modules/sys/dict/dict.service";
 
 @Component({
     selector: "alb-tree-select",

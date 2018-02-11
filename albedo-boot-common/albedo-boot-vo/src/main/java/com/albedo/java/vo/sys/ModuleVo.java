@@ -1,10 +1,15 @@
 package com.albedo.java.vo.sys;
 
+import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.StringUtil;
+import com.albedo.java.util.base.Collections3;
 import com.albedo.java.vo.base.TreeEntityVo;
 import lombok.Data;
 import lombok.ToString;
 
-import javax.persistence.Column;
+import java.util.Collection;
+import java.util.List;
+
 
 /**
  * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23 下午4:29:21
@@ -19,10 +24,13 @@ public class ModuleVo extends TreeEntityVo {
 
 
     private static final long serialVersionUID = 1L;
+    public static final String TYPE_MENU = "1";
     /*** 模块类型 0 菜单模块 1权限模块 */
     private String type;
 
     private String target;
+
+
     /*** 请求方法*/
     private String requestMethod;
     /*** 链接地址 */
@@ -41,7 +49,15 @@ public class ModuleVo extends TreeEntityVo {
     private boolean menuLeaf;
     private boolean menuTop;
     private boolean show;
-    private String hrefName;
+    private String href;
 
+    public void setRequestMethod(Object requestMethod) {
+        if(requestMethod instanceof List){
+            this.requestMethod = Collections3.convertToString((Collection) requestMethod, StringUtil.SPLIT_DEFAULT);
+        }else{
+
+            this.requestMethod = PublicUtil.toStrStringNull(requestMethod);
+        }
+    }
 
 }

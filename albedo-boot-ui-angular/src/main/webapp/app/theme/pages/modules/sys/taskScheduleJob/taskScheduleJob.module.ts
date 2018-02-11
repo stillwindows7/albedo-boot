@@ -5,7 +5,7 @@ import {TaskScheduleJobComponent} from "./taskScheduleJob.component";
 import {routeChilds} from "../../../../api.routing.module";
 import {AlbedoBootSharedModule} from "../../../../../shared/shared.module";
 import {LayoutModule} from "../../../../layouts/layout.module";
-import {TaskScheduleJobService} from "./service/taskScheduleJob.service";
+import {TaskScheduleJobService} from "./taskScheduleJob.service";
 import {TaskScheduleJobFormComponent} from "./taskScheduleJob.form.component";
 
 const routesSysTaskScheduleJob = [

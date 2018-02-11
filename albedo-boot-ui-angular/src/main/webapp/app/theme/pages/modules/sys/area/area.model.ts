@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
  */
-import {Tree} from "../../../../../../shared/base/model/tree.model"
+import {Tree} from "../../../../../shared/base/model/tree.model"
 
 export class Area extends Tree {
 

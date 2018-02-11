@@ -1,4 +1,4 @@
-import {Tree} from "../../../../../../shared/base/model/tree.model";
+import {Tree} from "../../../../../shared/base/model/tree.model";
 
 
 export class Dict extends Tree {

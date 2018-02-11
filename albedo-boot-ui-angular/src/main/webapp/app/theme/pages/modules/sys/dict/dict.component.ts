@@ -62,6 +62,7 @@ export class DictComponent implements OnInit, OnDestroy, AfterViewInit {
                 {
                     field: 'name',
                     title: '名称',
+                    width: 110,
                     sortable: 'asc',
                 }, {
                     field: 'code',
@@ -89,14 +90,16 @@ export class DictComponent implements OnInit, OnDestroy, AfterViewInit {
                 }, {
                     field: 'lastModifiedDate',
                     title: '修改时间',
-                }, {
-                    field: 'Actions',
-                    width: 110,
-                    title: '操作',
-                    sortable: false,
-                    overflow: 'visible',
-                    template: function(row) {
-                        return '\
+                }],
+        }
+        if (thisPrincipal.hasAnyAuthorityDirect(["sys_dict_edit", "sys_dict_lock", "sys_dict_delete"])) {
+            options.columns.push( {
+                field: 'Actions',
+                width: 110,
+                title: '操作',
+                sortable: false,
+                template: function(row) {
+                    return '\
 						<a href="#/sys/dict/form/'+ row.id + '" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">\
 							<i class="la la-edit"></i>\
 						</a>\
@@ -108,10 +111,9 @@ export class DictComponent implements OnInit, OnDestroy, AfterViewInit {
                              data-table-id="#data-table-dict" data-method="delete"  data-title="你确认要删除【'+ row.name + '】字典吗？" data-url="' + CTX + '/sys/dict/' + row.id + '">\
                             <i class="la la-trash"></i>\
                         </a>'
-                    },
-                }],
+                },
+            })
         }
-
         albedoList.initTable($('#data-table-dict'), $('#dict-search-form'), options)
         albedoList.init()
         albedoForm.initTree()

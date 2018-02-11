@@ -1,6 +1,7 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.config.AlbedoProperties;
+import com.albedo.java.common.security.SecurityAuthUtil;
 import com.albedo.java.common.security.SecurityConstants;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.common.security.jwt.TokenProvider;
@@ -8,7 +9,9 @@ import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.service.UserService;
 import com.albedo.java.util.LoginUtil;
 import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.Globals;
+import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.base.LoginVo;
 import com.albedo.java.vo.sys.UserVo;
 import com.albedo.java.web.rest.ResultBuilder;
@@ -17,6 +20,8 @@ import com.albedo.java.web.rest.util.CookieUtil;
 import com.albedo.java.web.rest.util.RequestUtil;
 import com.codahale.metrics.annotation.Timed;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +30,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,6 +58,8 @@ public class AccoutResource extends BaseResource {
     @Resource
     private UserService userService;
     private final TokenProvider tokenProvider;
+    @Autowired(required = false)
+    private PasswordEncoder passwordEncoder;
 
     private final AuthenticationManager authenticationManager;
 
@@ -97,9 +105,7 @@ public class AccoutResource extends BaseResource {
         String id = SecurityUtil.getCurrentUserId();
         Optional<UserVo> userVo = userService.findOneById(id)
             .map(item -> userService.copyBeanToVo(item));
-        userVo.get().setAuthorities(SecurityUtil.getModuleList().stream()
-            .filter(item -> PublicUtil.isNotEmpty(item.getPermission()))
-            .map(item ->item.getPermission()).collect(Collectors.toList()));
+        userVo.get().setAuthorities(SecurityUtil.getCurrentUserAuthorities());
         return ResultBuilder.buildOk(userVo);
     }
     /**
@@ -178,4 +184,32 @@ public class AccoutResource extends BaseResource {
             return PublicUtil.toAppendStr("redirect:", adminPath, "/login");
         }
     }
+    private static boolean checkPasswordLength(String password) {
+        return !StringUtils.isEmpty(password) &&
+            password.length() >= UserVo.PASSWORD_MIN_LENGTH &&
+            password.length() <= UserVo.PASSWORD_MAX_LENGTH;
+    }
+    /**
+     * POST  /account/change-password : changes the current user's password
+     *
+     * @param oldPassword the old password
+     * @param newPassword the new password
+     */
+    @PostMapping(path = "/account/change-password")
+    @Timed
+    public void changePassword(@RequestBody String oldPassword,@RequestBody String newPassword) {
+        if (!checkPasswordLength(newPassword)) {
+            throw new RuntimeMsgException("密码格式有误");
+        }
+       if(!(PublicUtil.isNotEmpty(oldPassword) && passwordEncoder.encode(oldPassword).equals(SecurityUtil.getCurrentUser().getPassword()))){
+           throw new RuntimeMsgException("输入原密码有误");
+       }
+
+        if (PublicUtil.isNotEmpty(oldPassword) && !oldPassword.equals(newPassword)) {
+            throw new RuntimeMsgException("两次输入密码不一致");
+        }
+
+        userService.changePassword(SecurityAuthUtil.getCurrentUserLogin(), newPassword);
+    }
+
 }

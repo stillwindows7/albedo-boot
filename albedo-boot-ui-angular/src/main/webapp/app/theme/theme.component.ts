@@ -6,8 +6,8 @@ import { CTX } from "../app.constants"
 import { LocalStorageService, SessionStorageService } from "ngx-webstorage"
 import { Principal } from "../auth/_services/principal.service"
 import { setActiveItemMenu } from "../shared/base/base.util"
-import {Module} from "./pages/modules/sys/module/service/module.model";
-import {ModuleService} from "./pages/modules/sys/module/service/module.service";
+import {Module} from "./pages/modules/sys/module/module.model";
+import {ModuleService} from "./pages/modules/sys/module/module.service";
 
 declare let mApp: any
 declare let mUtil: any
@@ -105,10 +105,12 @@ export class ThemeComponent implements OnInit {
             return
         }
         if (thiz.modules) {
-            var breadcrumbs = []
+            var breadcrumbs = [],title
             thiz.getModules(function(module) {
                 if (module.url == url || module.url.indexOf(url) != -1) {
-                    module.parentIds.split(",").forEach(function(item) {
+                    let parentIds = module.parentIds.split(",");
+                    title = module.name
+                    parentIds.forEach(function(item) {
                         item && thiz.getModules(function(temp) {
                             if (item == temp.id) {
                                 breadcrumbs.push({
@@ -121,7 +123,7 @@ export class ThemeComponent implements OnInit {
                     })
                 }
             })
-            Helpers.setBreadcrumbs(breadcrumbs)
+            Helpers.setBreadcrumbs(breadcrumbs, title)
         }
     }
 

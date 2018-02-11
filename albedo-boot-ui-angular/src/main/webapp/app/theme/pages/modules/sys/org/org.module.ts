@@ -5,7 +5,7 @@ import {OrgComponent} from "./org.component"
 import {AlbedoBootSharedModule} from "../../../../../shared/shared.module"
 // import {OrgFormComponent} from "./org.form.component"
 import {RouterModule} from "@angular/router"
-import {OrgService} from "./service/org.service"
+import {OrgService} from "./org.service"
 import {routeChilds} from "../../../../api.routing.module"
 
 const routesSysOrg = [

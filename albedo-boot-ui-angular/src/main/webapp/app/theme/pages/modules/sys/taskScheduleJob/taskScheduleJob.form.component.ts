@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { CTX } from "../../../../../app.constants";
 import { ActivatedRoute } from "@angular/router";
-import {TaskScheduleJob} from "./service/taskScheduleJob.model";
-import {TaskScheduleJobService} from "./service/taskScheduleJob.service";
+import {TaskScheduleJob} from "./taskScheduleJob.model";
+import {TaskScheduleJobService} from "./taskScheduleJob.service";
 
 @Component({
     selector: ".sys-taskScheduleJob-form.page-form",

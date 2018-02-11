@@ -8,7 +8,7 @@ import {AreaComponent} from "./area.component";
 import {routeChilds} from "../../../../api.routing.module";
 import {AlbedoBootSharedModule} from "../../../../../shared/shared.module";
 import {LayoutModule} from "../../../../layouts/layout.module";
-import {AreaService} from "./service/area.service";
+import {AreaService} from "./area.service";
 
 
 const routesSysArea = [
@@ -16,7 +16,7 @@ const routesSysArea = [
         path: "sys/area/list",
         component: AreaComponent
     },
-    
+
 ];
 
 routeChilds.push(...routesSysArea)
@@ -34,7 +34,7 @@ routeChilds.push(...routesSysArea)
         AreaComponent,
     ], declarations: [
         AreaComponent,
-        
+
     ], providers: [
         AreaService,
     ],

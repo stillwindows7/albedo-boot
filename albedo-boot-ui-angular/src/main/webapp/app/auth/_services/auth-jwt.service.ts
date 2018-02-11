@@ -3,7 +3,6 @@ import {Observable} from 'rxjs/Rx'
 import {LocalStorageService, SessionStorageService} from 'ngx-webstorage'
 import {CTX} from '../../app.constants'
 import {HttpClient} from "@angular/common/http";
-import {createRequest} from "../../shared/base/request.util";
 
 @Injectable()
 export class AuthServerProvider {

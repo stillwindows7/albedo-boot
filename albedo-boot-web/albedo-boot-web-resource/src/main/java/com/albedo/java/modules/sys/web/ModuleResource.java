@@ -117,6 +117,10 @@ public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
                 moduleVo.getId(), moduleVo.getPermission()))) {
             throw new RuntimeMsgException("权限已存在");
         }
+        if(ModuleVo.TYPE_MENU.equals(moduleVo.getType())){
+            moduleVo.setPermission(null);
+            moduleVo.setRequestMethod(null);
+        }
         moduleService.save(moduleVo);
         SecurityUtil.clearUserJedisCache();
         JedisUtil.removeSys(GlobalJedis.RESOURCE_MODULE_DATA_MAP);

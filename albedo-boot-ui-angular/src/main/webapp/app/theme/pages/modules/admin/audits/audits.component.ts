@@ -29,7 +29,7 @@ export class AuditsComponent implements OnInit {
         this.page = 1;
         this.reverse = false;
         this.orderProp = 'timestamp';
-        this.datePipe = new DatePipe('zh');
+        this.datePipe = new DatePipe('en');
     }
 
     getAudits() {

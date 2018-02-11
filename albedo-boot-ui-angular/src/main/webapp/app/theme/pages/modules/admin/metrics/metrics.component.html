@@ -101,7 +101,7 @@
                     <span>使用中请求:</span> <b>{{metrics.counters['com.codahale.metrics.servlet.InstrumentedFilter.activeRequests'].count | number:'1.0-0'}}</b> - <span>请求总数</span> <b>{{metrics.timers['com.codahale.metrics.servlet.InstrumentedFilter.requests'].count | number:'1.0-0'}}</b>
                 </p>
                 <div class="table-responsive" *ngIf="!updatingMetrics">
-                    <table class="table table-striped m_datatable">
+                    <table class="table m-table table-bordered table-hover">
                         <thead>
                         <tr>
                             <th>状态码</th>
@@ -179,7 +179,7 @@
 
                 <h3>服务统计 (时间单位为毫秒)</h3>
                 <div class="table-responsive" *ngIf="!updatingMetrics">
-                    <table class="table table-striped m_datatable">
+                    <table class="table m-table table-bordered table-hover">
                         <thead>
                         <tr>
                             <th>服务名称</th>
@@ -211,7 +211,7 @@
 
                 <h3>Cache 统计</h3>
                 <div class="table-responsive" *ngIf="!updatingMetrics">
-                    <table class="table table-striped m_datatable">
+                    <table class="table m-table table-bordered table-hover">
                         <thead>
                         <tr>
                             <th>缓存名称</th>
@@ -249,7 +249,7 @@
 
                 <h3 *ngIf="metrics.gauges && metrics.gauges['HikariPool-1.pool.TotalConnections'] && metrics.gauges['HikariPool-1.pool.TotalConnections'].value > 0">数据源统计 (时间单位为毫秒)</h3>
                 <div class="table-responsive" *ngIf="!updatingMetrics && metrics.gauges && metrics.gauges['HikariPool-1.pool.TotalConnections'] && metrics.gauges['HikariPool-1.pool.TotalConnections'].value > 0">
-                    <table class="table table-striped m_datatable">
+                    <table class="table m-table table-bordered table-hover">
                         <thead>
                         <tr>
                             <th><span>用法</span> ({{metrics.gauges['HikariPool-1.pool.ActiveConnections'].value}} / {{metrics.gauges['HikariPool-1.pool.TotalConnections'].value}})</th>

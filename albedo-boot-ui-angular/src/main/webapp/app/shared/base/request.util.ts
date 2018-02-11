@@ -1,7 +1,7 @@
 import {HttpParams} from "@angular/common/http";
 
 
-export const createRequest = (req?: any): HttpParams => {
+export const createRequestParams = (req?: any): HttpParams => {
     let options: HttpParams = new HttpParams();
     if (req) {
         Object.keys(req).forEach((key) => {
@@ -19,7 +19,7 @@ export const createRequest = (req?: any): HttpParams => {
 };
 
 export const createRequestOption = (req?: any): any => {
-    return { params: createRequest(req), observe: 'body' };
+    return { params: createRequestParams(req), observe: 'body' };
 };
 
 

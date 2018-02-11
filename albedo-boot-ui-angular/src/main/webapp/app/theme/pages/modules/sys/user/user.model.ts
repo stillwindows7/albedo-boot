@@ -1,4 +1,4 @@
-import {Data} from "../../../../../../shared/base/model/data.model";
+import {Data} from "../../../../../shared/base/model/data.model";
 
 
 export class User extends Data {

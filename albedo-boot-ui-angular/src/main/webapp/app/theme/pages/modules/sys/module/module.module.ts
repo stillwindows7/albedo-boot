@@ -5,7 +5,7 @@ import {ModuleComponent} from "./module.component"
 import {AlbedoBootSharedModule} from "../../../../../shared/shared.module"
 import {ModuleFormComponent} from "./module.form.component"
 import {RouterModule} from "@angular/router"
-import {ModuleService} from "./service/module.service"
+import {ModuleService} from "./module.service"
 import {routeChilds} from "../../../../api.routing.module"
 
 const routesSysModule = [

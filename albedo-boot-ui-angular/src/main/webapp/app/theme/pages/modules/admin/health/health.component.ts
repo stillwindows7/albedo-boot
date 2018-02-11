@@ -5,7 +5,7 @@ import { HealthService } from './health.service';
 import { HealthModalComponent } from './health.modal.component';
 
 @Component({
-    selector: 'alb-health',
+    selector: 'alb-health.page',
     templateUrl: './health.component.html'
 })
 export class HealthCheckComponent implements OnInit {
@@ -51,6 +51,7 @@ export class HealthCheckComponent implements OnInit {
 
     showHealth(health: any) {
         const modalRef  = this.modalService.open(HealthModalComponent);
+        console.log(health)
         modalRef.componentInstance.currentHealth = health;
         modalRef.result.then((result) => {
             // Left blank intentionally, nothing to do here

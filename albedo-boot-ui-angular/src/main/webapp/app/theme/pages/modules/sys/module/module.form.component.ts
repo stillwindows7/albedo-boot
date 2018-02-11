@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core'
 import {CTX} from "../../../../../app.constants"
 import {ActivatedRoute} from "@angular/router"
-import {Module} from "./service/module.model"
-import {ModuleService} from "./service/module.service"
+import {Module} from "./module.model"
+import {ModuleService} from "./module.service"
 
 @Component({
     selector: ".sys-module-form.page-form",
@@ -69,7 +69,18 @@ export class ModuleFormComponent implements OnInit, OnDestroy, AfterViewInit {
         albedoForm.init()
         albedoForm.initSave(null)
 
+        this.initFormModuleType()
+    }
 
+    initFormModuleType() {
+        $(".m-content").off("click", "input[name='type']").on("click", "input[name='type']", function (){
+            console.log($(this).val())
+            if($(this).val()=="2"){
+                $(".permission_item").removeClass("hide").find("input").addClass("required")
+            }else{
+                $(".permission_item").addClass("hide").find("input").removeClass("required")
+            }
+        })
     }
 
 }

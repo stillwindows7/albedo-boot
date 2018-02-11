@@ -526,4 +526,13 @@ public final class SecurityUtil {
     }
 
 
+    public static List<String> getCurrentUserAuthorities() {
+        List<String> dataList = Lists.newArrayList();
+        SecurityUtil.getModuleList().forEach(item->{
+            if(PublicUtil.isNotEmpty(item.getPermission())){
+                dataList.addAll(Lists.newArrayList(item.getPermission().split(StringUtil.SPLIT_DEFAULT)));
+            }
+        });
+        return dataList;
+    }
 }

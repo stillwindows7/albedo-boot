@@ -5,7 +5,7 @@ import {DictComponent} from "./dict.component"
 import {AlbedoBootSharedModule} from "../../../../../shared/shared.module"
 import {DictFormComponent} from "./dict.form.component"
 import {RouterModule} from "@angular/router"
-import {DictService} from "./service/dict.service"
+import {DictService} from "./dict.service"
 import {routeChilds} from "../../../../api.routing.module"
 
 const routesSysDict = [

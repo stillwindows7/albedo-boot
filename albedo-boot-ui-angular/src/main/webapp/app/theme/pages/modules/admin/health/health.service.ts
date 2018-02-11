@@ -73,9 +73,11 @@ export class HealthService {
     }
 
     private flattenHealthData(result, path, data): any {
-        for (const key in data) {
-            if (data.hasOwnProperty(key)) {
-                const value = data[key];
+        // console.log(data)
+        var val = data.details ? data.details : data;
+        for (const key in val) {
+            if (val.hasOwnProperty(key)) {
+                const value = val[key];
                 if (this.isHealthObject(value)) {
                     if (this.hasSubSystem(value)) {
                         this.addHealthObject(result, false, value, this.getModuleName(path, key));

@@ -6,12 +6,14 @@ import com.albedo.java.common.domain.base.TreeDataEntity;
 import com.albedo.java.common.service.TreeService;
 import com.albedo.java.common.service.TreeVoService;
 import com.albedo.java.modules.sys.domain.Module;
+import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.repository.ModuleRepository;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.domain.RequestMethod;
 import com.albedo.java.vo.sys.ModuleVo;
+import com.albedo.java.vo.sys.UserVo;
 import com.albedo.java.vo.sys.query.ModuleMenuTreeResult;
 import com.albedo.java.vo.sys.query.ModuleTreeQuery;
 import com.albedo.java.vo.sys.query.TreeResult;
@@ -31,6 +33,11 @@ import java.util.Map;
 @Service
 @Transactional
 public class ModuleService extends TreeVoService<ModuleRepository, Module, String, ModuleVo> {
+
+    @Override
+    public void copyVoToBean(ModuleVo moduleVo, Module module) {
+        super.copyVoToBean(moduleVo, module);
+    }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<ModuleMenuTreeResult> findMenuData(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
@@ -81,7 +88,7 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
                     .filter(item->item.getParentIds().startsWith(moduleVo.getParentIds()+moduleVo.getId())).count()<1);
                 moduleVo.setMenuTop(ModuleVo.ROOT_ID.equals(moduleVo.getParentId()));
                 moduleVo.setShow(e.isShow());
-                moduleVo.setHrefName(e.getHrefName());
+                moduleVo.setHref(e.getHref());
                 mapList.add(moduleVo);
             }
         }

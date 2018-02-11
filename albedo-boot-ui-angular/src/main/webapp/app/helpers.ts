@@ -37,8 +37,11 @@ export class Helpers {
      * Breadcrumbs markup
      * @param breadcrumbs
      */
-    static setBreadcrumbs(breadcrumbs) {
-        if (breadcrumbs) $('.m-subheader__title').addClass('m-subheader__title--separator')
+    static setBreadcrumbs(breadcrumbs, title) {
+        if (breadcrumbs) {
+            $('.m-subheader__title').addClass('m-subheader__title--separator').text(title)
+            if(title)$('.m-subheader__title').text(title)
+        }
 
         let ul = $('.m-subheader__breadcrumbs')
 

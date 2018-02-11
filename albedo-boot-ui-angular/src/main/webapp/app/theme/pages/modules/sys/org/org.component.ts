@@ -3,7 +3,7 @@ import {ScriptLoaderService} from "../../../../../shared/base/service/script-loa
 import {CTX, DATA_STATUS} from "../../../../../app.constants"
 import {Principal} from "../../../../../auth/_services/principal.service"
 import {SessionStorageService} from "ngx-webstorage"
-import {Org} from "./service/org.model"
+import {Org} from "./org.model"
 
 declare let datatable: any
 @Component({
@@ -49,6 +49,7 @@ export class OrgComponent implements AfterViewInit {
                 {
                     field: 'name',
                     title: '名称',
+                    width: 110,
                     sortable: 'asc',
                 }, {
                     field: 'code',
@@ -73,35 +74,36 @@ export class OrgComponent implements AfterViewInit {
                 }, {
                     field: 'lastModifiedDate',
                     title: '修改时间',
-                }, {
-                    field: 'Actions',
-                    width: 110,
-                    title: '操作',
-                    sortable: false,
-                    overflow: 'visible',
-                    template: function(row) {
-                        var template = ''
+                }, ],
+        }
+        if (thisPrincipal.hasAnyAuthorityDirect(["sys_org_edit", "sys_org_lock", "sys_org_delete"])) {
+            options.columns.push({
+                field: 'Actions',
+                width: 110,
+                title: '操作',
+                sortable: false,
+                template: function(row) {
+                    var template = ''
 
-                        if (thisPrincipal.hasAuthority("sys_org_edit"))
-                            template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill dialog-edit" title="编辑"\
+                    if (thisPrincipal.hasAnyAuthorityDirectOne("sys_org_edit"))
+                        template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill dialog-edit" title="编辑"\
                                 \data-method="get"  data-title="编辑【' + row.name + '】机构" data-url="' + CTX + '/sys/org/' + row.id + '" data-modal-id="#org-edit-modal">\
                                 \<i class="la la-edit"></i>\
                                 \</a>'
-                        if (thisPrincipal.hasAuthority("sys_org_lock"))
-                            template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="' + (row.status == "正常" ? "锁定" : "解锁") + '机构"\
+                    if (thisPrincipal.hasAnyAuthorityDirectOne("sys_org_lock"))
+                        template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="' + (row.status == "正常" ? "锁定" : "解锁") + '机构"\
 						    data-method="put"  data-title="你确认要操作【' + row.name + '】机构吗？" data-url="' + CTX + '/sys/org/' + row.id + '">\
                                 \<i class="la la-'+ (row.status == "正常" ? "unlock-alt" : "unlock") + '"></i>\
                                 \</a>'
-                        if (thisPrincipal.hasAuthority("sys_org_delete"))
-                            template += '<a  href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
+                    if (thisPrincipal.hasAnyAuthorityDirectOne("sys_org_delete"))
+                        template += '<a  href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
                                    data-table-id="#data-table-org" data-method="delete"  data-title="你确认要删除【' + row.name + '】机构吗？" data-url="' + CTX + '/sys/org/' + row.id + '">\
                                 \<i class="la la-trash"></i>\
                                 \</a>'
-                        return template
-                    },
-                }],
+                    return template
+                },
+            })
         }
-
         albedoList.initTable($('#data-table-org'), $('#org-search-form'), options)
         albedoList.init()
 

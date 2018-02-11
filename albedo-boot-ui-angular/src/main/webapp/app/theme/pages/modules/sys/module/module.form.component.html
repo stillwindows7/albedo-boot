@@ -60,6 +60,7 @@
 
                     </div>
                 </div>
+
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
                         名称 *
@@ -80,19 +81,6 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
-                        类型 *
-                    </label>
-                    <div class="col-lg-4 col-md-9 col-sm-12">
-                        <alb-form boxType="radio"
-                                  id="type"
-                                  name="type"
-                                  dictCode="sys_module_type"
-                                  value="{{module.type}}" cssClass="required">
-                        </alb-form>
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <label class="col-form-label col-lg-3 col-sm-12">
                         图标
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
@@ -105,11 +93,37 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
-                        权限
+                        类型 *
+                    </label>
+                    <div class="col-lg-4 col-md-9 col-sm-12">
+                        <alb-form boxType="radio"
+                                  id="type"
+                                  name="type"
+                                  dictCode="sys_module_type"
+                                  value="{{module.type}}" cssClass="required">
+                        </alb-form>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row permission_item {{module.type=='1'? 'hide':''}}">
+                    <label class="col-form-label col-lg-3 col-sm-12">
+                        权限 *
                     </label>
                     <div class="col-lg-4 col-md-9 col-sm-12">
                         <input type="text" name="permission" value="{{module.permission}}"
-                               maxlength="64" class="form-control"/>
+                               maxlength="200" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group m-form__group row permission_item {{module.type=='1'? 'hide':''}}">
+                    <label class="col-form-label col-lg-3 col-sm-12">
+                        请求方法 *
+                    </label>
+                    <div class="col-lg-4 col-md-9 col-sm-12">
+                        <alb-form boxType="checkbox"
+                                  id="requestMethod"
+                                  name="requestMethod"
+                                  dictCode="sys_request_method"
+                                  value="{{module.requestMethod}}" cssClass="">
+                        </alb-form>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
@@ -128,19 +142,6 @@
                     <div class="col-lg-4 col-md-9 col-sm-12">
                         <input type="text" name="url" value="{{module.url}}"
                                maxlength="64" class="form-control "/>
-                    </div>
-                </div>
-                <div class="form-group m-form__group row">
-                    <label class="col-form-label col-lg-3 col-sm-12">
-                        请求方法
-                    </label>
-                    <div class="col-lg-4 col-md-9 col-sm-12">
-                        <alb-form boxType="checkbox"
-                                  id="requestMethod"
-                                  name="requestMethod"
-                                  dictCode="sys_request_method"
-                                  value="{{module.requestMethod}}" cssClass="">
-                        </alb-form>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">

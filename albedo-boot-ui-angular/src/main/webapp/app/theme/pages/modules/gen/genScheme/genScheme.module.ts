@@ -5,7 +5,7 @@ import {GenSchemeComponent} from "./genScheme.component"
 import {AlbedoBootSharedModule} from "../../../../../shared/shared.module"
 import {GenSchemeFormComponent} from "./genScheme.form.component"
 import {RouterModule} from "@angular/router"
-import {GenSchemeService} from "./service/genScheme.service"
+import {GenSchemeService} from "./genScheme.service"
 import {routeChilds} from "../../../../api.routing.module"
 
 const routesGenScheme = [

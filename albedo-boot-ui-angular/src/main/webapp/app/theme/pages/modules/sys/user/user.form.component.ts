@@ -1,8 +1,8 @@
 import {AfterViewInit, Component} from '@angular/core'
 import {CTX} from "../../../../../app.constants"
 import {ActivatedRoute} from "@angular/router"
-import {UserService} from "./service/user.service"
-import {User} from "./service/user.model"
+import {UserService} from "./user.service"
+import {User} from "./user.model"
 import {Helpers} from "../../../../../helpers";
 
 @Component({

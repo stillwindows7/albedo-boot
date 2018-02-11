@@ -1,8 +1,7 @@
 package com.albedo.java.common.security.service;
 
-import com.albedo.java.common.security.SecurityConstants;
-import com.albedo.java.common.base.BaseInit;
 import com.albedo.java.common.config.AlbedoProperties;
+import com.albedo.java.common.security.SecurityConstants;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.domain.Module;
 import com.albedo.java.modules.sys.repository.ModuleRepository;
@@ -12,6 +11,7 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.GlobalJedis;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -39,11 +39,10 @@ public class InvocationSecurityMetadataSourceService
     private ModuleRepository moduleRepository;
 
     public Map<String, Collection<ConfigAttribute>> getResourceMap() {
+        resourceMap = (Map<String, Collection<ConfigAttribute>>) JedisUtil.getSys(GlobalJedis.RESOURCE_MODULE_DATA_MAP);
         if (resourceMap == null) {
-            resourceMap = (Map<String, Collection<ConfigAttribute>>) JedisUtil.getSys(GlobalJedis.RESOURCE_MODULE_DATA_MAP);
-
             if (resourceMap == null) {
-                resourceMap = new HashMap<String, Collection<ConfigAttribute>>();
+                resourceMap = Maps.newHashMap();
             }
 
             if (PublicUtil.isEmpty(resourceMap)) {
@@ -56,7 +55,7 @@ public class InvocationSecurityMetadataSourceService
                             ConfigAttribute ca = new SecurityConfig(p);
                             String tempUrl = item.getUrl();
                             List<String> keyList = Lists.newArrayList();
-                            if (tempUrl != null) {
+                            if (PublicUtil.isNotEmpty(tempUrl)) {
                                 (tempUrl.indexOf(StringUtil.SPLIT_DEFAULT) == -1 ? Lists.newArrayList(tempUrl) : Lists.newArrayList(tempUrl.split(StringUtil.SPLIT_DEFAULT))).forEach(url -> {
                                     if (PublicUtil.isEmpty(item.getRequestMethod())) {
                                         dictRequestList.forEach(dict -> {
@@ -77,8 +76,12 @@ public class InvocationSecurityMetadataSourceService
 								 */
                                     if (resourceMap.containsKey(key)) {
                                         Collection<ConfigAttribute> value = resourceMap.get(key);
-                                        value.add(ca);
-                                        resourceMap.put(key, value);
+                                        long count = value.stream()
+                                            .filter(itemValue -> itemValue.getAttribute().equals(ca.getAttribute())).count();
+                                        if(count<1){
+                                            value.add(ca);
+                                            resourceMap.put(key, value);
+                                        }
                                     } else {
                                         Collection<ConfigAttribute> atts = new ArrayList<ConfigAttribute>();
                                         atts.add(ca);

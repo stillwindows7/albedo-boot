@@ -47,7 +47,7 @@ public class BeanVoUtil extends BeanUtils {
                             if (!Modifier.isPublic(writeMethod.getDeclaringClass().getModifiers())) {
                                 writeMethod.setAccessible(true);
                             }
-                            if (ignoreNull && PublicUtil.isNotEmpty(value) || !ignoreNull) {
+                            if (ignoreNull && value!=null || !ignoreNull) {
                                 writeMethod.invoke(target, value);
                             }
                         } catch (Throwable var15) {

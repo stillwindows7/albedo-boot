@@ -5,7 +5,7 @@ import {GenTableComponent} from "./genTable.component"
 import {AlbedoBootSharedModule} from "../../../../../shared/shared.module"
 import {GenTableFormComponent} from "./genTable.form.component"
 import {RouterModule} from "@angular/router"
-import {GenTableService} from "./service/genTable.service"
+import {GenTableService} from "./genTable.service"
 import {routeChilds} from "../../../../api.routing.module"
 
 const routesGenTable = [

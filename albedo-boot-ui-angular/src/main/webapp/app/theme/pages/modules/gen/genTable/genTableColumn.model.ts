@@ -1,6 +1,6 @@
 
-import {SYS_NO} from "../../../../../../app.constants"
-import {Data} from "../../../../../../shared/base/model/data.model";
+import {SYS_NO} from "../../../../../app.constants"
+import {Data} from "../../../../../shared/base/model/data.model";
 
 export class GenTableColumn extends Data {
     /**

@@ -25,11 +25,11 @@ export class Principal {
         return this.hasAnyAuthorityDirect([authority])
     }
     hasAnyAuthorityDirect(authorities: string[]): boolean {
-        console.log(this.authenticated)
+        // console.log(this.authenticated)
         if (!this.authenticated || !this.userIdentity || !this.userIdentity.authorities) {
             return false
         }
-
+        // console.log(this.userIdentity.authorities)
         for (let i = 0; i < authorities.length; i++) {
             if (this.userIdentity.authorities.includes(authorities[i])) {
                 return true
