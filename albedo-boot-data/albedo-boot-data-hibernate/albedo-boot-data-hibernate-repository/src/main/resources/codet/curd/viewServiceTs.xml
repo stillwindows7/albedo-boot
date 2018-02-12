@@ -9,8 +9,8 @@
  */
 import {Injectable} from '@angular/core'
 import {HttpClient} from "@angular/common/http";
-import {CTX} from "../../../../../../app.constants"
-import {DataService} from "../../../../../../shared/base/service/data.service";
+import {CTX} from "../../../../../app.constants"
+import {DataService} from "../../../../../shared/base/service/data.service";
 import {${ClassName}} from "./${className}.model";
 
 

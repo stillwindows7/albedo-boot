@@ -12,7 +12,7 @@ import {ScriptLoaderService} from "../../../../../shared/base/service/script-loa
 import {CTX, DATA_STATUS} from "../../../../../app.constants"
 import {Principal} from "../../../../../auth/_services/principal.service"
 import {SessionStorageService} from "ngx-webstorage"
-import {${ClassName}} from "./service/${className}.model"
+import {${ClassName}} from "./${className}.model"
 
 declare let datatable: any
 @Component({

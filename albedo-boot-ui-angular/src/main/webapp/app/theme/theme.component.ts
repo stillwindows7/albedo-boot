@@ -107,7 +107,10 @@ export class ThemeComponent implements OnInit {
         if (thiz.modules) {
             var breadcrumbs = [],title
             thiz.getModules(function(module) {
-                if (module.url == url || module.url.indexOf(url) != -1) {
+                //菜单
+                if (module.type==='1' && (module.url == url || module.url.startsWith(url) )) {
+                    console.log(module)
+                    console.log(url)
                     let parentIds = module.parentIds.split(",");
                     title = module.name
                     parentIds.forEach(function(item) {

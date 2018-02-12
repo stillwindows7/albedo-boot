@@ -16,6 +16,16 @@ export class ModuleService extends DataService<Module> {
     }
 
 
+
+    formData(id?: String, parentId?: String): Observable<Module> {
+        let params = {};
+        if(id) params["id"]=id;
+        if(parentId) params["parentId"]=parentId;
+        return this.http.get(this.resourceUrl +`/formData`,createRequestOption(params)).map((res: any) => {
+            return res && res.data
+        })
+    }
+
     menus(): Observable<any> {
         return this.data(createRequestOption({ type: 'menu' }))
     }

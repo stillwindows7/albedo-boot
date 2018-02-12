@@ -72,7 +72,7 @@
                                                 <alb-form name="${c.javaFieldId}" searchItem="searchItem" dictCode="${c.dictType}" boxType="${c.showType}" operate="${c.queryType}" attrType="${c.javaType}"> </alb-form>
                                             <#elseif c.showType == "dateselect">
                                                 <div class="input-group date ${c.queryType == "between" ? string('m_daterangepicker','m_datetimepicker')} " >
-                                                    <input class="form-control m-input" name="${c.javaFieldId}" searchItem="searchItem" operate="${c.queryType}" attrType="${c.javaType}" readonly readonly= type="text" />
+                                                    <input class="form-control m-input" name="${c.javaFieldId}" searchItem="searchItem" operate="${c.queryType}" attrType="${c.javaType}" type="text" />
                                                     <span class="input-group-addon">
                                                         <i class="la la-calendar-check-o glyphicon-th"></i>
                                                     </span>
@@ -161,7 +161,7 @@
                                     <alb-form name="${c.javaFieldId}" dictCode="${c.dictType}" cssClass="<#if !c.nullable>required</#if>" boxType="${c.showType}" value="{{${className}.${c.javaFieldId}}}" > </alb-form>
                                 <#elseif c.showType == "dateselect">
                                     <div class="input-group date m_datetimepicker" >
-                                        <input class="form-control m-input" name="${c.javaFieldId}" searchItem="searchItem" operate="${c.queryType}" attrType="${c.javaType}" readonly value="{{${className}.${c.javaFieldId}}}" readonly= type="text" />
+                                        <input class="form-control m-input" name="${c.javaFieldId}" readonly value="{{${className}.${c.javaFieldId}} | date:'yyyy-MM-dd hh:mm:ss'}" type="text" />
                                         <span class="input-group-addon">
                                             <i class="la la-calendar-check-o glyphicon-th"></i>
                                         </span>

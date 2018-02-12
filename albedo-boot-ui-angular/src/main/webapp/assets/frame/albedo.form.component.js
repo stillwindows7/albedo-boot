@@ -1127,13 +1127,25 @@ var albedoForm = function () {
             var $formValidate = $formTagert;
             var config;
             try {
+                console.log($formValidate.attr("config"))
                 eval("config = " + $formValidate.attr("config"));
+                console.log(config)
             } catch (e) {
+                console.log(e)
+
             }
             if (!config) config = {};
+
             config = $.extend(true, config, options);
-            var validator = $formValidate.validate(handleValidateConfig(config, $formValidate));
-            _setData($formValidate.attr("id"), validator);
+            console.log(config)
+            var formId  = $formValidate.attr("id");
+            var validator =_getData(formId);
+            if(validator){
+                $formValidate.rules("add", config)
+            }else{
+                var validator = $formValidate.validate(handleValidateConfig(config, $formValidate));
+                _setData(formId, validator);
+            }
             return validator;
         }
     }

@@ -10,10 +10,12 @@ import {GenSchemeModule} from "./modules/gen/genScheme/genScheme.module"
 import {TaskScheduleJobModule} from "./modules/sys/taskScheduleJob/taskScheduleJob.module";
 import {AreaModule} from "./modules/sys/area/area.module";
 import {AdminModule} from "./modules/admin/admin.module";
+import {TestBookModule} from "./modules/test/testBook/testBook.module";
 
 
 @NgModule({
     imports: [
+        AdminModule,
         UserModule,
         RoleModule,
         OrgModule,
@@ -23,7 +25,7 @@ import {AdminModule} from "./modules/admin/admin.module";
         GenSchemeModule,
         TaskScheduleJobModule,
         AreaModule,
-        AdminModule,
+        TestBookModule,
         /* albedo-boot-needle-add-entity-module */
     ],
     declarations: [],

@@ -114,7 +114,9 @@ var albedoList = function(){
 
     var handleInitTableAddModal = function ($target) {
         handleModal(function(el){
-            albedoForm.initFormData("#"+$(el.attr("data-modal-id")).find(".m-form").attr("id"), null)
+            var $targetForm = $(el.attr("data-modal-id")).find(".m-form");
+            albedoForm.initFormData("#"+$targetForm.attr("id"), null)
+            albedoForm.initValidate($targetForm)
         },".dialog-add", $target)
     }
     var handleInitTableEditModal = function ($target) {
@@ -124,9 +126,11 @@ var albedoList = function(){
                 type: el.attr("data-method") || "get",
                 timeout: 15000,
                 success: function (re) {
-                    console.log(re)
                     if(re && re.status == "1"){
-                        albedoForm.initFormData("#"+$(el.attr("data-modal-id")).find(".m-form").attr("id"), re.data)
+                        var $targetForm = $(el.attr("data-modal-id")).find(".m-form");
+                        albedoForm.initFormData("#"+$targetForm.attr("id"), re.data)
+                        console.log(encodeURIComponent(albedo.toStr($("#testBook-save-form").find("input[name='id']").val())))
+                        albedoForm.initValidate($targetForm)
                     }else{
                         var alertType = "warning", icon = "warning";
                         mApp.alert({

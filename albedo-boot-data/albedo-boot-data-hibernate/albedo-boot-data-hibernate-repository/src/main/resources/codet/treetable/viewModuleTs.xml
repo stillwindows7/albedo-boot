@@ -14,7 +14,7 @@ import {${ClassName}Component} from "./${className}.component";
 import {routeChilds} from "../../../../api.routing.module";
 import {AlbedoBootSharedModule} from "../../../../../shared/shared.module";
 import {LayoutModule} from "../../../../layouts/layout.module";
-import {${ClassName}Service} from "./service/${className}.service";
+import {${ClassName}Service} from "./${className}.service";
 <#if !scheme.modalView>import {${ClassName}FormComponent} from "./${className}.form.component";</#if>
 
 const routes${moduleName?cap_first}${ClassName} = [

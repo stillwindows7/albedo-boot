@@ -74,7 +74,7 @@ export class GenSchemeComponent implements AfterViewInit {
                     title: '修改时间',
                 }, ],
         }
-        if (thisPrincipal.hasAnyAuthorityDirect(["sys_genScheme_edit", "sys_genScheme_lock", "sys_genScheme_delete"])) {
+        if (thisPrincipal.hasAnyAuthorityDirect(["gen_genScheme_edit", "gen_genScheme_lock", "gen_genScheme_delete"])) {
             options.columns.push({
                 field: 'Actions',
                 width: 110,
@@ -82,16 +82,16 @@ export class GenSchemeComponent implements AfterViewInit {
                 sortable: false,
                 template: function(row) {
                     var template = ''
-                    if (thisPrincipal.hasAnyAuthorityDirectOne("sys_genScheme_edit"))
+                    if (thisPrincipal.hasAnyAuthorityDirectOne("gen_genScheme_edit"))
                         template += '<a href="#/gen/genScheme/form/' + row.id + '" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">\
                                 \<i class="la la-edit"></i>\
                                 \</a>'
-                    if (thisPrincipal.hasAnyAuthorityDirectOne("sys_genScheme_lock"))
+                    if (thisPrincipal.hasAnyAuthorityDirectOne("gen_genScheme_lock"))
                         template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="' + (row.status == "正常" ? "锁定" : "解锁") + '方案配置"\
 						 data-table-id="#data-table-genScheme" data-method="put"  data-title="你确认要操作【' + row.name + '】方案配置吗？" data-url="' + CTX + '/gen/genScheme/' + row.id + '">\
                                 \<i class="la la-'+ (row.status == "正常" ? "unlock-alt" : "unlock") + '"></i>\
                                 \</a>'
-                    if (thisPrincipal.hasAnyAuthorityDirectOne("sys_genScheme_delete"))
+                    if (thisPrincipal.hasAnyAuthorityDirectOne("gen_genScheme_delete"))
                         template += '<a  href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
                                    data-table-id="#data-table-genScheme" data-method="delete"  data-title="你确认要删除【' + row.name + '】方案配置吗？" data-url="' + CTX + '/gen/genScheme/' + row.id + '">\
                                 \<i class="la la-trash"></i>\

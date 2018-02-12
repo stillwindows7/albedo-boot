@@ -38,11 +38,11 @@ export class NotificationInterceptor implements HttpInterceptor {
                     // toastr.info(reData.msg, {})
                     if (obj.status && obj.status != MSG_TYPE_SUCCESS) {
                         if (obj.status == MSG_TYPE_INFO) {
-                            toastr.info(obj.msg)
+                            toastr.info(obj.message)
                         } else if (obj.status == MSG_TYPE_WARNING) {
-                            toastr.warning(obj.msg)
+                            toastr.warning(obj.message)
                         } else if (obj.status == MSG_TYPE_ERROR) {
-                            toastr.error(obj.msg)
+                            toastr.error(obj.message)
                         }
                     }
                 }

@@ -85,7 +85,7 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
                 }
                 ModuleVo moduleVo = copyBeanToVo(e);
                 moduleVo.setMenuLeaf(moduleList.stream()
-                    .filter(item->item.getParentIds().startsWith(moduleVo.getParentIds()+moduleVo.getId())).count()<1);
+                    .filter(item->ModuleVo.TYPE_MENU.equals(item.getType()) && item.getParentIds().startsWith(moduleVo.getParentIds()+moduleVo.getId())).count()<1);
                 moduleVo.setMenuTop(ModuleVo.ROOT_ID.equals(moduleVo.getParentId()));
                 moduleVo.setShow(e.isShow());
                 moduleVo.setHref(e.getHref());
@@ -149,7 +149,7 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
         module.setType(Module.TYPE_MENU);
         module.setRequestMethod(RequestMethod.GET);
         module.setIconCls("fa-file");
-        module.setUrl(url);
+        module.setUrl(url + "list");
         save(module);
 
         Module moduleView = new Module();
@@ -161,7 +161,7 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
         moduleView.setType(Module.TYPE_OPERATE);
         moduleView.setRequestMethod(RequestMethod.GET);
         moduleView.setSort(20);
-        moduleView.setUrl(url + "page");
+        moduleView.setUrl(url);
         save(moduleView);
         Module moduleEdit = new Module();
         moduleEdit.setParent(module);
@@ -171,8 +171,8 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
         moduleEdit.setParentId(module.getId());
         moduleEdit.setType(Module.TYPE_OPERATE);
         moduleEdit.setSort(40);
-        moduleEdit.setUrl(url + "edit");
-        moduleEdit.setRequestMethod(PublicUtil.toAppendStr(RequestMethod.GET, StringUtil.SPLIT_DEFAULT, RequestMethod.POST));
+        moduleEdit.setUrl(url);
+        moduleEdit.setRequestMethod(RequestMethod.POST);
         save(moduleEdit);
         Module moduleLock = new Module();
         moduleLock.setParent(module);
@@ -182,8 +182,8 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
         moduleLock.setParentId(module.getId());
         moduleLock.setType(Module.TYPE_OPERATE);
         moduleLock.setSort(60);
-        moduleLock.setUrl(url + "lock");
-        moduleLock.setRequestMethod(RequestMethod.POST);
+        moduleLock.setUrl(url);
+        moduleLock.setRequestMethod(RequestMethod.PUT);
         save(moduleLock);
         Module moduleDelete = new Module();
         moduleDelete.setParent(module);
@@ -193,7 +193,7 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
         moduleDelete.setParentId(module.getId());
         moduleDelete.setType(Module.TYPE_OPERATE);
         moduleDelete.setSort(80);
-        moduleDelete.setUrl(url + "delete");
+        moduleDelete.setUrl(url);
         moduleDelete.setRequestMethod(RequestMethod.DELETE);
         save(moduleDelete);
 

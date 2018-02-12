@@ -24,7 +24,11 @@ public class ModuleVo extends TreeEntityVo {
 
 
     private static final long serialVersionUID = 1L;
+
+    /*** 菜单模块 MENUFLAG = 0 */
     public static final String TYPE_MENU = "1";
+    /*** 权限模块 MODULEFLAG = 1 */
+    public static final String TYPE_OPERATE = "2";
     /*** 模块类型 0 菜单模块 1权限模块 */
     private String type;
 
@@ -56,7 +60,7 @@ public class ModuleVo extends TreeEntityVo {
             this.requestMethod = Collections3.convertToString((Collection) requestMethod, StringUtil.SPLIT_DEFAULT);
         }else{
 
-            this.requestMethod = PublicUtil.toStrStringNull(requestMethod);
+            this.requestMethod = PublicUtil.toStrString(requestMethod);
         }
     }
 

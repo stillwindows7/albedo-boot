@@ -74,7 +74,7 @@ public abstract class DataVoService<Repository extends DataRepository<T, PK>,
 
     public void copyVoToBean(V form, T entity) {
         if (form != null && entity != null) {
-            BeanVoUtil.copyProperties(form, entity, true);
+            BeanVoUtil.copyProperties(form, entity, false);
         }
     }
 

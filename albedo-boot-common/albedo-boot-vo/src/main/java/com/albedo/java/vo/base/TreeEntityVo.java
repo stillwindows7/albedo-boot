@@ -20,7 +20,7 @@ public class TreeEntityVo extends DataEntityVo {
     /*** 上级模块 */
     protected String parentIds;
     /*** 序号 */
-    protected Integer sort = 0;
+    protected Integer sort;
     /*** 父模块名称 */
     private String parentName;
     private boolean isLeaf;

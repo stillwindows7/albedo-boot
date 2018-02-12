@@ -7,7 +7,7 @@
 /**
  * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
  */
-import {Data} from "../../../../../../shared/base/model/data.model";
+import {Data} from "../../../../../shared/base/model/data.model";
 
 export class ${ClassName} extends Data {
 

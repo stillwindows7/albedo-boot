@@ -4,7 +4,7 @@ import { PasswordService } from './password.service';
 import {Principal} from "../../../../../auth/_services/principal.service";
 
 @Component({
-    selector: 'jhi-password',
+    selector: 'alb-password.page',
     templateUrl: './password.component.html'
 })
 export class PasswordComponent implements OnInit {

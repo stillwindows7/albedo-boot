@@ -12,7 +12,9 @@ import {ScriptLoaderService} from "../../../../../shared/base/service/script-loa
 import {CTX, DATA_STATUS} from "../../../../../app.constants";
 import {ActivatedRoute} from "@angular/router";
 import {Principal} from "../../../../../auth/_services/principal.service";
-
+<#if scheme.modalView>
+import {${ClassName}} from "./${className}.model";
+</#if>
 @Component({
     selector: ".${moduleName}-${className}-list.page-list",
     templateUrl: "./${className}.component.html",

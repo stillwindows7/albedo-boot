@@ -78,7 +78,7 @@ public class TreeVoService<Repository extends TreeRepository<T, PK>,
 
     public void copyVoToBean(V form, T entity) {
         if (form != null && entity != null) {
-            BeanVoUtil.copyProperties(form, entity, true);
+            BeanVoUtil.copyProperties(form, entity, false);
         }
     }
 

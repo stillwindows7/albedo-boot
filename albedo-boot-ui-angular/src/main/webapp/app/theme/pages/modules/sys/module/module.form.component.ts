@@ -26,19 +26,20 @@ export class ModuleFormComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngOnInit() {
+        this.router.queryParams.subscribe((params) => {
+            console.log(params)
+
+        });
         this.routerSub = this.router.params.subscribe((params) => {
+            console.log(params)
             this.id = params['id']
-            if (this.id) {
-                this.moduleService.find(this.id).subscribe((data) => {
-                    this.module = data
-                    albedoForm.setData("#module-save-form", this.module)
-                    this.afterLoad = true
-                    this.initForm()
-                })
-            } else {
+            this.moduleService.formData(this.id, params['parentId']).subscribe((data) => {
+                console.log(data)
+                if(data) this.module = data
+                albedoForm.setData("#module-save-form", this.module)
                 this.afterLoad = true
                 this.initForm()
-            }
+            })
         })
     }
 

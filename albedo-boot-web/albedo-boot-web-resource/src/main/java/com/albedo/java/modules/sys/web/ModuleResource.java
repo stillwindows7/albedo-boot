@@ -13,6 +13,7 @@ import com.albedo.java.util.domain.GlobalJedis;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
+import com.albedo.java.vo.sys.ModuleFormVo;
 import com.albedo.java.vo.sys.ModuleVo;
 import com.albedo.java.vo.sys.query.ModuleMenuTreeResult;
 import com.albedo.java.vo.sys.query.ModuleTreeQuery;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 /**
  * REST controller for managing Station.
@@ -86,9 +88,9 @@ public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
         return ResultBuilder.buildObject(rs);
     }
 
-    @GetMapping(value = "/form")
+    @GetMapping(value = "/formData")
     @Timed
-    public String form(ModuleVo moduleVo) {
+    public ResponseEntity formData(ModuleVo moduleVo) {
         if (moduleVo == null) {
             throw new RuntimeMsgException(PublicUtil.toAppendStr("查询模块管理失败，原因：无法查找到编号区域"));
         }
@@ -99,8 +101,7 @@ public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
         if (moduleVo.getSort() == null) {
             moduleVo.setSort(30);
         }
-
-        return "modules/sys/moduleForm";
+        return ResultBuilder.buildOk(moduleVo);
     }
 
     /**
@@ -118,8 +119,8 @@ public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
             throw new RuntimeMsgException("权限已存在");
         }
         if(ModuleVo.TYPE_MENU.equals(moduleVo.getType())){
-            moduleVo.setPermission(null);
-            moduleVo.setRequestMethod(null);
+            moduleVo.setPermission("");
+            moduleVo.setRequestMethod("");
         }
         moduleService.save(moduleVo);
         SecurityUtil.clearUserJedisCache();
