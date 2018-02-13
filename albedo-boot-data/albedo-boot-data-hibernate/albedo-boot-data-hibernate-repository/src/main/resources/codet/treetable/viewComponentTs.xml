@@ -50,7 +50,7 @@ export class ${ClassName}Component implements AfterViewInit {
                     read: {
                         // sample GET method
                         method: 'GET',
-                        url: CTX + '/sys/${className}/',
+                        url: CTX + '/${urlPrefix}/',
                     },
                 },
                 pageSize: 10,
@@ -66,8 +66,12 @@ export class ${ClassName}Component implements AfterViewInit {
                 <#else>
                 {title: '${column.title}',field:'${column.simpleJavaField}<#if column.simpleJavaType == "User" || column.simpleJavaType == "Org" || column.simpleJavaType == "Area">${column.defaultJavaFieldName?cap_first}</#if>'
                 <#if firstListField> ,width: 110,sortable: 'asc',overflow: 'visible',template: function(row) {
-                    return thisPrincipal.hasAnyAuthorityDirectOne("${permissionPrefix}_edit") ? ( '<a <#if scheme.modalView> href="javascript:void(0)" class="m-link dialog-edit" title="点击编辑"\
-                            \data-method="get"  data-title="编辑【' + row.name + '】" data-url="' + CTX + '/${urlPrefix}/' + row.id + '" data-modal-id="#${className}-edit-modal" <#else>href="#/${urlPrefix}/form/' + row.id + '" class="m-link" title="点击编辑"</#if>>'+row.${column.simpleJavaField}+'</a>') : row.${column.simpleJavaField};
+                    <#if scheme.modalView>
+                        return thisPrincipal.hasAnyAuthorityDirectOne("${permissionPrefix}_edit") ? ( '<a href="javascript:void(0)" class="m-link dialog-edit" title="编辑"\
+                            \data-method="get"  data-title="编辑【' + row.name + '】" data-url="' + CTX + '/${urlPrefix}/' + row.id + '" data-modal-id="#${className}-edit-modal" title="点击编辑${functionNameSimple}">'+row.${column.simpleJavaField}+'</a>') : row.${column.simpleJavaField};
+                    <#else>
+                        return thisPrincipal.hasAnyAuthorityDirectOne("${permissionPrefix}_edit") ? ( '<a href="#/${urlPrefix}/form/' + row.id + '" class="m-link" title="点击编辑${functionNameSimple}">'+row.${column.simpleJavaField}+'</a>') : row.${column.simpleJavaField};
+                    </#if>
                 },<#assign firstListField = false></#if>},
                 </#if>
                 </#if>
@@ -115,15 +119,6 @@ export class ${ClassName}Component implements AfterViewInit {
         albedoForm.init()
 
         <#if scheme.modalView>
-        albedoForm.initValidate($("#${className}-save-form"), {
-            // define validation rules
-            rules:{<#list table.columnList as column><#if column.unique && !column.pk>
-				${column.simpleJavaField}: {remote: '{{ctx}}/${urlPrefix}/checkByProperty?id=' + encodeURIComponent(albedo.toStr($("#${className}-save-form").find("input[name='id']").val()))}<#if column_has_next>,</#if></#if></#list>
-			},
-            messages:{<#list table.columnList as column><#if column.unique && !column.pk>
-				${column.simpleJavaField}: {remote: '${column.title }已存在'}<#if column_has_next>,</#if></#if></#list>
-			}
-        })
         albedoForm.initSave($("#${className}-edit-modal"));
         </#if>
     }

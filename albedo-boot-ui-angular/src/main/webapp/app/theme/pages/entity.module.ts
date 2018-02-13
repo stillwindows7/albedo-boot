@@ -11,6 +11,8 @@ import {TaskScheduleJobModule} from "./modules/sys/taskScheduleJob/taskScheduleJ
 import {AreaModule} from "./modules/sys/area/area.module";
 import {AdminModule} from "./modules/admin/admin.module";
 import {TestBookModule} from "./modules/test/testBook/testBook.module";
+import {TestTree} from "./modules/test/testTree/testTree.model";
+import {TestTreeModule} from "./modules/test/testTree/testTree.module";
 
 
 @NgModule({
@@ -26,6 +28,7 @@ import {TestBookModule} from "./modules/test/testBook/testBook.module";
         TaskScheduleJobModule,
         AreaModule,
         TestBookModule,
+        TestTreeModule,
         /* albedo-boot-needle-add-entity-module */
     ],
     declarations: [],

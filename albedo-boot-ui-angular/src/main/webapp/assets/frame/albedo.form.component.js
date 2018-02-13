@@ -1137,15 +1137,17 @@ var albedoForm = function () {
             if (!config) config = {};
 
             config = $.extend(true, config, options);
-            console.log(config)
+
             var formId  = $formValidate.attr("id");
             var validator =_getData(formId);
             if(validator){
-                $formValidate.rules("add", config)
-            }else{
-                var validator = $formValidate.validate(handleValidateConfig(config, $formValidate));
-                _setData(formId, validator);
+                validator.destroy()
+                var data = _getData("#"+formId);
+                console.log(data)
+                handleInitFormData($formValidate, data)
             }
+            validator = $formValidate.validate(handleValidateConfig(config, $formValidate));
+            _setData(formId, validator);
             return validator;
         }
     }

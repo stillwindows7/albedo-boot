@@ -7,7 +7,6 @@ import {CTX, DATA_STATUS} from "../../../../../app.constants";
 import {ActivatedRoute} from "@angular/router";
 import {Principal} from "../../../../../auth/_services/principal.service";
 import {TestBook} from "./testBook.model";
-
 @Component({
     selector: ".test-testBook-list.page-list",
     templateUrl: "./testBook.component.html",
@@ -44,7 +43,9 @@ export class TestBookComponent implements AfterViewInit {
             columns: [
 					{title: '标题',field:'title'
 					 ,width: 110,sortable: 'asc',overflow: 'visible',template: function(row) {
-                        return thisPrincipal.hasAnyAuthorityDirectOne("test_testBook_edit") ? ( '<a href="#/test/testBook/form/' + row.id + '" class="m-link" title="点击编辑测试书籍">'+row.title+'</a>') : row.title;
+                        return thisPrincipal.hasAnyAuthorityDirectOne("test_testBook_edit") ? ( '<a href="javascript:void(0)" class="m-link dialog-edit" title="编辑"\
+                            \data-method="get"  data-title="编辑【' + row.name + '】" data-url="' + CTX + '/test/testBook/' + row.id + '" data-modal-id="#testBook-edit-modal" title="点击编辑测试书籍">'+row.title+'</a>') : row.title;
+
                     },},
 					{title: '作者',field:'author'
 					},

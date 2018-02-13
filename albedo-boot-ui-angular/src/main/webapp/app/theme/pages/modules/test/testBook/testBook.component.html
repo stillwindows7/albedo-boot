@@ -102,13 +102,13 @@
                     <div class="m-scrollable" data-scrollbar-shown="true" data-scrollable="true" data-max-height="500">
                     <!--begin::Form-->
                     <form class="m-form m-form--fit m-form--label-align-right form-validation" action="{{ctx}}/test/testBook/" method="post" id="testBook-save-form" config="{
-            rules:{
-				email: {remote: albedo.getCtx()+'/test/testBook/checkByProperty?id=' + encodeURIComponent(albedo.toStr($('#testBook-save-form').find('#id').val()))},
+                        rules:{
+                            email: {remote: albedo.getCtx()+'/test/testBook/checkByProperty?id=' + encodeURIComponent(albedo.toStr($('#testBook-save-form').find('#id').val()))},
                         },
                         messages:{
-                        email: {remote: '邮箱已存在'},
+                            email: {remote: '邮箱已存在'},
                         }
-                        }">
+                    }">
                         <input type="hidden" name="id" id="id" value="{{testBook.id}}" />
                         <div class="m-portlet__body">
                             <div class="m-form__content bootstrap-alerts">
@@ -121,7 +121,7 @@
                                 <div class="col-lg-9 col-md-9 col-sm-12">
                                     <input type="text" name="title" id="title" class="form-control" value="{{testBook.title}}" htmlEscape="false" maxlength="32" />
                                 <span class="m-form__help">
-
+                                    
                                 </span>
                                 </div>
                             </div>
@@ -132,7 +132,7 @@
                                 <div class="col-lg-9 col-md-9 col-sm-12">
                                     <input type="text" name="author" id="author" class="form-control required" value="{{testBook.author}}" htmlEscape="false" maxlength="50" />
                                 <span class="m-form__help">
-
+                                    
                                 </span>
                                 </div>
                             </div>
@@ -143,7 +143,7 @@
                                 <div class="col-lg-9 col-md-9 col-sm-12">
                                     <input type="text" name="name" id="name" class="form-control" value="{{testBook.name}}" htmlEscape="false" maxlength="50" />
                                 <span class="m-form__help">
-
+                                    
                                 </span>
                                 </div>
                             </div>
@@ -154,7 +154,7 @@
                                 <div class="col-lg-9 col-md-9 col-sm-12">
                                     <input type="text" name="email" id="email" class="form-control" value="{{testBook.email}}" htmlEscape="false" maxlength="100" />
                                 <span class="m-form__help">
-
+                                    
                                 </span>
                                 </div>
                             </div>
@@ -165,7 +165,7 @@
                                 <div class="col-lg-9 col-md-9 col-sm-12">
                                     <input type="text" name="phone" id="phone" class="form-control" value="{{testBook.phone}}" htmlEscape="false" maxlength="32" />
                                 <span class="m-form__help">
-
+                                    
                                 </span>
                                 </div>
                             </div>
@@ -198,7 +198,7 @@
                                 <div class="col-lg-9 col-md-9 col-sm-12">
                                     <input type="text" name="activationKey" id="activationKey" class="form-control" value="{{testBook.activationKey}}" htmlEscape="false" maxlength="20" />
                                 <span class="m-form__help">
-
+                                    
                                 </span>
                                 </div>
                             </div>
@@ -209,7 +209,7 @@
                                 <div class="col-lg-9 col-md-9 col-sm-12">
                                     <input type="text" name="resetKey" id="resetKey" class="form-control" value="{{testBook.resetKey}}" htmlEscape="false" maxlength="20" />
                                 <span class="m-form__help">
-
+                                    
                                 </span>
                                 </div>
                             </div>
@@ -219,13 +219,13 @@
                                 </label>
                                 <div class="col-lg-9 col-md-9 col-sm-12">
                                     <div class="input-group date m_datetimepicker" >
-                                        <input class="form-control m-input" name="resetDate" readonly value="{{testBook.resetDate | date:'yyyy-MM-dd hh:mm:ss'}}" type="text" />
+                                        <input class="form-control m-input" name="resetDate" readonly value="{{testBook.resetDate} | date:'yyyy-MM-dd hh:mm:ss'}" type="text" />
                                         <span class="input-group-addon">
                                             <i class="la la-calendar-check-o glyphicon-th"></i>
                                         </span>
                                     </div>
                                 <span class="m-form__help">
-
+                                    
                                 </span>
                                 </div>
                             </div>
@@ -236,7 +236,7 @@
                                 <div class="col-lg-9 col-md-9 col-sm-12">
                                     <textarea name="description" rows="5" maxlength="255" class="form-control input-xxlarge ">{{testBook.description }}</textarea>
                                 <span class="m-form__help">
-
+                                    
                                 </span>
                                 </div>
                             </div>

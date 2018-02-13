@@ -10,8 +10,8 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { CTX } from "../../../../../app.constants";
 import { ActivatedRoute } from "@angular/router";
-import {${ClassName}} from "./service/${className}.model";
-import {${ClassName}Service} from "./service/${className}.service";
+import {${ClassName}} from "./${className}.model";
+import {${ClassName}Service} from "./${className}.service";
 
 @Component({
     selector: ".${moduleName}-${className}-form.page-form",

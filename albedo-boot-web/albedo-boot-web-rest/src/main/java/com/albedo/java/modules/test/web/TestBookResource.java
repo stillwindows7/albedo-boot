@@ -26,7 +26,7 @@ import javax.validation.Valid;
 /**
  * 测试书籍Controller 测试书籍
  * @author admin
- * @version 2018-02-12
+ * @version 2018-02-13
  */
 @Controller
 @RequestMapping(value = "${albedo.adminPath}/test/testBook")

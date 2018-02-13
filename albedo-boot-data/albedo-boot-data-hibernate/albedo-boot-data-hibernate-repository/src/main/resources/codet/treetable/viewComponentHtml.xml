@@ -28,7 +28,7 @@
 <div class="m-content">
     <div class="row">
         <div class="col-xl-2">
-            <alb-tree-show id="${className}_" title="${functionNameSimple}树" [selectNodeId]="nodeId" url="{{ctx}}/sys/${className}/findTreeData?all"
+            <alb-tree-show id="${className}_" title="${functionNameSimple}树" [selectNodeId]="nodeId" url="{{ctx}}/${urlPrefix}/findTreeData?all"
             [clickNodeFn]="clickTreeNode${ClassName}" allowCancelSelect="true" [cancelClickNodeFn]="cancelClickNode${ClassName}" nodesLevel="1" >
             </alb-tree-show>
     </div>
@@ -43,8 +43,8 @@
                         </div>
                     </div>
                     <div class="m-portlet__head-tools">
-                        <a *ngIf="this.principal.hasAnyAuthorityDirectOne('${permissionPrefix}_edit') <#if scheme.modalView>href="javascript:void(0)" data-modal-id="#${className}-edit-modal"<#else>href="#/${urlPrefix}/form/"</#if> id="btn-edit-${className}" title="添加${functionNameSimple}"
-                           class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill dialog-add">
+                        <a *ngIf="this.principal.hasAnyAuthorityDirectOne('${permissionPrefix}_edit')" <#if scheme.modalView>href="javascript:void(0)" data-modal-id="#${className}-edit-modal"<#else>href="#/${urlPrefix}/form/"</#if> id="btn-edit-${className}" title="添加${functionNameSimple}"
+                           class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill <#if scheme.modalView>dialog-add</#if>">
                             <i class="la la-plus"></i>
                         </a>
                     </div>
@@ -128,8 +128,15 @@
                 <div class="modal-body">
                     <div class="m-scrollable" data-scrollbar-shown="true" data-scrollable="true" data-max-height="500">
                     <!--begin::Form-->
-                    <form class="m-form m-form--fit m-form--label-align-right form-validation" action="{{ctx}}/sys/${className}/" method="post" id="${className}-save-form">
-                        <input type="hidden" name="id" value="{{${className}.id}}" />
+                    <form class="m-form m-form--fit m-form--label-align-right form-validation" action="{{ctx}}/${urlPrefix}/" method="post" id="${className}-save-form" config="{
+                        rules:{<#list table.columnList as column><#if column.unique && !column.pk>
+                            ${column.simpleJavaField}: {remote: albedo.getCtx()+'/${urlPrefix}/checkByProperty?id=' + encodeURIComponent(albedo.toStr($("#${className}-save-form").find('#id').val()))}<#if column_has_next>,</#if></#if></#list>
+                        },
+                        messages:{<#list table.columnList as column><#if column.unique && !column.pk>
+                            ${column.simpleJavaField}: {remote: '${column.title }已存在'}<#if column_has_next>,</#if></#if></#list>
+                        }
+                    }">
+                        <input type="hidden" name="id" id="id" value="{{${className}.id}}" />
                         <div class="m-portlet__body">
                             <div class="m-form__content bootstrap-alerts">
 

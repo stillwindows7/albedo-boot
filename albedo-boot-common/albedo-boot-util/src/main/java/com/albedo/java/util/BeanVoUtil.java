@@ -1,5 +1,7 @@
 package com.albedo.java.util;
 
+import com.albedo.java.util.annotation.BeanField;
+import com.albedo.java.util.base.Reflections;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
@@ -35,7 +37,12 @@ public class BeanVoUtil extends BeanUtils {
             Method writeMethod = targetPd.getWriteMethod();
             if (writeMethod != null && (ignoreList == null || !ignoreList.contains(targetPd.getName()))) {
                 PropertyDescriptor sourcePd = getPropertyDescriptor(source.getClass(), targetPd.getName());
+                BeanField annotation = Reflections.getAnnotation(source.getClass(), targetPd.getName(), BeanField.class);
+                if(annotation!=null && annotation.ingore()){
+                    continue;
+                }
                 if (sourcePd != null) {
+
                     Method readMethod = sourcePd.getReadMethod();
                     if (readMethod != null && ClassUtils.isAssignable(writeMethod.getParameterTypes()[0], readMethod.getReturnType())) {
                         try {

@@ -30,7 +30,7 @@ import java.util.Date;
 /**
  * 测试书籍Entity 测试书籍
  * @author admin
- * @version 2018-02-12
+ * @version 2018-02-13
  */
 @Entity
 @Table(name = "test_book")
