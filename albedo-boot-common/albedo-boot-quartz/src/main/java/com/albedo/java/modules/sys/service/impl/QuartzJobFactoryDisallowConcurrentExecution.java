@@ -9,7 +9,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 /**
- * @author lijie
+ * @author somewhere
  * @Description: 若一个方法一次执行不完下次轮转时则等待改方法执行完后才执行下一次操作
  * @date 2014年4月24日 下午5:05:47
  */

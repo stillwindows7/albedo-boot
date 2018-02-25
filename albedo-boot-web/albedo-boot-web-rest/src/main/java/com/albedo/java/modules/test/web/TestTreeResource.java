@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * 测试树管理Controller 测试树管理
  * @author admin
- * @version 2018-02-13
+ * @version 2018-02-25
  */
 @Controller
 @RequestMapping(value = "${albedo.adminPath}/test/testTree")
@@ -101,6 +101,11 @@ public class TestTreeResource extends TreeVoResource<TestTreeService, TestTreeVo
 	@Timed
 	public ResponseEntity save(@Valid @RequestBody TestTreeVo testTreeVo) {
 		log.debug("REST request to save TestTree : {}", testTreeVo);
+		TestTreeVo testTreeValidate = new TestTreeVo(testTreeVo.getId());
+		testTreeValidate.setName(testTreeVo.getName());
+		if (PublicUtil.isNotEmpty(testTreeVo.getName()) && !checkByProperty(testTreeValidate)) {
+			throw new RuntimeMsgException(PublicUtil.toAppendStr("保存测试树管理'", testTreeVo.getName(),"'失败，name_已存在"));
+		}
 		service.save(testTreeVo);
         return ResultBuilder.buildOk("保存测试树管理成功");
 	}
@@ -116,7 +121,7 @@ public class TestTreeResource extends TreeVoResource<TestTreeService, TestTreeVo
 	@Timed
 	public ResponseEntity delete(@PathVariable String ids) {
 		log.debug("REST request to delete TestTree: {}", ids);
-		service.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+		service.deleteByParentIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentUserId());
 		return ResultBuilder.buildOk("删除测试树管理成功");
 	}
 	/**
@@ -130,7 +135,7 @@ public class TestTreeResource extends TreeVoResource<TestTreeService, TestTreeVo
 	@Timed
 	public ResponseEntity lockOrUnLock(@PathVariable String ids) {
 		log.debug("REST request to lockOrUnLock TestTree: {}", ids);
-		service.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+		service.lockOrUnLockByParentIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentUserId());
 		return ResultBuilder.buildOk("操作测试树管理成功");
 	}
 

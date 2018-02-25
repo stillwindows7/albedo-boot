@@ -47,11 +47,10 @@ export class NotificationInterceptor implements HttpInterceptor {
                     }
                 }
             }
-        }, (error: any) => {
-            if(error.status!=403 && toastr){
-                toastr.error(error.json() && error.json().message ? error.json().message : '网络异常，请检查您的网络连接！', { closeButton: true, positionClass: 'toast-bottom-right' })
+        }, (data: any) => {
+            if(data.status!=403 && toastr){
+                toastr.error(data.error && data.error.message ? data.error.message : '网络异常，请检查您的网络连接！', { closeButton: true, positionClass: 'toast-bottom-right' })
             }
-
         });
     }
 

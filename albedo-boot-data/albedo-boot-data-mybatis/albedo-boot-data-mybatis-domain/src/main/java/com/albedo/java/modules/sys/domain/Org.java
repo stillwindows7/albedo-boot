@@ -17,7 +17,7 @@ import org.springframework.data.mybatis.annotations.OneToMany;
 import java.util.Set;
 
 /**
- * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23 下午4:30:34
+ * Copyright 2013 albedo All right reserved Author somewhere Created on 2013-10-23 下午4:30:34
  */
 @Entity(table = "sys_org_t")
 @Data

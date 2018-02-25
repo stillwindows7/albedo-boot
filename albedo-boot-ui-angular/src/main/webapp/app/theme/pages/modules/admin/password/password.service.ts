@@ -9,12 +9,12 @@ export class PasswordService {
 
     constructor(private http: HttpClient) {}
 
-    save(newPassword: string, oldPassword: string): Observable<any> {
+    save(newPassword: string, oldPassword: string, confirmPassword: string): Observable<any> {
         var options = {
             newPassword: newPassword,
             oldPassword: oldPassword,
+            confirmPassword: confirmPassword,
         };
-        return this.http.post(CTX + 'api/account/change-password',
-            createRequestOption(options));
+        return this.http.post(CTX + '/account/change-password', options, {observe : 'body'});
     }
 }

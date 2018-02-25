@@ -2,6 +2,7 @@ package com.albedo.java.modules.sys.repository;
 
 import com.albedo.java.common.repository.DataRepository;
 import com.albedo.java.modules.sys.domain.User;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.Date;
 import java.util.List;
@@ -12,14 +13,16 @@ import java.util.Optional;
  */
 public interface UserRepository extends DataRepository<User, String> {
 
+
+    String USERS_BY_LOGIN_CACHE = "usersByLogin";
+
     Optional<User> findOneByActivationKey(String activationKey);
 
     List<User> findAllByActivatedIsFalseAndCreatedDateBefore(Date dateTime);
 
     Optional<User> findOneByResetKey(String resetKey);
 
-    Optional<User> findOneByEmail(String email);
-
+    @Cacheable(cacheNames = USERS_BY_LOGIN_CACHE)
     Optional<User> findOneByLoginId(String loginId);
 
 }

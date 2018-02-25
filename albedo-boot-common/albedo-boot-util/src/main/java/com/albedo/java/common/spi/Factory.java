@@ -22,7 +22,7 @@ package com.albedo.java.common.spi;
 import java.util.function.Supplier;
 
 /**
- * Created by lijie on 2016/5/18.
+ * Created by somewhere on 2016/5/18.
  *
  * @author 837158334@qq.com
  */

@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 
 /**
- * Created by lijie on 2017/4/19.
+ * Created by somewhere on 2017/4/19.
  */
 public class TransformMysqlToH2 {
     public static void main(String[] args) throws Exception {

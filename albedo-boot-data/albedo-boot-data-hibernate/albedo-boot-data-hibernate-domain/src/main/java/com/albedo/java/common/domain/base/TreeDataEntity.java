@@ -11,7 +11,7 @@ import javax.persistence.*;
 /**
  * 数据TreeEntity类
  *
- * @author lijie version 2013-12-27 下午12:27:10
+ * @author somewhere version 2013-12-27 下午12:27:10
  */
 @MappedSuperclass
 public abstract class TreeDataEntity<T extends DataEntity> extends DataEntity {

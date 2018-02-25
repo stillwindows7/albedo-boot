@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * Created by lijie on 2017/3/2.
+ * Created by somewhere on 2017/3/2.
  */
 @Controller
 public class HttpErrorHandler implements ErrorController {

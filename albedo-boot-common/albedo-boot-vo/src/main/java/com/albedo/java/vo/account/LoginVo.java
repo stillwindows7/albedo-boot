@@ -1,4 +1,4 @@
-package com.albedo.java.vo.base;
+package com.albedo.java.vo.account;
 
 
 import com.albedo.java.util.domain.Globals;

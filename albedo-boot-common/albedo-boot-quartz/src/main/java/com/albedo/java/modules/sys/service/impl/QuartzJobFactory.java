@@ -8,7 +8,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 /**
- * @author lijie
+ * @author somewhere
  * @Description: 计划任务执行处 无状态
  * @date 2014年4月24日 下午5:05:47
  */

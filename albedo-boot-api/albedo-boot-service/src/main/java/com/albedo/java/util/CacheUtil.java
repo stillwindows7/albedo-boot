@@ -7,7 +7,7 @@
 ///**
 // * Cache工具类
 // *
-// * @author lijie
+// * @author somewhere
 // * @version 2014-4-29
 // */
 //public class CacheUtil {

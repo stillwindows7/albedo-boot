@@ -158,18 +158,20 @@ public class InvocationSecurityMetadataSourceService
         HttpServletRequest request = filterInvocation.getHttpRequest();
 
         try {
-            Object handler = requestMappingHandlerMapping.getHandler(request).getHandler();
-            if (handler instanceof HandlerMethod) {
-                HandlerMethod handlerMethod = (HandlerMethod) handler;
-                RequiresPermissions requiresPermissions = handlerMethod.getMethodAnnotation(RequiresPermissions.class);
-                if(requiresPermissions!=null&&PublicUtil.isNotEmpty(requiresPermissions.value())){
-                    Collection<ConfigAttribute> atts = Lists.newArrayList();
-                    for(String permission: requiresPermissions.value()){
-                        atts.add(new SecurityConfig(permission));
+            HandlerExecutionChain handlerExecutionChain = requestMappingHandlerMapping.getHandler(request);
+            if(handlerExecutionChain!=null){
+                Object handler = handlerExecutionChain.getHandler();
+                if (handler instanceof HandlerMethod) {
+                    HandlerMethod handlerMethod = (HandlerMethod) handler;
+                    RequiresPermissions requiresPermissions = handlerMethod.getMethodAnnotation(RequiresPermissions.class);
+                    if(requiresPermissions!=null && PublicUtil.isNotEmpty(requiresPermissions.value())){
+                        Collection<ConfigAttribute> atts = Lists.newArrayList();
+                        for(String permission: requiresPermissions.value()){
+                            atts.add(new SecurityConfig(permission));
+                        }
+                        return atts;
                     }
-                    return atts;
                 }
-                // 接口参数非空验证
             }
         } catch (Exception e) {
             log.info("{}",e);

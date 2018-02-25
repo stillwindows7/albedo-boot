@@ -37,7 +37,7 @@ import static org.junit.Assert.assertThat;
 import static org.springframework.data.domain.Sort.Direction.ASC;
 
 /**
- * Created by lijie on 2017/4/19.
+ * Created by somewhere on 2017/4/19.
  */
 @RunWith(SpringRunner.class)
 @DataJpaTest

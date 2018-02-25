@@ -19,7 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 /**
- * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23 下午4:29:21
+ * Copyright 2013 albedo All right reserved Author somewhere Created on 2013-10-23 下午4:29:21
  */
 @Entity
 @Table(name = "SYS_MODULE_T")

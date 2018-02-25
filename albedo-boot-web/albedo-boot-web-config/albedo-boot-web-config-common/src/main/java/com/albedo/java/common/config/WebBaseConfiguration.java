@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 /**
- * Created by lijie on 2017/3/30.
+ * Created by somewhere on 2017/3/30.
  */
 @Configuration
 public class WebBaseConfiguration {

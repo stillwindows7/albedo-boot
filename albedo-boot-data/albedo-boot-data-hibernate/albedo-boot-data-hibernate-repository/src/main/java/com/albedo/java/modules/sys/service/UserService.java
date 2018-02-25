@@ -13,6 +13,7 @@ import com.albedo.java.util.RandomUtil;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.vo.sys.UserVo;
+import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -31,11 +32,17 @@ import java.util.Optional;
 @Transactional
 public class UserService extends DataVoService<UserRepository, User, String, UserVo> {
 
-    @Resource
-    private PersistentTokenRepository persistentTokenRepository;
+    private final PersistentTokenRepository persistentTokenRepository;
 
-    @Resource
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
+
+    private final CacheManager cacheManager;
+
+    public UserService(PersistentTokenRepository persistentTokenRepository, RoleRepository roleRepository, CacheManager cacheManager) {
+        this.persistentTokenRepository = persistentTokenRepository;
+        this.roleRepository = roleRepository;
+        this.cacheManager = cacheManager;
+    }
 
     @Override
     public UserVo copyBeanToVo(User user) {
@@ -80,6 +87,7 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
         user.setResetDate(ZonedDateTime.now());
         user.setActivated(true);
         user = repository.save(user);
+        cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLoginId());
         log.debug("Save Information for User: {}", user);
 
     }
@@ -114,6 +122,7 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
             User user = token.getUser();
             user.getPersistentTokens().remove(token);
             persistentTokenRepository.delete(token);
+            cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLoginId());
         });
     }
 
@@ -130,6 +139,7 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
         for (User user : users) {
             log.debug("Deleting not activated user {}", user.getLoginId());
             repository.delete(user);
+            cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLoginId());
         }
     }
 
@@ -155,8 +165,22 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
             .flatMap(repository::findOneByLoginId)
             .ifPresent(user -> {
                 user.setPassword(newPassword);
+                cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLoginId());
                 log.debug("Changed password for User: {}", user);
             });
     }
 
+    @Override
+    public void lockOrUnLock(List<String> idList) {
+        super.lockOrUnLock(idList);
+        repository.findAll(idList).forEach(user ->
+            cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLoginId()));
+    }
+
+    @Override
+    public void deleteById(List<String> idList) {
+        super.deleteById(idList);
+        repository.findAll(idList).forEach(user ->
+            cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLoginId()));
+    }
 }

@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import java.util.Set;
 
 /**
- * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23 下午4:30:34
+ * Copyright 2013 albedo All right reserved Author somewhere Created on 2013-10-23 下午4:30:34
  * @author somewhere
  */
 @Entity

@@ -25,6 +25,7 @@ export class AuthComponent implements OnInit {
     model: any = {}
     loading = false
     returnUrl: string
+    error: string
 
     @ViewChild('alertSignin', { read: ViewContainerRef }) alertSignin: ViewContainerRef
     @ViewChild('alertSignup', { read: ViewContainerRef }) alertSignup: ViewContainerRef
@@ -82,8 +83,11 @@ export class AuthComponent implements OnInit {
             } else {
                 this._router.navigate([this.returnUrl])
             }
-        }).catch((error) => {
-            this.showAlert('alertSignin')
+        }).catch((data) => {
+            console.log(data)
+            this.error = data && data.error && data.error.message ? data.error.message : "用户名或密码填写有误";
+            // this.showAlert('alertSignin')
+            // toastr.error()
             // this._alertService.error(error)
             this.loading = false
         })

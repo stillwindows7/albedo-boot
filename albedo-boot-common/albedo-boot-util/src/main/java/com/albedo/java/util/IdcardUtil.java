@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author lijie
+ * @author somewhere
  * @ClassName: IdcardUtil
  * @Description: 身份证工具类
  * @date 2015年6月2日 上午10:15:48

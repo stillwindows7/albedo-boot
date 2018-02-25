@@ -10,7 +10,7 @@ import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.modules.sys.service.UserService;
 import com.albedo.java.modules.sys.web.UserResource;
 import com.albedo.java.util.domain.Globals;
-import com.albedo.java.vo.base.LoginVo;
+import com.albedo.java.vo.account.LoginVo;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

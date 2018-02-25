@@ -11,7 +11,7 @@ SpringSecurity为权限授权层，Ehcahe对常用数据进行缓存，是JavaEE
 
 AlbedoBoot主要定位于企业信息化领域，已内置企业信息化系统的基础功能和高效的**代码生成**工具，
 包括：系统权限组件、数据权限组件、数据字典组件、核心工具组件、视图操作组件、代码生成等。
-前端界面风格采用了结构简单、性能优良、页面美观大气的METRONIC Bootstrap页面展示框架。
+前端界面风格采用了结构简单、性能优良、页面美观大气的METRONIC框架。
 采用分层设计、双重验证、提交数据安全编码、密码加密、访问验证、数据权限验证。
 使用Maven做项目管理，提高项目的易开发性、扩展性。
 
@@ -100,10 +100,20 @@ AlbedoBoot 提供了常用工具进行封装，包括日志工具、缓存工具
 2. 导入ide前，安装lombok插件
 3. 运行albedo-new.sql脚本初始化数据库,修改albedo-boot-web-starter src\main\resources\config\application-dev.yml文件中的数据库设置参数。
 4. 在albedo-boot目录下执行mvn clean install
+5. 启动redis 127.0.0.1 6379
 5. 最高管理员账号，用户名：admin 密码：admin 
 
 
 ## 启动篇
+
+### 1.1.0 SNAPSHOT 发布了! :tada::tada::tada:
+
+引入 angularjs5 ，基于 METRONIC 快速启动(依赖nodejs环境，更新至最新版)
+
+### 调试模式启动
+1.  进入 albedo-boot-ui-angular 目录 运行 npm install , 可根据需要修改 proxy.conf.json 配置转发
+2.  启动albedo-boot-web/albedo-boot-web-rest AlbedoBootWebRest
+3.  启动 npm start 访问 http://localhost:4201
 
 ### 单体应用
  1.	启动redis 默认本地 127.0.0.1:6379
@@ -121,7 +131,7 @@ cloud版本发布，基于[jhipster-registry](https://github.com/somewhereMrli/j
 ## 常见问题
 
 1. 用一段时间提示内存溢出，请修改JVM参数：-Xmx512m -XX:MaxPermSize=256m
-2. 如果坚持使用非angularjs版本，请切换分支 master-old
+2. 如果坚持使用非angularjs版本，请移步 [albedo-boot-freemaker](https://github.com/somewhereMrli/albedo-boot-freemaker)
 
 ## 如何交流、反馈、参与贡献？
 

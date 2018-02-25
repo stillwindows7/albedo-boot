@@ -9,21 +9,14 @@ import {routeChilds} from "../../../../api.routing.module";
 import {AlbedoBootSharedModule} from "../../../../../shared/shared.module";
 import {LayoutModule} from "../../../../layouts/layout.module";
 import {TestTreeService} from "./testTree.service";
-import {TestTreeFormComponent} from "./testTree.form.component";
+
 
 const routesTestTestTree = [
     {
         path: "test/testTree/list",
         component: TestTreeComponent
     },
-    {
-        path: "test/testTree/form",
-        component: TestTreeFormComponent
-    },
-    {
-        path: "test/testTree/form/:id",
-        component: TestTreeFormComponent
-    },
+    
 ];
 
 routeChilds.push(...routesTestTestTree)
@@ -41,7 +34,7 @@ routeChilds.push(...routesTestTestTree)
         TestTreeComponent,
     ], declarations: [
         TestTreeComponent,
-        TestTreeFormComponent,
+        
     ], providers: [
         TestTreeService,
     ],

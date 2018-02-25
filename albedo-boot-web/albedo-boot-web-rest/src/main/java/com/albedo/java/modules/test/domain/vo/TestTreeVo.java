@@ -14,11 +14,10 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-
 /**
  * 测试树管理Entity 测试树管理
  * @author admin
- * @version 2018-02-13
+ * @version 2018-02-25
  */
 @Data @ToString @NoArgsConstructor @AllArgsConstructor
 public class TestTreeVo extends TreeEntityVo {
@@ -49,7 +48,7 @@ public class TestTreeVo extends TreeEntityVo {
  @Length(max=64)
 	private String type;
 	/** defaultData 默认日期 */
- @NotNull
+ @NotNull 
 	private Date defaultData;
 	//columns END
 

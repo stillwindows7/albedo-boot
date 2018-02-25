@@ -54,8 +54,10 @@ export class TestTreeFormComponent implements AfterViewInit {
         albedoForm.initValidate($("#testTree-save-form"), {
             // define validation rules
             rules:{
+				parentId: {remote: CTX + '/test/testTree/checkByProperty?id=' + testTreeId},
 			},
             messages:{
+				parentId: {remote: '名称已存在'},
 			}
         })
         albedoForm.init();

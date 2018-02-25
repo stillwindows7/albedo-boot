@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 /**
  * 字符串工具类, 继承org.apache.commons.lang3.StringUtils类
  *
- * @author lijie version 2014-1-20 下午3:37:29
+ * @author somewhere version 2014-1-20 下午3:37:29
  */
 public class StringUtil extends org.apache.commons.lang3.StringUtils {
     public static final String SPLIT_DEFAULT = ",";

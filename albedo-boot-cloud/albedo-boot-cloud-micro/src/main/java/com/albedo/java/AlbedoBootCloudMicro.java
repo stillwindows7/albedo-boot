@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 /**
- * @author lijie
+ * @author somewhere
  */
 @ComponentScan
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})

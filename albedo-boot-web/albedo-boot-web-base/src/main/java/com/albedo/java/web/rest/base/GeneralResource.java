@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
- * Created by lijie on 2017/3/23.
+ * Created by somewhere on 2017/3/23.
  */
 public class GeneralResource {
 

@@ -116,8 +116,8 @@ public class TreeService<Repository extends TreeRepository<T, PK>, T extends Tre
         Assert.assertNotNull(lastModifiedBy, "lastModifiedBy 信息为空，操作失败");
         return baseRepository.createQuery(
                 PublicUtil.toAppendStr("update ", getPersistentClass().getSimpleName(), " set status='", status,
-                        "', lastModifiedBy=:p3, lastModifiedDate=:p4 where id = :p1 or parentIds like :p2"),
-                id, likeParentIds, lastModifiedBy, PublicUtil.getCurrentDate()).executeUpdate();
+                        "', lastModifiedBy=:p3, lastModifiedDate=:p4 where (id = :p1 or parentIds like :p2) and status!=:p5"),
+                id, likeParentIds, lastModifiedBy, PublicUtil.getCurrentDate(), BaseEntity.FLAG_DELETE).executeUpdate();
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Created by lijie on 2017/3/2.
+ * Created by somewhere on 2017/3/2.
  */
 public class ResultBuilder {
     public static ResponseEntity<CustomMessage> buildOk(String... messages) {
@@ -32,6 +32,10 @@ public class ResultBuilder {
             messages = new String[]{"failed"};
         }
         return new ResponseEntity(CustomMessage.createWarn(data, messages), httpStatus);
+    }
+    public static ResponseEntity<CustomMessage> buildFailed(HttpStatus httpStatus, String... messages) {
+
+        return buildFailed(null, httpStatus, messages);
     }
     public static ResponseEntity<CustomMessage> buildFailed(Object data, String... messages) {
 

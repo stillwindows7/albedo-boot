@@ -2,7 +2,7 @@ package com.albedo.java.common.base;
 
 /**
  * 系统接口
- * Created by lijie on 2016/6/13.
+ * Created by somewhere on 2016/6/13.
  */
 public interface BaseInterface {
     /**

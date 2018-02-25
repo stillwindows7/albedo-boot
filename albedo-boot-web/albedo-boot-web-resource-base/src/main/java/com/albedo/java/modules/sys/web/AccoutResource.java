@@ -9,17 +9,18 @@ import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.service.UserService;
 import com.albedo.java.util.LoginUtil;
 import com.albedo.java.util.PublicUtil;
-import com.albedo.java.util.StringUtil;
+import com.albedo.java.util.base.Assert;
+import com.albedo.java.util.domain.CustomMessage;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.exception.RuntimeMsgException;
-import com.albedo.java.vo.base.LoginVo;
+import com.albedo.java.vo.account.LoginVo;
+import com.albedo.java.vo.account.PasswordChangeVo;
 import com.albedo.java.vo.sys.UserVo;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.BaseResource;
 import com.albedo.java.web.rest.util.CookieUtil;
 import com.albedo.java.web.rest.util.RequestUtil;
 import com.codahale.metrics.annotation.Timed;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -39,9 +40,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * REST controller for managing the current user's account.
@@ -143,7 +144,7 @@ public class AccoutResource extends BaseResource {
 
     @PostMapping("authenticate")
     @Timed
-    public ResponseEntity authorize(@RequestBody  LoginVo loginVo, HttpServletResponse response) {
+    public ResponseEntity authorize(@Valid @RequestBody LoginVo loginVo, HttpServletResponse response) {
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginVo.getUsername(), loginVo.getPassword());
@@ -164,8 +165,8 @@ public class AccoutResource extends BaseResource {
             return ResultBuilder.buildDataOk(jwt);
         } catch (AuthenticationException ae) {
             log.trace("Authentication exception trace: {}", ae);
-            return new ResponseEntity<>(Collections.singletonMap("AuthenticationException",
-                    ae.getLocalizedMessage()), HttpStatus.UNAUTHORIZED);
+
+            return ResultBuilder.buildFailed(HttpStatus.UNAUTHORIZED,"用户名或密码填写有误");
         }
     }
 
@@ -192,24 +193,23 @@ public class AccoutResource extends BaseResource {
     /**
      * POST  /account/change-password : changes the current user's password
      *
-     * @param oldPassword the old password
-     * @param newPassword the new password
+     * @param passwordChangeVo the passwordVo
      */
     @PostMapping(path = "/account/change-password")
     @Timed
-    public void changePassword(@RequestBody String oldPassword,@RequestBody String newPassword) {
-        if (!checkPasswordLength(newPassword)) {
-            throw new RuntimeMsgException("密码格式有误");
-        }
-       if(!(PublicUtil.isNotEmpty(oldPassword) && passwordEncoder.encode(oldPassword).equals(SecurityUtil.getCurrentUser().getPassword()))){
-           throw new RuntimeMsgException("输入原密码有误");
-       }
+    public ResponseEntity changePassword(@Valid @RequestBody PasswordChangeVo passwordChangeVo) {
 
-        if (PublicUtil.isNotEmpty(oldPassword) && !oldPassword.equals(newPassword)) {
-            throw new RuntimeMsgException("两次输入密码不一致");
-        }
+        Assert.assertIsTrue(passwordChangeVo!=null&&
+            checkPasswordLength(passwordChangeVo.getNewPassword()), "密码格式有误");
+        Assert.assertIsTrue(!passwordChangeVo.getNewPassword().equals(passwordChangeVo.getOldPassword()),
+            "新旧密码不能相同");
+        Assert.assertIsTrue(passwordChangeVo.getNewPassword().equals(passwordChangeVo.getConfirmPassword()),
+            "两次输入密码不一致");
+        Assert.assertIsTrue(passwordEncoder.matches(passwordChangeVo.getOldPassword(), SecurityUtil.getCurrentUser().getPassword()),
+            "输入原密码有误");
 
-        userService.changePassword(SecurityAuthUtil.getCurrentUserLogin(), newPassword);
+        userService.changePassword(SecurityAuthUtil.getCurrentUserLogin(), passwordEncoder.encode(passwordChangeVo.getNewPassword()));
+        return ResultBuilder.buildOk("修改成功");
     }
 
 }

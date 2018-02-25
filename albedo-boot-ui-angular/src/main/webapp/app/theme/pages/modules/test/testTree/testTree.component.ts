@@ -18,10 +18,11 @@ export class TestTreeComponent implements AfterViewInit {
 
     nodeId: any
     ctx: any
+    testTree: TestTree
     constructor(private _script: ScriptLoaderService,
         private principal: Principal,
         private sessionStorage: SessionStorageService, ) {
-
+       this.testTree = new TestTree()
        this.ctx = CTX
        this.nodeId = sessionStorage.retrieve("tree_testTree_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1
 
@@ -49,7 +50,8 @@ export class TestTreeComponent implements AfterViewInit {
             columns: [
                 {title: 'name_',field:'name'
                  ,width: 110,sortable: 'asc',overflow: 'visible',template: function(row) {
-                        return thisPrincipal.hasAnyAuthorityDirectOne("test_testTree_edit") ? ( '<a href="#/test/testTree/form/' + row.id + '" class="m-link" title="点击编辑测试树管理">'+row.name+'</a>') : row.name;
+                        return thisPrincipal.hasAnyAuthorityDirectOne("test_testTree_edit") ? ( '<a href="javascript:void(0)" class="m-link dialog-edit" title="编辑"\
+                            \data-method="get"  data-title="编辑【' + row.name + '】" data-url="' + CTX + '/test/testTree/' + row.id + '" data-modal-id="#testTree-edit-modal" title="点击编辑测试树管理">'+row.name+'</a>') : row.name;
                 },},
                 {title: '机构编码',field:'code'
                 },
@@ -63,6 +65,9 @@ export class TestTreeComponent implements AfterViewInit {
                 },
                 {title: '组织类型',field:'type'
                 },
+                {title: 'status_',field:'status',template: function(row) {
+                    return '<span class="m-badge ' + DATA_STATUS[row.status].class + ' m-badge--wide">' + row.status + '</span>';
+                }},
                 {title: '默认日期',field:'defaultData'
                 },
             ],
@@ -77,9 +82,10 @@ export class TestTreeComponent implements AfterViewInit {
                 template: function(row) {
                     var template = '';
                     if (thisPrincipal.hasAnyAuthorityDirectOne("test_testTree_edit"))
-                        template += '<a href="#/test/testTree/form/' + row.id + '" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">\
+                        template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill dialog-edit" title="编辑"\
+                            \data-method="get"  data-title="编辑【' + row.name + '】" data-url="' + CTX + '/test/testTree/' + row.id + '" data-modal-id="#testTree-edit-modal">\
                             \<i class="la la-edit"></i>\
-                            \</a>';
+                            \</a>'
                     if (thisPrincipal.hasAnyAuthorityDirectOne("test_testTree_lock"))
                         template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="' + (row.status == "正常" ? "锁定" : "解锁") + '测试树管理"\
                      data-table-id="#data-table-testTree" data-method="put"  data-title="你确认要操作选中的测试树管理吗？" data-url="' + CTX + '/test/testTree/' + row.id + '">\
@@ -100,6 +106,7 @@ export class TestTreeComponent implements AfterViewInit {
 
         albedoForm.init()
 
+        albedoForm.initSave($("#testTree-edit-modal"));
     }
 
     cancelClickNodeTestTree(event, treeId, treeNode) {

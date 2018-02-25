@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
- * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23 下午5:44:04
+ * Copyright 2013 albedo All right reserved Author somewhere Created on 2013-10-23 下午5:44:04
  *
  * @author somewhere
  */

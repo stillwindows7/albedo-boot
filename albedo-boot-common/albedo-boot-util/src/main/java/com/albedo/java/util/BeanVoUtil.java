@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * bean copy 工具类
  *
- * @author lijie
+ * @author somewhere
  */
 public class BeanVoUtil extends BeanUtils {
 

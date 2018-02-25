@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23 下午4:32:52
+ * Copyright 2013 albedo All right reserved Author somewhere Created on 2013-10-23 下午4:32:52
  */
 @Entity
 @Table(name = "sys_role_t")

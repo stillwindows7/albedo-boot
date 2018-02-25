@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  * 框架基础实体类（对应表中必须含status_字段）
  *
- * @author lijie version 2013-12-27 下午12:27:10
+ * @author somewhere version 2013-12-27 下午12:27:10
  */
 @MappedSuperclass
 public abstract class BaseEntity extends GeneralEntity {

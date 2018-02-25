@@ -64,6 +64,7 @@ public class ExceptionTranslator {
             message.setCode(HttpStatus.FORBIDDEN);
             message.addMessage("权限不足");
         } else if (e instanceof CustomParameterizedException) {
+            message.setCode(HttpStatus.BAD_REQUEST);
             CustomParameterizedException customParameterizedException= ((CustomParameterizedException) e);
             message.setData(customParameterizedException.getParams());
             message.addMessage(customParameterizedException.getMessage());
@@ -73,8 +74,10 @@ public class ExceptionTranslator {
             message.setData(constraintViolations);
             List<String> list = BeanValidators.extractPropertyAndMessageAsList((ConstraintViolationException) e, ": ");
             list.add(0, "数据验证失败：");
+            message.setCode(HttpStatus.BAD_REQUEST);
             message.addMessage(Collections3.convertToString(list, ""));
         } else if (e instanceof MethodArgumentNotValidException) {
+            message.setCode(HttpStatus.BAD_REQUEST);
             MethodArgumentNotValidException methodArgumentNotValidException = (MethodArgumentNotValidException) e;
             message.setData(BeanValidators.extractPropertyAndMessage(methodArgumentNotValidException));
             List<String> list = BeanValidators.extractPropertyAndMessageAsList(methodArgumentNotValidException, ": ");

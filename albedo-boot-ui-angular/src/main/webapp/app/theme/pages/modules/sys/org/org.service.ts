@@ -16,7 +16,7 @@ export class OrgService extends DataService<Org> {
 
     treeData(): Observable<any> {
         return this.http.get(this.resourceUrl + '/findTreeData')
-            .map((data: any) => data)
+            .map((res: any) => res && res.data)
     }
 
 }

@@ -1,6 +1,7 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.security.SecurityUtil;
+import com.albedo.java.common.security.annotaion.RequiresPermissions;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.service.DictService;
 import com.albedo.java.util.DictUtil;
@@ -48,6 +49,7 @@ public class DictResource extends TreeVoResource<DictService, DictVo> {
 
 
     @GetMapping(value = "findTreeData")
+    @RequiresPermissions("sys_module_view")
     public ResponseEntity findTreeData(DictTreeQuery dictTreeQuery) {
         List<DictTreeResult> rs = service.findTreeData(dictTreeQuery, DictUtil.getDictList());
         return ResultBuilder.buildOk(rs);
