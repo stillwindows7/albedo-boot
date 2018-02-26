@@ -5,7 +5,7 @@ interface NodeModule {
     id: string
 }
 
-
+declare let CRLT: any
 
 declare var albedoList: AlbedoList
 
