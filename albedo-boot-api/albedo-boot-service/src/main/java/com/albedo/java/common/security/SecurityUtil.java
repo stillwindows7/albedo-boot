@@ -120,7 +120,7 @@ public final class SecurityUtil {
      */
     public static User getByLoginId(String loginId) {
         User user = JedisUtil.getJson(USER_CACHE, USER_CACHE_LOGIN_NAME_ + loginId, User.class);
-        if (user == null) {
+        if (user == null||PublicUtil.isEmpty(user.getId())) {
             user = userRepository.findOneByLoginId(loginId).map(u -> {
                 String json = Json.toJsonString(u);
                 JedisUtil.put(USER_CACHE, USER_CACHE_ID_ + u.getId(), json);

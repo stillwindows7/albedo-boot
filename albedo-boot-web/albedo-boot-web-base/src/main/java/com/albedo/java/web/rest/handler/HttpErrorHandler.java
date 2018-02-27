@@ -36,7 +36,10 @@ public class HttpErrorHandler implements ErrorController {
 
     /**
      * Returns the path of the error page.
-     *
+     *RunAsManager did not change Authentication object
+     2018-02-27 16:52:38.179 DEBUG 15744 --- [ XNIO-2 task-10] o.s.security.web.FilterChainProxy        : /management/health reached end of additional filter chain; proceeding with original chain
+     2018-02-27 16:52:38.185 DEBUG 15744 --- [ XNIO-2 task-10] o.s.s.w.a.ExceptionTranslationFilter     : Chain processed normally
+     2018-02-27 16:52:38.185 DEBUG 15744 --- [ XNIO-2 task-10] s.s.w.c.SecurityContextPersistenceFilter : SecurityContextHolder now cleared, as request processing completed
      * @return the error path
      */
     @Override
