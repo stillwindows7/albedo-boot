@@ -11,7 +11,7 @@ export const setActiveItemMenu = (localStorage: LocalStorageService, url?: Strin
         item = $(menu).find('a[href="' + localStorage.retrieve("activeItemMenu") + '"]').parent('.m-menu__item')
     }
     let menuObj = (<any>$(menu).data('menu'))
-    menuObj&&menuObj.setActiveItem(item)
+    menuObj && menuObj.setActiveItem(item)
 }
 
 

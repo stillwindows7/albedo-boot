@@ -1,14 +1,14 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {MetricsService} from "./metrics.service";
-import {MetricsMonitoringModalComponent} from "./metrics.modal.component";
+import { MetricsService } from "./metrics.service";
+import { MetricsMonitoringModalComponent } from "./metrics.modal.component";
 
 
 @Component({
     selector: 'alb-metrics.page',
     templateUrl: './metrics.component.html'
 })
-export class MetricsMonitoringComponent implements OnInit,AfterViewInit {
+export class MetricsMonitoringComponent implements OnInit, AfterViewInit {
 
     metrics: any = {};
     cachesStats: any = {};
@@ -64,7 +64,7 @@ export class MetricsMonitoringComponent implements OnInit,AfterViewInit {
 
     refreshThreadDumpData() {
         this.metricsService.threadDump().subscribe((data) => {
-            const modalRef  = this.modalService.open(MetricsMonitoringModalComponent, { size: 'lg'});
+            const modalRef = this.modalService.open(MetricsMonitoringModalComponent, { size: 'lg' });
             modalRef.componentInstance.threadDump = data;
             modalRef.result.then((result) => {
                 // Left blank intentionally, nothing to do here

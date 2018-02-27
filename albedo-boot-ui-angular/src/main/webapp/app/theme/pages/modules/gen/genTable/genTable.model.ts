@@ -1,5 +1,5 @@
-import {Data} from "../../../../../shared/base/model/data.model";
-import {GenTableColumn} from "./genTableColumn.model"
+import { Data } from "../../../../../shared/base/model/data.model";
+import { GenTableColumn } from "./genTableColumn.model"
 
 export class GenTable extends Data {
     /*** 编码 */

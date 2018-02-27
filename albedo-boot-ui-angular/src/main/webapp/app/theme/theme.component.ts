@@ -6,8 +6,8 @@ import { CTX } from "../app.constants"
 import { LocalStorageService, SessionStorageService } from "ngx-webstorage"
 import { Principal } from "../auth/_services/principal.service"
 import { setActiveItemMenu } from "../shared/base/base.util"
-import {Module} from "./pages/modules/sys/module/module.model";
-import {ModuleService} from "./pages/modules/sys/module/module.service";
+import { Module } from "./pages/modules/sys/module/module.model";
+import { ModuleService } from "./pages/modules/sys/module/module.service";
 
 declare let mApp: any
 declare let mUtil: any
@@ -95,7 +95,7 @@ export class ThemeComponent implements OnInit {
         this.modules && this.modules.forEach(callbackfn)
     }
     private initData() {
-        if(typeof (albedoForm) != "undefined"){
+        if (typeof (albedoForm) != "undefined") {
             console.log("clearData")
             albedoForm.clearData()
         }
@@ -107,10 +107,10 @@ export class ThemeComponent implements OnInit {
             return
         }
         if (thiz.modules) {
-            var breadcrumbs = [],title
+            var breadcrumbs = [], title
             thiz.getModules(function(module) {
                 //菜单
-                if (module.type==='1' && (module.url == url || module.url.startsWith(url) )) {
+                if (module.type === '1' && (module.url == url || module.url.startsWith(url))) {
                     console.log(module)
                     console.log(url)
                     let parentIds = module.parentIds.split(",");

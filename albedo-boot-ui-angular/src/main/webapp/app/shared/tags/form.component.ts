@@ -4,9 +4,9 @@ import { ComboData } from "../base/model/combo.data.model"
 import { Http } from "@angular/http"
 import { createRequestOption } from "../base/request.util"
 import { OnChanges } from "@angular/core/src/metadata/lifecycle_hooks"
-import {DictQuery} from "../../theme/pages/modules/sys/dict/dict.query.model";
-import {DictService} from "../../theme/pages/modules/sys/dict/dict.service";
-import {HttpClient} from "@angular/common/http";
+import { DictQuery } from "../../theme/pages/modules/sys/dict/dict.query.model";
+import { DictService } from "../../theme/pages/modules/sys/dict/dict.service";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
     selector: "alb-form",

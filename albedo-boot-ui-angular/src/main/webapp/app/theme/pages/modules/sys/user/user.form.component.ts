@@ -1,9 +1,9 @@
-import {AfterViewInit, Component} from '@angular/core'
-import {CTX} from "../../../../../app.constants"
-import {ActivatedRoute} from "@angular/router"
-import {UserService} from "./user.service"
-import {User} from "./user.model"
-import {Helpers} from "../../../../../helpers";
+import { AfterViewInit, Component } from '@angular/core'
+import { CTX } from "../../../../../app.constants"
+import { ActivatedRoute } from "@angular/router"
+import { UserService } from "./user.service"
+import { User } from "./user.model"
+import { Helpers } from "../../../../../helpers";
 
 @Component({
     selector: ".sys-user-form.page-form",

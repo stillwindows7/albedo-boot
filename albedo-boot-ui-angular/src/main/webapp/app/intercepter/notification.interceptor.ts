@@ -1,9 +1,8 @@
-import { JhiAlertService, JhiHttpInterceptor } from 'ng-jhipster'
-import { RequestOptionsArgs, Response } from '@angular/http'
+
 import { Injector } from '@angular/core'
 import { Observable } from 'rxjs/Observable'
 import { MSG_TYPE_ERROR, MSG_TYPE_INFO, MSG_TYPE_SUCCESS, MSG_TYPE_WARNING } from "../app.constants"
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from "@angular/common/http";
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from "@angular/common/http";
 
 export class NotificationInterceptor implements HttpInterceptor {
 
@@ -48,7 +47,7 @@ export class NotificationInterceptor implements HttpInterceptor {
                 }
             }
         }, (data: any) => {
-            if(data.status!=403 && toastr){
+            if (data.status != 403 && toastr) {
                 toastr.error(data.error && data.error.message ? data.error.message : '网络异常，请检查您的网络连接！', { closeButton: true, positionClass: 'toast-bottom-right' })
             }
         });

@@ -1,12 +1,12 @@
 /**
  * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
  */
-import {AfterViewInit, Component, ViewEncapsulation} from '@angular/core'
-import {ScriptLoaderService} from "../../../../../shared/base/service/script-loader.service"
-import {CTX, DATA_STATUS} from "../../../../../app.constants"
-import {Principal} from "../../../../../auth/_services/principal.service"
-import {SessionStorageService} from "ngx-webstorage"
-import {Area} from "./area.model"
+import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core'
+import { ScriptLoaderService } from "../../../../../shared/base/service/script-loader.service"
+import { CTX, DATA_STATUS } from "../../../../../app.constants"
+import { Principal } from "../../../../../auth/_services/principal.service"
+import { SessionStorageService } from "ngx-webstorage"
+import { Area } from "./area.model"
 
 declare let datatable: any
 @Component({
@@ -22,9 +22,9 @@ export class AreaComponent implements AfterViewInit {
     constructor(private _script: ScriptLoaderService,
         private principal: Principal,
         private sessionStorage: SessionStorageService, ) {
-       this.area = new Area()
-       this.ctx = CTX
-       this.nodeId = sessionStorage.retrieve("tree_area_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1
+        this.area = new Area()
+        this.ctx = CTX
+        this.nodeId = sessionStorage.retrieve("tree_area_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1
 
     }
 
@@ -48,24 +48,31 @@ export class AreaComponent implements AfterViewInit {
             },
             // columns definition
             columns: [
-                {title: '区域名称',field:'name'
-                 ,width: 110,sortable: 'asc',overflow: 'visible',template: function(row) {
-                    return thisPrincipal.hasAnyAuthorityDirectOne("sys_area_edit") ? ( '<a  href="javascript:void(0)" class="m-link dialog-edit" title="点击编辑"\
-                            \data-method="get"  data-title="编辑【' + row.name + '】" data-url="' + CTX + '/sys/area/' + row.id + '" data-modal-id="#area-edit-modal" >'+row.name+'</a>') : row.name;
-                },},
-                {title: '区域简称',field:'shortName'
+                {
+                    title: '区域名称', field: 'name'
+                    , width: 110, sortable: 'asc', overflow: 'visible', template: function(row) {
+                        return thisPrincipal.hasAnyAuthorityDirectOne("sys_area_edit") ? ('<a  href="javascript:void(0)" class="m-link dialog-edit" title="点击编辑"\
+                            \data-method="get"  data-title="编辑【' + row.name + '】" data-url="' + CTX + '/sys/area/' + row.id + '" data-modal-id="#area-edit-modal" >' + row.name + '</a>') : row.name;
+                    },
                 },
-                {title: '序号',field:'sort'
+                {
+                    title: '区域简称', field: 'shortName'
                 },
-                {title: '区域等级',field:'level'
+                {
+                    title: '序号', field: 'sort'
                 },
-                {title: '区域编码',field:'code'
+                {
+                    title: '区域等级', field: 'level'
                 },
-                {title: '叶子节点',field:'isLeaf'
+                {
+                    title: '区域编码', field: 'code'
+                },
+                {
+                    title: '叶子节点', field: 'isLeaf'
                 },
             ],
         }
-        if(thisPrincipal.hasAnyAuthorityDirect(["sys_area_edit","sys_area_lock","sys_area_delete"])){
+        if (thisPrincipal.hasAnyAuthorityDirect(["sys_area_edit", "sys_area_lock", "sys_area_delete"])) {
             options.columns.push({
                 field: 'Actions',
                 width: 110,
@@ -101,12 +108,12 @@ export class AreaComponent implements AfterViewInit {
 
         albedoForm.initValidate($("#area-save-form"), {
             // define validation rules
-            rules:{
-				code: {remote: '{{ctx}}/sys/area/checkByProperty?id=' + encodeURIComponent(albedo.toStr($("#area-save-form").find("input[name='id']").val()))},
-			},
-            messages:{
-				code: {remote: '区域编码已存在'},
-			}
+            rules: {
+                code: { remote: '{{ctx}}/sys/area/checkByProperty?id=' + encodeURIComponent(albedo.toStr($("#area-save-form").find("input[name='id']").val())) },
+            },
+            messages: {
+                code: { remote: '区域编码已存在' },
+            }
         })
         albedoForm.initSave($("#area-edit-modal"));
     }

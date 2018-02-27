@@ -1,9 +1,9 @@
-import {AfterViewInit, Component, ViewEncapsulation} from '@angular/core'
-import {ScriptLoaderService} from "../../../../../shared/base/service/script-loader.service"
-import {CTX, DATA_STATUS} from "../../../../../app.constants"
-import {Principal} from "../../../../../auth/_services/principal.service"
-import {SessionStorageService} from "ngx-webstorage"
-import {Org} from "./org.model"
+import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core'
+import { ScriptLoaderService } from "../../../../../shared/base/service/script-loader.service"
+import { CTX, DATA_STATUS } from "../../../../../app.constants"
+import { Principal } from "../../../../../auth/_services/principal.service"
+import { SessionStorageService } from "ngx-webstorage"
+import { Org } from "./org.model"
 
 declare let datatable: any
 @Component({
@@ -74,7 +74,7 @@ export class OrgComponent implements AfterViewInit {
                 }, {
                     field: 'lastModifiedDate',
                     title: '修改时间',
-                }, ],
+                },],
         }
         if (thisPrincipal.hasAnyAuthorityDirect(["sys_org_edit", "sys_org_lock", "sys_org_delete"])) {
             options.columns.push({

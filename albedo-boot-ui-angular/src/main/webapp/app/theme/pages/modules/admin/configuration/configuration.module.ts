@@ -1,11 +1,11 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core'
-import {AlbedoBootSharedModule} from "../../../../../shared/shared.module";
-import {CommonModule} from "@angular/common";
-import {RouterModule} from "@angular/router";
-import {LayoutModule} from "../../../../layouts/layout.module";
-import {routeChilds} from "../../../../api.routing.module";
-import {ConfigurationComponent} from "./configuration.component";
-import {ConfigurationService} from "./configuration.service";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core'
+import { AlbedoBootSharedModule } from "../../../../../shared/shared.module";
+import { CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
+import { LayoutModule } from "../../../../layouts/layout.module";
+import { routeChilds } from "../../../../api.routing.module";
+import { ConfigurationComponent } from "./configuration.component";
+import { ConfigurationService } from "./configuration.service";
 
 const routesConfiguration = [
     {

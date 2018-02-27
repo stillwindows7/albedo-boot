@@ -1,10 +1,10 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core'
-import {CTX} from "../../../../../app.constants"
-import {ActivatedRoute} from "@angular/router"
-import {RoleService} from "./role.service"
-import {Role} from "./role.model"
-import {ModuleService} from "../module/module.service"
-import {OrgService} from "../org/org.service"
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core'
+import { CTX } from "../../../../../app.constants"
+import { ActivatedRoute } from "@angular/router"
+import { RoleService } from "./role.service"
+import { Role } from "./role.model"
+import { ModuleService } from "../module/module.service"
+import { OrgService } from "../org/org.service"
 
 @Component({
     selector: ".sys-role-form.page-form",

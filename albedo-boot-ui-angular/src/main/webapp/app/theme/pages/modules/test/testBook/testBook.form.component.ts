@@ -4,8 +4,8 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { CTX } from "../../../../../app.constants";
 import { ActivatedRoute } from "@angular/router";
-import {TestBook} from "./testBook.model";
-import {TestBookService} from "./testBook.service";
+import { TestBook } from "./testBook.model";
+import { TestBookService } from "./testBook.service";
 
 @Component({
     selector: ".test-testBook-form.page-form",
@@ -53,12 +53,12 @@ export class TestBookFormComponent implements AfterViewInit {
         var testBookId = this.testBook.id;
         albedoForm.initValidate($("#testBook-save-form"), {
             // define validation rules
-            rules:{
-				email: {remote: CTX + '/test/testBook/checkByProperty?id=' + testBookId},
-			},
-            messages:{
-				email: {remote: '邮箱已存在'},
-			}
+            rules: {
+                email: { remote: CTX + '/test/testBook/checkByProperty?id=' + testBookId },
+            },
+            messages: {
+                email: { remote: '邮箱已存在' },
+            }
         })
         albedoForm.init();
         albedoForm.initSave();

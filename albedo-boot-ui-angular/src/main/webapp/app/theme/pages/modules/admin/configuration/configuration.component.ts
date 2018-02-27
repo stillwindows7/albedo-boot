@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {ConfigurationService} from './configuration.service';
+import { ConfigurationService } from './configuration.service';
 
 @Component({
     selector: 'alb-configuration.page',

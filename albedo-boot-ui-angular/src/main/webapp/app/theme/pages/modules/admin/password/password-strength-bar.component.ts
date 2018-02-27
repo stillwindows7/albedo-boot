@@ -33,7 +33,7 @@ export class PasswordStrengthBarComponent {
         const symbols = regex.test(p);
 
         const flags = [lowerLetters, upperLetters, numbers, symbols];
-        const passedMatches = flags.filter( (isMatchedFlag: boolean) => {
+        const passedMatches = flags.filter((isMatchedFlag: boolean) => {
             return isMatchedFlag === true;
         }).length;
 
@@ -64,7 +64,7 @@ export class PasswordStrengthBarComponent {
         } else {
             idx = 4;
         }
-        return {idx: idx + 1, col: this.colors[idx]};
+        return { idx: idx + 1, col: this.colors[idx] };
     }
 
     @Input()
@@ -72,8 +72,8 @@ export class PasswordStrengthBarComponent {
         if (password) {
             const c = this.getColor(this.measureStrength(password));
             const element = this.elementRef.nativeElement;
-            if ( element.className ) {
-                this.renderer.setElementClass(element, element.className , false);
+            if (element.className) {
+                this.renderer.setElementClass(element, element.className, false);
             }
             const lis = element.getElementsByTagName('li');
             for (let i = 0; i < lis.length; i++) {

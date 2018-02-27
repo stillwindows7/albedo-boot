@@ -1,8 +1,8 @@
-import {AfterViewInit, Component} from '@angular/core'
-import {CTX} from "../../../../../app.constants"
-import {ActivatedRoute} from "@angular/router"
-import {GenTable} from "./genTable.model"
-import {GenTableService} from "./genTable.service"
+import { AfterViewInit, Component } from '@angular/core'
+import { CTX } from "../../../../../app.constants"
+import { ActivatedRoute } from "@angular/router"
+import { GenTable } from "./genTable.model"
+import { GenTableService } from "./genTable.service"
 
 @Component({
     selector: ".sys-genTable-form.page-form",

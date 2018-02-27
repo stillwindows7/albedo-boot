@@ -1,9 +1,9 @@
-import {AfterViewInit, Component, ViewEncapsulation} from '@angular/core'
-import {ScriptLoaderService} from "../../../../../shared/base/service/script-loader.service"
-import {CTX, DATA_STATUS} from "../../../../../app.constants"
-import {Principal} from "../../../../../auth/_services/principal.service"
-import {GenTableService} from "./genTable.service"
-import {Router} from "@angular/router"
+import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core'
+import { ScriptLoaderService } from "../../../../../shared/base/service/script-loader.service"
+import { CTX, DATA_STATUS } from "../../../../../app.constants"
+import { Principal } from "../../../../../auth/_services/principal.service"
+import { GenTableService } from "./genTable.service"
+import { Router } from "@angular/router"
 
 declare let datatable: any
 @Component({
@@ -68,7 +68,7 @@ export class GenTableComponent implements AfterViewInit {
                 },],
         }
         if (thisPrincipal.hasAnyAuthorityDirect(["gen_genTable_edit", "gen_genTable_lock", "gen_genTable_delete"])) {
-            options.columns.push( {
+            options.columns.push({
                 field: 'Actions',
                 width: 110,
                 title: '操作',

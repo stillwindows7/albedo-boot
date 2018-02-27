@@ -1,5 +1,5 @@
-import {Data} from "../../../../../shared/base/model/data.model";
-import {GenTable} from "../genTable/genTable.model"
+import { Data } from "../../../../../shared/base/model/data.model";
+import { GenTable } from "../genTable/genTable.model"
 
 export class GenScheme extends Data {
     /**

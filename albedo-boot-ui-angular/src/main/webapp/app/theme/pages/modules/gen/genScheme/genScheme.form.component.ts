@@ -1,8 +1,8 @@
-import {AfterViewInit, Component} from '@angular/core'
-import {CTX} from "../../../../../app.constants"
-import {ActivatedRoute} from "@angular/router"
-import {GenScheme} from "./genScheme.model"
-import {GenSchemeService} from "./genScheme.service"
+import { AfterViewInit, Component } from '@angular/core'
+import { CTX } from "../../../../../app.constants"
+import { ActivatedRoute } from "@angular/router"
+import { GenScheme } from "./genScheme.model"
+import { GenSchemeService } from "./genScheme.service"
 
 @Component({
     selector: ".sys-genScheme-form.page-form",

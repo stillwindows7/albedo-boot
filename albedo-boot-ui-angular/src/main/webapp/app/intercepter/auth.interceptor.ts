@@ -1,7 +1,7 @@
-import {Observable} from 'rxjs/Observable'
-import {LocalStorageService, SessionStorageService} from 'ngx-webstorage'
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
-import {CTX} from "../app.constants";
+import { Observable } from 'rxjs/Observable'
+import { LocalStorageService, SessionStorageService } from 'ngx-webstorage'
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
+import { CTX } from "../app.constants";
 
 export class AuthInterceptor implements HttpInterceptor {
 

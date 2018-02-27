@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, ViewEncapsulation} from '@angular/core';
-import {ScriptLoaderService} from "../../../../../shared/base/service/script-loader.service";
-import {CTX, DATA_STATUS} from "../../../../../app.constants";
-import {ActivatedRoute} from "@angular/router";
-import {Principal} from "../../../../../auth/_services/principal.service";
+import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core';
+import { ScriptLoaderService } from "../../../../../shared/base/service/script-loader.service";
+import { CTX, DATA_STATUS } from "../../../../../app.constants";
+import { ActivatedRoute } from "@angular/router";
+import { Principal } from "../../../../../auth/_services/principal.service";
 
 @Component({
     selector: ".sys-taskScheduleJob-list.page-list",
@@ -35,31 +35,42 @@ export class TaskScheduleJobComponent implements AfterViewInit {
             },
             // columns definition
             columns: [
-					{title: '名称',field:'name'
-					 ,width: 110,sortable: 'asc',overflow: 'visible',template: function(row) {
-                        return thisPrincipal.hasAnyAuthorityDirectOne("sys_taskScheduleJob_edit") ? ( '<a href="#/sys/taskScheduleJob/form/' + row.id + '" class="m-link" title="点击编辑任务调度">'+row.name+'</a>') : row.name;
-                    },},
-					{title: '分组',field:'group'
-					},
-					{title: '任务状态',field:'jobStatus'
-					},
-					{title: 'cron表达式',field:'cronExpression'
-					},
-					{title: '包名+类名',field:'beanClass'
-					},
-					{title: '任务是否有状态',field:'isConcurrent'
-					},
-					{title: 'spring bean',field:'springId'
-					},
-					{title: 'source_id',field:'sourceId'
-					},
-					{title: '任务调用的方法名',field:'methodName'
-					},
-					{title: '方法参数',field:'methodParams'
-					},
-                ],
+                {
+                    title: '名称', field: 'name'
+                    , width: 110, sortable: 'asc', overflow: 'visible', template: function(row) {
+                        return thisPrincipal.hasAnyAuthorityDirectOne("sys_taskScheduleJob_edit") ? ('<a href="#/sys/taskScheduleJob/form/' + row.id + '" class="m-link" title="点击编辑任务调度">' + row.name + '</a>') : row.name;
+                    },
+                },
+                {
+                    title: '分组', field: 'group'
+                },
+                {
+                    title: '任务状态', field: 'jobStatus'
+                },
+                {
+                    title: 'cron表达式', field: 'cronExpression'
+                },
+                {
+                    title: '包名+类名', field: 'beanClass'
+                },
+                {
+                    title: '任务是否有状态', field: 'isConcurrent'
+                },
+                {
+                    title: 'spring bean', field: 'springId'
+                },
+                {
+                    title: 'source_id', field: 'sourceId'
+                },
+                {
+                    title: '任务调用的方法名', field: 'methodName'
+                },
+                {
+                    title: '方法参数', field: 'methodParams'
+                },
+            ],
         };
-        if(thisPrincipal.hasAnyAuthorityDirect(["sys_taskScheduleJob_edit","sys_taskScheduleJob_lock","sys_taskScheduleJob_delete"])){
+        if (thisPrincipal.hasAnyAuthorityDirect(["sys_taskScheduleJob_edit", "sys_taskScheduleJob_lock", "sys_taskScheduleJob_delete"])) {
             options.columns.push({
                 field: 'Actions',
                 width: 110,

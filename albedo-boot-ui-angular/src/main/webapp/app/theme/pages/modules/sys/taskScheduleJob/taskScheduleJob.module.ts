@@ -1,12 +1,12 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {RouterModule} from "@angular/router";
-import {TaskScheduleJobComponent} from "./taskScheduleJob.component";
-import {routeChilds} from "../../../../api.routing.module";
-import {AlbedoBootSharedModule} from "../../../../../shared/shared.module";
-import {LayoutModule} from "../../../../layouts/layout.module";
-import {TaskScheduleJobService} from "./taskScheduleJob.service";
-import {TaskScheduleJobFormComponent} from "./taskScheduleJob.form.component";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from "@angular/router";
+import { TaskScheduleJobComponent } from "./taskScheduleJob.component";
+import { routeChilds } from "../../../../api.routing.module";
+import { AlbedoBootSharedModule } from "../../../../../shared/shared.module";
+import { LayoutModule } from "../../../../layouts/layout.module";
+import { TaskScheduleJobService } from "./taskScheduleJob.service";
+import { TaskScheduleJobFormComponent } from "./taskScheduleJob.form.component";
 
 const routesSysTaskScheduleJob = [
     {

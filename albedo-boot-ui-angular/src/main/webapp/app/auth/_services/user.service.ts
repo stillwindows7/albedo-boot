@@ -1,7 +1,7 @@
-import {Injectable} from "@angular/core"
+import { Injectable } from "@angular/core"
 
-import {User} from "../_models/index"
-import {HttpClient} from "@angular/common/http";
+import { User } from "../_models/index"
+import { HttpClient } from "@angular/common/http";
 
 @Injectable()
 export class UserService {

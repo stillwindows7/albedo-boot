@@ -11,7 +11,7 @@ export class HealthModalComponent {
 
     currentHealth: any;
 
-    constructor(private healthService: HealthService, public activeModal: NgbActiveModal) {}
+    constructor(private healthService: HealthService, public activeModal: NgbActiveModal) { }
 
     baseName(name) {
         return this.healthService.getBaseName(name);

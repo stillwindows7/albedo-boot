@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core'
-import {ScriptLoaderService} from "../../../../../shared/base/service/script-loader.service"
-import {CTX, DATA_STATUS, DICT_SYS_DATA} from "../../../../../app.constants"
-import {ActivatedRoute} from "@angular/router"
-import {Principal} from "../../../../../auth/_services/principal.service"
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
+import { ScriptLoaderService } from "../../../../../shared/base/service/script-loader.service"
+import { CTX, DATA_STATUS, DICT_SYS_DATA } from "../../../../../app.constants"
+import { ActivatedRoute } from "@angular/router"
+import { Principal } from "../../../../../auth/_services/principal.service"
 
 declare let datatable: any
 @Component({
@@ -84,7 +84,7 @@ export class RoleComponent implements OnInit, OnDestroy, AfterViewInit {
                 }, {
                     field: 'lastModifiedDate',
                     title: '修改时间',
-                }, ],
+                },],
         }
         if (thisPrincipal.hasAnyAuthorityDirect(["sys_role_edit", "sys_role_lock", "sys_role_delete"])) {
             options.columns.push({

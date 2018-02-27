@@ -1,9 +1,9 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core'
-import {ScriptLoaderService} from "../../../../../shared/base/service/script-loader.service"
-import {CTX, DATA_STATUS} from "../../../../../app.constants"
-import {ActivatedRoute} from "@angular/router"
-import {Principal} from "../../../../../auth/_services/principal.service"
-import {SessionStorageService} from "ngx-webstorage"
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
+import { ScriptLoaderService } from "../../../../../shared/base/service/script-loader.service"
+import { CTX, DATA_STATUS } from "../../../../../app.constants"
+import { ActivatedRoute } from "@angular/router"
+import { Principal } from "../../../../../auth/_services/principal.service"
+import { SessionStorageService } from "ngx-webstorage"
 
 declare let datatable: any
 @Component({
@@ -98,7 +98,7 @@ export class ModuleComponent implements OnInit, OnDestroy, AfterViewInit {
             }],
         }
         if (thisPrincipal.hasAnyAuthorityDirect(["sys_module_edit", "sys_module_lock", "sys_module_delete"])) {
-            options.columns.push( {
+            options.columns.push({
                 field: 'Actions',
                 width: 110,
                 title: '操作',

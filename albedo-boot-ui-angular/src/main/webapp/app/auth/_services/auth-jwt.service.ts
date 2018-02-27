@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core'
-import {Observable} from 'rxjs/Rx'
-import {LocalStorageService, SessionStorageService} from 'ngx-webstorage'
-import {CTX} from '../../app.constants'
-import {HttpClient} from "@angular/common/http";
+import { Injectable } from '@angular/core'
+import { Observable } from 'rxjs/Rx'
+import { LocalStorageService, SessionStorageService } from 'ngx-webstorage'
+import { CTX } from '../../app.constants'
+import { HttpClient } from "@angular/common/http";
 
 @Injectable()
 export class AuthServerProvider {
@@ -24,7 +24,7 @@ export class AuthServerProvider {
             rememberMe: credentials.rememberMe
         }
         console.log(data)
-        return this.http.post(CTX + '/authenticate', data, {observe : 'response'}).map(authenticateSuccess.bind(this))
+        return this.http.post(CTX + '/authenticate', data, { observe: 'response' }).map(authenticateSuccess.bind(this))
 
         function authenticateSuccess(resp) {
             console.log(resp)

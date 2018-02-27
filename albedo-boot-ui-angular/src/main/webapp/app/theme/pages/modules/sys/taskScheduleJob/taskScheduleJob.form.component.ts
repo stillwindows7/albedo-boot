@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { CTX } from "../../../../../app.constants";
 import { ActivatedRoute } from "@angular/router";
-import {TaskScheduleJob} from "./taskScheduleJob.model";
-import {TaskScheduleJobService} from "./taskScheduleJob.service";
+import { TaskScheduleJob } from "./taskScheduleJob.model";
+import { TaskScheduleJobService } from "./taskScheduleJob.service";
 
 @Component({
     selector: ".sys-taskScheduleJob-form.page-form",
@@ -50,12 +50,12 @@ export class TaskScheduleJobFormComponent implements AfterViewInit {
         var taskScheduleJobId = this.taskScheduleJob.id;
         albedoForm.initValidate($("#taskScheduleJob-save-form"), {
             // define validation rules
-            rules:{
-				name: {remote: CTX + '/sys/taskScheduleJob/checkByProperty?id=' + taskScheduleJobId},
-			},
-            messages:{
-				name: {remote: '名称已存在'},
-			}
+            rules: {
+                name: { remote: CTX + '/sys/taskScheduleJob/checkByProperty?id=' + taskScheduleJobId },
+            },
+            messages: {
+                name: { remote: '名称已存在' },
+            }
         })
         albedoForm.init();
         albedoForm.initSave();

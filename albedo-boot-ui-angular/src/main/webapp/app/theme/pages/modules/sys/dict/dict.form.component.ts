@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core'
-import {CTX} from "../../../../../app.constants"
-import {ActivatedRoute} from "@angular/router"
-import {Dict} from "./dict.model"
-import {DictService} from "./dict.service"
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core'
+import { CTX } from "../../../../../app.constants"
+import { ActivatedRoute } from "@angular/router"
+import { Dict } from "./dict.model"
+import { DictService } from "./dict.service"
 
 @Component({
     selector: ".sys-dict-form.page-form",

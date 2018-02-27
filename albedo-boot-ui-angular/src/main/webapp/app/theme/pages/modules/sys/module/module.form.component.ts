@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core'
-import {CTX} from "../../../../../app.constants"
-import {ActivatedRoute} from "@angular/router"
-import {Module} from "./module.model"
-import {ModuleService} from "./module.service"
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core'
+import { CTX } from "../../../../../app.constants"
+import { ActivatedRoute } from "@angular/router"
+import { Module } from "./module.model"
+import { ModuleService } from "./module.service"
 
 @Component({
     selector: ".sys-module-form.page-form",
@@ -35,7 +35,7 @@ export class ModuleFormComponent implements OnInit, OnDestroy, AfterViewInit {
             this.id = params['id']
             this.moduleService.formData(this.id, params['parentId']).subscribe((data) => {
                 console.log(data)
-                if(data) this.module = data
+                if (data) this.module = data
                 albedoForm.setData("#module-save-form", this.module)
                 this.afterLoad = true
                 this.initForm()
@@ -74,11 +74,11 @@ export class ModuleFormComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     initFormModuleType() {
-        $(".m-content").off("click", "input[name='type']").on("click", "input[name='type']", function (){
+        $(".m-content").off("click", "input[name='type']").on("click", "input[name='type']", function() {
             console.log($(this).val())
-            if($(this).val()=="2"){
+            if ($(this).val() == "2") {
                 $(".permission_item").removeClass("hide").find("input").addClass("required")
-            }else{
+            } else {
                 $(".permission_item").addClass("hide").find("input").removeClass("required")
             }
         })

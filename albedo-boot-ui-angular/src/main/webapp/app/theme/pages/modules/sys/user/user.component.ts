@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, ViewEncapsulation} from '@angular/core'
-import {ScriptLoaderService} from "../../../../../shared/base/service/script-loader.service"
-import {CTX, DATA_STATUS} from "../../../../../app.constants"
-import {ActivatedRoute} from "@angular/router"
-import {Principal} from "../../../../../auth/_services/principal.service"
+import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core'
+import { ScriptLoaderService } from "../../../../../shared/base/service/script-loader.service"
+import { CTX, DATA_STATUS } from "../../../../../app.constants"
+import { ActivatedRoute } from "@angular/router"
+import { Principal } from "../../../../../auth/_services/principal.service"
 
 declare let datatable: any
 @Component({

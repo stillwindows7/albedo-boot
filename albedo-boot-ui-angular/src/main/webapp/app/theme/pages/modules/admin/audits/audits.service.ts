@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Audit } from './audit.model';
-import {createRequestOption, createRequestParams} from "../../../../../shared/base/request.util";
+import { createRequestOption, createRequestParams } from "../../../../../shared/base/request.util";
 
 @Injectable()
-export class AuditsService  {
+export class AuditsService {
     constructor(private http: HttpClient) { }
 
     query(req: any): Observable<HttpResponse<Audit[]>> {

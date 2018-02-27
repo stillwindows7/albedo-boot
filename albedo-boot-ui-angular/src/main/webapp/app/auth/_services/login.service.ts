@@ -27,7 +27,7 @@ export class LoginService {
                     resolve(data)
                 })
                 return cb()
-            }, (err) =>{
+            }, (err) => {
                 console.log(err)
                 this.logout()
                 reject(err)

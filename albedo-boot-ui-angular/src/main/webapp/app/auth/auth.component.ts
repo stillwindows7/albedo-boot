@@ -51,7 +51,7 @@ export class AuthComponent implements OnInit {
         this._router.navigate([this.returnUrl])
 
         this._script.load('body', 'assets/vendors/base/vendors.bundle.js', 'assets/demo/default/base/scripts.bundle.js',
-            'assets/frame/albedo.donation.js',)
+            'assets/frame/albedo.donation.js', )
             .then(() => {
                 Helpers.setLoading(false)
                 LoginCustom.init()

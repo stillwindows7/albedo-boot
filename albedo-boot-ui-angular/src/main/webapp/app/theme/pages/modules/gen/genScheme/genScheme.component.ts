@@ -1,9 +1,9 @@
-import {AfterViewInit, Component, ViewEncapsulation} from '@angular/core'
-import {ScriptLoaderService} from "../../../../../shared/base/service/script-loader.service"
-import {CTX, DATA_STATUS} from "../../../../../app.constants"
-import {Principal} from "../../../../../auth/_services/principal.service"
-import {GenSchemeService} from "./genScheme.service"
-import {Router} from "@angular/router"
+import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core'
+import { ScriptLoaderService } from "../../../../../shared/base/service/script-loader.service"
+import { CTX, DATA_STATUS } from "../../../../../app.constants"
+import { Principal } from "../../../../../auth/_services/principal.service"
+import { GenSchemeService } from "./genScheme.service"
+import { Router } from "@angular/router"
 
 declare let datatable: any
 @Component({
@@ -72,7 +72,7 @@ export class GenSchemeComponent implements AfterViewInit {
                 }, {
                     field: 'lastModifiedDate',
                     title: '修改时间',
-                }, ],
+                },],
         }
         if (thisPrincipal.hasAnyAuthorityDirect(["gen_genScheme_edit", "gen_genScheme_lock", "gen_genScheme_delete"])) {
             options.columns.push({

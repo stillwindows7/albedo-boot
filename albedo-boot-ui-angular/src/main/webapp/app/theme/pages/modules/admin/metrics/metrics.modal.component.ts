@@ -15,7 +15,7 @@ export class MetricsMonitoringModalComponent implements OnInit {
     threadDumpTimedWaiting = 0;
     threadDumpWaiting = 0;
 
-    constructor(public activeModal: NgbActiveModal) {}
+    constructor(public activeModal: NgbActiveModal) { }
 
     ngOnInit() {
         this.threadDump.forEach((value) => {

@@ -1,12 +1,12 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core'
-import {CommonModule} from '@angular/common'
-import {LayoutModule} from "../../../../layouts/layout.module"
-import {RoleComponent} from "./role.component"
-import {AlbedoBootSharedModule} from "../../../../../shared/shared.module"
-import {RoleFormComponent} from "./role.form.component"
-import {RouterModule} from "@angular/router"
-import {RoleService} from "./role.service"
-import {routeChilds} from "../../../../api.routing.module"
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { LayoutModule } from "../../../../layouts/layout.module"
+import { RoleComponent } from "./role.component"
+import { AlbedoBootSharedModule } from "../../../../../shared/shared.module"
+import { RoleFormComponent } from "./role.form.component"
+import { RouterModule } from "@angular/router"
+import { RoleService } from "./role.service"
+import { routeChilds } from "../../../../api.routing.module"
 
 const routesSysRole = [
     {

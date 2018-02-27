@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { PasswordService } from './password.service';
-import {Principal} from "../../../../../auth/_services/principal.service";
-import {MSG_TYPE_SUCCESS} from "../../../../../app.constants";
+import { Principal } from "../../../../../auth/_services/principal.service";
+import { MSG_TYPE_SUCCESS } from "../../../../../app.constants";
 
 @Component({
     selector: 'alb-password.page',
@@ -35,13 +35,13 @@ export class PasswordComponent implements OnInit {
             this.error = "新旧密码不能相同";
         } else {
             this.passwordService.save(this.password, this.oldPassword, this.confirmPassword).subscribe((data) => {
-                if(data&&data.status != MSG_TYPE_SUCCESS){
+                if (data && data.status != MSG_TYPE_SUCCESS) {
                     this.success = null;
                     this.error = data.message;
-                }else{
+                } else {
                     this.success = 'OK';
-                    this.oldPassword= null;
-                    this.password= null;
+                    this.oldPassword = null;
+                    this.password = null;
                     this.confirmPassword = null;
                     this.error = null;
                 }

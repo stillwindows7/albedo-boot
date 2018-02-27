@@ -1,10 +1,10 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core'
-import {AlbedoBootSharedModule} from "../../../../../shared/shared.module";
-import {CommonModule} from "@angular/common";
-import {RouterModule} from "@angular/router";
-import {LayoutModule} from "../../../../layouts/layout.module";
-import {routeChilds} from "../../../../api.routing.module";
-import {DocsComponent} from "./docs.component";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core'
+import { AlbedoBootSharedModule } from "../../../../../shared/shared.module";
+import { CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
+import { LayoutModule } from "../../../../layouts/layout.module";
+import { routeChilds } from "../../../../api.routing.module";
+import { DocsComponent } from "./docs.component";
 
 const routesDocs = [
     {

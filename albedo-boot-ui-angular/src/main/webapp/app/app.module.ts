@@ -1,23 +1,23 @@
-import {BrowserModule} from '@angular/platform-browser'
-import {Injector, NgModule} from '@angular/core'
-import {ThemeComponent} from './theme/theme.component'
-import {LayoutModule} from './theme/layouts/layout.module'
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations"
+import { BrowserModule } from '@angular/platform-browser'
+import { Injector, NgModule } from '@angular/core'
+import { ThemeComponent } from './theme/theme.component'
+import { LayoutModule } from './theme/layouts/layout.module'
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations"
 
-import {AppRoutingModule} from './app.routing.module'
-import {AppComponent} from './app.component'
+import { AppRoutingModule } from './app.routing.module'
+import { AppComponent } from './app.component'
 // import { ThemeRoutingModule } from "./theme/theme.routing.module"
-import {LocalStorageService, Ng2Webstorage, SessionStorageService} from 'ngx-webstorage'
-import {JhiEventManager, NgJhipsterModule} from "ng-jhipster"
-import {AlbedoBootSharedModule} from "./shared/shared.module"
-import {AlbedoBootAuthModule} from "./auth/auth.module"
-import {AlbedoBootEntityModule} from "./theme/pages/entity.module"
-import {ApiRoutingModule} from "./theme/api.routing.module"
-import {HTTP_INTERCEPTORS} from "@angular/common/http";
-import {AuthInterceptor} from "./intercepter/auth.interceptor";
-import {AuthExpiredInterceptor} from "./intercepter/auth-expired.interceptor";
-import {ErrorHandlerInterceptor} from "./intercepter/errorhandler.interceptor";
-import {NotificationInterceptor} from "./intercepter/notification.interceptor";
+import { LocalStorageService, Ng2Webstorage, SessionStorageService } from 'ngx-webstorage'
+import { JhiEventManager, NgJhipsterModule } from "ng-jhipster"
+import { AlbedoBootSharedModule } from "./shared/shared.module"
+import { AlbedoBootAuthModule } from "./auth/auth.module"
+import { AlbedoBootEntityModule } from "./theme/pages/entity.module"
+import { ApiRoutingModule } from "./theme/api.routing.module"
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { AuthInterceptor } from "./intercepter/auth.interceptor";
+import { AuthExpiredInterceptor } from "./intercepter/auth-expired.interceptor";
+import { ErrorHandlerInterceptor } from "./intercepter/errorhandler.interceptor";
+import { NotificationInterceptor } from "./intercepter/notification.interceptor";
 
 @NgModule({
     declarations: [
