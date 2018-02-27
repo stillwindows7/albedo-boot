@@ -4,7 +4,7 @@
 package com.albedo.java.common.repository;
 
 import com.albedo.java.common.data.persistence.repository.BaseRepository;
-import com.albedo.java.common.domain.base.BaseEntity;
+import com.albedo.java.common.data.persistence.BaseEntity;
 
 import java.io.Serializable;
 import java.util.Optional;

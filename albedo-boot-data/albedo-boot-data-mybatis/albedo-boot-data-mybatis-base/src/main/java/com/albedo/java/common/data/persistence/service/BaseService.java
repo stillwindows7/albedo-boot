@@ -44,7 +44,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
     @Autowired
     public Repository repository;
     @Autowired
-    JpaCustomeRepository<T> jpaCustomeRepository;
+    public JpaCustomeRepository<T> jpaCustomeRepository;
     private Class<T> persistentClass;
 
     @SuppressWarnings("unchecked")
@@ -150,7 +150,9 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
         paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_CONDITION, new Object());
         return repository.findOne(false, paramsMap, columns);
     }
-
+    public List<T> findAll() {
+        return repository.findAll();
+    }
     public List<T> findAll(Map<String, Object> paramsMap, String... columns) {
         paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_CONDITION, new Object());
         return repository.findAll(false, paramsMap, columns);
@@ -192,6 +194,35 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
         return orderList;
     }
 
+    private Map<String, Object> convertSpecificationDetailToParamsMap(SpecificationDetail specificationDetail){
+        Map<String, Object> paramsMap = Maps.newHashMap();
+        specificationDetail.setPersistentClass(persistentClass);
+        String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(specificationDetail.getAndQueryConditions(),
+            specificationDetail.getOrQueryConditions(),
+            Lists.newArrayList(DynamicSpecifications.MYBITS_SEARCH_PARAMS_MAP),
+            paramsMap, true);
+        paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_DSF, sqlConditionDsf);
+        paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_CONDITION, new Object());
+        return paramsMap;
+    }
+
+    /**
+     * 动态集合查询
+     *
+     * @param specificationDetail 动态条件对象
+     * @return
+     */
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public Long count(SpecificationDetail specificationDetail) {
+        try {
+            Map<String, Object> paramsMap = convertSpecificationDetailToParamsMap(specificationDetail);
+            return repository.countAll(false, paramsMap);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            Assert.buildException(e.getMessage());
+        }
+        return null;
+    }
 
     /**
      * 动态集合查询
@@ -202,15 +233,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<T> findAll(SpecificationDetail specificationDetail) {
         try {
-            Map<String, Object> paramsMap = Maps.newHashMap();
-            specificationDetail.setPersistentClass(persistentClass);
-            String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(specificationDetail.getAndQueryConditions(),
-                    specificationDetail.getOrQueryConditions(),
-                    Lists.newArrayList(DynamicSpecifications.MYBITS_SEARCH_PARAMS_MAP),
-                    paramsMap, true);
-            paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_DSF, sqlConditionDsf);
-            paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_CONDITION, new Object());
-
+            Map<String, Object> paramsMap = convertSpecificationDetailToParamsMap(specificationDetail);
             return PublicUtil.isNotEmpty(specificationDetail.getOrders()) ?
                     repository.findAll(false, new Sort(toOrders(specificationDetail.getOrders())), paramsMap) :
                     repository.findAll(false, paramsMap);

@@ -1,6 +1,6 @@
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.common.domain.base.DataEntity;
+import com.albedo.java.common.data.persistence.DataEntity;
 import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.common.security.annotaion.RequiresPermissions;
@@ -14,7 +14,6 @@ import com.albedo.java.util.domain.GlobalJedis;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
-import com.albedo.java.vo.sys.ModuleFormVo;
 import com.albedo.java.vo.sys.ModuleVo;
 import com.albedo.java.vo.sys.query.ModuleMenuTreeResult;
 import com.albedo.java.vo.sys.query.ModuleTreeQuery;
@@ -34,7 +33,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 /**
  * REST controller for managing Station.

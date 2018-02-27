@@ -1,6 +1,6 @@
 package com.albedo.java.common.data.persistence.repository;
 
-import com.albedo.java.common.domain.base.BaseEntity;
+import com.albedo.java.common.data.persistence.BaseEntity;
 import com.albedo.java.util.domain.ComboSearch;
 import com.albedo.java.util.domain.ComboData;
 import com.albedo.java.util.domain.PageModel;

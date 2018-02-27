@@ -8,9 +8,11 @@ import com.albedo.java.common.data.persistence.DynamicSpecifications;
 import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.common.data.persistence.repository.BaseRepository;
 import com.albedo.java.common.data.persistence.service.BaseService;
-import com.albedo.java.common.domain.base.DataEntity;
+import com.albedo.java.common.data.persistence.DataEntity;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.base.Assert;
+import com.albedo.java.util.domain.ComboData;
+import com.albedo.java.util.domain.ComboSearch;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
 import org.springframework.transaction.annotation.Transactional;
@@ -115,5 +117,7 @@ public abstract class DataService<Repository extends BaseRepository<T, PK>, T ex
         return findBasePage(pm, specificationDetail, isBasic);
     }
 
-
+    public List<ComboData> findJson(ComboSearch comboSearch) {
+        return jpaCustomeRepository.findJson(comboSearch);
+    }
 }

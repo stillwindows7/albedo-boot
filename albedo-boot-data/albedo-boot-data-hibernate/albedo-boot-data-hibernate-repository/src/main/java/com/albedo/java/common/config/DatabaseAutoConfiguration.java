@@ -1,6 +1,6 @@
 package com.albedo.java.common.config;
 
-import com.albedo.java.common.domain.util.JSR310PersistenceConverters;
+import com.albedo.java.common.data.util.JSR310PersistenceConverters;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

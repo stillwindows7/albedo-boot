@@ -1,8 +1,8 @@
 package com.albedo.java.common.data.persistence.repository.impl;
 
 import com.albedo.java.common.data.persistence.repository.JpaCustomeRepository;
-import com.albedo.java.common.domain.base.BaseEntity;
-import com.albedo.java.common.domain.base.GeneralEntity;
+import com.albedo.java.common.data.persistence.BaseEntity;
+import com.albedo.java.common.data.persistence.GeneralEntity;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.QueryUtil;
 import com.albedo.java.util.base.Reflections;

@@ -1,7 +1,6 @@
 package com.albedo.java.modules.gen.domain;
 
-import com.albedo.java.common.domain.base.IdEntity;
-import com.albedo.java.util.config.SystemConfig;
+import com.albedo.java.common.data.persistence.IdEntity;
 import com.alibaba.fastjson.annotation.JSONField;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.*;

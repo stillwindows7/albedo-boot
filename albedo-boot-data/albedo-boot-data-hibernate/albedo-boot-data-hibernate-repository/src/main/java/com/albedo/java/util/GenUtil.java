@@ -1,8 +1,7 @@
 package com.albedo.java.util;
 
-import com.albedo.java.common.domain.base.DataEntity;
-import com.albedo.java.common.domain.base.TreeEntity;
-import com.albedo.java.modules.gen.domain.GenTableColumn;
+import com.albedo.java.common.data.persistence.DataEntity;
+import com.albedo.java.common.data.persistence.TreeEntity;
 import com.albedo.java.modules.gen.domain.GenTemplate;
 import com.albedo.java.modules.gen.domain.xml.GenCategory;
 import com.albedo.java.modules.gen.domain.xml.GenConfig;

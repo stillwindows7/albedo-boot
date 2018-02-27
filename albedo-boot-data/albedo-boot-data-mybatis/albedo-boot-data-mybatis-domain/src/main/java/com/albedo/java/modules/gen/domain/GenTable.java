@@ -1,6 +1,6 @@
 package com.albedo.java.modules.gen.domain;
 
-import com.albedo.java.common.domain.base.IdEntity;
+import com.albedo.java.common.data.persistence.IdEntity;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.annotation.SearchField;
@@ -28,7 +28,7 @@ import java.util.List;
 public class GenTable extends IdEntity {
 
     public static final String F_NAME = "name";
-    public static final String F_NAMESANDCOMMENTS = "nameAndTitle";
+    public static final String F_NAMESANDTITLE = "nameAndTitle";
     private static final long serialVersionUID = 1L;
     @Column(name = "name_")
     @SearchField

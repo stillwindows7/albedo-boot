@@ -1,7 +1,7 @@
 package com.albedo.java.modules.gen.domain;
 
-import com.albedo.java.common.domain.base.DataEntity;
-import com.albedo.java.common.domain.base.IdEntity;
+import com.albedo.java.common.data.persistence.DataEntity;
+import com.albedo.java.common.data.persistence.IdEntity;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.annotation.SearchField;
@@ -243,7 +243,7 @@ public class GenTable extends IdEntity {
         if ("treeTable".equalsIgnoreCase(getCategory())) {
             importList = Lists.newArrayList("org.apache.commons.lang3.builder.EqualsBuilder", "org.apache.commons.lang3.builder.HashCodeBuilder", "org.apache.commons.lang3.builder.ToStringBuilder",
                     "org.apache.commons.lang3.builder.ToStringStyle", "javax.persistence.Entity", "javax.persistence.Table", "org.hibernate.annotations.Cache", "org.hibernate.annotations.CacheConcurrencyStrategy",
-                    "org.hibernate.annotations.DynamicInsert", "org.hibernate.annotations.DynamicUpdate", "com.albedo.java.common.domain.base.TreeEntity"); // 引用列表
+                    "org.hibernate.annotations.DynamicInsert", "org.hibernate.annotations.DynamicUpdate", "TreeEntity"); // 引用列表
             for (GenTableColumn column : getColumnList()) {
                 if (column.getIsNotBaseTreeField()) {
                     addNoRepeatList(importList, "javax.persistence.Column");
@@ -287,7 +287,7 @@ public class GenTable extends IdEntity {
         } else {
             importList = Lists.newArrayList("org.apache.commons.lang3.builder.EqualsBuilder", "org.apache.commons.lang3.builder.HashCodeBuilder", "org.apache.commons.lang3.builder.ToStringBuilder",
                     "org.apache.commons.lang3.builder.ToStringStyle", "javax.persistence.Entity", "javax.persistence.Table", "javax.persistence.PrePersist", "org.hibernate.annotations.Cache",
-                    "org.hibernate.annotations.CacheConcurrencyStrategy", "org.hibernate.annotations.DynamicInsert", "org.hibernate.annotations.DynamicUpdate", "com.albedo.java.common.domain.base.DataEntity",
+                    "org.hibernate.annotations.CacheConcurrencyStrategy", "org.hibernate.annotations.DynamicInsert", "org.hibernate.annotations.DynamicUpdate", "DataEntity",
                     "com.albedo.java.util.annotation.SearchField"); // 引用列表
             for (GenTableColumn column : getColumnList()) {
                 addNoRepeatList(importList, "javax.persistence.Column");
@@ -325,7 +325,7 @@ public class GenTable extends IdEntity {
                         "org.hibernate.annotations.Where");
             }
             if (getPkJavaType().equals(SystemConfig.TYPE_STRING)) {
-                addNoRepeatList(importList, "com.albedo.java.common.domain.base.pk.IdGen");
+                addNoRepeatList(importList, "IdGen");
             }
             if (isCompositeId()) {
                 addNoRepeatList(importList, "javax.persistence.EmbeddedId");

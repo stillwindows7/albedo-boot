@@ -1,31 +1,24 @@
 package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.common.data.persistence.DynamicSpecifications;
-import com.albedo.java.common.domain.base.BaseEntity;
-import com.albedo.java.common.domain.base.TreeDataEntity;
-import com.albedo.java.common.service.TreeService;
+import com.albedo.java.common.data.persistence.BaseEntity;
 import com.albedo.java.common.service.TreeVoService;
 import com.albedo.java.modules.sys.domain.Module;
-import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.repository.ModuleRepository;
 import com.albedo.java.util.PublicUtil;
-import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.domain.RequestMethod;
 import com.albedo.java.vo.sys.ModuleVo;
-import com.albedo.java.vo.sys.UserVo;
 import com.albedo.java.vo.sys.query.ModuleMenuTreeResult;
 import com.albedo.java.vo.sys.query.ModuleTreeQuery;
 import com.albedo.java.vo.sys.query.TreeResult;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Service class for managing modules.

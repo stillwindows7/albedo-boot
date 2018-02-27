@@ -1,4 +1,4 @@
-package com.albedo.java.web.rest;
+package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.web.rest.vm.LoggerVM;
 

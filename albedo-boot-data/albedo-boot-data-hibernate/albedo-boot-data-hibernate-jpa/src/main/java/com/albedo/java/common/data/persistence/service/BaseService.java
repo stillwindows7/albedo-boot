@@ -1,8 +1,9 @@
 package com.albedo.java.common.data.persistence.service;
 
+import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.common.data.persistence.repository.BaseRepository;
 import com.albedo.java.common.data.persistence.repository.JpaCustomeRepository;
-import com.albedo.java.common.domain.base.BaseEntity;
+import com.albedo.java.common.data.persistence.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,11 @@ public class BaseService<Repository extends BaseRepository<T, PK>, T extends Bas
     public List<T> findAll(){
         return repository.findAll();
     }
+    
+    public long count(SpecificationDetail<T> specificationDetail){
+        return repository.count(specificationDetail);
+    }
+
 
     public Class<T> getPersistentClass() {
         return persistentClass;

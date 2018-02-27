@@ -1,13 +1,12 @@
 package com.albedo.java.modules.sys.domain;
 
-import com.albedo.java.common.domain.base.TreeEntity;
+import com.albedo.java.common.data.persistence.TreeEntity;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.annotation.DictType;
 import com.albedo.java.util.annotation.SearchField;
 import com.albedo.java.util.domain.RequestMethod;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicInsert;

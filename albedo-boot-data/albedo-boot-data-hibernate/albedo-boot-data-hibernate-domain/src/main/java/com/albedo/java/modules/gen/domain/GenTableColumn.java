@@ -1,7 +1,7 @@
 package com.albedo.java.modules.gen.domain;
 
-import com.albedo.java.common.domain.base.IdEntity;
-import com.albedo.java.common.domain.base.TreeEntity;
+import com.albedo.java.common.data.persistence.IdEntity;
+import com.albedo.java.common.data.persistence.TreeEntity;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.config.SystemConfig;

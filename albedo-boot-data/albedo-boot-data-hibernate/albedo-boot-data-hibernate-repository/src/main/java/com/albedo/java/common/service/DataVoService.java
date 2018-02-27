@@ -3,7 +3,7 @@
  */
 package com.albedo.java.common.service;
 
-import com.albedo.java.common.domain.base.DataEntity;
+import com.albedo.java.common.data.persistence.DataEntity;
 import com.albedo.java.common.repository.DataRepository;
 import com.albedo.java.util.BeanVoUtil;
 import com.albedo.java.util.PublicUtil;

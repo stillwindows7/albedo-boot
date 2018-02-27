@@ -9,7 +9,7 @@
  */
 package ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>;
 
-import com.albedo.java.common.domain.base.TreeEntity;
+import TreeEntity;
 import com.albedo.java.util.annotation.DictType;
 import com.albedo.java.util.annotation.SearchField;
 import lombok.AllArgsConstructor;

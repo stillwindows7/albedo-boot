@@ -1,7 +1,7 @@
 package com.albedo.java.common.service;
 
-import com.albedo.java.common.domain.base.BaseEntity;
-import com.albedo.java.common.domain.base.TreeEntity;
+import com.albedo.java.common.data.persistence.BaseEntity;
+import com.albedo.java.common.data.persistence.TreeEntity;
 import com.albedo.java.common.repository.TreeRepository;
 import com.albedo.java.modules.sys.domain.Module;
 import com.albedo.java.util.BeanVoUtil;

@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.exception.RuntimeMsgException;
-import com.albedo.java.common.domain.base.BaseEntity;
+import BaseEntity;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.common.data.mybatis.persistence.SpecificationDetail;
 import com.albedo.java.common.repository.service.BaseService;

@@ -3,8 +3,8 @@
  */
 package com.albedo.java.common.repository;
 
-import com.albedo.java.common.domain.base.BaseEntity;
-import com.albedo.java.common.domain.base.TreeEntity;
+import com.albedo.java.common.data.persistence.BaseEntity;
+import com.albedo.java.common.data.persistence.TreeEntity;
 
 import java.io.Serializable;
 import java.util.List;
