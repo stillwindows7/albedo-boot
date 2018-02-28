@@ -1,6 +1,8 @@
 package com.albedo.java.web.rest;
 
+import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.CustomMessage;
+import com.albedo.java.web.rest.util.PaginationUtil;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,21 +19,22 @@ import java.util.stream.Collectors;
  */
 public class ResultBuilder {
     public static ResponseEntity<CustomMessage> buildOk(String... messages) {
-        return new ResponseEntity(CustomMessage.createSuccess(null, messages), HttpStatus.OK);
+        return new ResponseEntity(CustomMessage.createSuccess( messages), HttpStatus.OK);
     }
 
     public static ResponseEntity<CustomMessage> buildOk(Object data, String... messages) {
-        return new ResponseEntity(CustomMessage.createSuccess(data, messages), HttpStatus.OK);
+        return new ResponseEntity(CustomMessage.createSuccessData(data, messages), HttpStatus.OK);
     }
 
     public static ResponseEntity<CustomMessage> buildFailed(String... messages) {
         return buildFailed(null, messages);
     }
     public static ResponseEntity<CustomMessage> buildFailed(Object data, HttpStatus httpStatus, String... messages) {
-        if (messages == null) {
+        if (PublicUtil.isEmpty(messages)) {
             messages = new String[]{"failed"};
         }
-        return new ResponseEntity(CustomMessage.createWarn(data, messages), httpStatus);
+        return new ResponseEntity(CustomMessage.createWarn(data, messages), httpStatus!=null ? httpStatus : HttpStatus.OK);
+
     }
     public static ResponseEntity<CustomMessage> buildFailed(HttpStatus httpStatus, String... messages) {
 

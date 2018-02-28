@@ -1,10 +1,12 @@
 package com.albedo.java.common.security.service;
 
+import com.albedo.java.common.data.persistence.BaseEntity;
 import com.albedo.java.common.security.*;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
+import com.albedo.java.util.exception.RuntimeMsgException;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,11 +37,10 @@ public class UserDetailsService implements org.springframework.security.core.use
     @Transactional
     public UserDetails loadUserByUsername(final String login) {
         log.debug("Authenticating {}", login);
-        String lowercaseLogin = login.toLowerCase(Locale.ENGLISH);
-        Optional<User> userFromDatabase = userRepository.findOneByLoginId(lowercaseLogin);
+        Optional<User> userFromDatabase = userRepository.findOneByLoginId(login);
         return userFromDatabase.map(user -> {
-            if (!user.getActivated()) {
-                throw new UserNotActivatedException("User " + lowercaseLogin + " was not activated");
+            if (!BaseEntity.FLAG_NORMAL.equals(user.getStatus())) {
+                throw new RuntimeMsgException("用户 " + login + " 登录信息已被锁定");
             }
 
             List<GrantedAuthority> grantedAuthorities = Lists.newArrayList(new SimpleGrantedAuthority("user"));
@@ -53,10 +54,9 @@ public class UserDetailsService implements org.springframework.security.core.use
                     });
                 }
             });
-            return new UserPrincipal(user.getId(), lowercaseLogin,
+            return new UserPrincipal(user.getId(), login,
                     user.getPassword(),
                     grantedAuthorities);
-        }).orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the " +
-                "database"));
+        }).orElseThrow(() -> new RuntimeMsgException("用户 " + login + " 不存在"));
     }
 }

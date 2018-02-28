@@ -178,8 +178,8 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
     }
 
     @Override
-    public void deleteById(List<String> idList) {
-        super.deleteById(idList);
+    public void delete(List<String> idList) {
+        super.delete(idList);
         repository.findAll(idList).forEach(user ->
             cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLoginId()));
     }

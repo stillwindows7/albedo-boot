@@ -169,7 +169,7 @@ public class UserResourceIntTest {
                 null,
                 null,null);
 
-        restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/edit"))
+        restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/"))
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
             .andExpect(status().isOk());
@@ -208,7 +208,7 @@ public class UserResourceIntTest {
                 null,null);
 
         // Create the User
-        restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/edit"))
+        restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/"))
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
                 .andExpect(status().isOk())
@@ -226,7 +226,7 @@ public class UserResourceIntTest {
         // Initialize the database
         userRepository.save(user);
         // Get all the users
-        restUserMockMvc.perform(get(albedoProperties.getAdminPath("/sys/user/page"))
+        restUserMockMvc.perform(get(albedoProperties.getAdminPath("/sys/user/"))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -244,7 +244,7 @@ public class UserResourceIntTest {
         userRepository.save(user);
 
         // Get the user
-        restUserMockMvc.perform(get(albedoProperties.getAdminPath("/sys/user/{login}"), user.getId()))
+        restUserMockMvc.perform(get(albedoProperties.getAdminPath("/sys/user/{id}"), user.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.data.loginId").value(user.getLoginId()))
@@ -288,7 +288,7 @@ public class UserResourceIntTest {
                 null,
                 null,null);
 
-        restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/edit"))
+        restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/"))
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
                 .andExpect(status().isOk())
@@ -332,7 +332,7 @@ public class UserResourceIntTest {
                 null,
                 null,null);
 
-        restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/edit"))
+        restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/"))
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
                 .andExpect(status().isOk())
@@ -365,14 +365,31 @@ public class UserResourceIntTest {
                 Collections3.extractToList(roles, Role.F_ID),
                 null,null,null
                 );
-        restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/edit"))
+        restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/"))
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(Globals.MSG_TYPE_WARNING))
                 .andExpect(jsonPath("$.message").isNotEmpty());
     }
+    @Test
+    @Transactional
+    public void lockOrUnLockUser() throws Exception {
+        // Initialize the database
+        userRepository.save(user);
+        SpecificationDetail<User> spec = DynamicSpecifications.bySearchQueryCondition(
+            QueryCondition.eq(BaseEntity.F_STATUS, BaseEntity.FLAG_NORMAL));
+        long databaseSizeBeforeLock = userService.count(spec);
 
+        // Delete the user
+        restUserMockMvc.perform(put(albedoProperties.getAdminPath("/sys/user/{id}"), user.getId())
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk());
+
+        // Validate the database is empty
+        long databaseSizeAfterLock = userService.count(spec);
+        assertThat(databaseSizeAfterLock == databaseSizeBeforeLock - 1);
+    }
     @Test
     @Transactional
     public void deleteUser() throws Exception {
@@ -383,7 +400,7 @@ public class UserResourceIntTest {
         long databaseSizeBeforeDelete = userService.count(spec);
 
         // Delete the user
-        restUserMockMvc.perform(delete(albedoProperties.getAdminPath("/sys/user/delete/{login}"), user.getId())
+        restUserMockMvc.perform(delete(albedoProperties.getAdminPath("/sys/user/{id}"), user.getId())
                 .accept(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
 

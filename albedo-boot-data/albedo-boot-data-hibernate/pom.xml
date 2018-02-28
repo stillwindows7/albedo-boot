@@ -12,7 +12,7 @@
     <artifactId>albedo-boot-data-hibernate</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>albedo-boot-data-hibernate-domain-base</module>
+        <module>albedo-boot-data-hibernate-base</module>
         <module>albedo-boot-data-hibernate-domain</module>
         <module>albedo-boot-data-hibernate-jpa</module>
         <module>albedo-boot-data-hibernate-repository</module>

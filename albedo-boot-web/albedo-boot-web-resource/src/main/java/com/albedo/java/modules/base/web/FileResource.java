@@ -1,4 +1,4 @@
-package com.albedo.java.modules.sys.web;
+package com.albedo.java.modules.base.web;
 
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.web.rest.ResultBuilder;

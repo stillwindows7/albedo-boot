@@ -25,13 +25,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.data.mybatis.domains.AuditDateAware;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import java.util.Date;
 
 /**
  * Created by songjiawei on 2016/11/9.
@@ -84,15 +82,6 @@ public class TestConfig implements ResourceLoaderAware {
         };
     }
 
-    @Bean
-    public AuditDateAware<Date> auditDateAware() {
-        return new AuditDateAware<Date>() {
-            @Override
-            public Date getCurrentDate() {
-                return new Date();
-            }
-        };
-    }
 
     @Override
     public void setResourceLoader(ResourceLoader resourceLoader) {

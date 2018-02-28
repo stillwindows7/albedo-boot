@@ -7,14 +7,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.data.mybatis.annotations.Entity;
 
 /**
  * 生成方案Entity
  *
  * @version 2013-10-15
  */
-@Entity(table = "gen_scheme_t")
 @Data
 @AllArgsConstructor
 @ToString

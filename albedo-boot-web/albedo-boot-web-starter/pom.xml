@@ -122,11 +122,6 @@
                         <artifactId>maven-war-plugin</artifactId>
                         <configuration>
                             <warSourceDirectory>${basedir}/../../albedo-boot-ui-angular/target/www/app/</warSourceDirectory>
-                            <webResources>
-                                <resource>
-                                    <directory>src/main/webapp</directory>
-                                </resource>
-                            </webResources>
                         </configuration>
                     </plugin>
                 </plugins>

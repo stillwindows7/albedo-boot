@@ -1,4 +1,4 @@
-package com.albedo.java.modules.sys.web;
+package com.albedo.java.modules.base.web;
 
 import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.common.security.SecurityAuthUtil;
@@ -12,7 +12,6 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.base.Assert;
 import com.albedo.java.util.domain.CustomMessage;
 import com.albedo.java.util.domain.Globals;
-import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.account.LoginVo;
 import com.albedo.java.vo.account.PasswordChangeVo;
 import com.albedo.java.vo.sys.UserVo;
@@ -27,6 +26,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -35,13 +35,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.Collections;
 import java.util.Optional;
 
 /**
@@ -104,10 +106,13 @@ public class AccoutResource extends BaseResource {
     @Timed
     public ResponseEntity getAccount() {
         String id = SecurityUtil.getCurrentUserId();
-        Optional<UserVo> userVo = userService.findOneById(id)
-            .map(item -> userService.copyBeanToVo(item));
-        userVo.get().setAuthorities(SecurityUtil.getCurrentUserAuthorities());
-        return ResultBuilder.buildOk(userVo);
+        if(PublicUtil.isNotEmpty(id)){
+            Optional<UserVo> userVo = userService.findOneById(id)
+                .map(item -> userService.copyBeanToVo(item));
+            userVo.get().setAuthorities(SecurityUtil.getCurrentUserAuthorities());
+            return ResultBuilder.buildOk(userVo);
+        }
+        return ResultBuilder.buildFailed("没有数据");
     }
     /**
      * GET  /authenticate : check if the user is authenticated, and return its login.
@@ -120,26 +125,6 @@ public class AccoutResource extends BaseResource {
     public String isAuthenticated(HttpServletRequest request) {
         log.debug("REST request to check if the current user is authenticated");
         return request.getRemoteUser();
-    }
-
-    /**
-     * Object to return as body in JWT Authentication.
-     */
-    static class JWTToken {
-
-        private String idToken;
-
-        JWTToken(String idToken) {
-            this.idToken = idToken;
-        }
-
-        String getIdToken() {
-            return idToken;
-        }
-
-        void setIdToken(String idToken) {
-            this.idToken = idToken;
-        }
     }
 
     @PostMapping("authenticate")
@@ -157,7 +142,7 @@ public class AccoutResource extends BaseResource {
             if(albedoProperties.getHttp().getRestful() ){
                 HttpHeaders httpHeaders = new HttpHeaders();
                 httpHeaders.add(SecurityConstants.AUTHORIZATION_HEADER, jwt);
-                return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
+                return new ResponseEntity<>(CustomMessage.createSuccessData(jwt), httpHeaders, HttpStatus.OK);
             }else{
                 CookieUtil.setCookie(response, SecurityConstants.AUTHORIZATION_HEADER, jwt);
             }
@@ -165,8 +150,7 @@ public class AccoutResource extends BaseResource {
             return ResultBuilder.buildDataOk(jwt);
         } catch (AuthenticationException ae) {
             log.trace("Authentication exception trace: {}", ae);
-
-            return ResultBuilder.buildFailed(HttpStatus.UNAUTHORIZED,"用户名或密码填写有误");
+            return ResultBuilder.buildFailed(HttpStatus.UNAUTHORIZED, ae instanceof BadCredentialsException ? "用户名或密码填写错误" : ae.getMessage());
         }
     }
 

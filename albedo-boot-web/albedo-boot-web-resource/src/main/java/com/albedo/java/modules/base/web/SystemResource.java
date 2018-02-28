@@ -1,4 +1,4 @@
-package com.albedo.java.modules.sys.web;
+package com.albedo.java.modules.base.web;
 
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.config.SystemConfig;

@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.data.mybatis.domains.AuditDateAware;
 import org.springframework.data.repository.query.QueryLookupStrategy.Key;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -45,15 +44,5 @@ public class DatabaseAutoConfiguration {
         };
     }
 
-    @Bean
-    @ConditionalOnMissingClass
-    public AuditDateAware<Date> auditDateAware() {
-        return new AuditDateAware<Date>() {
-            @Override
-            public Date getCurrentDate() {
-                return new Date();
-            }
-        };
-    }
 
 }

@@ -99,7 +99,7 @@ public class AccoutResourceIntTest {
         mockMvc.perform(get("/api/account")
             .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(Globals.ERROR_HTTP_CODE_500));
+                .andExpect(jsonPath("$.status").value(Globals.MSG_TYPE_WARNING));
     }
 
     @Test
@@ -108,14 +108,13 @@ public class AccoutResourceIntTest {
         User user = new User();
         user.setLoginId("user-jwt-controller");
         user.setEmail("user-jwt-controller@example.com");
-        user.setActivated(true);
-        user.setPassword(passwordEncoder.encode("test"));
+        user.setPassword(passwordEncoder.encode("test11"));
 
         userRepository.save(user);
 
         LoginVo login = new LoginVo();
         login.setUsername("user-jwt-controller");
-        login.setPassword("test");
+        login.setPassword("test11");
         mockMvc.perform(post("/api/authenticate")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(login)))
@@ -131,19 +130,18 @@ public class AccoutResourceIntTest {
         user.setLoginId("user-jwt-controller-remember-me");
         user.setEmail("user-jwt-controller-remember-me@example.com");
         user.setActivated(true);
-        user.setPassword(passwordEncoder.encode("test"));
+        user.setPassword(passwordEncoder.encode("test11"));
 
         userRepository.save(user);
 
         LoginVo login = new LoginVo();
         login.setUsername("user-jwt-controller-remember-me");
-        login.setPassword("test");
+        login.setPassword("test11");
         login.setRememberMe(true);
         mockMvc.perform(post("/api/authenticate")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(login)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data").isString())
                 .andExpect(jsonPath("$.data").isNotEmpty());
     }
 
@@ -157,7 +155,7 @@ public class AccoutResourceIntTest {
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(login)))
                 .andExpect(status().isUnauthorized())
-                .andExpect(jsonPath("$.data").doesNotExist());
+                .andExpect(jsonPath("$.data").isEmpty());
     }
 
 }

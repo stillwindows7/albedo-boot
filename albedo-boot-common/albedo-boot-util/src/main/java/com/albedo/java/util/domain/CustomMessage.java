@@ -34,7 +34,7 @@ public class CustomMessage<T> implements Serializable {
         return msgModel;
     }
 
-    public static CustomMessage createSuccess(Object data, String... message) {
+    public static CustomMessage createSuccessData(Object data, String... message) {
         return create(data, Globals.MSG_TYPE_SUCCESS, message);
     }
 
