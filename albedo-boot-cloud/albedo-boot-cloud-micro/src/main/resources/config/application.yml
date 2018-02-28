@@ -42,11 +42,20 @@ ribbon:
 #                isolation:
 #                    thread:
 #                        timeoutInMilliseconds: 10000
+feign:
+    hystrix:
+        enabled: true
+
+hystrix:
+    share-security-context: true
 
 management:
     security:
         roles: ADMIN
     context-path: /management
+    info:
+        git:
+            mode: full
     health:
         mail:
             enabled: false # When using the MailService, configure an SMTP server and set this to true
@@ -54,7 +63,8 @@ spring:
     application:
         name: AlbedoBootCloudMicro
     mvc:
-        throw-exception-if-no-handler-found: true
+        favicon:
+            enabled: false
 #    resources:
 #        add-mappings: false
     profiles:
@@ -79,6 +89,10 @@ spring:
 security:
     basic:
         enabled: false
+server:
+    session:
+        cookie:
+            http-only: true
 
 # ===================================================================
 # Albedo specific properties

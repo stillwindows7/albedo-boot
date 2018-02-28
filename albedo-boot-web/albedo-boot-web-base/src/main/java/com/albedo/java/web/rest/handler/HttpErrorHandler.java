@@ -1,6 +1,8 @@
 package com.albedo.java.web.rest.handler;
 
+import com.albedo.java.web.rest.ResultBuilder;
 import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,8 +21,8 @@ public class HttpErrorHandler implements ErrorController {
      * @return
      */
     @RequestMapping(value = ERROR_PATH, produces = "text/html")
-    public String errorHtml() {
-        return "tip/404";
+    public ResponseEntity errorHtml() {
+        return ResultBuilder.buildFailed("page not find");
     }
 
     /**
@@ -30,8 +32,8 @@ public class HttpErrorHandler implements ErrorController {
      */
     @RequestMapping(value = ERROR_PATH)
     @ResponseBody
-    public Object error() {
-        return "tip/404";
+    public ResponseEntity error() {
+        return ResultBuilder.buildFailed("page not find");
     }
 
     /**
