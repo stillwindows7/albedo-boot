@@ -9,7 +9,7 @@
             "outDir": "target/www/app",
             "assets": [
                 "assets",
-                "favicon.ico"
+                "swagger-ui"
             ],
             "index": "index.html",
             "main": "app/app.main.ts",
