@@ -8,6 +8,7 @@ import { Principal } from "../auth/_services/principal.service"
 import { setActiveItemMenu } from "../shared/base/base.util"
 import { Module } from "./pages/modules/sys/module/module.model";
 import { ModuleService } from "./pages/modules/sys/module/module.service";
+import { DataSystemService } from "../shared/base/service/data.system.service";
 
 declare let mApp: any
 declare let mUtil: any
@@ -22,7 +23,7 @@ export class ThemeComponent implements OnInit {
     private modules: Module[]
 
     constructor(private scriptLoaderService: ScriptLoaderService,
-        private moduleService: ModuleService,
+        private dataSystemService: DataSystemService,
         private router: Router,
         private principal: Principal,
         private localStorage: LocalStorageService,
@@ -32,7 +33,7 @@ export class ThemeComponent implements OnInit {
 
     ngOnInit() {
         var url = window.location.hash.replace("#", "")
-        this.moduleService.data().subscribe(
+        this.dataSystemService.moduleData().subscribe(
             (data: any) => {
                 this.modules = data
                 this.initBreadcrumbs(url)

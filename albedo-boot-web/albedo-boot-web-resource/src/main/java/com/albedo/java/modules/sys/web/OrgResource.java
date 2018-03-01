@@ -36,12 +36,6 @@ import java.util.List;
 @RequestMapping("${albedo.adminPath}/sys/org")
 public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
 
-    @GetMapping(value = "findTreeData")
-    public ResponseEntity findTreeData(@RequestBody OrgTreeQuery orgTreeQuery) {
-        List<TreeResult> treeResultList = service.findTreeData(orgTreeQuery, SecurityUtil.getOrgList());
-        return ResultBuilder.buildOk(treeResultList);
-    }
-
     /**
      * @param pm
      * @return

@@ -5,6 +5,7 @@ import { RoleService } from "./role.service"
 import { Role } from "./role.model"
 import { ModuleService } from "../module/module.service"
 import { OrgService } from "../org/org.service"
+import { DataSystemService } from "../../../../../shared/base/service/data.system.service";
 
 @Component({
     selector: ".sys-role-form.page-form",
@@ -22,8 +23,7 @@ export class RoleFormComponent implements OnInit, OnDestroy, AfterViewInit {
     constructor(
         private router: ActivatedRoute,
         private roleService: RoleService,
-        private moduleService: ModuleService,
-        private orgService: OrgService) {
+        private dataSystemService: DataSystemService) {
         this.ctx = CTX
         this.role = new Role()
 
@@ -113,7 +113,7 @@ export class RoleFormComponent implements OnInit, OnDestroy, AfterViewInit {
             data: { key: { name: 'label' }, simpleData: { enable: true, idKey: 'id', pIdKey: 'pid' } }
         }
 
-        this.moduleService.treeData().subscribe(
+        this.dataSystemService.moduleTreeData().subscribe(
             (data: any) => {
                 // 初始化树结构
                 treeRoleModule = $.fn.mTreeInit($("#treeRoleModule"), setting, data)
@@ -126,7 +126,7 @@ export class RoleFormComponent implements OnInit, OnDestroy, AfterViewInit {
                 })
             }
         )
-        this.orgService.treeData().subscribe((data: any) => {
+        this.dataSystemService.orgTreeData().subscribe((data: any) => {
             // 初始化树结构
             treeRoleOrg = $.fn.mTreeInit($("#treeRoleOrg"), setting, data)
             var nodes = treeRoleOrg.expandAll(true)

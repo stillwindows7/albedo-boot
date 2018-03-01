@@ -7,6 +7,7 @@ import { RoleService } from "../theme/pages/modules/sys/role/role.service";
 import { OrgService } from "../theme/pages/modules/sys/org/org.service";
 import { ModuleService } from "../theme/pages/modules/sys/module/module.service";
 import { DictService } from "../theme/pages/modules/sys/dict/dict.service";
+import { DataSystemService } from "./base/service/data.system.service";
 
 
 @NgModule({
@@ -21,7 +22,7 @@ import { DictService } from "../theme/pages/modules/sys/dict/dict.service";
         UserService,
         RoleService,
         OrgService,
-        ModuleService,
+        DataSystemService,
         DictService
     ],
     entryComponents: [],

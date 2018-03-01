@@ -47,43 +47,6 @@ import java.util.stream.Collectors;
 @RequestMapping("${albedo.adminPath}/sys/dict")
 public class DictResource extends TreeVoResource<DictService, DictVo> {
 
-
-    @GetMapping(value = "findTreeData")
-    @RequiresPermissions("sys_module_view")
-    public ResponseEntity findTreeData(DictTreeQuery dictTreeQuery) {
-        List<DictTreeResult> rs = service.findTreeData(dictTreeQuery, DictUtil.getDictList());
-        return ResultBuilder.buildOk(rs);
-    }
-
-    @GetMapping(value = "findSelectData")
-    public ResponseEntity findSelectData(DictQuerySearch dictQuerySearch) {
-        Map<String, Object> map = Maps.newHashMap();
-        if (PublicUtil.isNotEmpty(dictQuerySearch.getDictQueries())) {
-            List<DictQuery> dictQueries = JSON.parseArray(dictQuerySearch.getDictQueries(), DictQuery.class);
-            dictQueries.forEach(dictQuery -> map.put(StringUtil.toCamelCase(dictQuery.getCode()),
-                DictUtil.getDictList(dictQuery).
-                    stream().map(item -> new SelectResult(item.getVal(), item.getName())).collect(Collectors.toList())));
-        }
-        return ResultBuilder.buildOk(map);
-    }
-    @GetMapping(value = "codes")
-    public ResponseEntity codes(DictQuery dictQuery, ComboSearch comboSearch) {
-
-        List<ComboData> dataList = Lists.newArrayList();
-        if(dictQuery!=null && PublicUtil.isNotEmpty(dictQuery.getCode())){
-            List<Dict> dictList = DictUtil.getDictListFilterVal(dictQuery.getCode(),
-                dictQuery.getFilter());
-            if (PublicUtil.isNotEmpty(dictList)) {
-
-                dictList.forEach(item -> dataList.add(Reflections.createObj(ComboData.class,
-                    Lists.newArrayList(ComboData.F_ID, ComboData.F_NAME), item.getVal(), item.getName())));
-            }
-        }else if(comboSearch !=null){
-            dataList.addAll(service.findJson(comboSearch));
-        }
-        return ResultBuilder.buildOk(dataList);
-    }
-
     /**
      * @param pm
      * @return

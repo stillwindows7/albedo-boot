@@ -44,22 +44,6 @@ public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
     @Resource
     private ModuleService moduleService;
 
-    @GetMapping(value = "data")
-    public ResponseEntity data(ModuleTreeQuery moduleTreeQuery) {
-        List<ModuleVo> rs = moduleService.findMenuDataVo(moduleTreeQuery, SecurityUtil.getModuleList());
-        List<ModuleVo> list = Lists.newArrayList();
-        PublicUtil.sortTreeList(list,  rs, ModuleVo.ROOT_ID, false);
-        return ResultBuilder.buildOk(list);
-    }
-
-
-    @GetMapping(value = "findTreeData")
-    @RequiresPermissions("sys_module_view")
-    public ResponseEntity findTreeData(ModuleTreeQuery moduleTreeQuery) {
-        List<TreeResult> rs = moduleService.findTreeData(moduleTreeQuery, SecurityUtil.getModuleList());
-        return ResultBuilder.buildOk(rs);
-    }
-
     /**
      * @param pm
      * @return

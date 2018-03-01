@@ -26,19 +26,7 @@ export class ModuleService extends DataService<Module> {
         })
     }
 
-    menus(): Observable<any> {
-        return this.data(createRequestOption({ type: 'menu' }))
-    }
 
-    data(params?: any): Observable<any> {
-        return this.http.get(this.resourceUrl + '/data', params)
-            .map((res: any) => res && res.data)
-    }
-
-    treeData(): Observable<any> {
-        return this.http.get(this.resourceUrl + '/findTreeData')
-            .map((res: any) => res && res.data)
-    }
 
 
 

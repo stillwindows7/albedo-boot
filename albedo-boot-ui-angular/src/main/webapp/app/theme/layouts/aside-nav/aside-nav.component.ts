@@ -3,6 +3,7 @@ import { setActiveItemMenu } from "../../../shared/base/base.util"
 import { LocalStorageService } from "ngx-webstorage"
 import { Module } from "../../pages/modules/sys/module/module.model";
 import { ModuleService } from "../../pages/modules/sys/module/module.service";
+import { DataSystemService } from "../../../shared/base/service/data.system.service";
 
 declare let mLayout: any
 @Component({
@@ -17,10 +18,10 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
     private afterViewInit = false
 
     constructor(
-        private moduleService: ModuleService,
+        private dataSystemService: DataSystemService,
         private localStorage: LocalStorageService,
     ) {
-        this.moduleService.menus().subscribe(
+        this.dataSystemService.menus().subscribe(
             (data: Module[]) => {
                 this.menus = data
                 this.initMenuData()

@@ -1,12 +1,12 @@
 /**
  * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
  */
-import {AfterViewInit, Component, ViewEncapsulation} from '@angular/core'
-import {ScriptLoaderService} from "../../../../../shared/base/service/script-loader.service"
-import {CTX, DATA_STATUS} from "../../../../../app.constants"
-import {Principal} from "../../../../../auth/_services/principal.service"
-import {SessionStorageService} from "ngx-webstorage"
-import {TestTree} from "./testTree.model"
+import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core'
+import { ScriptLoaderService } from "../../../../../shared/base/service/script-loader.service"
+import { CTX, DATA_STATUS } from "../../../../../app.constants"
+import { Principal } from "../../../../../auth/_services/principal.service"
+import { SessionStorageService } from "ngx-webstorage"
+import { TestTree } from "./testTree.model"
 
 declare let datatable: any
 @Component({
@@ -22,9 +22,9 @@ export class TestTreeComponent implements AfterViewInit {
     constructor(private _script: ScriptLoaderService,
         private principal: Principal,
         private sessionStorage: SessionStorageService, ) {
-       this.testTree = new TestTree()
-       this.ctx = CTX
-       this.nodeId = sessionStorage.retrieve("tree_testTree_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1
+        this.testTree = new TestTree()
+        this.ctx = CTX
+        this.nodeId = sessionStorage.retrieve("tree_testTree_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1
 
     }
 
@@ -48,31 +48,42 @@ export class TestTreeComponent implements AfterViewInit {
             },
             // columns definition
             columns: [
-                {title: 'name_',field:'name'
-                 ,width: 110,sortable: 'asc',overflow: 'visible',template: function(row) {
-                        return thisPrincipal.hasAnyAuthorityDirectOne("test_testTree_edit") ? ( '<a href="javascript:void(0)" class="m-link dialog-edit" title="编辑"\
-                            \data-method="get"  data-title="编辑【' + row.name + '】" data-url="' + CTX + '/test/testTree/' + row.id + '" data-modal-id="#testTree-edit-modal" title="点击编辑测试树管理">'+row.name+'</a>') : row.name;
-                },},
-                {title: '机构编码',field:'code'
+                {
+                    title: 'name_', field: 'name'
+                    , width: 110, sortable: 'asc', overflow: 'visible', template: function(row) {
+                        return thisPrincipal.hasAnyAuthorityDirectOne("test_testTree_edit") ? ('<a href="javascript:void(0)" class="m-link dialog-edit" title="编辑"\
+                            \data-method="get"  data-title="编辑【' + row.name + '】" data-url="' + CTX + '/test/testTree/' + row.id + '" data-modal-id="#testTree-edit-modal" title="点击编辑测试树管理">' + row.name + '</a>') : row.name;
+                    },
                 },
-                {title: '机构等级',field:'grade'
+                {
+                    title: '机构编码', field: 'code'
                 },
-                {title: '节点类型',field:'isLeaf'
+                {
+                    title: '机构等级', field: 'grade'
                 },
-                {title: '英文',field:'en'
+                {
+                    title: '节点类型', field: 'isLeaf'
                 },
-                {title: '序号',field:'sort'
+                {
+                    title: '英文', field: 'en'
                 },
-                {title: '组织类型',field:'type'
+                {
+                    title: '序号', field: 'sort'
                 },
-                {title: 'status_',field:'status',template: function(row) {
-                    return '<span class="m-badge ' + DATA_STATUS[row.status].class + ' m-badge--wide">' + row.status + '</span>';
-                }},
-                {title: '默认日期',field:'defaultData'
+                {
+                    title: '组织类型', field: 'type'
+                },
+                {
+                    title: 'status_', field: 'status', template: function(row) {
+                        return '<span class="m-badge ' + DATA_STATUS[row.status].class + ' m-badge--wide">' + row.status + '</span>';
+                    }
+                },
+                {
+                    title: '默认日期', field: 'defaultData'
                 },
             ],
         }
-        if(thisPrincipal.hasAnyAuthorityDirect(["test_testTree_edit","test_testTree_lock","test_testTree_delete"])){
+        if (thisPrincipal.hasAnyAuthorityDirect(["test_testTree_edit", "test_testTree_lock", "test_testTree_delete"])) {
             options.columns.push({
                 field: 'Actions',
                 width: 110,
