@@ -1,11 +1,24 @@
 package com.albedo.java.web.rest.handler;
 
 import com.albedo.java.web.rest.ResultBuilder;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.BasicErrorController;
+import org.springframework.boot.autoconfigure.web.ErrorAttributes;
 import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.boot.autoconfigure.web.ErrorProperties;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * Created by somewhere on 2017/3/2.
@@ -13,39 +26,44 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class HttpErrorHandler implements ErrorController {
 
-    private final static String ERROR_PATH = "/error";
 
-    /**
-     * Supports the HTML Error View
-     *
-     * @return
-     */
-    @RequestMapping(value = ERROR_PATH, produces = "text/html")
-    public ResponseEntity errorHtml() {
-        return ResultBuilder.buildFailed("page not find");
+    private static final String PATH = "/error";
+
+    @Autowired
+    private ErrorAttributes errorAttributes;
+
+    @RequestMapping(value = PATH,  produces = {MediaType.APPLICATION_JSON_VALUE})
+    ResponseEntity error(HttpServletRequest request, HttpServletResponse response) {
+        return buildBody(request,true);
+
     }
 
-    /**
-     * Supports other formats like JSON, XML
-     *
-     * @return
-     */
-    @RequestMapping(value = ERROR_PATH)
-    @ResponseBody
-    public ResponseEntity error() {
-        return ResultBuilder.buildFailed("page not find");
+    private ResponseEntity buildBody(HttpServletRequest request,Boolean includeStackTrace){
+        Map<String,Object> errorAttributes = getErrorAttributes(request, includeStackTrace);
+        Integer status=(Integer)errorAttributes.get("status");
+        String path=(String)errorAttributes.get("path");
+        String messageFound=(String)errorAttributes.get("message");
+        String message="";
+        String trace ="";
+        if(!StringUtils.isEmpty(path)){
+            message=String.format("Requested path %s with result %s",path,messageFound);
+        }
+        if(includeStackTrace) {
+            trace = (String) errorAttributes.get("trace");
+            if(!StringUtils.isEmpty(trace)) {
+                message += String.format(" and trace %s", trace);
+            }
+        }
+        return ResultBuilder.buildFailed(HttpStatus.valueOf(status), message);
     }
 
-    /**
-     * Returns the path of the error page.
-     *RunAsManager did not change Authentication object
-     2018-02-27 16:52:38.179 DEBUG 15744 --- [ XNIO-2 task-10] o.s.security.web.FilterChainProxy        : /management/health reached end of additional filter chain; proceeding with original chain
-     2018-02-27 16:52:38.185 DEBUG 15744 --- [ XNIO-2 task-10] o.s.s.w.a.ExceptionTranslationFilter     : Chain processed normally
-     2018-02-27 16:52:38.185 DEBUG 15744 --- [ XNIO-2 task-10] s.s.w.c.SecurityContextPersistenceFilter : SecurityContextHolder now cleared, as request processing completed
-     * @return the error path
-     */
     @Override
     public String getErrorPath() {
-        return ERROR_PATH;
+        return PATH;
+    }
+
+    protected Map<String, Object> getErrorAttributes(HttpServletRequest request, boolean includeStackTrace) {
+        RequestAttributes requestAttributes = new ServletRequestAttributes(request);
+        return errorAttributes.getErrorAttributes(requestAttributes, includeStackTrace);
     }
 }

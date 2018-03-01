@@ -37,15 +37,9 @@ import java.util.List;
 public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
 
     @GetMapping(value = "findTreeData")
-    public ResponseEntity findTreeData(OrgTreeQuery orgTreeQuery) {
+    public ResponseEntity findTreeData(@RequestBody OrgTreeQuery orgTreeQuery) {
         List<TreeResult> treeResultList = service.findTreeData(orgTreeQuery, SecurityUtil.getOrgList());
         return ResultBuilder.buildOk(treeResultList);
-    }
-
-    @GetMapping(value = "/list")
-    @Timed
-    public String list() {
-        return "modules/sys/orgList";
     }
 
     /**
@@ -59,22 +53,6 @@ public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
                 SecurityUtil.getCurrentUserId(), "this", ""));
         JSON json = JsonUtil.getInstance().toJsonObject(pm);
         return ResultBuilder.buildObject(json);
-    }
-
-    @GetMapping(value = "/form")
-    @Timed
-    public String form(OrgVo orgVo) {
-        if (orgVo == null) {
-            throw new RuntimeMsgException(PublicUtil.toAppendStr("查询模块管理失败，原因：无法查找到编号区域"));
-        }
-        if (PublicUtil.isNotEmpty(orgVo.getParentId())) {
-            service.findOptionalTopByParentId(orgVo.getParentId()).ifPresent(item -> orgVo.setSort(item.getSort() + 30));
-            service.findOneById(orgVo.getParentId()).ifPresent(item -> orgVo.setParentName(item.getName()));
-        }
-        if (orgVo.getSort() == null) {
-            orgVo.setSort(30);
-        }
-        return "modules/sys/orgForm";
     }
 
     /**

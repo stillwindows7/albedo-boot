@@ -38,12 +38,6 @@ import java.util.Map;
 @RequestMapping(value = "${albedo.adminPath}/gen/genTable")
 public class GenTableResource extends DataVoResource<GenTableService, GenTableVo> {
 
-    @GetMapping(value = "/list")
-    @Timed
-    public String list(Model model) {
-        model.addAttribute("tableList", FormDirective.convertComboDataList(service.findTableListFormDb(null), GenTable.F_NAME, GenTable.F_NAMESANDTITLE));
-        return "modules/gen/genTableList";
-    }
     @GetMapping(value = "/tableList")
     @Timed
     @RequiresPermissions("gen_genScheme_view")
@@ -70,13 +64,6 @@ public class GenTableResource extends DataVoResource<GenTableService, GenTableVo
         pm = service.findPage(pm, SecurityUtil.dataScopeFilterSql("d", "a"));
         JSON rs = JsonUtil.getInstance().setRecurrenceStr("org_name").toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
-    }
-
-    @GetMapping(value = "/form")
-    public String form(GenTableFormVo genTableFormVo, Model model) {
-        Map<String, Object> map = service.findFormData(genTableFormVo);
-        model.addAllAttributes(map);
-        return "modules/gen/genTableForm";
     }
 
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)

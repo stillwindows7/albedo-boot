@@ -33,19 +33,12 @@ public class Http401UnauthorizedEntryPoint implements AuthenticationEntryPoint {
      * Always returns a 401 error code to the client.
      */
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException arg2)
-            throws IOException,
-            ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException arg2){
 
         log.debug("Pre-authenticated entry point called. Rejecting access");
-        if (albedoProperties.getHttp().getRestful()
-                || albedoProperties.getMicroModel()
-                || RequestUtil.isRestfulRequest(request)) {
-            response.setStatus(HttpStatus.FORBIDDEN.value());
-            BaseResource.writeJsonHttpResponse(CustomMessage.createError("权限不足或登录超时").setCode(HttpStatus.FORBIDDEN), response);
-        } else {
-            response.sendRedirect(PublicUtil.toAppendStr(albedoProperties.getAdminPath(), "/login"));
-        }
+
+        response.setStatus(HttpStatus.FORBIDDEN.value());
+        BaseResource.writeJsonHttpResponse(CustomMessage.createError("权限不足或登录超时").setCode(HttpStatus.FORBIDDEN), response);
 
     }
 }

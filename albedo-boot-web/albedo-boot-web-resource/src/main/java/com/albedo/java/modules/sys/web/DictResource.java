@@ -84,12 +84,6 @@ public class DictResource extends TreeVoResource<DictService, DictVo> {
         return ResultBuilder.buildOk(dataList);
     }
 
-    @GetMapping(value = "/list")
-    @Timed
-    public String list() {
-        return "modules/sys/dictList";
-    }
-
     /**
      * @param pm
      * @return
@@ -101,22 +95,6 @@ public class DictResource extends TreeVoResource<DictService, DictVo> {
         service.findPage(pm);
         JSON rs = JsonUtil.getInstance().setRecurrenceStr("parent_name").toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
-    }
-
-    @GetMapping(value = "/form")
-    @Timed
-    public String form(DictVo dictVo) {
-        if (dictVo == null) {
-            throw new RuntimeMsgException("无法获取字典数据");
-        }
-        if (PublicUtil.isNotEmpty(dictVo.getParentId())) {
-            service.findOptionalTopByParentId(dictVo.getParentId()).ifPresent(item -> dictVo.setSort(item.getSort() + 30));
-            service.findOneById(dictVo.getParentId()).ifPresent(item -> dictVo.setParentName(item.getName()));
-        }
-        if (dictVo.getSort() == null) {
-            dictVo.setSort(30);
-        }
-        return "modules/sys/dictForm";
     }
 
     /**

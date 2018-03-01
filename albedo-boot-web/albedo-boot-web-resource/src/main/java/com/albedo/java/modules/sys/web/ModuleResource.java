@@ -44,12 +44,6 @@ public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
     @Resource
     private ModuleService moduleService;
 
-    @GetMapping(value = "ajaxMenus")
-    public ResponseEntity ajaxMenus(ModuleTreeQuery moduleTreeQuery) {
-        List<ModuleMenuTreeResult> rs = moduleService.findMenuData(moduleTreeQuery, SecurityUtil.getMenuList());
-        return ResultBuilder.buildOk(rs);
-    }
-
     @GetMapping(value = "data")
     public ResponseEntity data(ModuleTreeQuery moduleTreeQuery) {
         List<ModuleVo> rs = moduleService.findMenuDataVo(moduleTreeQuery, SecurityUtil.getModuleList());
@@ -66,16 +60,6 @@ public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
         return ResultBuilder.buildOk(rs);
     }
 
-    @GetMapping(value = "/ico")
-    public String ico() {
-        return "modules/sys/moduleIco";
-    }
-
-    @GetMapping(value = "/list")
-    public String list() {
-        return "modules/sys/moduleList";
-    }
-
     /**
      * @param pm
      * @return
@@ -86,22 +70,6 @@ public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
         pm.setSortDefaultName(Direction.DESC, DataEntity.F_LASTMODIFIEDDATE);
         JSON rs = JsonUtil.getInstance().toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
-    }
-
-    @GetMapping(value = "/formData")
-    @Timed
-    public ResponseEntity formData(ModuleVo moduleVo) {
-        if (moduleVo == null) {
-            throw new RuntimeMsgException(PublicUtil.toAppendStr("查询模块管理失败，原因：无法查找到编号区域"));
-        }
-        if (PublicUtil.isNotEmpty(moduleVo.getParentId())) {
-            moduleService.findOneById(moduleVo.getParentId()).ifPresent(item -> moduleVo.setParentName(item.getName()));
-            moduleService.findOptionalTopByParentId(moduleVo.getParentId()).ifPresent(item -> moduleVo.setSort(item.getSort() + 30));
-        }
-        if (moduleVo.getSort() == null) {
-            moduleVo.setSort(30);
-        }
-        return ResultBuilder.buildOk(moduleVo);
     }
 
     /**

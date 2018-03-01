@@ -18,5 +18,6 @@
         <module>albedo-boot-web-config</module>
         <module>albedo-boot-web-resource</module>
         <module>albedo-boot-web-rest</module>
+        <module>albedo-boot-web-resource-base</module>
     </modules>
 </project>

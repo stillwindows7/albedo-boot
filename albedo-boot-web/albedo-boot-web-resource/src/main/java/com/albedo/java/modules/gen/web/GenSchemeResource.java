@@ -46,12 +46,6 @@ public class GenSchemeResource extends DataVoResource<GenSchemeService, GenSchem
     @Resource
     private ModuleService moduleService;
 
-    @GetMapping(value = "/list")
-    @Timed
-    public String list() {
-        return "modules/gen/genSchemeList";
-    }
-
     /**
      * @param pm
      * @return
@@ -65,16 +59,9 @@ public class GenSchemeResource extends DataVoResource<GenSchemeService, GenSchem
     }
     @GetMapping(value = "/formData")
     @Timed
-    public ResponseEntity formData(GenSchemeVo genSchemeVo) {
+    public ResponseEntity formData(@RequestBody GenSchemeVo genSchemeVo) {
         Map<String, Object> formData = service.findFormData(genSchemeVo, SecurityUtil.getCurrentUser().getLoginId());
         return ResultBuilder.buildOk(formData);
-    }
-    @GetMapping(value = "/form")
-    @Timed
-    public String form(GenSchemeVo genSchemeVo, Boolean isModal, Model model) {
-        Map<String, Object> formData = service.findFormData(genSchemeVo, SecurityUtil.getCurrentUser().getLoginId());
-        model.addAllAttributes(formData);
-        return PublicUtil.toAppendStr("modules/gen/genSchemeForm", isModal ? "Modal" : "");
     }
 
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)

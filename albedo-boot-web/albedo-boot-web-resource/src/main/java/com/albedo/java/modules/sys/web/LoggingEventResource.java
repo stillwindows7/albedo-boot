@@ -30,11 +30,6 @@ public class LoggingEventResource extends BaseResource {
     @Resource
     private LoggingEventService loggingEventService;
 
-    @GetMapping(value = "/list")
-    @Timed
-    public String list() {
-        return "modules/sys/loggingEventList";
-    }
 
     /**
      * @param pm

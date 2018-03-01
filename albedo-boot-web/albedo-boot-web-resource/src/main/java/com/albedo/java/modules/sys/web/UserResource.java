@@ -77,11 +77,6 @@ public class UserResource extends DataVoResource<UserService, UserVo> {
     @Autowired
     private ModuleService moduleService;
 
-    @GetMapping(value = "/list")
-    @Timed
-    public String list() {
-        return "modules/sys/userList";
-    }
 
     /**
      * 分页
@@ -109,15 +104,6 @@ public class UserResource extends DataVoResource<UserService, UserVo> {
         return ResultBuilder.buildOk(SecurityUtil.getModuleList().stream().map(item -> moduleService.copyBeanToVo(item)).collect(Collectors.toList()));
     }
 
-
-
-    @GetMapping(value = "/form", produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-//	@Secured(AuthoritiesConstants.ADMIN)
-    public String form(UserVo userVo, Model model, @RequestParam(required = false) Boolean isModal) {
-        model.addAttribute("allRoles", FormDirective.convertComboDataList(SecurityUtil.getRoleList(), Role.F_ID, Role.F_NAME));
-        return PublicUtil.toAppendStr("modules/sys/userForm", isModal ? "Modal" : "");
-    }
 
     /**
      * 保存

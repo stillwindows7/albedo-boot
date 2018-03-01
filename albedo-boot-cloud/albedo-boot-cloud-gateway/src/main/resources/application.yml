@@ -107,7 +107,7 @@ security:
 
 albedo:
     application: albedoBootCloudGateway
-    adminPath: /a
+    adminPath: /api
     frontPath: /f
     gatewayModel: true
     defaultView:

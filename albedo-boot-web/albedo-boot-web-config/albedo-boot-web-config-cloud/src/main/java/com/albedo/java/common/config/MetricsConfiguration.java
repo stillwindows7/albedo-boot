@@ -1,6 +1,5 @@
 package com.albedo.java.common.config;
 
-
 import com.albedo.java.common.config.metrics.SpectatorLogMetricWriter;
 import com.codahale.metrics.JmxReporter;
 import com.codahale.metrics.JvmAttributeGaugeSet;
@@ -93,18 +92,18 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
             log.info("Initializing Metrics Log reporting");
             Marker metricsMarker = MarkerFactory.getMarker("metrics");
             final Slf4jReporter reporter = Slf4jReporter.forRegistry(metricRegistry)
-                    .outputTo(LoggerFactory.getLogger("metrics"))
-                    .markWith(metricsMarker)
-                    .convertRatesTo(TimeUnit.SECONDS)
-                    .convertDurationsTo(TimeUnit.MILLISECONDS)
-                    .build();
+                .outputTo(LoggerFactory.getLogger("metrics"))
+                .markWith(metricsMarker)
+                .convertRatesTo(TimeUnit.SECONDS)
+                .convertDurationsTo(TimeUnit.MILLISECONDS)
+                .build();
             reporter.start(albedoProperties.getMetrics().getLogs().getReportFrequency(), TimeUnit.SECONDS);
         }
     }
 
     /* Spectator metrics log reporting */
     @Bean
-    @ConditionalOnProperty("jhipster.logging.spectator-metrics.enabled")
+    @ConditionalOnProperty("albedo.logging.spectator-metrics.enabled")
     @ExportMetricReader
     public SpectatorMetricReader spectatorMetricReader(Registry registry) {
         log.info("Initializing Spectator Metrics Log reporting");
@@ -112,7 +111,7 @@ public class MetricsConfiguration extends MetricsConfigurerAdapter {
     }
 
     @Bean
-    @ConditionalOnProperty("jhipster.logging.spectator-metrics.enabled")
+    @ConditionalOnProperty("albedo.logging.spectator-metrics.enabled")
     @ExportMetricWriter
     MetricWriter metricWriter() {
         return new SpectatorLogMetricWriter();

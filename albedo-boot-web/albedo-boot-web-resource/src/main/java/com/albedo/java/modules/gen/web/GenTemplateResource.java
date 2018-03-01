@@ -32,11 +32,6 @@ import java.net.URISyntaxException;
 @RequestMapping(value = "${albedo.adminPath}/gen/genTemplate")
 public class GenTemplateResource extends DataResource<GenTemplateService, GenTemplate> {
 
-    @GetMapping(value = "/list")
-    @Timed
-    public String list() {
-        return "modules/sys/genTemplateList";
-    }
 
     /**
      * @param pm
@@ -50,11 +45,6 @@ public class GenTemplateResource extends DataResource<GenTemplateService, GenTem
         return ResultBuilder.buildObject(rs);
     }
 
-    @GetMapping(value = "/form")
-    @Timed
-    public String form(GenTemplate genTemplate) {
-        return "modules/sys/TemplateForm";
-    }
 
     /**
      * @param genTemplate

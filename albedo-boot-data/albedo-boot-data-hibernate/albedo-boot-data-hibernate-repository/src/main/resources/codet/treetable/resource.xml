@@ -54,14 +54,6 @@ public class ${ClassName}Resource extends TreeVoResource<${ClassName}Service, ${
 		List<TreeResult> treeResultList = service.findTreeData(treeQuery);
 		return ResultBuilder.buildOk(treeResultList);
 	}
-	/**
-	 * GET / : 获取分页界面 ${functionNameSimple}.
-	 *
-	 */
-	@GetMapping(value = "/list")
-	public String list() {
-		return "${lastPackageName}/${viewPrefix}List";
-	}
 
 	/**
 	 * GET / : 获取分页数据源 ${functionNameSimple}.
@@ -75,27 +67,6 @@ public class ${ClassName}Resource extends TreeVoResource<${ClassName}Service, ${
 	    service.findPage(pm, SecurityUtil.dataScopeFilter());
 		JSON json = JsonUtil.getInstance().setRecurrenceStr(<#assign firstListField = true><#list table.columnList as column><#if column.simpleJavaType == "User" || column.simpleJavaType == "Org" || column.simpleJavaType == "Area"><#if !firstListField>, </#if>"<#if column.name == 'created_by'>creator<#elseif column.name == 'last_modified_by'>modifier<#else>${column.simpleJavaField}</#if>_${column.defaultJavaFieldName}"<#assign firstListField = false></#if></#list>).toJsonObject(pm);
 		return ResultBuilder.buildObject(json);
-	}
-
-    /**
-	 * GET / : 保存 a ${functionNameSimple}Vo 页.
-	 *
-	 * @param ${className}Vo
-	 */
-	@GetMapping(value = "/form")
-	@Timed
-	public String form(${ClassName}Vo ${className}Vo) {
-		if (${className}Vo == null) {
-            throw new RuntimeMsgException(PublicUtil.toAppendStr("查询模块管理失败，原因：无法查找到编号区域"));
-        }
-        if (PublicUtil.isNotEmpty(${className}Vo.getParentId())) {
-            service.findOptionalTopByParentId(${className}Vo.getParentId()).ifPresent(item -> ${className}Vo.setSort(item.getSort() + 30));
-            service.findOneById(${className}Vo.getParentId()).ifPresent(item -> ${className}Vo.setParentName(item.getName()));
-        }
-        if (${className}Vo.getSort() == null) {
-            ${className}Vo.setSort(30);
-        }
-		return "${lastPackageName}/${viewPrefix}Form";
 	}
 
 	/**

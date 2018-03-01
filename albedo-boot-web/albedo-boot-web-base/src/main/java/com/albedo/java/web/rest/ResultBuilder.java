@@ -18,6 +18,9 @@ import java.util.stream.Collectors;
  * Created by somewhere on 2017/3/2.
  */
 public class ResultBuilder {
+    public static ResponseEntity<CustomMessage> build(CustomMessage customMessage) {
+        return new ResponseEntity(customMessage, customMessage.getCode() == null ? HttpStatus.OK : customMessage.getCode());
+    }
     public static ResponseEntity<CustomMessage> buildOk(String... messages) {
         return new ResponseEntity(CustomMessage.createSuccess( messages), HttpStatus.OK);
     }
@@ -33,7 +36,10 @@ public class ResultBuilder {
         if (PublicUtil.isEmpty(messages)) {
             messages = new String[]{"failed"};
         }
-        return new ResponseEntity(CustomMessage.createWarn(data, messages), httpStatus!=null ? httpStatus : HttpStatus.OK);
+        CustomMessage warn = CustomMessage.createWarn(data, messages);
+        warn.setCode(httpStatus);
+
+        return new ResponseEntity(warn, httpStatus!=null ? httpStatus : HttpStatus.OK);
 
     }
     public static ResponseEntity<CustomMessage> buildFailed(HttpStatus httpStatus, String... messages) {

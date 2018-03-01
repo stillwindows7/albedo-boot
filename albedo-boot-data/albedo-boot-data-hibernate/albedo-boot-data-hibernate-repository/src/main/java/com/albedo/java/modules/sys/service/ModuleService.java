@@ -1,5 +1,6 @@
 package com.albedo.java.modules.sys.service;
 
+import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.common.data.persistence.DynamicSpecifications;
 import com.albedo.java.common.data.persistence.BaseEntity;
 import com.albedo.java.common.service.TreeVoService;
@@ -16,6 +17,7 @@ import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -26,6 +28,9 @@ import java.util.List;
 @Service
 @Transactional
 public class ModuleService extends TreeVoService<ModuleRepository, Module, String, ModuleVo> {
+
+    @Resource
+    AlbedoProperties albedoProperties;
 
     @Override
     public void copyVoToBean(ModuleVo moduleVo, Module module) {
@@ -81,6 +86,9 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
                     .filter(item->ModuleVo.TYPE_MENU.equals(item.getType()) && item.getParentIds().startsWith(moduleVo.getParentIds()+moduleVo.getId())).count()<1);
                 moduleVo.setMenuTop(ModuleVo.ROOT_ID.equals(moduleVo.getParentId()));
                 moduleVo.setShow(e.isShow());
+                if(albedoProperties.getGatewayModel()){
+                    moduleVo.setMicroservice(e.getMicroservice());
+                }
                 moduleVo.setHref(e.getHref());
                 mapList.add(moduleVo);
             }

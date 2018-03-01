@@ -16,6 +16,7 @@ public class CustomMessage<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int status;
+    private Globals.StatusEmun statusEmun;
     private T data;
     private HttpStatus code;
     private String[] messages = {};
@@ -23,39 +24,39 @@ public class CustomMessage<T> implements Serializable {
     public CustomMessage() {
     }
 
-    public CustomMessage(T data, Integer status, String... messages) {
-        this.status = status;
+    public CustomMessage(T data, Globals.StatusEmun statusEmun, String... messages) {
+        this.setStatusEmun(statusEmun);
         this.messages = messages;
         this.data = data;
     }
 
-    public static CustomMessage create(Object data, int status, String... message) {
-        CustomMessage msgModel = new CustomMessage(data, status, message);
+    public static CustomMessage create(Object data, Globals.StatusEmun statusEmunEmun, String... message) {
+        CustomMessage msgModel = new CustomMessage(data, statusEmunEmun, message);
         return msgModel;
     }
 
     public static CustomMessage createSuccessData(Object data, String... message) {
-        return create(data, Globals.MSG_TYPE_SUCCESS, message);
+        return create(data, Globals.StatusEmun.MSG_TYPE_SUCCESS, message);
     }
 
     public static CustomMessage createSuccess(String... message) {
-        return create(null, Globals.MSG_TYPE_SUCCESS, message);
+        return create(null, Globals.StatusEmun.MSG_TYPE_SUCCESS, message);
     }
 
     public static CustomMessage createWarn(Object data, String... message) {
-        return create(data, Globals.MSG_TYPE_WARNING, message);
+        return create(data, Globals.StatusEmun.MSG_TYPE_WARNING, message);
     }
 
     public static CustomMessage createWarn(String... message) {
-        return create(null, Globals.MSG_TYPE_WARNING, message);
+        return create(null, Globals.StatusEmun.MSG_TYPE_WARNING, message);
     }
 
     public static CustomMessage createError(Object data, String... messages) {
-        return create(data, Globals.MSG_TYPE_ERROR, messages);
+        return create(data, Globals.StatusEmun.MSG_TYPE_ERROR, messages);
     }
 
     public static CustomMessage createError(String... messages) {
-        return create(null, Globals.MSG_TYPE_ERROR, messages);
+        return create(null, Globals.StatusEmun.MSG_TYPE_ERROR, messages);
     }
 
     public String getMessage() {
@@ -68,10 +69,6 @@ public class CustomMessage<T> implements Serializable {
 
     public int getStatus() {
         return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 
     public T getData() {
@@ -101,5 +98,14 @@ public class CustomMessage<T> implements Serializable {
     public CustomMessage setCode(HttpStatus code) {
         this.code = code;
         return this;
+    }
+
+    public void setStatusEmun(Globals.StatusEmun statusEmun) {
+        this.statusEmun = statusEmun;
+        this.status = statusEmun.getStatus();
+    }
+
+    public String getStatusName() {
+        return this.statusEmun.name();
     }
 }

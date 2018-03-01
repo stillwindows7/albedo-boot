@@ -43,17 +43,9 @@ public class AreaResource extends TreeVoResource<AreaService, AreaVo> {
      * @return the ResponseEntity with status 200 (OK) and with body all area
      */
     @GetMapping(value = "findTreeData")
-    public ResponseEntity findTreeData(AreaTreeQuery areaTreeQuery) {
+    public ResponseEntity findTreeData(@RequestBody AreaTreeQuery areaTreeQuery) {
         List<TreeResult> treeResultList = service.findTreeData(areaTreeQuery, SecurityUtil.getAreaList());
         return ResultBuilder.buildOk(treeResultList);
-    }
-
-    /**
-     * GET / : 获取分页界面 区域.
-     */
-    @GetMapping(value = "/list")
-    public String list() {
-        return "modules/sys/areaList";
     }
 
     /**
@@ -68,27 +60,6 @@ public class AreaResource extends TreeVoResource<AreaService, AreaVo> {
         service.findPage(pm, SecurityUtil.dataScopeFilter());
         JSON json = JsonUtil.getInstance().setRecurrenceStr().toJsonObject(pm);
         return ResultBuilder.buildObject(json);
-    }
-
-    /**
-     * GET / : 保存 a 区域Vo 页.
-     *
-     * @param areaVo
-     */
-    @GetMapping(value = "/form")
-    @Timed
-    public String form(AreaVo areaVo) {
-        if (areaVo == null) {
-            throw new RuntimeMsgException(PublicUtil.toAppendStr("查询模块管理失败，原因：无法查找到编号区域"));
-        }
-        if (PublicUtil.isNotEmpty(areaVo.getParentId())) {
-            service.findOptionalTopByParentId(areaVo.getParentId()).ifPresent(item -> areaVo.setSort(item.getSort() + 30));
-            service.findOneById(areaVo.getParentId()).ifPresent(item -> areaVo.setParentName(item.getName()));
-        }
-        if (areaVo.getSort() == null) {
-            areaVo.setSort(30);
-        }
-        return "modules/sys/areaForm";
     }
 
     /**

@@ -10,6 +10,7 @@ import com.albedo.java.modules.sys.service.UserService;
 import com.albedo.java.util.LoginUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.base.Assert;
+import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.domain.CustomMessage;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.vo.account.LoginVo;
@@ -35,10 +36,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -51,7 +49,7 @@ import java.util.Optional;
  *
  * @author somewhere
  */
-@Controller
+@RestController
 @RequestMapping("${albedo.adminPath}/")
 public class AccoutResource extends BaseResource {
 
@@ -67,34 +65,9 @@ public class AccoutResource extends BaseResource {
     private final AuthenticationManager authenticationManager;
 
     public AccoutResource(TokenProvider tokenProvider, AuthenticationManager authenticationManager) {
+        log.warn(PublicUtil.toAppendStr("Abledo_Boot Web [", SystemConfig.get("version"), "] 框架开发版权所有 Copyright(c) 2010-2018\n未经授权非法复制,使用,传播,销售,本公司必究法律责任"));
         this.tokenProvider = tokenProvider;
         this.authenticationManager = authenticationManager;
-    }
-
-
-    /**
-     * 登录成功，进入管理首页
-     */
-    @GetMapping(value = Globals.INDEX_URL)
-    public String index(HttpServletRequest request, Model modele) {
-        User user = SecurityUtil.getCurrentUser();
-        if (PublicUtil.isEmpty(user.getId())) {
-            return PublicUtil.toAppendStr("redirect:", adminPath, "/login");
-        }
-        // 登录成功后，验证码计算器清零
-        LoginUtil.isValidateCodeLogin(request.getSession().getId(), false, true);
-        request.getSession().setAttribute("moduleList", SecurityUtil.getModuleList());
-        modele.addAttribute("loginId", user.getLoginId());
-        return "index";
-    }
-
-    /**
-     * 管理登录
-     */
-    @GetMapping(value = "login")
-    public String login(HttpServletRequest request, Model model) {
-        model.addAttribute("isValidateCodeLogin", LoginUtil.isValidateCodeLogin(request.getSession().getId(), false, false));
-        return "loginPage";
     }
     /**
      * GET  /account : get the current user.
@@ -138,16 +111,11 @@ public class AccoutResource extends BaseResource {
             Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             boolean rememberMe = (loginVo.isRememberMe() == null) ? false : loginVo.isRememberMe();
-            String jwt = "Bearer" + tokenProvider.createToken(authentication, rememberMe);
-            if(albedoProperties.getHttp().getRestful() ){
-                HttpHeaders httpHeaders = new HttpHeaders();
-                httpHeaders.add(SecurityConstants.AUTHORIZATION_HEADER, jwt);
-                return new ResponseEntity<>(CustomMessage.createSuccessData(jwt), httpHeaders, HttpStatus.OK);
-            }else{
-                CookieUtil.setCookie(response, SecurityConstants.AUTHORIZATION_HEADER, jwt);
-            }
-            log.info("{}", jwt);
-            return ResultBuilder.buildDataOk(jwt);
+            String jwt = "Bearer " + tokenProvider.createToken(authentication, rememberMe);
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.add(SecurityConstants.AUTHORIZATION_HEADER, jwt);
+            return new ResponseEntity<>(CustomMessage.createSuccessData(jwt), httpHeaders, HttpStatus.OK);
+
         } catch (AuthenticationException ae) {
             log.trace("Authentication exception trace: {}", ae);
             return ResultBuilder.buildFailed(HttpStatus.UNAUTHORIZED, ae instanceof BadCredentialsException ? "用户名或密码填写错误" : ae.getMessage());
@@ -155,19 +123,15 @@ public class AccoutResource extends BaseResource {
     }
 
     @GetMapping(value = "logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
         CookieUtil.removeCookie(request, response, SecurityConstants.AUTHORIZATION_HEADER);
         request.getSession().invalidate();
-        if (albedoProperties.getHttp().getRestful() || RequestUtil.isRestfulRequest(request)) {
-            writeJsonHttpResponse(ResultBuilder.buildFailed("退出登录成功"), response);
-            return null;
-        } else {
-            return PublicUtil.toAppendStr("redirect:", adminPath, "/login");
-        }
+        return ResultBuilder.buildOk("退出登录成功");
+
     }
     private static boolean checkPasswordLength(String password) {
         return !StringUtils.isEmpty(password) &&

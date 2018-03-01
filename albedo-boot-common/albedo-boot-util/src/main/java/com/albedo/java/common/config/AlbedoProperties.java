@@ -41,7 +41,6 @@ public class AlbedoProperties {
     private String application = "albedo";
     private String jedisKeyPrefix = "";
     private String urlSuffix = ".html";
-    private Boolean microModel = false;
     private Boolean gatewayModel = false;
     private String micorservice;
     private Boolean developMode = true;
@@ -180,17 +179,6 @@ public class AlbedoProperties {
     }
 
     public static class Http {
-
-        private Boolean restful = false;
-        
-        public Boolean getRestful() {
-            return restful;
-        }
-
-        public void setRestful(Boolean restful) {
-            this.restful = restful;
-        }
-
 
         private final AlbedoProperties.Http.Cache cache = new AlbedoProperties.Http.Cache();
         public AlbedoProperties.Http.Version version;

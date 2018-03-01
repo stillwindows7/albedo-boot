@@ -30,7 +30,7 @@ public class JWTFilterTest {
     @Before
     public void setup() {
         AlbedoProperties albedoProperties = new AlbedoProperties();
-        albedoProperties.getHttp().setRestful(true);
+//        albedoProperties.getHttp().setRestful(true);
         tokenProvider = new TokenProvider(albedoProperties);
         ReflectionTestUtils.setField(tokenProvider, "secretKey", "test secret");
         ReflectionTestUtils.setField(tokenProvider, "tokenValidityInMilliseconds", 60000);
@@ -47,7 +47,7 @@ public class JWTFilterTest {
         );
         String jwt = tokenProvider.createToken(authentication, false);
         MockHttpServletRequest request = new MockHttpServletRequest();
-        request.addHeader(SecurityConstants.AUTHORIZATION_HEADER, "Bearer" + jwt);
+        request.addHeader(SecurityConstants.AUTHORIZATION_HEADER, "Bearer " + jwt);
         request.setRequestURI("/api/test");
         MockHttpServletResponse response = new MockHttpServletResponse();
         MockFilterChain filterChain = new MockFilterChain();

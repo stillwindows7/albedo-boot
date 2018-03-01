@@ -42,13 +42,6 @@ public class RoleResource extends DataVoResource<RoleService, RoleVo> {
         return ResultBuilder.buildDataOk(FormDirective.convertComboDataList(SecurityUtil.getRoleList(), Role.F_ID, Role.F_NAME));
     }
 
-
-    @GetMapping(value = "/list")
-    @Timed
-    public String list() {
-        return "modules/sys/roleList";
-    }
-
     /**
      * @param pm
      * @return
@@ -59,13 +52,6 @@ public class RoleResource extends DataVoResource<RoleService, RoleVo> {
         JSON rs = JsonUtil.getInstance().setRecurrenceStr("org_name").toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
     }
-
-    @GetMapping(value = "/form")
-    @Timed
-    public String form(RoleVo roleVo) {
-        return "modules/sys/roleForm";
-    }
-
 
     /**
      * @param roleVo

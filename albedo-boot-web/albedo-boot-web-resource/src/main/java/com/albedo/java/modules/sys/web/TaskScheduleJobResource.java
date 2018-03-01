@@ -34,12 +34,6 @@ import javax.validation.Valid;
 @RequestMapping(value = "${albedo.adminPath}/sys/taskScheduleJob")
 public class TaskScheduleJobResource extends DataVoResource<TaskScheduleJobExcutorService, TaskScheduleJobVo> {
 
-
-    @GetMapping(value = "/list")
-    public String list() {
-        return "modules/sys/taskScheduleJobList";
-    }
-
     /**
      * @param pm
      */
@@ -48,19 +42,6 @@ public class TaskScheduleJobResource extends DataVoResource<TaskScheduleJobExcut
         pm = service.findAll(pm, SecurityUtil.dataScopeFilter());
         JSON rs = JsonUtil.getInstance().setRecurrenceStr().toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
-    }
-
-    /**
-     * @param taskScheduleJobVo
-     * @param model
-     * @return
-     */
-    @GetMapping(value = "/form", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String form(TaskScheduleJobVo taskScheduleJobVo, Model model) {
-        if (taskScheduleJobVo == null) {
-            throw new RuntimeMsgException(PublicUtil.toAppendStr("查询任务调度失败，原因：无法查找到编号为[", request.getParameter("id"), "]的任务调度"));
-        }
-        return "modules/sys/taskScheduleJobForm";
     }
 
     /**
