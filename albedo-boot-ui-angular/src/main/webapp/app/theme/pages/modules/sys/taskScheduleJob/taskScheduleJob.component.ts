@@ -3,6 +3,7 @@ import { ScriptLoaderService } from "../../../../../shared/base/service/script-l
 import { CTX, DATA_STATUS } from "../../../../../app.constants";
 import { ActivatedRoute } from "@angular/router";
 import { Principal } from "../../../../../auth/_services/principal.service";
+import {PublicService} from "../../../../../shared/base/service/public.service";
 
 @Component({
     selector: ".sys-taskScheduleJob-list.page-list",
@@ -11,10 +12,13 @@ import { Principal } from "../../../../../auth/_services/principal.service";
 })
 export class TaskScheduleJobComponent implements AfterViewInit {
 
-    constructor(private _script: ScriptLoaderService,
+    ctx: any
+    constructor(
+        private _script: ScriptLoaderService,
         private router: ActivatedRoute,
-        private principal: Principal) {
-
+        private principal: Principal,
+        private publicService: PublicService) {
+        this.ctx = publicService.getServiceCtx('sys_taskScheduleJob')
     }
 
     ngAfterViewInit() {
@@ -22,7 +26,7 @@ export class TaskScheduleJobComponent implements AfterViewInit {
     }
 
     initTable() {
-        var thisPrincipal = this.principal;
+        var thisPrincipal = this.principal,thisCtx =this.ctx;
         var options = {
             data: {
                 source: {
@@ -85,12 +89,12 @@ export class TaskScheduleJobComponent implements AfterViewInit {
                             \</a>';
                     if (thisPrincipal.hasAnyAuthorityDirectOne("sys_taskScheduleJob_lock"))
                         template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="' + (row.status == "正常" ? "锁定" : "解锁") + '任务调度"\
-                     data-table-id="#data-table-taskScheduleJob" data-method="put"  data-title="你确认要操作【' + row.name + '】任务调度吗？" data-url="' + CTX + '/sys/taskScheduleJob/' + row.id + '">\
+                     data-table-id="#data-table-taskScheduleJob" data-method="put"  data-title="你确认要操作【' + row.name + '】任务调度吗？" data-url="' + thisCtx + '/sys/taskScheduleJob/' + row.id + '">\
                             \<i class="la la-'+ (row.status == "正常" ? "unlock-alt" : "unlock") + '"></i>\
                             \</a>';
                     if (thisPrincipal.hasAnyAuthorityDirectOne("sys_taskScheduleJob_delete"))
                         template += '<a  href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
-                               data-table-id="#data-table-taskScheduleJob" data-method="delete"  data-title="你确认要删除【' + row.name + '】任务调度吗？" data-url="' + CTX + '/sys/taskScheduleJob/' + row.id + '">\
+                               data-table-id="#data-table-taskScheduleJob" data-method="delete"  data-title="你确认要删除【' + row.name + '】任务调度吗？" data-url="' + thisCtx + '/sys/taskScheduleJob/' + row.id + '">\
                             \<i class="la la-trash"></i>\
                             \</a>';
                     return template;

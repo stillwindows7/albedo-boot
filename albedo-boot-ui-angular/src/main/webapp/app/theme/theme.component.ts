@@ -2,13 +2,12 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core'
 import { NavigationEnd, NavigationStart, Router } from '@angular/router'
 import { Helpers } from '../helpers'
 import { ScriptLoaderService } from '../shared/base/service/script-loader.service'
-import { CTX } from "../app.constants"
+import {CTX} from "../app.constants"
 import { LocalStorageService, SessionStorageService } from "ngx-webstorage"
 import { Principal } from "../auth/_services/principal.service"
-import { setActiveItemMenu } from "../shared/base/base.util"
 import { Module } from "./pages/modules/sys/module/module.model";
-import { ModuleService } from "./pages/modules/sys/module/module.service";
 import { DataSystemService } from "../shared/base/service/data.system.service";
+import {PublicService} from "../shared/base/service/public.service";
 
 declare let mApp: any
 declare let mUtil: any
@@ -26,19 +25,14 @@ export class ThemeComponent implements OnInit {
         private dataSystemService: DataSystemService,
         private router: Router,
         private principal: Principal,
-        private localStorage: LocalStorageService,
+        private localStorage: LocalStorageService, private publicService: PublicService,
         private sessionStorage: SessionStorageService) {
 
     }
 
     ngOnInit() {
         var url = window.location.hash.replace("#", "")
-        this.dataSystemService.moduleData().subscribe(
-            (data: any) => {
-                this.modules = data
-                this.initBreadcrumbs(url)
-            }
-        )
+
         // console.log("DefaultComponent")
         this.scriptLoaderService.load('body', 'assets/vendors/base/vendors.bundle.js',
             'assets/vendors/custom/jquery-ztree/js/jquery.ztree.core.js',
@@ -50,6 +44,13 @@ export class ThemeComponent implements OnInit {
             'assets/frame/albedo.list.datatables.js',
             'assets/frame/albedo.donation.js', )
             .then(result => {
+                this.dataSystemService.moduleData().subscribe(
+                    (data: any) => {
+                        this.modules = data;
+                        this.sessionStorage.store("modules",data)
+                        this.initBreadcrumbs(url)
+                    }
+                )
                 Helpers.setLoading(false)
                 // optional js to be loaded once
                 this.scriptLoaderService.load('head', 'assets/vendors/custom/fullcalendar/fullcalendar.bundle.js')
@@ -65,7 +66,6 @@ export class ThemeComponent implements OnInit {
         //     'assets/frame/albedo.form.component.js',
         //     'assets/frame/albedo.list.datatables.js', )
         this.router.events.subscribe((route) => {
-            console.log(route)
             if (route instanceof NavigationStart) {
                 (<any>mLayout).closeMobileAsideMenuOffcanvas();
                 (<any>mLayout).closeMobileHorMenuOffcanvas();
@@ -86,7 +86,7 @@ export class ThemeComponent implements OnInit {
                 }).removeClass(animation).addClass(animation)
                 this.initBreadcrumbs(route.url)
                 this.initData()
-                setActiveItemMenu(this.localStorage)
+                this.publicService.setActiveItemMenu()
             }
         })
 
@@ -112,8 +112,6 @@ export class ThemeComponent implements OnInit {
             thiz.getModules(function(module) {
                 //菜单
                 if (module.type === '1' && (module.url == url || module.url.startsWith(url))) {
-                    console.log(module)
-                    console.log(url)
                     let parentIds = module.parentIds.split(",");
                     title = module.name
                     parentIds.forEach(function(item) {

@@ -224,6 +224,7 @@ var albedoForm = function () {
             });
 
         }
+        console.log(albedo)
         if(albedo.getToken()){
             refreshTree();
         }else{
@@ -1028,7 +1029,7 @@ var albedoForm = function () {
                 if (doValidation($form)) {
                     mApp.confirm({
                         content: "您确定要提交表单数据吗？",
-                        width: null, // "append" or "prepend" in container
+                        width: null, //
                         confirm: function () {
                             $target.find(".save").trigger("click");
                         }

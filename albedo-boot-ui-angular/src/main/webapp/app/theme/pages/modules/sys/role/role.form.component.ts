@@ -6,6 +6,7 @@ import { Role } from "./role.model"
 import { ModuleService } from "../module/module.service"
 import { OrgService } from "../org/org.service"
 import { DataSystemService } from "../../../../../shared/base/service/data.system.service";
+import {PublicService} from "../../../../../shared/base/service/public.service";
 
 @Component({
     selector: ".sys-role-form.page-form",
@@ -23,8 +24,9 @@ export class RoleFormComponent implements OnInit, OnDestroy, AfterViewInit {
     constructor(
         private router: ActivatedRoute,
         private roleService: RoleService,
-        private dataSystemService: DataSystemService) {
-        this.ctx = CTX
+        private dataSystemService: DataSystemService,
+        private publicService: PublicService) {
+        this.ctx = publicService.getServiceCtx('sys_role')
         this.role = new Role()
 
     }
@@ -51,8 +53,6 @@ export class RoleFormComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        // this._script.load('.sys-role-list',
-        //     'assets/demo/default/custom/components/datatables/base/data-ajax.js')
         this.afterViewInit = true
         this.initForm()
     }
@@ -60,11 +60,10 @@ export class RoleFormComponent implements OnInit, OnDestroy, AfterViewInit {
     initForm() {
         if (!this.afterViewInit || !this.afterLoad) return
 
-        var roleId = this.role.id
+        var roleId = this.role.id,thisCtx =this.ctx
         albedoForm.initValidate($("#role-save-form"), {
-            // define validation rules
             rules: {
-                name: { remote: CTX + '/sys/role/checkByProperty?_statusFalse&id=' + encodeURIComponent(roleId) },
+                name: { remote: thisCtx + '/sys/role/checkByProperty?_statusFalse&id=' + encodeURIComponent(roleId) },
             },
             messages: {
                 name: { message: '角色已存在' },

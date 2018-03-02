@@ -56,10 +56,10 @@ albedo:
     application: albedoBootWebApp
     adminPath: /api
     frontPath: /f
-    defaultView: redirect:/index.html
+    defaultView:
     staticFileDirectory: D:/temp/files/
     urlSuffix: html
-    cluster: false
+    cluster: true
     quartzEnabled: true
     async:
         corePoolSize: 2
@@ -75,7 +75,7 @@ albedo:
     mail:
         from: albedoBootWebApp@localhost
     swagger:
-        default-include-pattern: /.*
+        default-include-pattern: ${albedo.adminPath}/.*
         title: albedoBootWebApp API
         description: albedoBootWebApp API documentation
         version: 0.0.1

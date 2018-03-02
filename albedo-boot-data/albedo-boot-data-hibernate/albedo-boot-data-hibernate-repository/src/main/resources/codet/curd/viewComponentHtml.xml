@@ -121,7 +121,7 @@
                     <!--begin::Form-->
                     <form class="m-form m-form--fit m-form--label-align-right form-validation" action="{{ctx}}/${urlPrefix}/" method="post" id="${className}-save-form" config="{
                         rules:{<#list table.columnList as column><#if column.unique && !column.pk>
-                            ${column.simpleJavaField}: {remote: albedo.getCtx()+'/${urlPrefix}/checkByProperty?id=' + encodeURIComponent(albedo.toStr($('#${className}-save-form').find('#id').val()))}<#if column_has_next>,</#if></#if></#list>
+                            ${column.simpleJavaField}: {remote: albedo.getCtx('${permissionPrefix}')+'/${urlPrefix}/checkByProperty?id=' + encodeURIComponent(albedo.toStr($('#${className}-save-form').find('#id').val()))}<#if column_has_next>,</#if></#if></#list>
                         },
                         messages:{<#list table.columnList as column><#if column.unique && !column.pk>
                             ${column.simpleJavaField}: {remote: '${column.title }已存在'}<#if column_has_next>,</#if></#if></#list>

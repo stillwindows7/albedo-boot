@@ -4,6 +4,7 @@ import { CTX, DATA_STATUS } from "../../../../../app.constants"
 import { Principal } from "../../../../../auth/_services/principal.service"
 import { SessionStorageService } from "ngx-webstorage"
 import { Org } from "./org.model"
+import {PublicService} from "../../../../../shared/base/service/public.service";
 
 declare let datatable: any
 @Component({
@@ -17,10 +18,12 @@ export class OrgComponent implements AfterViewInit {
     ctx: any
     nodeId: any
     org: Org
-    constructor(private _script: ScriptLoaderService,
+    constructor(
+        private _script: ScriptLoaderService,
         private principal: Principal,
-        private sessionStorage: SessionStorageService, ) {
-        this.ctx = CTX
+        private sessionStorage: SessionStorageService,
+        private publicService: PublicService) {
+        this.ctx = publicService.getServiceCtx('sys_org')
         this.org = new Org()
         this.nodeId = sessionStorage.retrieve("tree_org_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1
 
@@ -31,7 +34,7 @@ export class OrgComponent implements AfterViewInit {
     }
 
     initTable() {
-        var thisPrincipal = this.principal
+        var thisPrincipal = this.principal,thisCtx =this.ctx
         var options = {
 
             data: {
@@ -39,7 +42,7 @@ export class OrgComponent implements AfterViewInit {
                     read: {
                         // sample GET method
                         method: 'GET',
-                        url: CTX + '/sys/org/',
+                        url: thisCtx + '/sys/org/',
                     },
                 },
                 pageSize: 10,
@@ -87,17 +90,17 @@ export class OrgComponent implements AfterViewInit {
 
                     if (thisPrincipal.hasAnyAuthorityDirectOne("sys_org_edit"))
                         template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill dialog-edit" title="编辑"\
-                                \data-method="get"  data-title="编辑【' + row.name + '】机构" data-url="' + CTX + '/sys/org/' + row.id + '" data-modal-id="#org-edit-modal">\
+                                \data-method="get"  data-title="编辑【' + row.name + '】机构" data-url="' + thisCtx + '/sys/org/' + row.id + '" data-modal-id="#org-edit-modal">\
                                 \<i class="la la-edit"></i>\
                                 \</a>'
                     if (thisPrincipal.hasAnyAuthorityDirectOne("sys_org_lock"))
                         template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="' + (row.status == "正常" ? "锁定" : "解锁") + '机构"\
-						    data-method="put"  data-title="你确认要操作【' + row.name + '】机构吗？" data-url="' + CTX + '/sys/org/' + row.id + '">\
+						    data-table-id="#data-table-org" data-method="put"  data-title="你确认要操作【' + row.name + '】机构吗？" data-url="' + thisCtx + '/sys/org/' + row.id + '">\
                                 \<i class="la la-'+ (row.status == "正常" ? "unlock-alt" : "unlock") + '"></i>\
                                 \</a>'
                     if (thisPrincipal.hasAnyAuthorityDirectOne("sys_org_delete"))
                         template += '<a  href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
-                                   data-table-id="#data-table-org" data-method="delete"  data-title="你确认要删除【' + row.name + '】机构吗？" data-url="' + CTX + '/sys/org/' + row.id + '">\
+                                   data-table-id="#data-table-org" data-method="delete"  data-title="你确认要删除【' + row.name + '】机构吗？" data-url="' + thisCtx + '/sys/org/' + row.id + '">\
                                 \<i class="la la-trash"></i>\
                                 \</a>'
                     return template
@@ -113,8 +116,8 @@ export class OrgComponent implements AfterViewInit {
         albedoForm.initValidate($("#org-save-form"), {
             // define validation rules
             rules: {
-                name: { remote: CTX + '/sys/org/checkByProperty?_statusFalse&id=' + encodeURIComponent(albedo.toStr($("#org-save-form").find("input[name='id']").val())) },
-                code: { remote: CTX + '/sys/org/checkByProperty?_statusFalse&id=' + encodeURIComponent(albedo.toStr($("#org-save-form").find("input[name='id']").val())) },
+                name: { remote: thisCtx + '/sys/org/checkByProperty?_statusFalse&id=' + encodeURIComponent(albedo.toStr($("#org-save-form").find("input[name='id']").val())) },
+                code: { remote: thisCtx + '/sys/org/checkByProperty?_statusFalse&id=' + encodeURIComponent(albedo.toStr($("#org-save-form").find("input[name='id']").val())) },
             },
             messages: {
                 name: { message: '机构已存在' },

@@ -105,10 +105,10 @@ albedo:
     micorservice: albedobootcloudmicro
     microModel: true
     frontPath: /f
-    defaultView: redirect:/swagger-ui/index.html
+    defaultView: /swagger-ui/index.html
     staticFileDirectory: D:/temp/files/
     urlSuffix: html
-    cluster: false
+    cluster: true
     quartzEnabled: true
     async:
         corePoolSize: 2

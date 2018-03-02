@@ -22,7 +22,7 @@
 <div class="m-content">
     <div class="row">
         <div class="col-xl-2">
-            <alb-tree-show id="org_" title="组织机构" [selectNodeId]="nodeId" url="{{ctx}}/sys/org/findTreeData?all"
+            <alb-tree-show id="org_" title="组织机构" [selectNodeId]="nodeId" url="{{ctx}}/dataSystem/org/findTreeData?all"
             [clickNodeFn]="clickTreeNodeOrg" allowCancelSelect="true" [cancelClickNodeFn]="cancelClickNodeOrg" nodesLevel="1" >
             </alb-tree-show>
     </div>
@@ -37,8 +37,8 @@
                         </div>
                     </div>
                     <div class="m-portlet__head-tools">
-                        <a  *ngIf="this.principal.hasAnyAuthorityDirectOne('sys_org_edit')" href="javascript:void(0)" id="btn-edit-org" title="添加机构" data-modal-id="#org-edit-modal"
-                           class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill dialog-add">
+                        <a  *ngIf="this.principal.hasAnyAuthorityDirectOne('sys_org_edit')" href="javascript:void(0)" id="btn-edit-org" title="添加机构" data-modal-id="#org-edit-modal" [attr.data-url]="ctx+'/sys/org/formData?parentId='+nodeId"
+                           class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill dialog-edit">
                             <i class="la la-plus"></i>
                         </a>
                     </div>
@@ -132,7 +132,7 @@
                                                      cssClass="required" allowClear="true" name="parentId"
                                                      value="{{org.parentId}}" labelName="parentName"
                                                      labelValue="{{org.parentName}}" title="上级组织"
-                                                     url="{{ctx}}/sys/org/findTreeData" ></alb-tree-select>
+                                                     url="{{ctx}}/dataSystem/org/findTreeData" ></alb-tree-select>
 
                                 </div>
                             </div>

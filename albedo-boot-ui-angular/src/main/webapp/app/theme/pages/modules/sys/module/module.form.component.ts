@@ -3,6 +3,7 @@ import { CTX } from "../../../../../app.constants"
 import { ActivatedRoute } from "@angular/router"
 import { Module } from "./module.model"
 import { ModuleService } from "./module.service"
+import {PublicService} from "../../../../../shared/base/service/public.service";
 
 @Component({
     selector: ".sys-module-form.page-form",
@@ -19,17 +20,14 @@ export class ModuleFormComponent implements OnInit, OnDestroy, AfterViewInit {
     private afterLoad = false
     constructor(
         private router: ActivatedRoute,
-        private moduleService: ModuleService) {
-        this.ctx = CTX
+        private moduleService: ModuleService,
+        private publicService: PublicService) {
+        this.ctx = publicService.getServiceCtx('sys_module')
         this.module = new Module()
 
     }
 
     ngOnInit() {
-        this.router.queryParams.subscribe((params) => {
-            console.log(params)
-
-        });
         this.routerSub = this.router.params.subscribe((params) => {
             console.log(params)
             this.id = params['id']
@@ -48,8 +46,6 @@ export class ModuleFormComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        // this._script.load('.sys-module-list',
-        //     'assets/demo/default/custom/components/datatables/base/data-ajax.js')
         this.afterViewInit = true
         this.initForm()
     }
@@ -57,11 +53,11 @@ export class ModuleFormComponent implements OnInit, OnDestroy, AfterViewInit {
     initForm() {
         if (!this.afterViewInit || !this.afterLoad) return
 
-        var moduleId = this.module.id
+        var moduleId = this.module.id,thisCtx =this.ctx
         albedoForm.initValidate($("#module-save-form"), {
             // define validation rules
             rules: {
-                permission: { remote: CTX + '/sys/module/checkByProperty?_statusFalse&id=' + encodeURIComponent(moduleId) },
+                permission: { remote: thisCtx + '/sys/module/checkByProperty?_statusFalse&id=' + encodeURIComponent(moduleId) },
             },
             messages: {
                 permission: { message: '权限已存在' },

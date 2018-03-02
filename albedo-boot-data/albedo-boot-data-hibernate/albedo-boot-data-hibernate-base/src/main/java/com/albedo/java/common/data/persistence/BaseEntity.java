@@ -2,6 +2,7 @@ package com.albedo.java.common.data.persistence;
 
 import com.albedo.java.util.annotation.DictType;
 import com.albedo.java.util.annotation.SearchField;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.Column;

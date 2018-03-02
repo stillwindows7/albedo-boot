@@ -56,7 +56,7 @@ albedo:
     application: albedoBootWebRest
     adminPath: /api
     frontPath: /f
-    defaultView: redirect:/swagger-ui/index.html
+    defaultView: index.html
     staticFileDirectory: D:/temp/files/
     urlSuffix: html
     cluster: false
@@ -75,7 +75,7 @@ albedo:
     mail:
         from: albedoBootWebRest@localhost
     swagger:
-        default-include-pattern: /.*
+        default-include-pattern: ${albedo.adminPath}/.*
         title: albedoBootWebRest API
         description: albedoBootWebRest API documentation
         version: 0.0.1

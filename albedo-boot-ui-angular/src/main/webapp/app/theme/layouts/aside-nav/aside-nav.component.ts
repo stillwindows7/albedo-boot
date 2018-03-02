@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core'
-import { setActiveItemMenu } from "../../../shared/base/base.util"
+
 import { LocalStorageService } from "ngx-webstorage"
 import { Module } from "../../pages/modules/sys/module/module.model";
 import { ModuleService } from "../../pages/modules/sys/module/module.service";
 import { DataSystemService } from "../../../shared/base/service/data.system.service";
+import {PublicService} from "../../../shared/base/service/public.service";
 
 declare let mLayout: any
 @Component({
@@ -19,7 +20,7 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
 
     constructor(
         private dataSystemService: DataSystemService,
-        private localStorage: LocalStorageService,
+        private publicService: PublicService,
     ) {
         this.dataSystemService.menus().subscribe(
             (data: Module[]) => {
@@ -55,10 +56,10 @@ export class AsideNavComponent implements OnInit, AfterViewInit {
                 })
             }
         })
-        var thisLocalStorage = this.localStorage
+        var thisPublicService = this.publicService
         setTimeout(function() {
             mLayout.initAside()
-            setActiveItemMenu(thisLocalStorage)
+            thisPublicService.setActiveItemMenu()
         }, 100)
     }
 

@@ -4,6 +4,7 @@ import { ActivatedRoute } from "@angular/router"
 import { UserService } from "./user.service"
 import { User } from "./user.model"
 import { Helpers } from "../../../../../helpers";
+import {PublicService} from "../../../../../shared/base/service/public.service";
 
 @Component({
     selector: ".sys-user-form.page-form",
@@ -20,8 +21,9 @@ export class UserFormComponent implements AfterViewInit {
     private afterLoad = false
     constructor(
         private activatedRoute: ActivatedRoute,
-        private userService: UserService) {
-        this.ctx = CTX
+        private userService: UserService,
+        private publicService: PublicService) {
+        this.ctx = publicService.getServiceCtx('sys_user')
         this.user = new User()
         this.routeData = this.activatedRoute.params.subscribe((params) => {
             this.id = params['id']
@@ -48,11 +50,11 @@ export class UserFormComponent implements AfterViewInit {
     initForm() {
         if (!this.afterViewInit || !this.afterLoad) return
 
-        var userId = this.user.id
+        var userId = this.user.id,thisCtx =this.ctx
         albedoForm.initValidate($("#user-save-form"), {
             // define validation rules
             rules: {
-                loginId: { remote: CTX + '/sys/user/checkByProperty?_statusFalse&id=' + encodeURIComponent(userId) },
+                loginId: { remote: thisCtx + '/sys/user/checkByProperty?_statusFalse&id=' + encodeURIComponent(userId) },
                 status: { required: true },
                 roleIdList: { required: true },
             },

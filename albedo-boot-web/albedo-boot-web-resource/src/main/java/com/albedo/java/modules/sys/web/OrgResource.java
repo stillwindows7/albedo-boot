@@ -11,8 +11,6 @@ import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.sys.OrgVo;
-import com.albedo.java.vo.sys.query.OrgTreeQuery;
-import com.albedo.java.vo.sys.query.TreeResult;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.TreeVoResource;
 import com.alibaba.fastjson.JSON;
@@ -25,7 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * REST controller for managing Station.
@@ -48,7 +45,21 @@ public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
         JSON json = JsonUtil.getInstance().toJsonObject(pm);
         return ResultBuilder.buildObject(json);
     }
-
+    @GetMapping(value = "/formData")
+    @Timed
+    public ResponseEntity formData(OrgVo orgVo) {
+        if (orgVo == null) {
+            throw new RuntimeMsgException(PublicUtil.toAppendStr("查询失败，原因：无法查找到编号组织"));
+        }
+        if (PublicUtil.isNotEmpty(orgVo.getParentId())) {
+            service.findOneById(orgVo.getParentId()).ifPresent(item -> orgVo.setParentName(item.getName()));
+            service.findOptionalTopByParentId(orgVo.getParentId()).ifPresent(item -> orgVo.setSort(item.getSort() + 30));
+        }
+        if (orgVo.getSort() == null) {
+            orgVo.setSort(30);
+        }
+        return ResultBuilder.buildOk(orgVo);
+    }
     /**
      * @param orgVo
      * @return

@@ -42,6 +42,10 @@ declare var albedo: Albedo
 interface Albedo {
     setCtx(ctx: any): void
 
+    setGatewayModel(gatewayModel: any): void
+
+    getGatewayModel(): boolean
+
     setToken(token: any): void
 
     setUserCookie(key: string, value: any): void

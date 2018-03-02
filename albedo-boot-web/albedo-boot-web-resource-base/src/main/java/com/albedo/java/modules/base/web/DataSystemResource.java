@@ -2,6 +2,7 @@ package com.albedo.java.modules.base.web;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
+import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.common.security.annotaion.RequiresPermissions;
 import com.albedo.java.modules.sys.domain.Dict;
@@ -43,11 +44,13 @@ public class DataSystemResource {
     private ModuleService moduleService;
     private DictService dictService;
     private OrgService orgService;
+    private AlbedoProperties albedoProperties;
 
-    public DataSystemResource(ModuleService moduleService, DictService dictService, OrgService orgService) {
+    public DataSystemResource(ModuleService moduleService, DictService dictService, OrgService orgService,AlbedoProperties albedoProperties) {
         this.moduleService = moduleService;
         this.dictService = dictService;
         this.orgService = orgService;
+        this.albedoProperties = albedoProperties;
     }
 
     @GetMapping(value = "module/data")
@@ -55,7 +58,10 @@ public class DataSystemResource {
         List<ModuleVo> rs = moduleService.findMenuDataVo(moduleTreeQuery, SecurityUtil.getModuleList());
         List<ModuleVo> list = Lists.newArrayList();
         PublicUtil.sortTreeList(list,  rs, ModuleVo.ROOT_ID, false);
-        return ResultBuilder.buildOk(list);
+        Map<String, Object> rsMap = Maps.newHashMap();
+        rsMap.put("gatewayModel",albedoProperties.getGatewayModel());
+        rsMap.put("moduleList",list);
+        return ResultBuilder.buildOk(rsMap);
     }
 
     @GetMapping(value = "module/findTreeData")
@@ -101,7 +107,7 @@ public class DataSystemResource {
         return ResultBuilder.buildOk(dataList);
     }
     @GetMapping(value = "org/findTreeData")
-    public ResponseEntity findTreeData(@RequestBody OrgTreeQuery orgTreeQuery) {
+    public ResponseEntity findTreeData(OrgTreeQuery orgTreeQuery) {
         List<TreeResult> treeResultList = orgService.findTreeData(orgTreeQuery, SecurityUtil.getOrgList());
         return ResultBuilder.buildOk(treeResultList);
     }

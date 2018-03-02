@@ -4,8 +4,9 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { CTX } from "../../../../../app.constants";
 import { ActivatedRoute } from "@angular/router";
-import { TestBook } from "./testBook.model";
-import { TestBookService } from "./testBook.service";
+import {TestBook} from "./testBook.model";
+import {TestBookService} from "./testBook.service";
+import {PublicService} from "../../../../../shared/base/service/public.service";
 
 @Component({
     selector: ".test-testBook-form.page-form",
@@ -22,8 +23,9 @@ export class TestBookFormComponent implements AfterViewInit {
     private afterLoad = false;
     constructor(
         private activatedRoute: ActivatedRoute,
-        private testBookService: TestBookService) {
-        this.ctx = CTX;
+        private testBookService: TestBookService,
+        private publicService: PublicService) {
+        this.ctx = publicService.getServiceCtx('test_testBook')
         this.testBook = new TestBook();
         this.routeData = this.activatedRoute.params.subscribe((params) => {
             this.id = params['id'];
@@ -50,15 +52,15 @@ export class TestBookFormComponent implements AfterViewInit {
     initForm() {
         if (!this.afterViewInit || !this.afterLoad) return;
 
-        var testBookId = this.testBook.id;
+        var testBookId = this.testBook.id,thisCtx =this.ctx
         albedoForm.initValidate($("#testBook-save-form"), {
             // define validation rules
-            rules: {
-                email: { remote: CTX + '/test/testBook/checkByProperty?id=' + testBookId },
-            },
-            messages: {
-                email: { remote: '邮箱已存在' },
-            }
+            rules:{
+				email: {remote: thisCtx + '/test/testBook/checkByProperty?id=' + testBookId},
+			},
+            messages:{
+				email: {remote: '邮箱已存在'},
+			}
         })
         albedoForm.init();
         albedoForm.initSave();

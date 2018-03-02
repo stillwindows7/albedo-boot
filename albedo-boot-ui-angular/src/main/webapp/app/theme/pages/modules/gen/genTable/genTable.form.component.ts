@@ -3,6 +3,7 @@ import { CTX } from "../../../../../app.constants"
 import { ActivatedRoute } from "@angular/router"
 import { GenTable } from "./genTable.model"
 import { GenTableService } from "./genTable.service"
+import {PublicService} from "../../../../../shared/base/service/public.service";
 
 @Component({
     selector: ".sys-genTable-form.page-form",
@@ -24,8 +25,9 @@ export class GenTableFormComponent implements AfterViewInit {
     private afterLoad = false
     constructor(
         private activatedRoute: ActivatedRoute,
-        private genTableService: GenTableService) {
-        this.ctx = CTX
+        private genTableService: GenTableService,
+        private publicService: PublicService) {
+        this.ctx = publicService.getServiceCtx('gen_genTable')
         this.genTable = new GenTable()
         this.activatedRoute.queryParams.subscribe((params) => {
             params['name'] && this.initData(params)
@@ -60,11 +62,11 @@ export class GenTableFormComponent implements AfterViewInit {
     initForm() {
         if (!this.afterViewInit || !this.afterLoad) return
 
-        var genTableId = this.genTable.id
+        var genTableId = this.genTable.id,thisCtx =this.ctx
         albedoForm.initValidate($("#genTable-save-form"), {
             // define validation rules
             rules: {
-                name: { remote: CTX + '/gen/genTable/checkByProperty?_statusFalse&id=' + encodeURIComponent(genTableId) }
+                name: { remote: thisCtx + '/gen/genTable/checkByProperty?_statusFalse&id=' + encodeURIComponent(genTableId) }
             },
             messages: {
                 name: { message: '名称已存在' },

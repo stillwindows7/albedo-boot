@@ -7,6 +7,7 @@ import { CTX, DATA_STATUS } from "../../../../../app.constants"
 import { Principal } from "../../../../../auth/_services/principal.service"
 import { SessionStorageService } from "ngx-webstorage"
 import { Area } from "./area.model"
+import {PublicService} from "../../../../../shared/base/service/public.service";
 
 declare let datatable: any
 @Component({
@@ -19,11 +20,13 @@ export class AreaComponent implements AfterViewInit {
     nodeId: any
     ctx: any
     area: Area
-    constructor(private _script: ScriptLoaderService,
+    constructor(
+        private _script: ScriptLoaderService,
         private principal: Principal,
-        private sessionStorage: SessionStorageService, ) {
+        private sessionStorage: SessionStorageService,
+        private publicService: PublicService) {
+        this.ctx = publicService.getServiceCtx('sys_area')
         this.area = new Area()
-        this.ctx = CTX
         this.nodeId = sessionStorage.retrieve("tree_area_select_node_id"), this.nodeId = (this.nodeId) ? this.nodeId : 1
 
     }
@@ -33,7 +36,7 @@ export class AreaComponent implements AfterViewInit {
     }
 
     initTable() {
-        var thisPrincipal = this.principal
+        var thisPrincipal = this.principal,thisCtx =this.ctx
         var options = {
 
             data: {
@@ -41,7 +44,7 @@ export class AreaComponent implements AfterViewInit {
                     read: {
                         // sample GET method
                         method: 'GET',
-                        url: CTX + '/sys/area/',
+                        url: thisCtx + '/sys/area/',
                     },
                 },
                 pageSize: 10,
@@ -52,7 +55,7 @@ export class AreaComponent implements AfterViewInit {
                     title: '区域名称', field: 'name'
                     , width: 110, sortable: 'asc', overflow: 'visible', template: function(row) {
                         return thisPrincipal.hasAnyAuthorityDirectOne("sys_area_edit") ? ('<a  href="javascript:void(0)" class="m-link dialog-edit" title="点击编辑"\
-                            \data-method="get"  data-title="编辑【' + row.name + '】" data-url="' + CTX + '/sys/area/' + row.id + '" data-modal-id="#area-edit-modal" >' + row.name + '</a>') : row.name;
+                            \data-method="get"  data-title="编辑【' + row.name + '】" data-url="' + thisCtx + '/sys/area/' + row.id + '" data-modal-id="#area-edit-modal" >' + row.name + '</a>') : row.name;
                     },
                 },
                 {
@@ -83,17 +86,17 @@ export class AreaComponent implements AfterViewInit {
                     var template = '';
                     if (thisPrincipal.hasAnyAuthorityDirectOne("sys_area_edit"))
                         template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill dialog-edit" title="编辑"\
-                            \data-method="get"  data-title="编辑【' + row.name + '】" data-url="' + CTX + '/sys/area/' + row.id + '" data-modal-id="#area-edit-modal">\
+                            \data-method="get"  data-title="编辑【' + row.name + '】" data-url="' + thisCtx + '/sys/area/' + row.id + '" data-modal-id="#area-edit-modal">\
                             \<i class="la la-edit"></i>\
                             \</a>'
                     if (thisPrincipal.hasAnyAuthorityDirectOne("sys_area_lock"))
                         template += '<a href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-warning m-btn--icon m-btn--icon-only m-btn--pill confirm" title="' + (row.status == "正常" ? "锁定" : "解锁") + '区域"\
-                     data-table-id="#data-table-area" data-method="put"  data-title="你确认要操作选中的区域吗？" data-url="' + CTX + '/sys/area/' + row.id + '">\
+                     data-table-id="#data-table-area" data-method="put"  data-title="你确认要操作选中的区域吗？" data-url="' + thisCtx + '/sys/area/' + row.id + '">\
                             \<i class="la la-'+ (row.status == "正常" ? "unlock-alt" : "unlock") + '"></i>\
                             \</a>';
                     if (thisPrincipal.hasAnyAuthorityDirectOne("sys_area_delete"))
                         template += '<a  href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill confirm" title="删除"\
-                               data-table-id="#data-table-area" data-method="delete"  data-title="你确认要删除选中的区域吗？" data-url="' + CTX + '/sys/area/' + row.id + '">\
+                               data-table-id="#data-table-area" data-method="delete"  data-title="你确认要删除选中的区域吗？" data-url="' + thisCtx + '/sys/area/' + row.id + '">\
                             \<i class="la la-trash"></i>\
                             \</a>';
                     return template;
@@ -109,7 +112,7 @@ export class AreaComponent implements AfterViewInit {
         albedoForm.initValidate($("#area-save-form"), {
             // define validation rules
             rules: {
-                code: { remote: '{{ctx}}/sys/area/checkByProperty?id=' + encodeURIComponent(albedo.toStr($("#area-save-form").find("input[name='id']").val())) },
+                code: { remote: thisCtx+'/sys/area/checkByProperty?id=' + encodeURIComponent(albedo.toStr($("#area-save-form").find("input[name='id']").val())) },
             },
             messages: {
                 code: { remote: '区域编码已存在' },

@@ -286,8 +286,8 @@ var mApp = function() {
             }, options);
             var id = mUtil.getUniqueID("App_confirm");
             if (options.reset) {
-                $('.confirm-modal').parents(".modal-scrollable").next().remove();
-                $('.confirm-modal').parents(".modal-scrollable").remove();
+                $('.confirm-modal').prev().remove();
+                $('.confirm-modal').remove();
             }
             var tmpl = [
                 // tabindex is required for focus
@@ -315,6 +315,7 @@ var mApp = function() {
                 options.confirm($modal);
                 $modal.modal('hide');
             });
+            return id;
         },
         /**
         * Shows bootstrap alert

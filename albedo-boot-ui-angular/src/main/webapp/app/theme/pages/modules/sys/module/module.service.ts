@@ -6,25 +6,21 @@ import { DataService } from "../../../../../shared/base/service/data.service"
 import { Module } from "./module.model"
 import { createRequestOption } from "../../../../../shared/base/request.util";
 import { HttpClient } from "@angular/common/http";
+import {PublicService} from "../../../../../shared/base/service/public.service";
+import {TreeService} from "../../../../../shared/base/service/tree.service";
 
 
 @Injectable()
-export class ModuleService extends DataService<Module> {
+export class ModuleService extends TreeService<Module> {
 
-    constructor(protected http: HttpClient) {
-        super(http, CTX + '/sys/module')
+    constructor(
+        protected http: HttpClient,
+        protected publicService: PublicService) {
+        super(http, publicService.getServiceCtx('sys_module') + '/sys/module')
     }
 
 
 
-    formData(id?: String, parentId?: String): Observable<Module> {
-        let params = {};
-        if (id) params["id"] = id;
-        if (parentId) params["parentId"] = parentId;
-        return this.http.get(this.resourceUrl + `/formData`, createRequestOption(params)).map((res: any) => {
-            return res && res.data
-        })
-    }
 
 
 

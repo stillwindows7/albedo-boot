@@ -1,4 +1,3 @@
-
 if (!Array.prototype.map)
     Array.prototype.map = function (fn, scope) {
         var result = [], ri = 0;
@@ -71,284 +70,11 @@ var albedoConstants = {
     userId: '',
     ctx: '/api',
     token: null,
-    sessionStorage:null
+    gatewayModel: true,
+    sessionStorage: null
 };
-var albedo = {
-    language: {
-        // metronic spesific
-        "metronicGroupActions": "选中 _TOTAL_ 条记录：",
-        "metronicAjaxRequestGeneralError": "请求失败，请检测您的网络连接",
-
-        // data tables spesific
-        "lengthMenu": "<span class='seperator'>|</span>View _MENU_ records",
-        "info": "<span class='seperator'>|</span>Found total _TOTAL_ records",
-        "infoEmpty": "没有找到记录",
-        "emptyTable": "没有记录",
-        "zeroRecords": "没有找到匹配的记录",
-        "paginate": {
-            "previous": "上一页",
-            "next": "下一页",
-            "last": "末页",
-            "first": "首页",
-            "page": "当前页码",
-            "pageOf": "总页数"
-        },
-        "sProcessing": "处理中...",
-        "sLengthMenu": " _MENU_ 条目",
-        "sZeroRecords": "没有相关数据",
-        "sInfo": "显示第 _START_ 到 _END_ 条记录，共 _TOTAL_ 条记录 ",
-        "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
-        "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
-        "sInfoPostFix": "",
-        "sSearch": "搜索:",
-        "sUrl": "",
-        "sEmptyTable": "数据为空",
-        "sLoadingRecords": "载入中...",
-        "sInfoThousands": ",",
-        "oPaginate": {
-            "sFirst": "首页",
-            "sPrevious": "上一页",
-            "sNext": "下一页",
-            "sLast": "末页",
-            "page": "当前页码",
-            "pageOf": "总页数"
-        },
-        "oAria": {
-            "sSortAscending": ": 以升序排列此列",
-            "sSortDescending": ": 以降序排列此列"
-        },
-        "buttons": {
-            "copyTitle": "复制到剪贴板",
-            "copyInfo": "复制 %d 行数据"
-        }
-    },
-    setSessionStorage: function (sessionStorage){
-        albedoConstants.sessionStorage=sessionStorage;
-    },
-    getSessionStorage: function (){
-       return albedoConstants.sessionStorage;
-    },
-    setCookie: function (key, value) {
-        Cookies.set(key, value, {
-            expires: 7,
-            path: '/'
-        });
-    },
-    removeCookie: function (key) {
-        Cookies.set(key, null, {
-            expires: 0,
-            path: '/'
-        });
-    },
-    getCookie: function (key) {
-        return Cookies.get(key);
-    },
-    setUserCookie: function (key, value) {
-        Cookies.set(key + this.getUserId(), value, {
-            expires: 7,
-            path: '/'
-        });
-    },
-    getUserCookie: function (key) {
-        return Cookies.get(key + this.getUserId());
-    },
-    setCtx: function (ctx) {
-        albedoConstants.ctx = ctx;
-    },
-    getCtx: function () {
-        return albedoConstants.ctx;
-    },
-    setUserId: function (userId) {
-        albedoConstants.userId = userId;
-    },
-    getUserId: function () {
-        return albedoConstants.userId;
-    },
-    setToken: function (token) {
-        albedoConstants.token = token;
-    },
-    getToken: function () {
-        return albedoConstants.token;
-    },
-    refreshCacheBuster: function () {
-        var url = _form.attr("action");
-        var d = new Date();
-        url = url.replace(/[?|&]cacheBuster=\d+/, '');
-        // Some url's allready have '?' attached
-        url += config.url.indexOf('?') === -1 ? '?' : '&'
-        url += 'cacheBuster=' + d.getTime();
-        _form.attr("action", url);
-    },
-    goTo: function (url, blank) {
-        if (blank) {
-            window.open(url);
-        } else {
-            window.location.href = url;
-        }
-    },// /<summary>获得字符串实际长度，中文2，英文1</summary>
-    // /<param name="str">要获得长度的字符串</param>
-    getLength: function (str) {
-        var realLength = 0, len = str.length, charCode = -1;
-        for (var i = 0; i < len; i++) {
-            charCode = str.charCodeAt(i);
-            if (charCode >= 0 && charCode <= 128)
-                realLength += 1;
-            else
-                realLength += 2;
-        }
-        return realLength;
-    },
-    // /<summary>切割的最大长度的字符串以</summary>
-    // /<param name="str">要获得切割的字符串</param>
-    // /<param name="maxLength">最大长度</param>
-    // /<param name="suffix">后缀 默认'...'</param>
-    subMaxStr: function (str, maxLength, suffix) {
-        if (str) {
-            var realLength = 0, len = str.length, charCode = -1, suffix = suffix ? suffix
-                : '...';
-            for (var i = 0; i < len; i++) {
-                charCode = str.charCodeAt(i);
-                if (charCode >= 0 && charCode <= 128)
-                    realLength += 1;
-                else
-                    realLength += 2;
-                if (realLength > maxLength) {
-                    str = str.substring(0, i) + suffix;
-                    break;
-                }
-            }
-        } else {
-            str = '';
-        }
-
-        return str;
-    },
-    toCamelCase: function (str, s) {
-        if (!s)
-            s = '.';
-        if (str) {
-            var rs = "", upperCase = false;
-            for (var i = 0; i < str.length; i++) {
-                var c = str.charAt(i);
-                if (c == s) {
-                    upperCase = true
-                } else if (upperCase) {
-                    upperCase = false;
-                    rs += c.toUpperCase();
-                } else {
-                    rs += c;
-                }
-            }
-            str = rs;
-        }
-        return str;
-    },// 是否存在指定函数
-    isExitsFunction: function (funcName) {
-        try {
-            if (typeof (eval(funcName)) == "function") {
-                return true;
-            }
-        } catch (e) {
-        }
-        return false;
-    }
-    // 是否存在指定变量
-    ,isExitsVariable: function (variableName) {
-        try {
-            return typeof (variableName) == "undefined" ? false : true;
-        } catch (e) {
-        }
-        return false;
-    },
-    toStr:function(obj){
-      return this.isNull(obj) ? "" : obj;
-    },
-    isNull: function (variable) {
-        try {
-            return variable == undefined || variable==null;
-        } catch (e) {
-        }
-        return false;
-    },
-    isNotNull: function (variable) {
-        return !this.isEmpty(variable);
-    },
-    setFormBoxValue: function ($thiz, val) {
-        if ($thiz) {
-            if ($thiz.is('input') || $thiz.is('textarea')) {
-                if ($thiz.attr("type") == "radio"
-                    || $thiz.attr("type") == "checkbox") {
-                    $thiz.each(function () {
-                        $(this).val() == val
-                        && $(this).attr("checked", "checked");
-                    });
-                } else {
-                    $thiz.val(val);
-                }
-            } else if ($thiz.is('select')) {
-                $thiz.val(val);
-                if ($thiz.attr('class')
-                    && $thiz.attr('class').indexOf('chosen-select') != -1) {
-                    $thiz.select2("destroy");
-                    $thiz.select2();
-                }
-            } else if ($thiz.is('lebel')) {
-                $thiz.text(val);
-            }
-        }
-    },
-
-    /**
-     * json初始化普通表单
-     *
-     * json {属性：值,属性：值} formId
-     */
-    jsonFrom: function (json, formId) {
-        albedo.jsonFromObject(json, $("#" + formId));
-    },
-    jsonFromObject: function (json, $form) {
-        if (json) {
-            $form.find("[name]") && $form.find("[name]").each(function () {
-                var name = albedo.toCamelCase($(this).attr('name'));
-                albedo.setFormBoxValue($(this), json[name]);
-            });
-        }
-    }
-    /**
-     * json初始化查询表单
-     *
-     * json {queryCondition对象} formId
-     */
-    ,
-    jsonInitSearchFrom: function (json, formId) {
-        var $form = $(formId);
-        if (json) {
-            for (var i in json) {
-                var $item = $form.find("[name='" + json[i].fieldName + "']");
-                if ($item.length == 0)
-                    $item = $form
-                        .find("[realname='" + json[i].fieldName + "']");
-                albedo.setFormBoxValue($item, json[i].value);
-                if (json[i].operation == "between") {
-                    albedo.setFormBoxValue($item.next(), json[i].endValue);
-                }
-            }
-        }
-    },
-    /**
-     * json初始化查询表单
-     *
-     * json {queryCondition对象} formId
-     */
-    parseJsonItemForm: function (formId) {
-        return albedo.parseJsonItemFormTarget($(formId))
-    },
-    /**
-     * json初始化查询表单
-     *
-     * json {queryCondition对象} formId
-     */
-    parseJsonItemFormTarget: function ($formId) {
+var albedo = function(){
+    var _parseJsonItemFormTarget= function ($formId) {
         var i = 0, json_list = [];
         var $target = $formId.length > 0 ? $formId.find("[searchItem='searchItem']")
             : $("[searchItem='searchItem']");
@@ -413,7 +139,266 @@ var albedo = {
             })
         return JSON.stringify(json_list);
     }
-};
+    var _setFormBoxValue=function($thiz, val) {
+        if ($thiz) {
+            if ($thiz.is('input') || $thiz.is('textarea')) {
+                if ($thiz.attr("type") == "radio"
+                    || $thiz.attr("type") == "checkbox") {
+                    $thiz.each(function () {
+                        $(this).val() == val
+                        && $(this).attr("checked", "checked");
+                    });
+                } else {
+                    $thiz.val(val);
+                }
+            } else if ($thiz.is('select')) {
+                $thiz.val(val);
+                if ($thiz.attr('class')
+                    && $thiz.attr('class').indexOf('chosen-select') != -1) {
+                    $thiz.select2("destroy");
+                    $thiz.select2();
+                }
+            } else if ($thiz.is('lebel')) {
+                $thiz.text(val);
+            }
+        }
+    }
+    var _containSpiltStr= function(str, item, split){
+        var tempSplit = split ? split : ",";
+        return tempSplit.concat(str, tempSplit).indexOf(tempSplit.concat(item, tempSplit))!=-1;
+    }
+    return {
+        setSessionStorage: function (sessionStorage){
+            albedoConstants.sessionStorage=sessionStorage;
+        },
+        getSessionStorage: function (){
+            return albedoConstants.sessionStorage;
+        },
+        setCookie: function (key, value) {
+            Cookies.set(key, value, {
+                expires: 7,
+                path: '/'
+            });
+        },
+        removeCookie: function (key) {
+            Cookies.set(key, null, {
+                expires: 0,
+                path: '/'
+            });
+        },
+        getCookie: function (key) {
+            return Cookies.get(key);
+        },
+        setUserCookie: function (key, value) {
+            Cookies.set(key + this.getUserId(), value, {
+                expires: 7,
+                path: '/'
+            });
+        },
+        getUserCookie: function (key) {
+            return Cookies.get(key + this.getUserId());
+        },
+        setCtx: function (ctx) {
+            albedoConstants.ctx = ctx;
+        },
+        setGatewayModel: function (gatewayModel) {
+            albedoConstants.gatewayModel = gatewayModel;
+        },
+        getGatewayModel: function () {
+            return albedoConstants.gatewayModel ? albedoConstants.gatewayModel : false;
+        },
+        containSpiltStr: function(str, item, split){
+            return _containSpiltStr(str, item, split);
+        },
+        getCtx: function (permission) {
+            var rsCtx = albedoConstants.ctx
+            if(permission && albedoConstants.gatewayModel && albedoConstants.sessionStorage ){
+                var modules = albedoConstants.sessionStorage.retrieve("modules");
+                if(modules && modules.length>0){
+                    for (var i = 0; i < modules.length; i++) {
+                        var module = modules[i]
+                        if (module.microservice && (module.permission == permission || _containSpiltStr(module.permission, permission))) {
+                            rsCtx = module.microservice
+                            break;
+                        }
+                    }
+                }
+            }
+            return rsCtx;
+        },
+        setUserId: function (userId) {
+            albedoConstants.userId = userId;
+        },
+        getUserId: function () {
+            return albedoConstants.userId;
+        },
+        setToken: function (token) {
+            albedoConstants.token = token;
+        },
+        getToken: function () {
+            return albedoConstants.token;
+        },
+        refreshCacheBuster: function () {
+            var url = _form.attr("action");
+            var d = new Date();
+            url = url.replace(/[?|&]cacheBuster=\d+/, '');
+            // Some url's allready have '?' attached
+            url += config.url.indexOf('?') === -1 ? '?' : '&'
+            url += 'cacheBuster=' + d.getTime();
+            _form.attr("action", url);
+        },
+        goTo: function (url, blank) {
+            if (blank) {
+                window.open(url);
+            } else {
+                window.location.href = url;
+            }
+        },// /<summary>获得字符串实际长度，中文2，英文1</summary>
+        // /<param name="str">要获得长度的字符串</param>
+        getLength: function (str) {
+            var realLength = 0, len = str.length, charCode = -1;
+            for (var i = 0; i < len; i++) {
+                charCode = str.charCodeAt(i);
+                if (charCode >= 0 && charCode <= 128)
+                    realLength += 1;
+                else
+                    realLength += 2;
+            }
+            return realLength;
+        },
+        // /<summary>切割的最大长度的字符串以</summary>
+        // /<param name="str">要获得切割的字符串</param>
+        // /<param name="maxLength">最大长度</param>
+        // /<param name="suffix">后缀 默认'...'</param>
+        subMaxStr: function (str, maxLength, suffix) {
+            if (str) {
+                var realLength = 0, len = str.length, charCode = -1, suffix = suffix ? suffix
+                    : '...';
+                for (var i = 0; i < len; i++) {
+                    charCode = str.charCodeAt(i);
+                    if (charCode >= 0 && charCode <= 128)
+                        realLength += 1;
+                    else
+                        realLength += 2;
+                    if (realLength > maxLength) {
+                        str = str.substring(0, i) + suffix;
+                        break;
+                    }
+                }
+            } else {
+                str = '';
+            }
+
+            return str;
+        },
+        toCamelCase: function (str, s) {
+            if (!s)
+                s = '.';
+            if (str) {
+                var rs = "", upperCase = false;
+                for (var i = 0; i < str.length; i++) {
+                    var c = str.charAt(i);
+                    if (c == s) {
+                        upperCase = true
+                    } else if (upperCase) {
+                        upperCase = false;
+                        rs += c.toUpperCase();
+                    } else {
+                        rs += c;
+                    }
+                }
+                str = rs;
+            }
+            return str;
+        },// 是否存在指定函数
+        isExitsFunction: function (funcName) {
+            try {
+                if (typeof (eval(funcName)) == "function") {
+                    return true;
+                }
+            } catch (e) {
+            }
+            return false;
+        }
+        // 是否存在指定变量
+        ,isExitsVariable: function (variableName) {
+            try {
+                return typeof (variableName) == "undefined" ? false : true;
+            } catch (e) {
+            }
+            return false;
+        },
+        toStr:function(obj){
+            return this.isNull(obj) ? "" : obj;
+        },
+        isNull: function (variable) {
+            try {
+                return variable == undefined || variable==null;
+            } catch (e) {
+            }
+            return false;
+        },
+        isNotNull: function (variable) {
+            return !this.isEmpty(variable);
+        },
+        setFormBoxValue: function ($thiz, val) {
+            _setFormBoxValue($thiz, val)
+        },
+
+        /**
+         * json初始化普通表单
+         *
+         * json {属性：值,属性：值} formId
+         */
+        jsonFrom: function (json, formId) {
+            albedo.jsonFromObject(json, $("#" + formId));
+        },
+        jsonFromObject: function (json, $form) {
+            if (json) {
+                $form.find("[name]") && $form.find("[name]").each(function () {
+                    var name = albedo.toCamelCase($(this).attr('name'));
+                     _setFormBoxValue($thiz, val)($(this), json[name]);
+                });
+            }
+        }
+        /**
+         * json初始化查询表单
+         *
+         * json {queryCondition对象} formId
+         */
+        ,jsonInitSearchFrom: function (json, formId) {
+            var $form = $(formId);
+            if (json) {
+                for (var i in json) {
+                    var $item = $form.find("[name='" + json[i].fieldName + "']");
+                    if ($item.length == 0)
+                        $item = $form
+                            .find("[realname='" + json[i].fieldName + "']");
+                     _setFormBoxValue($thiz, val)($item, json[i].value);
+                    if (json[i].operation == "between") {
+                         _setFormBoxValue($thiz, val)($item.next(), json[i].endValue);
+                    }
+                }
+            }
+        },
+        /**
+         * json初始化查询表单
+         *
+         * json {queryCondition对象} formId
+         */
+        parseJsonItemForm: function (formId) {
+            return _parseJsonItemFormTarget($(formId))
+        },
+        /**
+         * json初始化查询表单
+         *
+         * json {queryCondition对象} formId
+         */
+        parseJsonItemFormTarget: function ($formId) {
+            return _parseJsonItemFormTarget($formId)
+        }
+    }
+}();
 
 String.prototype.startWith = function (str) {
     var reg = new RegExp("^" + str);

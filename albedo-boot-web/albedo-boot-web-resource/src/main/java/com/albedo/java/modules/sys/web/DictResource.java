@@ -16,6 +16,7 @@ import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.base.SelectResult;
 import com.albedo.java.vo.sys.DictVo;
+import com.albedo.java.vo.sys.ModuleVo;
 import com.albedo.java.vo.sys.query.DictQuery;
 import com.albedo.java.vo.sys.query.DictQuerySearch;
 import com.albedo.java.vo.sys.query.DictTreeQuery;

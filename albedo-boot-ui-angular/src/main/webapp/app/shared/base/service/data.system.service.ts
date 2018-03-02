@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core'
-import { Observable } from 'rxjs/Rx'
-import { Data } from "../model/data.model"
-import { createRequestOption } from "../request.util"
-import { HttpClient, HttpResponse } from "@angular/common/http";
-import { CTX } from "../../../app.constants";
+import {Injectable} from '@angular/core'
+import {Observable} from 'rxjs/Rx'
+import {createRequestOption} from "../request.util"
+import {HttpClient} from "@angular/common/http";
+import {CTX} from "../../../app.constants";
 
 
 @Injectable()
@@ -24,7 +23,13 @@ export class DataSystemService {
 
     moduleData(params?: any): Observable<any> {
         return this.http.get(CTX + '/dataSystem/module/data', params)
-            .map((res: any) => res && res.data)
+            .map((res: any) =>{
+                if(res && res.data){
+                    albedo.setGatewayModel(res.data.gatewayModel ? res.data.gatewayModel: false);
+                    return res.data.moduleList
+                }
+                return null;
+            })
     }
 
     moduleTreeData(): Observable<any> {

@@ -59,7 +59,7 @@ public class GenSchemeResource extends DataVoResource<GenSchemeService, GenSchem
     }
     @GetMapping(value = "/formData")
     @Timed
-    public ResponseEntity formData(@RequestBody GenSchemeVo genSchemeVo) {
+    public ResponseEntity formData(GenSchemeVo genSchemeVo) {
         Map<String, Object> formData = service.findFormData(genSchemeVo, SecurityUtil.getCurrentUser().getLoginId());
         return ResultBuilder.buildOk(formData);
     }

@@ -3,7 +3,6 @@ package com.albedo.java.modules.sys.web;
 import com.albedo.java.common.data.persistence.DataEntity;
 import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.common.security.SecurityUtil;
-import com.albedo.java.common.security.annotaion.RequiresPermissions;
 import com.albedo.java.modules.sys.service.ModuleService;
 import com.albedo.java.util.JedisUtil;
 import com.albedo.java.util.JsonUtil;
@@ -15,9 +14,6 @@ import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.sys.ModuleVo;
-import com.albedo.java.vo.sys.query.ModuleMenuTreeResult;
-import com.albedo.java.vo.sys.query.ModuleTreeQuery;
-import com.albedo.java.vo.sys.query.TreeResult;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.TreeVoResource;
 import com.alibaba.fastjson.JSON;
@@ -30,9 +26,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * REST controller for managing Station.
@@ -41,21 +35,32 @@ import java.util.List;
 @RequestMapping("${albedo.adminPath}/sys/module")
 public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
 
-    @Resource
-    private ModuleService moduleService;
-
     /**
      * @param pm
      * @return
      */
     @GetMapping(value = "/")
     public ResponseEntity getPage(PageModel pm) {
-        moduleService.findPage(pm, SecurityUtil.dataScopeFilter());
+        service.findPage(pm, SecurityUtil.dataScopeFilter());
         pm.setSortDefaultName(Direction.DESC, DataEntity.F_LASTMODIFIEDDATE);
         JSON rs = JsonUtil.getInstance().toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
     }
-
+    @GetMapping(value = "/formData")
+    @Timed
+    public ResponseEntity formData(ModuleVo moduleVo) {
+        if (moduleVo == null) {
+            throw new RuntimeMsgException(PublicUtil.toAppendStr("查询模块失败，原因：无法查找到编号区域"));
+        }
+        if (PublicUtil.isNotEmpty(moduleVo.getParentId())) {
+            service.findOneById(moduleVo.getParentId()).ifPresent(item -> moduleVo.setParentName(item.getName()));
+            service.findOptionalTopByParentId(moduleVo.getParentId()).ifPresent(item -> moduleVo.setSort(item.getSort() + 30));
+        }
+        if (moduleVo.getSort() == null) {
+            moduleVo.setSort(30);
+        }
+        return ResultBuilder.buildOk(moduleVo);
+    }
     /**
      * @param moduleVo
      * @return
@@ -71,10 +76,10 @@ public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
             throw new RuntimeMsgException("权限已存在");
         }
         if(ModuleVo.TYPE_MENU.equals(moduleVo.getType())){
-            moduleVo.setPermission("");
+//            moduleVo.setPermission("");
             moduleVo.setRequestMethod("");
         }
-        moduleService.save(moduleVo);
+        service.save(moduleVo);
         SecurityUtil.clearUserJedisCache();
         JedisUtil.removeSys(GlobalJedis.RESOURCE_MODULE_DATA_MAP);
         return ResultBuilder.buildOk("保存", moduleVo.getName(), "成功");

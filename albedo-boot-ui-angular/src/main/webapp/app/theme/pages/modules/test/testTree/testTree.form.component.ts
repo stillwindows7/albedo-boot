@@ -4,8 +4,9 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { CTX } from "../../../../../app.constants";
 import { ActivatedRoute } from "@angular/router";
-import { TestTree } from "./testTree.model";
-import { TestTreeService } from "./testTree.service";
+import {TestTree} from "./testTree.model";
+import {TestTreeService} from "./testTree.service";
+import {PublicService} from "../../../../../shared/base/service/public.service"
 
 @Component({
     selector: ".test-testTree-form.page-form",
@@ -22,8 +23,9 @@ export class TestTreeFormComponent implements AfterViewInit {
     private afterLoad = false;
     constructor(
         private activatedRoute: ActivatedRoute,
-        private testTreeService: TestTreeService) {
-        this.ctx = CTX;
+        private testTreeService: TestTreeService,
+        private publicService: PublicService) {
+        this.ctx = publicService.getServiceCtx('test_testTree')
         this.testTree = new TestTree();
         this.routeData = this.activatedRoute.params.subscribe((params) => {
             this.id = params['id'];
@@ -50,15 +52,15 @@ export class TestTreeFormComponent implements AfterViewInit {
     initForm() {
         if (!this.afterViewInit || !this.afterLoad) return;
 
-        var testTreeId = this.testTree.id;
+        var testTreeId = this.testTree.id,thisCtx =this.ctx
         albedoForm.initValidate($("#testTree-save-form"), {
             // define validation rules
-            rules: {
-                parentId: { remote: CTX + '/test/testTree/checkByProperty?id=' + testTreeId },
-            },
-            messages: {
-                parentId: { remote: '名称已存在' },
-            }
+            rules:{
+				name: {remote: thisCtx + '/test/testTree/checkByProperty?id=' + testTreeId},
+			},
+            messages:{
+				name: {remote: 'name_已存在'},
+			}
         })
         albedoForm.init();
         albedoForm.initSave();

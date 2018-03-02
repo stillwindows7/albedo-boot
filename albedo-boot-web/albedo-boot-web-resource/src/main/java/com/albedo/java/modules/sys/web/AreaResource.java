@@ -43,7 +43,7 @@ public class AreaResource extends TreeVoResource<AreaService, AreaVo> {
      * @return the ResponseEntity with status 200 (OK) and with body all area
      */
     @GetMapping(value = "findTreeData")
-    public ResponseEntity findTreeData(@RequestBody AreaTreeQuery areaTreeQuery) {
+    public ResponseEntity findTreeData(AreaTreeQuery areaTreeQuery) {
         List<TreeResult> treeResultList = service.findTreeData(areaTreeQuery, SecurityUtil.getAreaList());
         return ResultBuilder.buildOk(treeResultList);
     }

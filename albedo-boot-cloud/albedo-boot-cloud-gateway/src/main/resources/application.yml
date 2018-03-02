@@ -113,7 +113,7 @@ albedo:
     defaultView:
     staticFileDirectory: D:/temp/files/
     urlSuffix: html
-    cluster: false
+    cluster: true
     quartzEnabled: true
     async:
         core-pool-size: 2
@@ -129,7 +129,7 @@ albedo:
     mail:
         from: albedoBootCloudGateway@localhost
     swagger:
-        default-include-pattern: /.*
+        default-include-pattern: ${albedo.adminPath}/.*
         title: albedoBootCloudGateway API
         description: albedoBootCloudGateway API documentation
         version: 0.0.1

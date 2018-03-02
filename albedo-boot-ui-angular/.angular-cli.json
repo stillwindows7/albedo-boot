@@ -8,8 +8,7 @@
             "root": "src/main/webapp/",
             "outDir": "target/www/app",
             "assets": [
-                "assets",
-                "swagger-ui"
+                "assets"
             ],
             "index": "index.html",
             "main": "app/app.main.ts",

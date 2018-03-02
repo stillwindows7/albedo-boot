@@ -3,6 +3,7 @@ import { CTX } from "../../../../../app.constants"
 import { ActivatedRoute } from "@angular/router"
 import { Dict } from "./dict.model"
 import { DictService } from "./dict.service"
+import {PublicService} from "../../../../../shared/base/service/public.service";
 
 @Component({
     selector: ".sys-dict-form.page-form",
@@ -19,8 +20,9 @@ export class DictFormComponent implements OnInit, OnDestroy, AfterViewInit {
     private afterLoad = false
     constructor(
         private router: ActivatedRoute,
-        private dictService: DictService) {
-        this.ctx = CTX
+        private dictService: DictService,
+        private publicService: PublicService) {
+        this.ctx = publicService.getServiceCtx('sys_dict')
         this.dict = new Dict()
 
     }
@@ -47,8 +49,6 @@ export class DictFormComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        // this._script.load('.sys-dict-list',
-        //     'assets/demo/default/custom/components/datatables/base/data-ajax.js')
         this.afterViewInit = true
         this.initForm()
     }
@@ -56,11 +56,11 @@ export class DictFormComponent implements OnInit, OnDestroy, AfterViewInit {
     initForm() {
         if (!this.afterViewInit || !this.afterLoad) return
 
-        var dictId = this.dict.id
+        var dictId = this.dict.id,thisCtx =this.ctx
         albedoForm.initValidate($("#dict-save-form"), {
             // define validation rules
             rules: {
-                name: { remote: CTX + '/sys/dict/checkByProperty?_statusFalse&id=' + encodeURIComponent(dictId) },
+                name: { remote: thisCtx + '/sys/dict/checkByProperty?_statusFalse&id=' + encodeURIComponent(dictId) },
             },
             messages: {
                 code: { message: '编码已存在' },

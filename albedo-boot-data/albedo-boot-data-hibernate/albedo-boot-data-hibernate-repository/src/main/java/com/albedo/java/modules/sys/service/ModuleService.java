@@ -7,6 +7,7 @@ import com.albedo.java.common.service.TreeVoService;
 import com.albedo.java.modules.sys.domain.Module;
 import com.albedo.java.modules.sys.repository.ModuleRepository;
 import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.base.Assert;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.domain.RequestMethod;
 import com.albedo.java.vo.sys.ModuleVo;
@@ -139,10 +140,9 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
             baseRepository.execute("delete Module where id=:p1 or parentId=:p1", currentModule.getId());
         }
         Module parentModule = repository.findOne(parentModuleId);
-        if (parentModule == null) {
-            new Exception(PublicUtil.toAppendStr("根据模块id[", parentModuleId, "无法查询到模块信息]"));
-        }
+        Assert.assertIsTrue(parentModule != null, PublicUtil.toAppendStr("根据模块id[", parentModuleId, "无法查询到模块信息]"));
         String permission = url.replace("/", "_").substring(1);
+
         Module module = new Module();
         module.setPermission(permission.substring(0, permission.length() - 1));
         module.setName(moduleName);

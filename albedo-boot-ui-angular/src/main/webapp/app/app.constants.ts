@@ -11,7 +11,6 @@ export const VERSION = _VERSION
 export const DEBUG_INFO_ENABLED = _DEBUG_INFO_ENABLED
 export const CTX = _CTX
 
-
 /*** 返回消息类型 info */
 export const MSG_TYPE_INFO = 0
 /*** 返回消息类型 success */
