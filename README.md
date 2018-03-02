@@ -108,7 +108,7 @@ AlbedoBoot 提供了常用工具进行封装，包括日志工具、缓存工具
 
 ### 1.1.0 SNAPSHOT 发布了! :tada::tada::tada:
 
-引入 angularjs5 ，基于 METRONIC 快速启动(依赖nodejs环境，更新至最新版)
+引入 angularjs5 ，基于 METRONIC [模版](https://github.com/somewhereMrli/metronic.git) 快速启动(依赖nodejs环境，更新至最新版)
 
 ### 调试模式启动
 1.  进入 albedo-boot-ui-angular 目录 运行 npm install , 可根据需要修改 proxy.conf.json 配置转发
