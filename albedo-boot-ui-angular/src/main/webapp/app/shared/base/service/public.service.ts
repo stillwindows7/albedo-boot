@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {LocalStorageService, SessionStorageService} from "ngx-webstorage";
-import {CTX} from "../../../app.constants";
+import {CTX, GATEWAY_MODEL} from "../../../app.constants";
 import {containSpiltStr} from "../base.util";
 
 declare let mLayout: any
@@ -14,7 +14,7 @@ export class PublicService {
     getServiceCtx(permission: string) : String {
         let modules = this.sessionStorage.retrieve("modules"), rsCtx = CTX;
         // console.log(modules)
-        if(albedo.getGatewayModel() && modules && modules.length>0){
+        if(GATEWAY_MODEL && modules && modules.length>0){
             modules.forEach(function(module) {
                 if (module.microservice && (module.permission == permission || containSpiltStr(module.permission, permission))) {
                     rsCtx=module.microservice
