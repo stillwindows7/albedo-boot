@@ -5,7 +5,7 @@
     <fileName>${ClassName}Id.java</fileName>
     <content><![CDATA[
 /**
- * Copyright &copy; 2015 <a href="http://www.bs-innotech.com/">bs-innotech</a> All rights reserved.
+ * Copyright &copy; 2018 <a href="https://github.com/somewhereMrli/albedo-boot">albedo-boot</a> All rights reserved.
  */
 package ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>;
 
@@ -22,7 +22,7 @@ import java.io.Serializable;
  */
 @Embeddable
 public class ${ClassName}Id implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 <#list table.columnList as column>
 	<#if column.pk>
@@ -32,28 +32,28 @@ public class ${ClassName}Id implements Serializable {
 </#list>
 	public ${ClassName}Id(){
 	}
-	
+
 <#list table.columnList as column>
 	<#if column.pk>
 	public void set${column.simpleJavaField?cap_first}(${column.javaType} value) {
 		this.${column.simpleJavaField} = value;
 	}
-	
+
 	public ${column.javaType} get${column.simpleJavaField?cap_first}() {
 		return this.${column.simpleJavaField};
 	}
 	</#if>
 </#list>
 
-	
+
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
-	
+
 	public int hashCode() {
 		return HashCodeBuilder.reflectionHashCode(this);
 	}
-	
+
 	public boolean equals(Object other) {
 		return EqualsBuilder.reflectionEquals(this, other);
 	}

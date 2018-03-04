@@ -6,7 +6,7 @@ import com.albedo.java.util.base.Reflections;
 import java.lang.reflect.Field;
 
 /**
- * Created by lijie on 2017/5/8.
+ * Created by somewhere on 2017/5/8.
  */
 public class StringUtilTest {
 

@@ -2,6 +2,7 @@ package com.albedo.java.util.base;
 
 import com.albedo.java.util.exception.RuntimeMsgException;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -190,10 +191,12 @@ public class Assert {
      */
     public static void buildException(String message) {
         if (message != null && !"".equals(message)) {
-            throw new RuntimeMsgException(message);
+            throw new RuntimeMsgException(message, HttpStatus.INTERNAL_SERVER_ERROR);
         } else {
             throw new RuntimeMsgException();
         }
     }
-
+    public static void buildException(String message, HttpStatus httpStatus) {
+        throw new RuntimeMsgException(message, httpStatus);
+    }
 }

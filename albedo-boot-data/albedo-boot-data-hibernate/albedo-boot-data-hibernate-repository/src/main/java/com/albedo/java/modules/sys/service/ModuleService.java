@@ -1,13 +1,13 @@
 package com.albedo.java.modules.sys.service;
 
+import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.common.data.persistence.DynamicSpecifications;
-import com.albedo.java.common.domain.base.BaseEntity;
-import com.albedo.java.common.service.TreeService;
+import com.albedo.java.common.data.persistence.BaseEntity;
 import com.albedo.java.common.service.TreeVoService;
 import com.albedo.java.modules.sys.domain.Module;
 import com.albedo.java.modules.sys.repository.ModuleRepository;
 import com.albedo.java.util.PublicUtil;
-import com.albedo.java.util.StringUtil;
+import com.albedo.java.util.base.Assert;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.domain.RequestMethod;
 import com.albedo.java.vo.sys.ModuleVo;
@@ -15,12 +15,13 @@ import com.albedo.java.vo.sys.query.ModuleMenuTreeResult;
 import com.albedo.java.vo.sys.query.ModuleTreeQuery;
 import com.albedo.java.vo.sys.query.TreeResult;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Service class for managing modules.
@@ -28,6 +29,14 @@ import java.util.Map;
 @Service
 @Transactional
 public class ModuleService extends TreeVoService<ModuleRepository, Module, String, ModuleVo> {
+
+    @Resource
+    AlbedoProperties albedoProperties;
+
+    @Override
+    public void copyVoToBean(ModuleVo moduleVo, Module module) {
+        super.copyVoToBean(moduleVo, module);
+    }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<ModuleMenuTreeResult> findMenuData(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
@@ -59,11 +68,42 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
         return mapList;
     }
 
+    public List<ModuleVo> findMenuDataVo(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
+        String type = moduleTreeQuery != null ? moduleTreeQuery.getType() : null,
+            all = moduleTreeQuery != null ? moduleTreeQuery.getAll() : null;
+
+        List<ModuleVo> mapList = Lists.newArrayList();
+        for (Module e : moduleList) {
+            if ((all != null || (all == null && BaseEntity.FLAG_NORMAL.equals(e.getStatus())))) {
+
+                if ("menu".equals(type) && !Module.TYPE_MENU.equals(e.getType())) {
+                    continue;
+                }
+                if (moduleTreeQuery != null && moduleTreeQuery.getRoot() && PublicUtil.isEmpty(e.getParentId())) {
+                    continue;
+                }
+                ModuleVo moduleVo = copyBeanToVo(e);
+                moduleVo.setMenuLeaf(moduleList.stream()
+                    .filter(item->ModuleVo.TYPE_MENU.equals(item.getType()) && item.getParentIds().startsWith(moduleVo.getParentIds()+moduleVo.getId())).count()<1);
+                moduleVo.setMenuTop(ModuleVo.ROOT_ID.equals(moduleVo.getParentId()));
+                moduleVo.setShow(e.isShow());
+                if(albedoProperties.getGatewayModel()){
+                    moduleVo.setMicroservice(e.getMicroservice());
+                }
+                moduleVo.setHref(e.getHref());
+                mapList.add(moduleVo);
+            }
+        }
+        return mapList;
+    }
+
+
+
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<TreeResult> findTreeData(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {
         String type = moduleTreeQuery != null ? moduleTreeQuery.getType() : null,
                 all = moduleTreeQuery != null ? moduleTreeQuery.getAll() : null;
-
+        Collections.sort(moduleList, Comparator.comparing(Module::getSort));
         List<TreeResult> mapList = Lists.newArrayList();
         for (Module e : moduleList) {
             TreeResult treeResult = null;
@@ -84,6 +124,7 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
                 mapList.add(treeResult);
             }
         }
+
         return mapList;
     }
 
@@ -99,10 +140,9 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
             baseRepository.execute("delete Module where id=:p1 or parentId=:p1", currentModule.getId());
         }
         Module parentModule = repository.findOne(parentModuleId);
-        if (parentModule == null) {
-            new Exception(PublicUtil.toAppendStr("根据模块id[", parentModuleId, "无法查询到模块信息]"));
-        }
+        Assert.assertIsTrue(parentModule != null, PublicUtil.toAppendStr("根据模块id[", parentModuleId, "无法查询到模块信息]"));
         String permission = url.replace("/", "_").substring(1);
+
         Module module = new Module();
         module.setPermission(permission.substring(0, permission.length() - 1));
         module.setName(moduleName);
@@ -110,7 +150,7 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
         module.setType(Module.TYPE_MENU);
         module.setRequestMethod(RequestMethod.GET);
         module.setIconCls("fa-file");
-        module.setUrl(url);
+        module.setUrl(url + "list");
         save(module);
 
         Module moduleView = new Module();
@@ -122,7 +162,7 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
         moduleView.setType(Module.TYPE_OPERATE);
         moduleView.setRequestMethod(RequestMethod.GET);
         moduleView.setSort(20);
-        moduleView.setUrl(url + "page");
+        moduleView.setUrl(url);
         save(moduleView);
         Module moduleEdit = new Module();
         moduleEdit.setParent(module);
@@ -132,8 +172,8 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
         moduleEdit.setParentId(module.getId());
         moduleEdit.setType(Module.TYPE_OPERATE);
         moduleEdit.setSort(40);
-        moduleEdit.setUrl(url + "edit");
-        moduleEdit.setRequestMethod(PublicUtil.toAppendStr(RequestMethod.GET, StringUtil.SPLIT_DEFAULT, RequestMethod.POST));
+        moduleEdit.setUrl(url);
+        moduleEdit.setRequestMethod(RequestMethod.POST);
         save(moduleEdit);
         Module moduleLock = new Module();
         moduleLock.setParent(module);
@@ -143,8 +183,8 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
         moduleLock.setParentId(module.getId());
         moduleLock.setType(Module.TYPE_OPERATE);
         moduleLock.setSort(60);
-        moduleLock.setUrl(url + "lock");
-        moduleLock.setRequestMethod(RequestMethod.POST);
+        moduleLock.setUrl(url);
+        moduleLock.setRequestMethod(RequestMethod.PUT);
         save(moduleLock);
         Module moduleDelete = new Module();
         moduleDelete.setParent(module);
@@ -154,7 +194,7 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
         moduleDelete.setParentId(module.getId());
         moduleDelete.setType(Module.TYPE_OPERATE);
         moduleDelete.setSort(80);
-        moduleDelete.setUrl(url + "delete");
+        moduleDelete.setUrl(url);
         moduleDelete.setRequestMethod(RequestMethod.DELETE);
         save(moduleDelete);
 
@@ -173,4 +213,6 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
     public List<Module> findAllByStatusOrderBySort(Integer flagNormal) {
         return repository.findAllByStatusOrderBySort(flagNormal);
     }
+
+
 }

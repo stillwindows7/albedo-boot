@@ -1,6 +1,6 @@
 package com.albedo.java.common.data.persistence.repository;
 
-import com.albedo.java.common.domain.base.BaseEntity;
+import com.albedo.java.common.data.persistence.BaseEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

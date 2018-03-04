@@ -1,7 +1,7 @@
 package com.albedo.java.common.data.persistence.repository;
 
-import com.albedo.java.common.domain.base.BaseEntity;
-import com.albedo.java.util.domain.Combo;
+import com.albedo.java.common.data.persistence.BaseEntity;
+import com.albedo.java.util.domain.ComboSearch;
 import com.albedo.java.util.domain.ComboData;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
@@ -93,7 +93,7 @@ public interface JpaCustomeRepository<T extends BaseEntity> {
 
     boolean doCheckByPK(T entity);
 
-    List<ComboData> findJson(Combo combo);
+    List<ComboData> findJson(ComboSearch comboSearch);
 
     /*
      * (非 Javadoc) <p>Title: execute</p> <p>Description: </p>

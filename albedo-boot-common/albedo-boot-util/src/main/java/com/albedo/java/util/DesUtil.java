@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * 后台加密解密类（对应前台js加密、解密）
  *
- * @author lijie version 2014-1-20 下午4:07:08
+ * @author somewhere version 2014-1-20 下午4:07:08
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class DesUtil {

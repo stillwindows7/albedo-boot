@@ -5,7 +5,7 @@ import com.albedo.java.common.audit.AuditEventService;
 import com.albedo.java.common.config.audit.AuditEventConverter;
 import com.albedo.java.modules.sys.domain.PersistentAuditEvent;
 import com.albedo.java.modules.sys.repository.PersistenceAuditEventRepository;
-import com.albedo.java.modules.sys.web.AuditResource;
+import com.albedo.java.modules.base.web.AuditResource;
 import com.albedo.java.util.DateUtil;
 import com.albedo.java.util.PublicUtil;
 import org.junit.Before;

@@ -73,7 +73,7 @@ spring:
 #       port: 6379
     web:
         root:
-            prefix: albedo-boot-ui/
+            prefix: albedo-boot-ui-angular/target/www/app/
 
 
 server:

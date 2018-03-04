@@ -8,7 +8,7 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Created by lijie on 2017/4/15.
+ * Created by somewhere on 2017/4/15.
  */
 @Documented
 @Target(TYPE)

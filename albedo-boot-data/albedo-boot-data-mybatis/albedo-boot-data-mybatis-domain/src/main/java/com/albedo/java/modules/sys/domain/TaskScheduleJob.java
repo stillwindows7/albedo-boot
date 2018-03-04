@@ -3,7 +3,7 @@
  */
 package com.albedo.java.modules.sys.domain;
 
-import com.albedo.java.common.domain.base.IdEntity;
+import com.albedo.java.common.data.persistence.IdEntity;
 import com.albedo.java.util.annotation.DictType;
 import lombok.AllArgsConstructor;
 import lombok.Data;

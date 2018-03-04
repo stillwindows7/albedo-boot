@@ -1,7 +1,6 @@
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.common.domain.base.DataEntity;
-import com.albedo.java.common.security.SecurityUtil;
+import com.albedo.java.common.data.persistence.DataEntity;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.service.OrgService;
 import com.albedo.java.util.JsonUtil;
@@ -12,8 +11,6 @@ import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.sys.OrgVo;
-import com.albedo.java.vo.sys.query.OrgTreeQuery;
-import com.albedo.java.vo.sys.query.TreeResult;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.TreeVoResource;
 import com.alibaba.fastjson.JSON;
@@ -26,7 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * REST controller for managing Station.
@@ -37,23 +33,11 @@ import java.util.List;
 @RequestMapping("${albedo.adminPath}/sys/org")
 public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
 
-    @GetMapping(value = "findTreeData")
-    public ResponseEntity findTreeData(OrgTreeQuery orgTreeQuery) {
-        List<TreeResult> treeResultList = service.findTreeData(orgTreeQuery, SecurityUtil.getOrgList());
-        return ResultBuilder.buildOk(treeResultList);
-    }
-
-    @GetMapping(value = "/")
-    @Timed
-    public String list() {
-        return "modules/sys/orgList";
-    }
-
     /**
      * @param pm
      * @return
      */
-    @GetMapping(value = "/page")
+    @GetMapping(value = "/")
     public ResponseEntity getPage(PageModel pm) {
         pm.setSortDefaultName(Direction.DESC, DataEntity.F_LASTMODIFIEDDATE);
         service.findPage(pm, SecurityUtil.dataScopeFilter(
@@ -61,28 +45,26 @@ public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
         JSON json = JsonUtil.getInstance().toJsonObject(pm);
         return ResultBuilder.buildObject(json);
     }
-
-    @GetMapping(value = "/edit")
+    @GetMapping(value = "/formData")
     @Timed
-    public String form(OrgVo orgVo) {
+    public ResponseEntity formData(OrgVo orgVo) {
         if (orgVo == null) {
-            throw new RuntimeMsgException(PublicUtil.toAppendStr("查询模块管理失败，原因：无法查找到编号区域"));
+            throw new RuntimeMsgException(PublicUtil.toAppendStr("查询失败，原因：无法查找到编号组织"));
         }
         if (PublicUtil.isNotEmpty(orgVo.getParentId())) {
-            service.findOptionalTopByParentId(orgVo.getParentId()).ifPresent(item -> orgVo.setSort(item.getSort() + 30));
             service.findOneById(orgVo.getParentId()).ifPresent(item -> orgVo.setParentName(item.getName()));
+            service.findOptionalTopByParentId(orgVo.getParentId()).ifPresent(item -> orgVo.setSort(item.getSort() + 30));
         }
         if (orgVo.getSort() == null) {
             orgVo.setSort(30);
         }
-        return "modules/sys/orgForm";
+        return ResultBuilder.buildOk(orgVo);
     }
-
     /**
      * @param orgVo
      * @return
      */
-    @PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity save(@Valid @RequestBody OrgVo orgVo) {
         log.debug("REST request to save orgVo : {}", orgVo);
@@ -100,12 +82,12 @@ public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
      * @param ids
      * @return
      */
-    @PostMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
+    @DeleteMapping(value = "/{ids:" + Globals.LOGIN_REGEX
             + "}")
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
         log.debug("REST request to delete Org: {}", ids);
-        service.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+        service.lockOrUnLockByParentIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentUserId());
         SecurityUtil.clearUserJedisCache();
         return ResultBuilder.buildOk("删除成功");
     }
@@ -114,7 +96,7 @@ public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
      * @param ids
      * @return
      */
-    @PostMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
+    @PutMapping(value = "/{ids:" + Globals.LOGIN_REGEX
             + "}")
     @Timed
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {

@@ -5,7 +5,7 @@ import com.albedo.java.common.queue.Transactioner;
 /**
  * 实际执行器接口(勾子函数调用)
  *
- * @author: lijie
+ * @author: somewhere
  * @date: 2017-8-23   上午10:56:01
  */
 public class TransactionerLog implements Transactioner {

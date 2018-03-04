@@ -13,6 +13,17 @@ import java.util.List;
 @ToString
 public class RoleVo extends DataEntityVo {
 
+    /*** 数据范围(所有数据) */
+    public static final Integer DATA_SCOPE_ALL = 1;
+    // 数据范围（1：所有数据；2：所在机构及以下数据；3：所在机构数据；4：仅本人数据；5：按明细设置）
+    /*** 数据范围(所在机构及以下数据) */
+    public static final Integer DATA_SCOPE_ORG_AND_CHILD = 2;
+    /*** 数据范围(所在机构数据) */
+    public static final Integer DATA_SCOPE_ORG = 3;
+    /*** 数据范围(仅本人数据) */
+    public static final Integer DATA_SCOPE_SELF = 4;
+    /*** 数据范围(按明细设置) */
+    public static final Integer DATA_SCOPE_CUSTOM = 5;
     public static final String F_NAME = "name";
     private static final long serialVersionUID = 1L;
     private String name;

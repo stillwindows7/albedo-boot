@@ -24,7 +24,7 @@ import java.util.Optional;
 /**
  * Service class for managing users.
  *
- * @author lijie
+ * @author somewhere
  */
 @Service
 public class UserService extends DataVoService<UserRepository, User, String, UserVo> {
@@ -180,5 +180,12 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
         return pm;
     }
 
-
+    public void changePassword(String loginId, String newPassword) {
+        Optional.of(loginId)
+            .flatMap(repository::findOneByLoginId)
+            .ifPresent(user -> {
+                user.setPassword(newPassword);
+                log.debug("Changed password for User: {}", user);
+            });
+    }
 }

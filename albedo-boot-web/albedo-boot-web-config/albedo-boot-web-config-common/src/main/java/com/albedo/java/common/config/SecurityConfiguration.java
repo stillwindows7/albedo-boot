@@ -73,20 +73,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
                 .antMatchers(HttpMethod.OPTIONS, "/**")
+                .antMatchers("/i18n/**")
                 .antMatchers("/content/**")
                 .antMatchers("/statics/**")
+                .antMatchers("/assets/**/*.{js,html}")
                 .antMatchers("/test/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        String adminPath = albedoProperties.getAdminPath();
-
-        String[] permissAll = new String[SecurityConstants.authorizePermitAll.length];
-
-        for (int i = 0; i < permissAll.length; i++) {
-            permissAll[i] = PublicUtil.toAppendStr(adminPath, SecurityConstants.authorizePermitAll[i]);
+        String[] authorize = new String[SecurityConstants.authorize.length+1];
+        for (int i=0; i<SecurityConstants.authorize.length; i++){
+            authorize[i] = SecurityConstants.authorize[i];
         }
+        authorize[SecurityConstants.authorize.length] = albedoProperties.getAdminPath("/**");
+        SecurityConstants.authorize = authorize;
 
         http.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().authenticationEntryPoint(http401UnauthorizedEntryPoint)
@@ -104,8 +105,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(albedoProperties.getAdminPath(SecurityConstants.loginUrl)).permitAll()
                 .antMatchers(albedoProperties.getAdminPath(SecurityConstants.authLogin)).permitAll()
                 .antMatchers(albedoProperties.getAdminPath(SecurityConstants.logoutUrl)).permitAll()
-                .antMatchers(permissAll).permitAll()
-                .antMatchers(albedoProperties.getAdminPath("/**")).authenticated()
+                .antMatchers(SecurityConstants.authorizePermitAll).permitAll()
+                .antMatchers(SecurityConstants.authorize).authenticated()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
                     public <O extends FilterSecurityInterceptor> O postProcess(O fsi) {
@@ -113,7 +114,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         return fsi;
                     }
                 }).accessDecisionManager(customizeAccessDecisionManager)
-                .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
                 .and()
                 .apply(securityConfigurerAdapter());
 
@@ -135,6 +135,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
     public void afterPropertiesSet() {
+
+
         SecurityUtil.clearUserJedisCache();
         JedisUtil.removeSys(GlobalJedis.RESOURCE_MODULE_DATA_MAP);
         invocationSecurityMetadataSourceService.getResourceMap();

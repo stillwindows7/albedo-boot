@@ -1,20 +1,13 @@
 package com.albedo.java.modules.gen.web;
 
-import com.albedo.java.common.config.template.tag.FormDirective;
 import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.common.security.SecurityUtil;
-import com.albedo.java.modules.gen.domain.GenScheme;
-import com.albedo.java.modules.gen.domain.GenTable;
-import com.albedo.java.modules.gen.domain.xml.GenConfig;
 import com.albedo.java.modules.gen.service.GenSchemeService;
 import com.albedo.java.modules.gen.service.GenTableService;
-import com.albedo.java.modules.gen.util.GenUtil;
-import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.service.ModuleService;
 import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
-import com.albedo.java.util.base.Collections3;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.vo.gen.GenSchemeVo;
@@ -33,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.List;
+import java.util.Map;
 
 /**
  * 生成方案Controller
@@ -53,56 +46,25 @@ public class GenSchemeResource extends DataVoResource<GenSchemeService, GenSchem
     @Resource
     private ModuleService moduleService;
 
-    @GetMapping(value = "/")
-    @Timed
-    public String list() {
-        return "modules/gen/genSchemeList";
-    }
-
     /**
      * @param pm
      * @return
      */
-    @GetMapping(value = "/page")
+    @GetMapping(value = "/")
     @Timed
     public ResponseEntity getPage(PageModel pm) {
         genSchemeService.findPage(pm);
         JSON rs = JsonUtil.getInstance().setRecurrenceStr("genTable_name").toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
     }
-
-    @GetMapping(value = "/edit")
+    @GetMapping(value = "/formData")
     @Timed
-    public String form(GenSchemeVo genSchemeVo, Boolean isModal, Model model) {
-        if (StringUtil.isBlank(genSchemeVo.getPackageName())) {
-            genSchemeVo.setPackageName("com.albedo.java.modules");
-        }
-        if (StringUtil.isBlank(genSchemeVo.getFunctionAuthor())) {
-            genSchemeVo.setFunctionAuthor(SecurityUtil.getCurrentUser().getLoginId());
-        }
-        //同步模块数据
-        genSchemeVo.setSyncModule(true);
-        model.addAttribute("genSchemeVo", genSchemeVo);
-        GenConfig config = GenUtil.getConfig();
-        model.addAttribute("config", config);
-
-        model.addAttribute("categoryList", FormDirective.convertComboDataList(config.getCategoryList(), Dict.F_VAL, Dict.F_NAME));
-        model.addAttribute("viewTypeList", FormDirective.convertComboDataList(config.getViewTypeList(), Dict.F_VAL, Dict.F_NAME));
-
-        List<GenTable> tableList = genTableService.findAll(), list = Lists.newArrayList();
-        List<GenScheme> schemeList = genSchemeService.findAll(genSchemeVo.getId());
-        @SuppressWarnings("unchecked")
-        List<String> tableIds = Collections3.extractToList(schemeList, "genTableId");
-        for (GenTable table : tableList) {
-            if (!tableIds.contains(table.getId())) {
-                list.add(table);
-            }
-        }
-        model.addAttribute("tableList", FormDirective.convertComboDataList(list, GenTable.F_ID, GenTable.F_NAMESANDCOMMENTS));
-        return PublicUtil.toAppendStr("modules/gen/genSchemeForm", isModal ? "Modal" : "");
+    public ResponseEntity formData(GenSchemeVo genSchemeVo) {
+        Map<String, Object> formData = service.findFormData(genSchemeVo, SecurityUtil.getCurrentUser().getLoginId());
+        return ResultBuilder.buildOk(formData);
     }
 
-    @PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity save(@Valid @RequestBody GenSchemeVo genSchemeVo) {
         genSchemeService.save(genSchemeVo);
@@ -124,7 +86,7 @@ public class GenSchemeResource extends DataVoResource<GenSchemeService, GenSchem
         return ResultBuilder.buildOk("保存", genSchemeVo.getName(), "成功");
     }
 
-    @PostMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
+    @DeleteMapping(value = "/{ids:" + Globals.LOGIN_REGEX
             + "}")
     @Timed
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {
@@ -134,7 +96,7 @@ public class GenSchemeResource extends DataVoResource<GenSchemeService, GenSchem
         return ResultBuilder.buildOk("操作成功");
     }
 
-    @PostMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
+    @PutMapping(value = "/{ids:" + Globals.LOGIN_REGEX
             + "}")
     @Timed
     @Secured(AuthoritiesConstants.ADMIN)

@@ -305,7 +305,7 @@ public class PublicUtil {
      *
      * @param obj
      * @return 如为不空，集合size>0|字符串不为空串|数组length>0 返回true,否则false
-     * @author lijie
+     * @author somewhere
      */
     public static boolean isNotEmpty(Object obj) {
         return !isEmpty(obj);
@@ -316,7 +316,7 @@ public class PublicUtil {
      *
      * @param obj
      * @return 如为空，返回true,否则false
-     * @author lijie
+     * @author somewhere
      */
     public static boolean isEmpty(Object obj) {
         if (obj == null)
@@ -581,23 +581,30 @@ public class PublicUtil {
      * @param list
      * @param sourcelist
      * @param parentId
+     * @param extRootId
      */
-    public static void sortList(List list, List sourcelist, String parentId) {
+    public static void sortTreeList(List list, List sourcelist, String parentId, boolean extRootId) {
         if (PublicUtil.isNotEmpty(sourcelist) && PublicUtil.isNotEmpty(parentId)) {
-            Object e = null, peId = null;
+            Object e, peId = null;
             for (int i = 0; i < sourcelist.size(); i++) {
                 e = sourcelist.get(i);
-                if (e != null)
+                if (e != null) {
                     peId = Reflections.getFieldValue(e, "parentId");
+                    if(extRootId && Reflections.getFieldValue(e, "id").equals(parentId)){
+                        list.add(e);
+                        continue;
+                    }
+                }
                 if (parentId.equals(peId)) {
                     list.add(e);
                     // 判断是否还有子节点, 有则继续获取子节点
                     for (int j = 0; j < sourcelist.size(); j++) {
                         e = sourcelist.get(i);
-                        if (e != null)
+                        if (e != null) {
                             peId = Reflections.getFieldValue(e, "parentId");
+                        }
                         if (parentId.equals(peId)) {
-                            sortList(list, sourcelist, String.valueOf(Reflections.getFieldValue(e, "id")));
+                            sortTreeList(list, sourcelist, String.valueOf(Reflections.getFieldValue(e, "id")), extRootId);
                             break;
                         }
                     }
@@ -648,11 +655,13 @@ public class PublicUtil {
         return fmtDate(val, PublicUtil.TIME_FORMAT);
     }
 
-    public static String convertComboDataList(List<?> dataList, String idFieldName, String nameFieldName) {
+    public static String convertComboDataListStr(List<?> dataList, String idFieldName, String nameFieldName) {
+        return Json.toJsonString(convertComboDataList(dataList, idFieldName, nameFieldName));
+    }
+    public static List<ComboData> convertComboDataList(List<?> dataList, String idFieldName, String nameFieldName) {
         List<ComboData> comboDataList = Lists.newArrayList();
         dataList.forEach(item -> comboDataList.add(new ComboData(PublicUtil.toStrString(Reflections.getFieldValue(item, idFieldName)),
-                PublicUtil.toStrString(Reflections.invokeGetter(item, nameFieldName)))));
-        return Json.toJsonString(comboDataList);
+            PublicUtil.toStrString(Reflections.invokeGetter(item, nameFieldName)))));
+        return comboDataList;
     }
-
 }// class end

@@ -1,6 +1,6 @@
 package com.albedo.java.modules.sys.domain;
 
-import com.albedo.java.common.domain.base.IdEntity;
+import com.albedo.java.common.data.persistence.IdEntity;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.annotation.DictType;
 import com.albedo.java.util.annotation.SearchField;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23 下午4:32:52
+ * Copyright 2013 albedo All right reserved Author somewhere Created on 2013-10-23 下午4:32:52
  */
 @Entity
 @Table(name = "sys_role_t")
@@ -31,17 +31,6 @@ import java.util.Set;
 @ToString
 public class Role extends IdEntity {
 
-    /*** 数据范围(所有数据) */
-    public static final Integer DATA_SCOPE_ALL = 1;
-    // 数据范围（1：所有数据；2：所在机构及以下数据；3：所在机构数据；4：仅本人数据；5：按明细设置）
-    /*** 数据范围(所在机构及以下数据) */
-    public static final Integer DATA_SCOPE_ORG_AND_CHILD = 2;
-    /*** 数据范围(所在机构数据) */
-    public static final Integer DATA_SCOPE_ORG = 3;
-    /*** 数据范围(仅本人数据) */
-    public static final Integer DATA_SCOPE_SELF = 4;
-    /*** 数据范围(按明细设置) */
-    public static final Integer DATA_SCOPE_CUSTOM = 5;
     public static final String F_SORT = "sort";
     public static final String F_NAME = "name";
     public static final String F_SYSDATA = "sysData";

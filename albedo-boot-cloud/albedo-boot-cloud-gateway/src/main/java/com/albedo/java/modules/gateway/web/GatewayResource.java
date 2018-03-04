@@ -42,7 +42,7 @@ public class GatewayResource {
      */
     @GetMapping("/routes")
     @Timed
-    public ResponseEntity<List<RouteVo>> activeRoutes() {
+    public ResponseEntity activeRoutes() {
         List<Route> routes = routeLocator.getRoutes();
         List<RouteVo> routeVMs = new ArrayList<>();
         routes.forEach(route -> {

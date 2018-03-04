@@ -2,9 +2,9 @@ package com.albedo.java.web.rest;
 
 import com.albedo.java.AlbedoBootWebApp;
 import com.albedo.java.common.config.AlbedoProperties;
+import com.albedo.java.common.data.persistence.BaseEntity;
 import com.albedo.java.common.data.persistence.DynamicSpecifications;
 import com.albedo.java.common.data.persistence.SpecificationDetail;
-import com.albedo.java.common.domain.base.BaseEntity;
 import com.albedo.java.common.security.MailService;
 import com.albedo.java.modules.sys.domain.Org;
 import com.albedo.java.modules.sys.domain.Role;
@@ -73,9 +73,6 @@ public class UserResourceIntTest {
     private static final String DEFAULT_NAME = "doe";
     private static final String UPDATED_NAME = "jhipsterLastName";
 
-    private static final String DEFAULT_IMAGEURL = "http://placehold.it/50x50";
-    private static final String UPDATED_IMAGEURL = "http://placehold.it/40x40";
-
     private static final String DEFAULT_LANGKEY = "en";
     private static final String UPDATED_LANGKEY = "fr";
 
@@ -93,7 +90,7 @@ public class UserResourceIntTest {
     private RoleService roleService;
     @Autowired
     private AlbedoProperties albedoProperties;
-    
+
 
     @Autowired
     private EntityManager em;
@@ -146,7 +143,7 @@ public class UserResourceIntTest {
         anotherUser.setEmail(DEFAULT_ANOTHER_EMAIL);
         anotherUser.setName("java");
         anotherUser.setLangKey("en");
-        userRepository.saveAndFlush(anotherUser);
+        userRepository.save(anotherUser);
     }
 
     @Test
@@ -170,9 +167,9 @@ public class UserResourceIntTest {
                 null,
                 Collections3.extractToList(roles, Role.F_ID),
                 null,
-                null);
+                null,null);
 
-        restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/edit"))
+        restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/"))
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
             .andExpect(status().isOk());
@@ -208,10 +205,10 @@ public class UserResourceIntTest {
                 null,
                 Collections3.extractToList(roles, Role.F_ID),
                 null,
-                null);
+                null,null);
 
         // Create the User
-        restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/edit"))
+        restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/"))
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
                 .andExpect(status().isOk())
@@ -227,9 +224,9 @@ public class UserResourceIntTest {
     @Transactional
     public void getAllUsers() throws Exception {
         // Initialize the database
-        userRepository.saveAndFlush(user);
+        userRepository.save(user);
         // Get all the users
-        restUserMockMvc.perform(get(albedoProperties.getAdminPath("/sys/user/page"))
+        restUserMockMvc.perform(get(albedoProperties.getAdminPath("/sys/user/"))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -244,10 +241,10 @@ public class UserResourceIntTest {
     @Transactional
     public void getUser() throws Exception {
         // Initialize the database
-        userRepository.saveAndFlush(user);
+        userRepository.save(user);
 
         // Get the user
-        restUserMockMvc.perform(get(albedoProperties.getAdminPath("/sys/user/{login}"), user.getId()))
+        restUserMockMvc.perform(get(albedoProperties.getAdminPath("/sys/user/{id}"), user.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.data.loginId").value(user.getLoginId()))
@@ -268,7 +265,7 @@ public class UserResourceIntTest {
     @Transactional
     public void updateUser() throws Exception {
         // Initialize the database
-        userRepository.saveAndFlush(user);
+        userRepository.save(user);
         int databaseSizeBeforeUpdate = userRepository.findAll().size();
 
         // Update the user
@@ -289,9 +286,9 @@ public class UserResourceIntTest {
                 null,
                 Collections3.extractToList(roles, Role.F_ID),
                 null,
-                null);
+                null,null);
 
-        restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/edit"))
+        restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/"))
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
                 .andExpect(status().isOk())
@@ -333,9 +330,9 @@ public class UserResourceIntTest {
                 null,
                 Collections3.extractToList(roles, Role.F_ID),
                 null,
-                null);
+                null,null);
 
-        restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/edit"))
+        restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/"))
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
                 .andExpect(status().isOk())
@@ -366,32 +363,49 @@ public class UserResourceIntTest {
                 null,
                 null,
                 Collections3.extractToList(roles, Role.F_ID),
-                null,null
+                null,null,null
                 );
-        restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/edit"))
+        restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/"))
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(Globals.MSG_TYPE_WARNING))
                 .andExpect(jsonPath("$.message").isNotEmpty());
     }
+    @Test
+    @Transactional
+    public void lockOrUnLockUser() throws Exception {
+        // Initialize the database
+        userRepository.save(user);
+        SpecificationDetail<User> spec = DynamicSpecifications.bySearchQueryCondition(
+            QueryCondition.eq(BaseEntity.F_STATUS, BaseEntity.FLAG_NORMAL));
+        long databaseSizeBeforeLock = userService.count(spec);
 
+        // Delete the user
+        restUserMockMvc.perform(put(albedoProperties.getAdminPath("/sys/user/{id}"), user.getId())
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk());
+
+        // Validate the database is empty
+        long databaseSizeAfterLock = userService.count(spec);
+        assertThat(databaseSizeAfterLock == databaseSizeBeforeLock - 1);
+    }
     @Test
     @Transactional
     public void deleteUser() throws Exception {
         // Initialize the database
-        userRepository.saveAndFlush(user);
+        userRepository.save(user);
         SpecificationDetail<User> spec = DynamicSpecifications.bySearchQueryCondition(
                 QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
-        long databaseSizeBeforeDelete = userRepository.count(spec);
+        long databaseSizeBeforeDelete = userService.count(spec);
 
         // Delete the user
-        restUserMockMvc.perform(delete(albedoProperties.getAdminPath("/sys/user/delete/{login}"), user.getId())
+        restUserMockMvc.perform(delete(albedoProperties.getAdminPath("/sys/user/{id}"), user.getId())
                 .accept(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
 
         // Validate the database is empty
-        long databaseSizeAfterDelete = userRepository.count(spec);
+        long databaseSizeAfterDelete = userService.count(spec);
         assertThat(databaseSizeAfterDelete == databaseSizeBeforeDelete - 1);
     }
 

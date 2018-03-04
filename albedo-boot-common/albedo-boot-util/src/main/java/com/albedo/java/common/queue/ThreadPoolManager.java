@@ -10,7 +10,7 @@ import java.util.concurrent.*;
 /**
  * 线程池管理类
  *
- * @author: lijie
+ * @author: somewhere
  * @date: 2017-8-23   上午10:56:01
  */
 public class ThreadPoolManager {

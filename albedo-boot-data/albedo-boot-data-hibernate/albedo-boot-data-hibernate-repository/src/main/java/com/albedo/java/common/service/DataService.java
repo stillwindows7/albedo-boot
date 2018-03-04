@@ -3,11 +3,13 @@ package com.albedo.java.common.service;
 import com.albedo.java.common.data.persistence.DynamicSpecifications;
 import com.albedo.java.common.data.persistence.SpecificationDetail;
 import com.albedo.java.common.data.persistence.service.BaseService;
-import com.albedo.java.common.domain.base.BaseEntity;
-import com.albedo.java.common.domain.base.DataEntity;
+import com.albedo.java.common.data.persistence.BaseEntity;
+import com.albedo.java.common.data.persistence.DataEntity;
 import com.albedo.java.common.repository.DataRepository;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.base.Assert;
+import com.albedo.java.util.domain.ComboSearch;
+import com.albedo.java.util.domain.ComboData;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
 import org.springframework.transaction.annotation.Transactional;
@@ -102,5 +104,8 @@ public class DataService<Repository extends DataRepository<T, PK>, T extends Dat
 
     public boolean doCheckByPK(T entity) {
         return baseRepository.doCheckByPK(entity);
+    }
+    public List<ComboData> findJson(ComboSearch comboSearch) {
+        return baseRepository.findJson(comboSearch);
     }
 }

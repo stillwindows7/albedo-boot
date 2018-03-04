@@ -53,6 +53,9 @@ public class AreaVo extends TreeEntityVo {
      */
     @Length(max = 32)
     private String code;
+
+    public AreaVo(String id) {
+    }
     //columns END
 
     @Override

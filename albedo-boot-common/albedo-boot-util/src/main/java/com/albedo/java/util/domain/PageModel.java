@@ -23,6 +23,7 @@ public class PageModel<T> implements Pageable, Serializable {
     public static final String F_DATA = "data";
     private static final long serialVersionUID = 1L;
     private int page = 1;
+    @JSONField(name="perpage")
     private int size = 10;
     @JSONField(serialize = false)
     private Sort sort;
@@ -33,9 +34,10 @@ public class PageModel<T> implements Pageable, Serializable {
     private String queryConditionJson;
     @JSONField(serialize = false)
     private String sqlConditionDsf;
-    private long recordsFiltered;
+    @JSONField(name="total")
     private long recordsTotal;
-    private int draw;
+
+
     @JSONField(name = "data", serialzeFeatures = {SerializerFeature.WriteNullListAsEmpty})
     private List<T> data;
 
@@ -108,23 +110,6 @@ public class PageModel<T> implements Pageable, Serializable {
         this.data = data;
     }
 
-    public long getRecordsFiltered() {
-        if (recordsFiltered == 0) recordsFiltered = getRecordsTotal();
-        return recordsFiltered;
-    }
-
-    public void setRecordsFiltered(long recordsFiltered) {
-        this.recordsFiltered = recordsFiltered;
-    }
-
-    public int getDraw() {
-        return draw;
-    }
-
-    public void setDraw(int draw) {
-        this.draw = draw;
-    }
-
     public void setPageInstance(Page<T> page) {
         setData(page.getContent());
         setRecordsTotal(page.getTotalElements());
@@ -137,11 +122,17 @@ public class PageModel<T> implements Pageable, Serializable {
     public void setPage(int page) {
         this.page = page;
     }
-
+    public void setPage(Integer page) {
+        if(page!=null)
+        this.page = page;
+    }
     public int getSize() {
         return size;
     }
-
+    public void setSize(Integer size) {
+        if(size!=null)
+        this.size = size;
+    }
     public void setSize(int size) {
         this.size = size;
     }

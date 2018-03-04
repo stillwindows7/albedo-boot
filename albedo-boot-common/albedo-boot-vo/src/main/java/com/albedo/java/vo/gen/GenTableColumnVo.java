@@ -6,11 +6,13 @@ import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.vo.base.DataEntityVo;
 import com.albedo.java.vo.base.TreeEntityVo;
 import com.albedo.java.vo.util.GenTableColumnVoUtil;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.validator.constraints.NotBlank;
 
 import java.util.List;
 
@@ -33,11 +35,17 @@ public class GenTableColumnVo extends DataEntityVo implements Comparable {
     /**
      * 归属表
      */
+    @JSONField(serialize = false)
     private GenTableVo genTable;
     /**
      * 列名
      */
     private String name;
+    /**
+     * 标题
+     */
+    @NotBlank
+    private String title;
     /**
      * 描述
      */
@@ -105,12 +113,12 @@ public class GenTableColumnVo extends DataEntityVo implements Comparable {
     private String hibernateValidatorExprssion;
 
 
-    private String nameAndComments;
-    public GenTableColumnVo(String name, Integer isNull, Integer sort, String comments, String jdbcType) {
+    private String nameAndTitle;
+    public GenTableColumnVo(String name, Integer isNull, Integer sort, String title, String jdbcType) {
         this.name = name;
         this.isNull = isNull;
         this.sort = sort;
-        this.comments = comments;
+        this.title = title;
         this.jdbcType = jdbcType;
     }
     @Override
@@ -145,8 +153,8 @@ public class GenTableColumnVo extends DataEntityVo implements Comparable {
      *
      * @return
      */
-    public String getNameAndComments() {
-        return getName() + (comments == null ? "" : "  :  " + comments);
+    public String getNameAndTitle() {
+        return getName() + (title == null ? "" : "  :  " + title);
     }
 
     /**
@@ -168,13 +176,23 @@ public class GenTableColumnVo extends DataEntityVo implements Comparable {
      *
      * @return
      */
+    @JSONField(serialize = false)
     public String getSimpleJavaType() {
         if ("This".equals(getJavaType())) {
             return StringUtil.capitalize(genTable.getClassName());
         }
         return StringUtil.indexOf(getJavaType(), ".") != -1 ? StringUtil.substringAfterLast(getJavaType(), ".") : getJavaType();
     }
-
+    /**
+     * 获取简写Java类型
+     *
+     * @return
+     */
+    @JSONField(serialize = false)
+    public String getSimpleTsType() {
+        String javaSimpleType = getSimpleJavaType();
+        return (javaSimpleType.indexOf("Integer")!=-1 || javaSimpleType.indexOf("Double")!=-1 || javaSimpleType.indexOf("Float")!=-1) ? "number" : "string";
+    }
     /**
      * 获取简写Java字段
      *
@@ -266,11 +284,11 @@ public class GenTableColumnVo extends DataEntityVo implements Comparable {
         }
         // 导入JSR303验证依赖包
         if (!"1".equals(getIsNull()) && !SystemConfig.TYPE_STRING.equals(getJavaType())) {
-            list.add("javax.validation.constraints.NotNull(message=\"" + getComments() + "不能为空\")");
+            list.add("javax.validation.constraints.NotNull(message=\"" + getTitle() + "不能为空\")");
         } else if (!"1".equals(getIsNull()) && SystemConfig.TYPE_STRING.equals(getJavaType()) && !"0".equals(getDataLength())) {
-            list.add("org.hibernate.validator.constraints.Length(min=1, max=" + getDataLength() + ", message=\"" + getComments() + "长度必须介于 1 和 " + getDataLength() + " 之间\")");
+            list.add("org.hibernate.validator.constraints.Length(min=1, max=" + getDataLength() + ", message=\"" + getTitle() + "长度必须介于 1 和 " + getDataLength() + " 之间\")");
         } else if (SystemConfig.TYPE_STRING.equals(getJavaType()) && !"0".equals(getDataLength())) {
-            list.add("org.hibernate.validator.constraints.Length(min=0, max=" + getDataLength() + ", message=\"" + getComments() + "长度必须介于 0 和 " + getDataLength() + " 之间\")");
+            list.add("org.hibernate.validator.constraints.Length(min=0, max=" + getDataLength() + ", message=\"" + getTitle() + "长度必须介于 0 和 " + getDataLength() + " 之间\")");
         }
         return list;
     }

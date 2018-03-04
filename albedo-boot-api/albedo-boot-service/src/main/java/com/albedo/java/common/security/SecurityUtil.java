@@ -1,6 +1,7 @@
 package com.albedo.java.common.security;
 
 import com.albedo.java.common.config.AlbedoProperties;
+import com.albedo.java.common.data.persistence.BaseEntity;
 import com.albedo.java.modules.sys.domain.*;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.modules.sys.service.AreaService;
@@ -10,11 +11,14 @@ import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.util.*;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.QueryCondition;
+import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.util.spring.SpringContextHolder;
+import com.albedo.java.vo.sys.RoleVo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.CacheManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,6 +28,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Utility class for Spring Security.
@@ -116,15 +121,23 @@ public final class SecurityUtil {
      * @param loginId
      * @return 取不到返回null
      */
-    public static User getByLoginId(String loginId) {
+    public static User getByLoginId(final String loginId) {
         User user = JedisUtil.getJson(USER_CACHE, USER_CACHE_LOGIN_NAME_ + loginId, User.class);
-        if (user == null) {
+        if (user == null||PublicUtil.isEmpty(user.getId())) {
             user = userRepository.findOneByLoginId(loginId).map(u -> {
+                if(PublicUtil.isEmpty(u.getId())){
+                    SpringContextHolder.getBean(CacheManager.class).getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(loginId);
+                    u = userRepository.findOneByLoginId(loginId).get();
+                }
+                if(!BaseEntity.FLAG_NORMAL.equals(u.getStatus())){
+                    throw new RuntimeMsgException("用户 " + loginId + " 登录信息已被锁定");
+                }
                 String json = Json.toJsonString(u);
                 JedisUtil.put(USER_CACHE, USER_CACHE_ID_ + u.getId(), json);
                 JedisUtil.put(USER_CACHE, USER_CACHE_LOGIN_NAME_ + u.getLoginId(), json);
                 return u;
-            }).orElseThrow(() -> new UsernameNotFoundException("User " + loginId + " was not found in the database"));
+            }).orElseThrow(() -> new RuntimeMsgException("用户 " + loginId + " 不存在"));
+
         }
         return user;
     }
@@ -149,6 +162,12 @@ public final class SecurityUtil {
         logger.info("{}", moduleList);
         return moduleList;
     }
+
+    public static List<Module> getMenuList() {
+        return getModuleList(false, null).stream()
+            .filter(item -> Module.TYPE_MENU.equals(item.getType())).collect(Collectors.toList());
+    }
+
 
     public static List<Module> getModuleList(String userId) {
         return getModuleList(false, userId);
@@ -474,18 +493,18 @@ public final class SecurityUtil {
                 for (String oa : StringUtil.splitDefault(orgAlias)) {
                     if (!dataScope.contains(r.getDataScope()) && StringUtil.isNotBlank(oa)) {
                         tempOrgId = PublicUtil.toAppendStr(oa, idSql);
-                        if (Role.DATA_SCOPE_ALL.equals(r.getDataScope())) {
+                        if (RoleVo.DATA_SCOPE_ALL.equals(r.getDataScope())) {
                             isDataScopeAll = true;
-                        } else if (Role.DATA_SCOPE_ORG_AND_CHILD.equals(r.getDataScope())) {
+                        } else if (RoleVo.DATA_SCOPE_ORG_AND_CHILD.equals(r.getDataScope())) {
                             queryConditions.add(QueryCondition.eq(tempOrgId, userOrgId));
                             queryConditions.add(QueryCondition.like(PublicUtil.toAppendStr(oa, isSql ? ".parent_ids" : ".parentIds"),
                                     PublicUtil.toAppendStr(user.getOrg().getParentIds(), userOrgId, ",%'")));
-                        } else if (Role.DATA_SCOPE_ORG.equals(r.getDataScope())) {
+                        } else if (RoleVo.DATA_SCOPE_ORG.equals(r.getDataScope())) {
                             queryConditions.add(QueryCondition.eq(tempOrgId, userOrgId));
                             queryConditions
                                     .add(QueryCondition.eq(PublicUtil.toAppendStr(oa, isSql ? ".parent_id" : ".parentId"), userOrgId));
-                        } else if (Role.DATA_SCOPE_SELF.equals(r.getDataScope())
-                                || Role.DATA_SCOPE_CUSTOM.equals(r.getDataScope())) {
+                        } else if (RoleVo.DATA_SCOPE_SELF.equals(r.getDataScope())
+                                || RoleVo.DATA_SCOPE_CUSTOM.equals(r.getDataScope())) {
                             if (PublicUtil.isNotEmpty(r.getOrgIds())) {
                                 queryConditions.add(QueryCondition.in(tempOrgId,
                                         Lists.newArrayList(StringUtil.splitDefault(r.getOrgIds()))));
@@ -518,4 +537,13 @@ public final class SecurityUtil {
     }
 
 
+    public static List<String> getCurrentUserAuthorities() {
+        List<String> dataList = Lists.newArrayList();
+        SecurityUtil.getModuleList().forEach(item->{
+            if(PublicUtil.isNotEmpty(item.getPermission())){
+                dataList.addAll(Lists.newArrayList(item.getPermission().split(StringUtil.SPLIT_DEFAULT)));
+            }
+        });
+        return dataList;
+    }
 }

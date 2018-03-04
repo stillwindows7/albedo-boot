@@ -33,7 +33,6 @@ import java.util.Collection;
 public class AlbedoBootWebRest {
 
     private static final Logger log = LoggerFactory.getLogger(AlbedoBootWebRest.class);
-
     @Resource
     private Environment env;
 

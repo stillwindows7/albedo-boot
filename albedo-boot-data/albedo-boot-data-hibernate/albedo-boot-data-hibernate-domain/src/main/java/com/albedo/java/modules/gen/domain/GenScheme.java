@@ -1,7 +1,6 @@
 package com.albedo.java.modules.gen.domain;
 
-import com.albedo.java.common.domain.base.IdEntity;
-import com.albedo.java.util.config.SystemConfig;
+import com.albedo.java.common.data.persistence.IdEntity;
 import com.alibaba.fastjson.annotation.JSONField;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.*;
@@ -64,10 +63,10 @@ public class GenScheme extends IdEntity {
     @Column(name = "function_author")
     private String functionAuthor; // 生成功能作者
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "gen_table_id", nullable = true)
+    @JoinColumn(name = "gen_table_id", nullable = true, updatable = false, insertable = false)
     @NotFound(action = NotFoundAction.IGNORE)
     private GenTable genTable; // 业务表名
-    @Column(name = "gen_table_id", nullable = true, updatable = false, insertable = false)
+    @Column(name = "gen_table_id")
     private String genTableId; // 业务表名
 
     @JSONField(serialize = false)
@@ -114,16 +113,6 @@ public class GenScheme extends IdEntity {
 
     public void setViewType(Integer viewType) {
         this.viewType = viewType;
-    }
-
-    /**
-     * true 使用ajax视图
-     *
-     * @return
-     */
-    @Transient
-    public boolean getModalView() {
-        return SystemConfig.YES.equals(viewType);
     }
 
     public String getModuleName() {

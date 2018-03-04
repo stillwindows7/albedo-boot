@@ -5,7 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 /**
- * Created by lijie on 2017/5/8.
+ * Created by somewhere on 2017/5/8.
  */
 public class InputStreamUtils {
     final static int BUFFER_SIZE = 4096;

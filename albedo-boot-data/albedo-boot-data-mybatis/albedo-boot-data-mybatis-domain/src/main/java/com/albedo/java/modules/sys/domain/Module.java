@@ -1,6 +1,6 @@
 package com.albedo.java.modules.sys.domain;
 
-import com.albedo.java.common.domain.base.TreeEntity;
+import com.albedo.java.common.data.persistence.TreeEntity;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.annotation.DictType;
 import com.albedo.java.util.annotation.SearchField;
@@ -14,7 +14,7 @@ import org.springframework.data.mybatis.annotations.Column;
 import org.springframework.data.mybatis.annotations.Entity;
 
 /**
- * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23 下午4:29:21
+ * Copyright 2013 albedo All right reserved Author somewhere Created on 2013-10-23 下午4:29:21
  */
 @Entity(table = "sys_module_t")
 @Data

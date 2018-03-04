@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
 
 /**
- * Created by lijie on 9/7/16.
+ * Created by somewhere on 9/7/16.
  */
 
 @ConfigurationPropertiesBinding

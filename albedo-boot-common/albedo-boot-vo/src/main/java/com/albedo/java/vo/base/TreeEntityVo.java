@@ -1,5 +1,6 @@
 package com.albedo.java.vo.base;
 
+import com.albedo.java.util.annotation.BeanField;
 import lombok.Data;
 
 /**
@@ -18,11 +19,14 @@ public class TreeEntityVo extends DataEntityVo {
     /*** 上级模块 */
     protected String parentId;
     /*** 上级模块 */
+    @BeanField
     protected String parentIds;
     /*** 序号 */
-    protected Integer sort = 0;
+    protected Integer sort;
     /*** 父模块名称 */
+    @BeanField
     private String parentName;
+    @BeanField
     private boolean isLeaf;
 
 }

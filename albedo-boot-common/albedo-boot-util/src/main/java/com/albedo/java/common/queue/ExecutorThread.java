@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 执行器线程
  *
- * @author: lijie
+ * @author: somewhere
  * @date: 2017-8-23   上午10:56:01
  */
 public class ExecutorThread extends Executor implements Runnable {

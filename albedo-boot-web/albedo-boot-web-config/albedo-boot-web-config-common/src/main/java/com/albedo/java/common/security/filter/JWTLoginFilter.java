@@ -2,7 +2,7 @@ package com.albedo.java.common.security.filter;//package com.albedo.java.common.
 //
 //import com.albedo.java.common.security.jwt.TokenProvider;
 //import com.albedo.java.util.domain.CustomMessage;
-//import com.albedo.java.vo.base.LoginVo;
+//import com.albedo.java.vo.account.LoginVo;
 //import com.albedo.java.web.rest.base.GeneralResource;
 //import com.albedo.java.web.rest.util.RequestUtil;
 //import org.springframework.security.authentication.AuthenticationManager;

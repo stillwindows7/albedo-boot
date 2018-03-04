@@ -7,14 +7,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.data.mybatis.annotations.Entity;
 
 /**
  * 生成方案Entity
  *
  * @version 2013-10-15
  */
-@Entity(table = "gen_scheme_t")
 @Data
 @AllArgsConstructor
 @ToString
@@ -51,7 +49,7 @@ public class GenSchemeVo extends DataEntityVo {
      */
     private String category;
     /**
-     * 视图类型 0 普通表格 1 表格采用ajax刷新
+     * 视图类型 弹窗视图0 普通表格 1
      */
     private Integer viewType;
     /**
@@ -109,7 +107,7 @@ public class GenSchemeVo extends DataEntityVo {
     private String parentModuleId;
 
     /**
-     * true 使用ajax视图
+     * true 使用弹窗视图
      *
      * @return
      */

@@ -5,7 +5,7 @@
     <parent>
         <artifactId>albedo-boot-web-config</artifactId>
         <groupId>com.albedo.java</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -26,11 +26,11 @@
         </dependencies>
     </dependencyManagement>
 
-
     <dependencies>
+
         <dependency>
             <groupId>com.albedo.java</groupId>
-            <artifactId>albedo-boot-web-config-common</artifactId>
+            <artifactId>albedo-boot-web-config-cloud</artifactId>
             <version>${project.release.version}</version>
             <exclusions>
                 <exclusion>
@@ -38,20 +38,6 @@
                     <artifactId>hibernate-jcache</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.hazelcast</groupId>
-            <artifactId>hazelcast</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.hazelcast</groupId>
-            <artifactId>hazelcast-hibernate52</artifactId>
-            <version>${hazelcast-hibernate52.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hazelcast</groupId>
-            <artifactId>hazelcast-spring</artifactId>
         </dependency>
 
 		<dependency>
@@ -75,10 +61,6 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-ribbon</artifactId>
             <!-- netty's native is pulled, but is useless unless you explicitly add the native binary dependency.
                  Having it in the classpath without the binary can cause warnings -->
@@ -95,10 +77,6 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-hystrix</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-spectator</artifactId>
             <exclusions>
             	<exclusion>
@@ -106,10 +84,6 @@
             		<artifactId>servo-core</artifactId>
             	</exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.retry</groupId>
-            <artifactId>spring-retry</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -120,14 +94,6 @@
             		<artifactId>servo-core</artifactId>
             	</exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-config</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-feign</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

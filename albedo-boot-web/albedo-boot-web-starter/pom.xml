@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.albedo.java</groupId>
         <artifactId>albedo-boot-web</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
     <artifactId>albedo-boot-web-starter</artifactId>
     <packaging>war</packaging>
@@ -26,7 +26,11 @@
             <artifactId>albedo-boot-web-resource</artifactId>
             <version>${project.release.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.albedo.java</groupId>
+            <artifactId>albedo-boot-ui-angular</artifactId>
+            <version>${project.release.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -46,36 +50,7 @@
 
     <build>
         <finalName>albedo-boot-web-starter</finalName>
-        <resources>
-            <resource>
-                <directory>${basedir}/../../albedo-boot-ui/src/main/webapp</directory>
-                <!--注意此次必须要放在此目录下才能被访问到-->
-                <targetPath>META-INF/resources</targetPath>
-                <includes>
-                    <include>WEB-INF/**</include>
-                    <include>statics/frame/**</include>
-                    <!--<include>**/**</include>-->
-                </includes>
-                <excludes>
-                    <exclude>**/*.jar</exclude>
-                </excludes>
-            </resource>
-
-            <resource>
-                <directory>${basedir}/src/main/resources</directory>
-                <includes>
-                    <include>**/**</include>
-                </includes>
-            </resource>
-
-        </resources>
-        <outputDirectory>${project.basedir}/target/bin</outputDirectory>
         <plugins>
-
-        <!--<plugin>-->
-        <!--<groupId>org.springframework.boot</groupId>-->
-        <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
-        <!--</plugin>-->
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
@@ -83,9 +58,15 @@
                 <skip>true</skip>
             </configuration>
         </plugin>
-        </plugins>
-
-    </build>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <configuration>
+                <warSourceDirectory>${basedir}/../../albedo-boot-ui-angular/target/www/app/</warSourceDirectory>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
     <profiles>
         <profile>
             <id>swagger</id>
@@ -115,25 +96,7 @@
                     <optional>true</optional>
                 </dependency>
             </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <configuration>
-                            <warSourceDirectory>${basedir}/../../albedo-boot-ui/src/main/webapp</warSourceDirectory>
-                            <!--<webResources>-->
-                                <!--<resource>-->
-                                    <!--<directory></directory>-->
-                                    <!--<includes>-->
-                                        <!--<include>WEB-INF/**</include>-->
-                                    <!--</includes>-->
-                                <!--</resource>-->
-                            <!--</webResources>-->
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
+
         </profile>
         <profile>
             <id>prod</id>

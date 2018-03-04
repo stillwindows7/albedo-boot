@@ -1,56 +1,84 @@
-import './vendor.ts';
+import { BrowserModule } from '@angular/platform-browser'
+import { Injector, NgModule } from '@angular/core'
+import { ThemeComponent } from './theme/theme.component'
+import { LayoutModule } from './theme/layouts/layout.module'
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations"
 
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { Ng2Webstorage } from 'ng2-webstorage';
-
-import { AlbedoJhipsterSharedModule, UserRouteAccessService } from './shared';
-import { AlbedoJhipsterAppRoutingModule} from './app-routing.module';
-import { AlbedoJhipsterHomeModule } from './home/home.module';
-import { AlbedoJhipsterAdminModule } from './admin/admin.module';
-import { AlbedoJhipsterAccountModule } from './account/account.module';
-import { AlbedoJhipsterEntityModule } from './entities/entity.module';
-import { customHttpProvider } from './blocks/interceptor/http.provider';
-import { PaginationConfig } from './blocks/config/uib-pagination.config';
-
-// jhipster-needle-angular-add-module-import JHipster will add new module here
-
-import {
-    JhiMainComponent,
-    NavbarComponent,
-    FooterComponent,
-    ProfileService,
-    PageRibbonComponent,
-    ActiveMenuDirective,
-    ErrorComponent
-} from './layouts';
+import { AppRoutingModule } from './app.routing.module'
+import { AppComponent } from './app.component'
+// import { ThemeRoutingModule } from "./theme/theme.routing.module"
+import { LocalStorageService, Ng2Webstorage, SessionStorageService } from 'ngx-webstorage'
+import { JhiEventManager, NgJhipsterModule } from "ng-jhipster"
+import { AlbedoBootSharedModule } from "./shared/shared.module"
+import { AlbedoBootAuthModule } from "./auth/auth.module"
+import { AlbedoBootEntityModule } from "./theme/pages/entity.module"
+import { ApiRoutingModule } from "./theme/api.routing.module"
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { AuthInterceptor } from "./intercepter/auth.interceptor";
+import { AuthExpiredInterceptor } from "./intercepter/auth-expired.interceptor";
+import { ErrorHandlerInterceptor } from "./intercepter/errorhandler.interceptor";
+import { NotificationInterceptor } from "./intercepter/notification.interceptor";
 
 @NgModule({
-    imports: [
-        BrowserModule,
-        AlbedoJhipsterAppRoutingModule,
-        Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-'}),
-        AlbedoJhipsterSharedModule,
-        AlbedoJhipsterHomeModule,
-        AlbedoJhipsterAdminModule,
-        AlbedoJhipsterAccountModule,
-        AlbedoJhipsterEntityModule,
-        // jhipster-needle-angular-add-module JHipster will add new module here
-    ],
     declarations: [
-        JhiMainComponent,
-        NavbarComponent,
-        ErrorComponent,
-        PageRibbonComponent,
-        ActiveMenuDirective,
-        FooterComponent
+        ThemeComponent,
+        AppComponent
+    ],
+    imports: [
+        Ng2Webstorage.forRoot({ prefix: 'alb', separator: '-' }),
+        NgJhipsterModule.forRoot({
+            // set below to true to make alerts look like toast
+            alertAsToast: false,
+            i18nEnabled: false,
+            defaultI18nLang: 'zh-cn'
+        }),
+        LayoutModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        ApiRoutingModule,
+        // ThemeRoutingModule,
+        // ThemeRoutingTestModule,
+        AlbedoBootAuthModule,
+        AlbedoBootSharedModule,
+        AlbedoBootEntityModule,
     ],
     providers: [
-        ProfileService,
-        customHttpProvider(),
-        PaginationConfig,
-        UserRouteAccessService
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true,
+            deps: [
+                LocalStorageService,
+                SessionStorageService
+            ]
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthExpiredInterceptor,
+            multi: true,
+            deps: [
+                Injector
+            ]
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: ErrorHandlerInterceptor,
+            multi: true,
+            deps: [
+                JhiEventManager
+            ]
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: NotificationInterceptor,
+            multi: true,
+            deps: [
+                Injector
+            ]
+        }
     ],
-    bootstrap: [ JhiMainComponent ]
+    bootstrap: [AppComponent]
 })
-export class AlbedoJhipsterAppModule {}
+export class AppModule {
+}

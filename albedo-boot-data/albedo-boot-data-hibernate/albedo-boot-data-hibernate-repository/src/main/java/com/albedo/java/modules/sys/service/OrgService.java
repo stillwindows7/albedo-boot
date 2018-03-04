@@ -2,7 +2,7 @@ package com.albedo.java.modules.sys.service;
 
 import com.albedo.java.common.data.persistence.DynamicSpecifications;
 import com.albedo.java.common.data.persistence.SpecificationDetail;
-import com.albedo.java.common.domain.base.BaseEntity;
+import com.albedo.java.common.data.persistence.BaseEntity;
 import com.albedo.java.common.service.TreeVoService;
 import com.albedo.java.modules.sys.domain.Org;
 import com.albedo.java.modules.sys.repository.OrgRepository;
@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -29,14 +31,16 @@ public class OrgService extends TreeVoService<OrgRepository, Org, String, OrgVo>
 
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public List<TreeResult> findTreeData(OrgTreeQuery orgTreeQuery, List<Org> list) {
+    public List<TreeResult> findTreeData(OrgTreeQuery orgTreeQuery, List<Org> orgList) {
         String extId = orgTreeQuery != null ? orgTreeQuery.getExtId() : null,
                 showType = orgTreeQuery != null ? orgTreeQuery.getShowType() : null,
                 all = orgTreeQuery != null ? orgTreeQuery.getAll() : null;
         Long grade = orgTreeQuery != null ? orgTreeQuery.getGrade() : null;
         List<TreeResult> mapList = Lists.newArrayList();
         TreeResult treeResult = null;
-        for (Org e : list) {
+
+        Collections.sort(orgList, Comparator.comparing(Org::getSort).reversed());
+        for (Org e : orgList) {
             if ((PublicUtil.isEmpty(extId)
                     || PublicUtil.isEmpty(e.getParentIds()) || (PublicUtil.isNotEmpty(extId) && !extId.equals(e.getId()) && e.getParentIds() != null && e.getParentIds().indexOf("," + extId + ",") == -1))
                     && (PublicUtil.isEmpty(showType)

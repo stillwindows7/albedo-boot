@@ -1,11 +1,10 @@
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { CommonModule } from '@angular/common';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgJhipsterModule } from 'ng-jhipster';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { CookieModule } from 'ngx-cookie';
+import { NgModule } from '@angular/core'
+import { FormsModule } from '@angular/forms'
+import { HttpModule } from '@angular/http'
+import { CommonModule } from '@angular/common'
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
+import { NgJhipsterModule } from 'ng-jhipster'
+import { CookieModule } from 'ngx-cookie'
 
 @NgModule({
     imports: [
@@ -16,7 +15,6 @@ import { CookieModule } from 'ngx-cookie';
             i18nEnabled: true,
             defaultI18nLang: 'zh-cn'
         }),
-        InfiniteScrollModule,
         CookieModule.forRoot()
     ],
     exports: [
@@ -24,8 +22,8 @@ import { CookieModule } from 'ngx-cookie';
         HttpModule,
         CommonModule,
         NgbModule,
-        NgJhipsterModule,
-        InfiniteScrollModule
+        NgJhipsterModule
     ]
 })
-export class AlbedoJhipsterSharedLibsModule {}
+export class AlbedoBootSharedLibsModule {
+}

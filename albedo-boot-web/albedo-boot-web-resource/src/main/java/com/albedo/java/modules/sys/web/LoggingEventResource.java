@@ -11,6 +11,7 @@ import com.codahale.metrics.annotation.Timed;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -29,16 +30,11 @@ public class LoggingEventResource extends BaseResource {
     @Resource
     private LoggingEventService loggingEventService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public String list() {
-        return "modules/sys/loggingEventList";
-    }
 
     /**
      * @param pm
      */
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    @GetMapping(value = "/")
     public ResponseEntity getPage(PageModel<LoggingEvent> pm) {
         loggingEventService.findPage(pm);
         JSON rs = JsonUtil.getInstance().setRecurrenceStr().toJsonObject(pm);

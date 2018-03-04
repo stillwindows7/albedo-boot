@@ -1,7 +1,9 @@
 package com.albedo.java.modules.sys.web;
 
+import com.albedo.java.common.config.template.tag.FormDirective;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.common.security.SecurityUtil;
+import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.StringUtil;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -34,52 +37,27 @@ import java.util.stream.Collectors;
 @RequestMapping("${albedo.adminPath}/sys/role")
 public class RoleResource extends DataVoResource<RoleService, RoleVo> {
 
-    @GetMapping(value = "/findSelectData")
-    public ResponseEntity findSelectData() {
-        return ResultBuilder.buildOk(SecurityUtil.getRoleList().stream().map(item -> new SelectResult(item.getId(), item.getName())).collect(Collectors.toList()));
-    }
-
-    /**
-     * @param id
-     * @return
-     */
-    @GetMapping("/{id:" + Globals.LOGIN_REGEX + "}")
-    @Timed
-    public ResponseEntity getUser(@PathVariable String id) {
-        log.debug("REST request to get Role : {}", id);
-        return ResultBuilder.buildOk(service.findOneById(id)
-                .map(item -> service.copyBeanToVo(item)));
-    }
-
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public String list() {
-        return "modules/sys/roleList";
+    @GetMapping(value = "/comboData")
+    public ResponseEntity comboData() {
+        return ResultBuilder.buildDataOk(FormDirective.convertComboDataList(SecurityUtil.getRoleList(), Role.F_ID, Role.F_NAME));
     }
 
     /**
      * @param pm
      * @return
      */
-    @GetMapping(value = "/page")
+    @GetMapping(value = "/")
     public ResponseEntity getPage(PageModel pm) {
         service.findPage(pm, SecurityUtil.dataScopeFilter(SecurityUtil.getCurrentUserId(), "org", "creator"));
         JSON rs = JsonUtil.getInstance().setRecurrenceStr("org_name").toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
     }
 
-    @GetMapping(value = "/edit")
-    @Timed
-    public String form(RoleVo roleVo) {
-        return "modules/sys/roleForm";
-    }
-
-
     /**
      * @param roleVo
      * @return
      */
-    @PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity save(@Valid @RequestBody RoleVo roleVo) {
         log.debug("REST request to save RoleVo : {}", roleVo);
@@ -87,6 +65,9 @@ public class RoleResource extends DataVoResource<RoleService, RoleVo> {
         if (!checkByProperty(Reflections.createObj(RoleVo.class, Lists.newArrayList(RoleVo.F_ID, RoleVo.F_NAME),
                 roleVo.getId(), roleVo.getName()))) {
             throw new RuntimeMsgException("名称已存在");
+        }
+        if(!RoleVo.DATA_SCOPE_CUSTOM.equals(roleVo.getDataScope())&& roleVo.getOrgIdList()!=null){
+            roleVo.getOrgIdList().clear();
         }
         service.save(roleVo);
         SecurityUtil.clearUserJedisCache();
@@ -97,7 +78,7 @@ public class RoleResource extends DataVoResource<RoleService, RoleVo> {
      * @param ids
      * @return
      */
-    @PostMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX
+    @DeleteMapping(value = "/{ids:" + Globals.LOGIN_REGEX
             + "}")
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
@@ -111,7 +92,7 @@ public class RoleResource extends DataVoResource<RoleService, RoleVo> {
      * @param ids
      * @return
      */
-    @PostMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX
+    @PutMapping(value = "/{ids:" + Globals.LOGIN_REGEX
             + "}")
     @Timed
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {

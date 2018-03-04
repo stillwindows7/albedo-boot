@@ -2,6 +2,7 @@ package com.albedo.java.common.data.persistence;
 
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.QueryUtil;
+import com.albedo.java.util.base.Assert;
 import com.albedo.java.util.domain.Order;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.domain.QueryCondition.Operator;
@@ -95,9 +96,12 @@ public class SpecificationDetail<T> implements Specification<T>, Serializable {
             List<Predicate> predicates = Lists.newArrayList();
             java.util.Collections.sort(queryConditions);
             for (QueryCondition queryCondition : queryConditions) {
+                Assert.assertIsTrue(queryCondition!=null && PublicUtil.isNotEmpty(queryCondition.getFieldName()), "condition 缺少必要 fieldName");
+                Assert.assertIsTrue( PublicUtil.isNotEmpty(queryCondition.getOperate()), "condition 缺少必要 operate");
                 // nested path translate, 如Task的名为"user.name"的filedName,
                 // 转换为Task.user.name属性
                 String[] names = StringUtils.split(queryCondition.getFieldName(), ".");
+
                 Path expression = root.get(names[0]);
                 for (int i = 1; i < names.length; i++) {
                     expression = expression.get(names[i]);
@@ -147,6 +151,7 @@ public class SpecificationDetail<T> implements Specification<T>, Serializable {
      * @return 链式调用
      */
     public SpecificationDetail<T> and(QueryCondition condition) {
+        Assert.assertIsTrue(condition!=null && PublicUtil.isNotEmpty(condition.getFieldName()), "condition 缺少必要 fieldName");
         this.andQueryConditions.add(condition);
         return this;
     }

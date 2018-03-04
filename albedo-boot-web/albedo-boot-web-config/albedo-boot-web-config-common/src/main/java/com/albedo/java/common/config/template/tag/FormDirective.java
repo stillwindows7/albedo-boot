@@ -6,7 +6,7 @@ import com.albedo.java.util.DictUtil;
 import com.albedo.java.util.Json;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.base.Reflections;
-import com.albedo.java.util.domain.Combo;
+import com.albedo.java.util.domain.ComboSearch;
 import com.albedo.java.util.domain.ComboData;
 import com.albedo.java.util.spring.SpringContextHolder;
 import com.google.common.collect.Lists;
@@ -33,13 +33,16 @@ public class FormDirective implements TemplateDirectiveModel {
     private static final String BOX_TYPE_RADIO = "radio";
     private final Logger log = LoggerFactory.getLogger(FormDirective.class);
 
-    public static String convertComboDataList(List<?> dataList, String idFieldName, String nameFieldName) {
+    public static String convertComboDataStr(List<?> dataList, String idFieldName, String nameFieldName) {
+        return Json.toJsonString(convertComboDataList(dataList, idFieldName, nameFieldName));
+    }
+    public static List<ComboData> convertComboDataList(List<?> dataList, String idFieldName, String nameFieldName) {
         List<ComboData> comboDataList = Lists.newArrayList();
         dataList.forEach(item -> {
             comboDataList.add(new ComboData(PublicUtil.toStrString(Reflections.getFieldValue(item, idFieldName)),
-                    PublicUtil.toStrString(Reflections.invokeGetter(item, nameFieldName))));
+                PublicUtil.toStrString(Reflections.invokeGetter(item, nameFieldName))));
         });
-        return Json.toJsonString(comboDataList);
+        return comboDataList;
     }
 
     @Override
@@ -73,7 +76,7 @@ public class FormDirective implements TemplateDirectiveModel {
             }
         } else if (PublicUtil.isNotEmpty(combo)) {
             try {
-                Combo item = Json.parseObject(combo, Combo.class);
+                ComboSearch item = Json.parseObject(combo, ComboSearch.class);
                 sb = convertMapListToString(params,
                         SpringContextHolder.getBean(JpaCustomeRepository.class).findJson(item));
             } catch (Exception e) {
@@ -127,7 +130,7 @@ public class FormDirective implements TemplateDirectiveModel {
         } else {
             sb.append("<div class=\"").append(PublicUtil.isNotEmpty(searchItem) ? "" : boxType)
                     .append("-list checkbox\">");
-            if (PublicUtil.isNotEmpty(dataList))
+            if (PublicUtil.isNotEmpty(dataList)) {
                 for (int i = 0; i < dataList.size(); i++) {
                     ComboData item = dataList.get(i);
                     String valLabel = item.getId(), nameLabel = item.getName();
@@ -145,6 +148,7 @@ public class FormDirective implements TemplateDirectiveModel {
                             .append("data-options=\"").append(dataOptions).append("\" />").append(nameLabel)
                             .append("</label>");
                 }
+            }
             sb.append("</div>");
         }
         return sb.toString();

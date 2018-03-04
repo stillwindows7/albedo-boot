@@ -2,6 +2,7 @@ package com.albedo.java.vo.gen;
 
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
+import com.albedo.java.util.annotation.JsonField;
 import com.albedo.java.util.base.Collections3;
 import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.exception.RuntimeMsgException;
@@ -24,11 +25,10 @@ import java.util.List;
  */
 @Data
 @ToString
-@NoArgsConstructor
 public class GenTableVo extends DataEntityVo {
 
     public static final String F_NAME = "name";
-    public static final String F_NAMESANDCOMMENTS = "nameAndComments";
+    public static final String F_NAMESANDCOMMENTS = "nameAndTitle";
     private static final long serialVersionUID = 1L;
     // 名称
     /*** 编码 */
@@ -42,10 +42,12 @@ public class GenTableVo extends DataEntityVo {
     /*** 关联父表外键 */
     private String parentTableFk;
     /*** 父表对象 */
+    @JSONField(serialize = false)
     private GenTableVo parent;
     /*** 子表列表 */
+    @JSONField(serialize = false)
     private List<GenTableVo> childList;
-    private String nameAndComments;
+    private String nameAndTitle;
     /*** 按名称模糊查询 */
     private String nameLike;
     /*** 当前表主键列表 */
@@ -55,8 +57,10 @@ public class GenTableVo extends DataEntityVo {
     /**
      * 当前表主键列表
      */
+    @JSONField(serialize = false)
     private List<GenTableColumnVo> pkColumnList;
     /*** 列 - 列表 */
+    @JSONField(serialize = false)
     private List<GenTableColumnVo> columnList;
     /*** 表单提交列 - 列表 */
     @NotNull
@@ -65,6 +69,14 @@ public class GenTableVo extends DataEntityVo {
         this.name = name;
         this.comments = comments;
     }
+    public GenTableVo() {
+    }
+    public GenTableVo(GenTableFormVo genTableFormVo) {
+        this.setId(genTableFormVo.getId());
+        this.name=genTableFormVo.getName();
+
+    }
+
     public List<GenTableColumnVo> getPkColumnList() {
         if (PublicUtil.isEmpty(pkColumnList) && PublicUtil.isNotEmpty(columnList)) {
             if (pkColumnList == null) {
@@ -83,6 +95,7 @@ public class GenTableVo extends DataEntityVo {
         this.pkColumnList = pkColumnList;
     }
 
+    @JSONField(serialize = false)
     public boolean isCompositeId() {
         if (getPkList() == null) {
             throw new RuntimeMsgException("无法获取表的主键信息");
@@ -90,6 +103,7 @@ public class GenTableVo extends DataEntityVo {
         return getPkList().size() > 1;
     }
 
+    @JSONField(serialize = false,deserialize=false)
     public boolean isNotCompositeId() {
         return !isCompositeId();
     }
@@ -130,18 +144,21 @@ public class GenTableVo extends DataEntityVo {
      *
      * @return
      */
-    public String getNameAndComments() {
-        if (PublicUtil.isEmpty(nameAndComments)) {
-            nameAndComments = getName() + (comments == null ? "" : "  :  " + comments);
+    public String getNameAndTitle() {
+        if (PublicUtil.isEmpty(nameAndTitle)) {
+            nameAndTitle = getName() + (comments == null ? "" : "  :  " + comments);
         }
-        return nameAndComments;
+        return nameAndTitle;
     }
 
-    public void setNameAndComments(String nameAndComments) {
-        this.nameAndComments = nameAndComments;
+    public void setNameAndComments(String nameAndTitle) {
+        this.nameAndTitle = nameAndTitle;
     }
 
     public List<GenTableColumnVo> getColumnFormList() {
+        if(PublicUtil.isEmpty(columnFormList) && PublicUtil.isNotEmpty(columnList)){
+            columnFormList = columnList;
+        }
         return columnFormList;
     }
 
@@ -231,6 +248,7 @@ public class GenTableVo extends DataEntityVo {
     public Boolean getParentExists() {
         return parent != null && StringUtil.isNotBlank(parentTable) && StringUtil.isNotBlank(parentTableFk);
     }
+    @JSONField(serialize = false)
     public List<GenTableVo> getChildList() {
         return childList!=null ? childList : Lists.newArrayList();
     }

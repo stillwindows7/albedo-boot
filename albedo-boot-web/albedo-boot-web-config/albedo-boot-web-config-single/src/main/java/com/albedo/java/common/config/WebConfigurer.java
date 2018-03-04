@@ -4,7 +4,6 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.spring.DefaultProfileUtil;
 import com.albedo.java.web.filter.CachingHttpHeadersFilter;
-import com.albedo.java.web.filter.PageInitParamFilter;
 import com.albedo.java.web.interceptor.OperateInterceptor;
 import com.albedo.java.web.listener.ContextInitListener;
 import com.codahale.metrics.MetricRegistry;
@@ -70,7 +69,7 @@ public class WebConfigurer extends WebMvcConfigurerAdapter implements ServletCon
         }
         EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD,
                 DispatcherType.ASYNC);
-        initPageInitParamFilter(servletContext, disps);
+//        initPageInitParamFilter(servletContext, disps);
         initMetrics(servletContext, disps);
         if (env.acceptsProfiles(Globals.SPRING_PROFILE_PRODUCTION)) {
             initCachingHttpHeadersFilter(servletContext, disps);
@@ -118,13 +117,9 @@ public class WebConfigurer extends WebMvcConfigurerAdapter implements ServletCon
         File root;
         String prefixPath = env.getProperty(DefaultProfileUtil.SPRING_WEB_ROOT_PREFIX);
         if (PublicUtil.isEmpty(prefixPath)) {
-            prefixPath = DefaultProfileUtil.resolvePathPrefix(this.getClass());
+            prefixPath = DefaultProfileUtil.resolvePathPrefix(this.getClass()) + "src/main/webapp/";
         }
-//        if (env.acceptsProfiles(Globals.SPRING_PROFILE_PRODUCTION)) {
-//            root = new File(prefixPath + "target/www/");
-//        } else {
-            root = new File(prefixPath + "src/main/webapp/");
-//        }
+        root = new File(prefixPath);
         if (root.exists() && root.isDirectory()) {
             log.info("root {}", root.getAbsolutePath());
             container.setDocumentRoot(root);
@@ -144,18 +139,18 @@ public class WebConfigurer extends WebMvcConfigurerAdapter implements ServletCon
         cachingHttpHeadersFilter.setAsyncSupported(true);
 
     }
-    /**
-     * Initializes the Page Init Params Filter.
-     */
-    private void initPageInitParamFilter(ServletContext servletContext, EnumSet<DispatcherType> disps) {
-        log.debug("Registering PageInitParamFilter");
-        FilterRegistration.Dynamic pageInitParamFilter = servletContext.addFilter(
-                "pageInitParamFilter",
-                new PageInitParamFilter());
-        pageInitParamFilter.addMappingForUrlPatterns(disps, true,
-                albedoProperties.getAdminPath("/*"));
-        pageInitParamFilter.setAsyncSupported(true);
-    }
+//    /**
+//     * Initializes the Page Init Params Filter.
+//     */
+//    private void initPageInitParamFilter(ServletContext servletContext, EnumSet<DispatcherType> disps) {
+//        log.debug("Registering PageInitParamFilter");
+//        FilterRegistration.Dynamic pageInitParamFilter = servletContext.addFilter(
+//                "pageInitParamFilter",
+//                new PageInitParamFilter());
+//        pageInitParamFilter.addMappingForUrlPatterns(disps, true,
+//                albedoProperties.getAdminPath("/*"));
+//        pageInitParamFilter.setAsyncSupported(true);
+//    }
 
     /**
      * Initializes Metrics.
@@ -229,7 +224,7 @@ public class WebConfigurer extends WebMvcConfigurerAdapter implements ServletCon
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName(PublicUtil.isEmpty(albedoProperties.getDefaultView()) ? PublicUtil.toAppendStr("redirect:", albedoProperties.getAdminPath("/login")) : albedoProperties.getDefaultView());
+        registry.addViewController("/").setViewName(PublicUtil.isEmpty(albedoProperties.getDefaultView()) ? "index.html" : albedoProperties.getDefaultView());
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
         super.addViewControllers(registry);
     }

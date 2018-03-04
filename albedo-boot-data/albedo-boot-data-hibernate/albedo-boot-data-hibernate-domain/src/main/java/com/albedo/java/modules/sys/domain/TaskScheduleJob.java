@@ -3,8 +3,8 @@
  */
 package com.albedo.java.modules.sys.domain;
 
-import com.albedo.java.common.domain.base.DataEntity;
-import com.albedo.java.common.domain.base.pk.IdGen;
+import com.albedo.java.common.data.persistence.DataEntity;
+import com.albedo.java.common.data.persistence.pk.IdGen;
 import com.albedo.java.util.annotation.DictType;
 import com.albedo.java.util.annotation.SearchField;
 import org.apache.commons.lang3.StringEscapeUtils;

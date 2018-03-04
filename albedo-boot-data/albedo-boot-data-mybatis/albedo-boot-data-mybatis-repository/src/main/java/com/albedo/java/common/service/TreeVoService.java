@@ -2,7 +2,7 @@ package com.albedo.java.common.service;
 
 import com.albedo.java.common.data.persistence.BaseEntity;
 import com.albedo.java.common.data.persistence.repository.TreeRepository;
-import com.albedo.java.common.domain.base.TreeEntity;
+import com.albedo.java.common.data.persistence.TreeEntity;
 import com.albedo.java.modules.sys.domain.Module;
 import com.albedo.java.util.BeanVoUtil;
 import com.albedo.java.util.PublicUtil;

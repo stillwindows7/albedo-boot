@@ -28,7 +28,7 @@ import java.lang.reflect.Modifier;
 import java.util.*;
 
 /**
- * @author lijie version 2013-12-26 下午2:43:53
+ * @author somewhere version 2013-12-26 下午2:43:53
  */
 @SuppressWarnings("rawtypes")
 public class Reflections {

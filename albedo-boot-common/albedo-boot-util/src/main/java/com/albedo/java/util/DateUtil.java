@@ -13,7 +13,7 @@ import java.util.Date;
 /**
  * 时间工具类
  *
- * @author lijie version 2014-1-20 下午4:10:39
+ * @author somewhere version 2014-1-20 下午4:10:39
  */
 public class DateUtil extends DateUtils {
 

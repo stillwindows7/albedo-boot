@@ -2,7 +2,6 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.config.template.tag.FormDirective;
 import com.albedo.java.common.security.SecurityUtil;
-import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.service.ModuleService;
 import com.albedo.java.modules.sys.service.UserService;
@@ -79,36 +78,16 @@ public class UserResource extends DataVoResource<UserService, UserVo> {
     private ModuleService moduleService;
 
 
-    @GetMapping(value = "/")
-    @Timed
-    public String list() {
-        return "modules/sys/userList";
-    }
-
     /**
      * 分页
      *
      * @param pm
      */
-    @GetMapping(value = "/page")
+    @GetMapping(value = "/")
     public ResponseEntity getPage(PageModel pm) {
         pm = service.findPage(pm, SecurityUtil.dataScopeFilterSql("d", "a"));
         JSON rs = JsonUtil.getInstance().setFreeFilters("roleIdList").setRecurrenceStr("org_name").toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
-    }
-
-    /**
-     * GET  /users/:id : get the "login" user.
-     *
-     * @param id the login of the user to find
-     * @return the ResponseEntity with status 200 (OK) and with body the "id" user, or with status 404 (Not Found)
-     */
-    @GetMapping("/{id:" + Globals.LOGIN_REGEX + "}")
-    @Timed
-    public ResponseEntity getUser(@PathVariable String id) {
-        log.debug("REST request to get User : {}", id);
-        return ResultBuilder.buildOk(service.findOneById(id)
-                .map(item -> service.copyBeanToVo(item)));
     }
 
 
@@ -126,22 +105,13 @@ public class UserResource extends DataVoResource<UserService, UserVo> {
     }
 
 
-
-    @GetMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-//	@Secured(AuthoritiesConstants.ADMIN)
-    public String form(UserVo userVo, Model model, @RequestParam(required = false) Boolean isModal) {
-        model.addAttribute("allRoles", FormDirective.convertComboDataList(SecurityUtil.getRoleList(), Role.F_ID, Role.F_NAME));
-        return PublicUtil.toAppendStr("modules/sys/userForm", isModal ? "Modal" : "");
-    }
-
     /**
      * 保存
      *
      * @param userVo
      * @return
      */
-    @PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @ApiImplicitParams(@ApiImplicitParam(paramType = "query", name = "confirmPassword"))
     public ResponseEntity save(@Valid @RequestBody UserVo userVo) {
@@ -177,7 +147,7 @@ public class UserResource extends DataVoResource<UserService, UserVo> {
      * @param ids
      * @return
      */
-    @PostMapping(value = "/delete/{ids:" + Globals.LOGIN_REGEX + "}")
+    @DeleteMapping(value = "/{ids:" + Globals.LOGIN_REGEX + "}")
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
         log.debug("REST request to delete User: {}", ids);
@@ -193,7 +163,7 @@ public class UserResource extends DataVoResource<UserService, UserVo> {
      * @param ids
      * @return
      */
-    @PostMapping(value = "/lock/{ids:" + Globals.LOGIN_REGEX + "}")
+    @PutMapping(value = "/{ids:" + Globals.LOGIN_REGEX + "}")
     @Timed
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {
         log.debug("REST request to lockOrUnLock User: {}", ids);

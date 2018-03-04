@@ -14,7 +14,7 @@ package util;
 
 /**
  * 系统的全局常量on
- * Created by lijie. on 2017/3/3.
+ * Created by somewhere. on 2017/3/3.
  */
 public class ConstantDictPay {
 

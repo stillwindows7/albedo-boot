@@ -11,7 +11,7 @@ import java.util.Enumeration;
 /**
  * 系统配置类
  *
- * @author lijie version 2014-1-20 下午4:06:33
+ * @author somewhere version 2014-1-20 下午4:06:33
  */
 public class SystemConfig {
     public static final String CK_BASH_URL = "userfiles";

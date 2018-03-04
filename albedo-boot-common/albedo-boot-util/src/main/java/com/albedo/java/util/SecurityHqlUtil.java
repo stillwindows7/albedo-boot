@@ -3,7 +3,7 @@ package com.albedo.java.util;
 /**
  * 数据Hql安全类
  *
- * @author lijie version 2014-1-6 上午9:16:30
+ * @author somewhere version 2014-1-6 上午9:16:30
  */
 public class SecurityHqlUtil {
 

@@ -1,7 +1,8 @@
 package com.albedo.java.modules.sys.domain;
 
-import com.albedo.java.common.domain.base.TreeEntity;
+import com.albedo.java.common.data.persistence.TreeEntity;
 import com.albedo.java.util.annotation.DictType;
+import com.albedo.java.util.annotation.SearchField;
 import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ import org.springframework.data.mybatis.annotations.OneToMany;
 import java.util.Set;
 
 /**
- * Copyright 2013 albedo All right reserved Author lijie Created on 2013-10-23 下午4:30:34
+ * Copyright 2013 albedo All right reserved Author somewhere Created on 2013-10-23 下午4:30:34
  */
 @Entity(table = "sys_org_t")
 @Data
@@ -29,6 +30,7 @@ public class Org extends TreeEntity<Org> {
     private static final long serialVersionUID = 1L;
     /*** 组织编码 */
     @Column(name = "code_")
+    @SearchField
     private String code;
 
     /*** 拼音简码 */

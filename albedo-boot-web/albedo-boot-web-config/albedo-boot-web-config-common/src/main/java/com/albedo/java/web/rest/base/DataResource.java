@@ -1,6 +1,6 @@
 package com.albedo.java.web.rest.base;
 
-import com.albedo.java.common.domain.base.DataEntity;
+import com.albedo.java.common.data.persistence.DataEntity;
 import com.albedo.java.common.service.DataService;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.Globals;
@@ -43,8 +43,8 @@ public class DataResource<Service extends DataService, T extends DataEntity> ext
     }
 
 //	@RequestMapping(value = "findJson")
-//	public void findJson(Combo combo, HttpServletResponse response) {
-//		
+//	public void findJson(ComboSearch combo, HttpServletResponse response) {
+//
 //		List<ComboData> comboDataList = jpaCustomeRepository.findJson(combo);
 //		writeJsonHttpResponse(comboDataList, response);
 //	}

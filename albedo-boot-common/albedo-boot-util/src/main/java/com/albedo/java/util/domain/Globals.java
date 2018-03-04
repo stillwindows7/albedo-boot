@@ -1,5 +1,10 @@
 package com.albedo.java.util.domain;
 
+import com.google.common.collect.Maps;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Application constants.
  */
@@ -45,8 +50,24 @@ public final class Globals {
     /*** 返回消息类型 error */
     public static final Integer MSG_TYPE_ERROR = -1;
     /*** 返回消息类型 error */
-    public static final Integer MSG_TYPE_LOGIN = -99;
 
+    public enum StatusEmun {
+        MSG_TYPE_INFO(0),
+        MSG_TYPE_SUCCESS(1),
+        MSG_TYPE_WARNING(2),
+        MSG_TYPE_ERROR(-1);
+
+        private int status;
+
+        StatusEmun(int status) {
+            this.status = status;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+    }
 
     public static final String ERROR_HTTP_CODE_400 = "error.http.400";
     public static final String ERROR_HTTP_CODE_403 = "error.http.403";
@@ -54,5 +75,7 @@ public final class Globals {
     public static final String ERROR_HTTP_CODE_500 = "error.http.500";
 
     private Globals() {
+
     }
+
 }

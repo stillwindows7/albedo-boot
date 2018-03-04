@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * 队列执行工具类
  *
- * @author: lijie
+ * @author: somewhere
  * @date: 2017-8-23   上午10:56:01
  */
 public class QueueSendMsgUtil {

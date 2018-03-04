@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mybatis.repository.support.MybatisRepository;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,5 +22,5 @@ public interface PersistenceAuditEventRepository extends MybatisRepository<Persi
 
     List<PersistentAuditEvent> findByPrincipalAndAuditEventDateAfterAndAuditEventType(String principle, LocalDateTime after, String type);
 
-    Page<PersistentAuditEvent> findAllByAuditEventDateBetween(LocalDateTime fromDate, LocalDateTime toDate, Pageable pageable);
+    Page<PersistentAuditEvent> findAllByAuditEventDateBetween(Date fromDate, Date toDate, Pageable pageable);
 }

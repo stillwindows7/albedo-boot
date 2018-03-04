@@ -1,6 +1,6 @@
 package com.albedo.java.modules.sys.domain;
 
-import com.albedo.java.common.domain.base.pk.IdGen;
+import com.albedo.java.common.data.persistence.pk.IdGen;
 import com.albedo.java.util.annotation.SearchField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;

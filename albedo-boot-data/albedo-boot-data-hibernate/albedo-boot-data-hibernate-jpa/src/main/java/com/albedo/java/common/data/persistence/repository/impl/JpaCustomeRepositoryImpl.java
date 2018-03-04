@@ -1,8 +1,8 @@
 package com.albedo.java.common.data.persistence.repository.impl;
 
 import com.albedo.java.common.data.persistence.repository.JpaCustomeRepository;
-import com.albedo.java.common.domain.base.BaseEntity;
-import com.albedo.java.common.domain.base.GeneralEntity;
+import com.albedo.java.common.data.persistence.BaseEntity;
+import com.albedo.java.common.data.persistence.GeneralEntity;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.QueryUtil;
 import com.albedo.java.util.base.Reflections;
@@ -102,7 +102,7 @@ public class JpaCustomeRepositoryImpl<T extends BaseEntity> implements JpaCustom
      */
     /*
      * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.albedo.java.repository.data.support.Itest#createQuery(java.lang.
 	 * String, java.lang.Object)
 	 */
@@ -183,18 +183,18 @@ public class JpaCustomeRepositoryImpl<T extends BaseEntity> implements JpaCustom
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public List<ComboData> findJson(Combo combo) {
+    public List<ComboData> findJson(ComboSearch comboSearch) {
         List<ComboData> mapList = Lists.newArrayList();
-        if (PublicUtil.isNotEmpty(combo) && PublicUtil.isNotEmpty(combo.getId())
-                && PublicUtil.isNotEmpty(combo.getName()) && PublicUtil.isNotEmpty(combo.getModule())) {
-            StringBuffer sb = new StringBuffer("select ").append(combo.getId()).append(",").append(combo.getName());
-            boolean flag = PublicUtil.isNotEmpty(combo.getParentId());
+        if (PublicUtil.isNotEmpty(comboSearch) && PublicUtil.isNotEmpty(comboSearch.getId())
+                && PublicUtil.isNotEmpty(comboSearch.getName()) && PublicUtil.isNotEmpty(comboSearch.getModule())) {
+            StringBuffer sb = new StringBuffer("select ").append(comboSearch.getId()).append(",").append(comboSearch.getName());
+            boolean flag = PublicUtil.isNotEmpty(comboSearch.getParentId());
             if (flag) {
-                sb.append(",").append(combo.getParentId());
+                sb.append(",").append(comboSearch.getParentId());
             }
-            sb.append(" from ").append(combo.getName()).append(" where status!=").append(BaseEntity.FLAG_NORMAL);
-            if (PublicUtil.isNotEmpty(combo.getWhere())) {
-                sb.append(" and ").append(combo.getWhere());
+            sb.append(" from ").append(comboSearch.getName()).append(" where status!=").append(BaseEntity.FLAG_NORMAL);
+            if (PublicUtil.isNotEmpty(comboSearch.getWhere())) {
+                sb.append(" and ").append(comboSearch.getWhere());
             }
             List<Object[]> rsList = (List<Object[]>) findListByHQL(sb.toString());
             for (Object[] o : rsList) {
@@ -230,13 +230,13 @@ public class JpaCustomeRepositoryImpl<T extends BaseEntity> implements JpaCustom
      */
     /*
      * (非 Javadoc) <p>Title: executeSQL</p> <p>Description: </p>
-	 * 
+	 *
 	 * @param SQL
-	 * 
+	 *
 	 * @param params
-	 * 
+	 *
 	 * @return
-	 * 
+	 *
 	 * @see com.albedo.java.common.persistence.service.impl.IBaseUtilService#
 	 * executeSQL( java.lang.String, java.lang.Object)
 	 */
@@ -248,11 +248,11 @@ public class JpaCustomeRepositoryImpl<T extends BaseEntity> implements JpaCustom
 
 	/*
      * (非 Javadoc) <p>Title: executeCall</p> <p>Description: </p>
-	 * 
+	 *
 	 * @param call
-	 * 
+	 *
 	 * @param params
-	 * 
+	 *
 	 * @see com.albedo.java.common.persistence.service.impl.IBaseUtilService#
 	 * executeCall( java.lang.String, java.lang.Object)
 	 */

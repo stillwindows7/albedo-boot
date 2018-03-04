@@ -5,7 +5,7 @@
     <parent>
         <artifactId>albedo-boot-web</artifactId>
         <groupId>com.albedo.java</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -23,6 +23,7 @@
         <module>albedo-boot-web-config-single</module>
         <module>albedo-boot-web-config-micro</module>
         <module>albedo-boot-web-config-gateway</module>
+        <module>albedo-boot-web-config-cloud</module>
     </modules>
 
 </project>

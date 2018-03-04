@@ -1,6 +1,6 @@
 package com.albedo.java.modules.gen.domain;
 
-import com.albedo.java.common.domain.base.IdEntity;
+import com.albedo.java.common.data.persistence.IdEntity;
 import com.albedo.java.util.StringUtil;
 import com.google.common.collect.Lists;
 import org.hibernate.annotations.Cache;
