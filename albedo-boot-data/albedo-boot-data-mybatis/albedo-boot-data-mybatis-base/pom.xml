@@ -15,6 +15,11 @@
         <mybatis-spring.version>1.2.3</mybatis-spring.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>com.albedo.java</groupId>
+            <artifactId>albedo-boot-util</artifactId>
+            <version>${project.release.version}</version>
+        </dependency>
         <!-- spring orm -->
         <dependency>
             <groupId>org.springframework</groupId>
