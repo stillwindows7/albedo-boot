@@ -107,7 +107,7 @@ AlbedoBoot 提供了常用工具进行封装，包括日志工具、缓存工具
 3. 运行albedo-new.sql脚本初始化数据库,修改albedo-boot-web-starter src\main\resources\config\application-dev.yml文件中的数据库设置参数。
 4. 在albedo-boot目录下执行mvn clean install (albedo-boot-ui-angular 首次执行，较慢，建议设置npm的[淘宝镜像](https://somewheremrli.github.io/2018/02/27/npm%E6%B7%98%E5%AE%9D%E9%95%9C%E5%83%8F%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/),如果执行失败，请在albedo-boot-ui-angular 下手动执行 npm install)
 5. 启动redis 127.0.0.1 6379 
-5. 最高管理员账号，用户名：admin 密码：admin 
+5. 最高管理员账号，用户名：admin 密码：111111 
 
 
 ## 启动篇
