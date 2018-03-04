@@ -3,7 +3,7 @@ import { CTX } from "../../../../../app.constants";
 import { ActivatedRoute } from "@angular/router";
 import { TaskScheduleJob } from "./taskScheduleJob.model";
 import { TaskScheduleJobService } from "./taskScheduleJob.service";
-import {PublicService} from "../../../../../shared/base/service/public.service";
+import { PublicService } from "../../../../../shared/base/service/public.service";
 
 @Component({
     selector: ".sys-taskScheduleJob-form.page-form",
@@ -49,7 +49,7 @@ export class TaskScheduleJobFormComponent implements AfterViewInit {
     initForm() {
         if (!this.afterViewInit || !this.afterLoad) return;
 
-        var taskScheduleJobId = this.taskScheduleJob.id,thisCtx =this.ctx;
+        var taskScheduleJobId = this.taskScheduleJob.id, thisCtx = this.ctx;
         albedoForm.initValidate($("#taskScheduleJob-save-form"), {
             // define validation rules
             rules: {

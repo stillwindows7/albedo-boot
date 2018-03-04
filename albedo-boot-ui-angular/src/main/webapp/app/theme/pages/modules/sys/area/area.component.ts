@@ -7,7 +7,7 @@ import { CTX, DATA_STATUS } from "../../../../../app.constants"
 import { Principal } from "../../../../../auth/_services/principal.service"
 import { SessionStorageService } from "ngx-webstorage"
 import { Area } from "./area.model"
-import {PublicService} from "../../../../../shared/base/service/public.service";
+import { PublicService } from "../../../../../shared/base/service/public.service";
 
 declare let datatable: any
 @Component({
@@ -36,7 +36,7 @@ export class AreaComponent implements AfterViewInit {
     }
 
     initTable() {
-        var thisPrincipal = this.principal,thisCtx =this.ctx
+        var thisPrincipal = this.principal, thisCtx = this.ctx
         var options = {
 
             data: {
@@ -112,7 +112,7 @@ export class AreaComponent implements AfterViewInit {
         albedoForm.initValidate($("#area-save-form"), {
             // define validation rules
             rules: {
-                code: { remote: thisCtx+'/sys/area/checkByProperty?id=' + encodeURIComponent(albedo.toStr($("#area-save-form").find("input[name='id']").val())) },
+                code: { remote: thisCtx + '/sys/area/checkByProperty?id=' + encodeURIComponent(albedo.toStr($("#area-save-form").find("input[name='id']").val())) },
             },
             messages: {
                 code: { remote: '区域编码已存在' },

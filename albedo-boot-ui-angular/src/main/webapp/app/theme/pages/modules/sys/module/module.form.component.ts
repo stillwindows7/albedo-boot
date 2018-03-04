@@ -3,7 +3,7 @@ import { CTX } from "../../../../../app.constants"
 import { ActivatedRoute } from "@angular/router"
 import { Module } from "./module.model"
 import { ModuleService } from "./module.service"
-import {PublicService} from "../../../../../shared/base/service/public.service";
+import { PublicService } from "../../../../../shared/base/service/public.service";
 
 @Component({
     selector: ".sys-module-form.page-form",
@@ -53,7 +53,7 @@ export class ModuleFormComponent implements OnInit, OnDestroy, AfterViewInit {
     initForm() {
         if (!this.afterViewInit || !this.afterLoad) return
 
-        var moduleId = this.module.id,thisCtx =this.ctx
+        var moduleId = this.module.id, thisCtx = this.ctx
         albedoForm.initValidate($("#module-save-form"), {
             // define validation rules
             rules: {

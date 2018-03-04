@@ -3,10 +3,10 @@ import { Observable } from 'rxjs/Rx'
 import { Data } from "../model/data.model"
 import { createRequestOption } from "../request.util"
 import { HttpClient, HttpResponse } from "@angular/common/http";
-import {PublicService} from "./public.service";
-import {DataService} from "./data.service";
-import {Org} from "../../../theme/pages/modules/sys/org/org.model";
-import {Module} from "../../../theme/pages/modules/sys/module/module.model";
+import { PublicService } from "./public.service";
+import { DataService } from "./data.service";
+import { Org } from "../../../theme/pages/modules/sys/org/org.model";
+import { Module } from "../../../theme/pages/modules/sys/module/module.model";
 
 
 @Injectable()

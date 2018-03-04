@@ -5,8 +5,8 @@ import { Dict } from "./dict.model";
 import { createRequestOption } from "../../../../../shared/base/request.util";
 import { DataService } from "../../../../../shared/base/service/data.service";
 import { HttpClient } from "@angular/common/http";
-import {PublicService} from "../../../../../shared/base/service/public.service";
-import {TreeService} from "../../../../../shared/base/service/tree.service";
+import { PublicService } from "../../../../../shared/base/service/public.service";
+import { TreeService } from "../../../../../shared/base/service/tree.service";
 
 
 @Injectable()

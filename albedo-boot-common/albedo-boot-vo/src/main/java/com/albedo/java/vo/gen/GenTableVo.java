@@ -259,7 +259,12 @@ public class GenTableVo extends DataEntityVo {
      * @return
      */
     public Boolean getChildeExists() {
-        return PublicUtil.isNotEmpty(childList);
+        try {
+            return PublicUtil.isNotEmpty(childList);
+        }catch (Exception e){
+            return false;
+        }
+
     }
 
     /**

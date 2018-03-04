@@ -4,7 +4,7 @@ import { CTX, DATA_STATUS } from "../../../../../app.constants"
 import { Principal } from "../../../../../auth/_services/principal.service"
 import { GenTableService } from "./genTable.service"
 import { Router } from "@angular/router"
-import {PublicService} from "../../../../../shared/base/service/public.service";
+import { PublicService } from "../../../../../shared/base/service/public.service";
 
 declare let datatable: any
 @Component({
@@ -31,7 +31,7 @@ export class GenTableComponent implements AfterViewInit {
     }
 
     initTable() {
-        var thisPrincipal = this.principal,thisCtx =this.ctx
+        var thisPrincipal = this.principal, thisCtx = this.ctx
         var options = {
             data: {
                 source: {

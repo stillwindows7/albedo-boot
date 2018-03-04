@@ -6,8 +6,8 @@ import { DataService } from "../../../../../shared/base/service/data.service"
 import { Module } from "./module.model"
 import { createRequestOption } from "../../../../../shared/base/request.util";
 import { HttpClient } from "@angular/common/http";
-import {PublicService} from "../../../../../shared/base/service/public.service";
-import {TreeService} from "../../../../../shared/base/service/tree.service";
+import { PublicService } from "../../../../../shared/base/service/public.service";
+import { TreeService } from "../../../../../shared/base/service/tree.service";
 
 
 @Injectable()

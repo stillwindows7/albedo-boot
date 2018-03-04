@@ -6,7 +6,7 @@ import { Role } from "./role.model"
 import { ModuleService } from "../module/module.service"
 import { OrgService } from "../org/org.service"
 import { DataSystemService } from "../../../../../shared/base/service/data.system.service";
-import {PublicService} from "../../../../../shared/base/service/public.service";
+import { PublicService } from "../../../../../shared/base/service/public.service";
 
 @Component({
     selector: ".sys-role-form.page-form",
@@ -60,7 +60,7 @@ export class RoleFormComponent implements OnInit, OnDestroy, AfterViewInit {
     initForm() {
         if (!this.afterViewInit || !this.afterLoad) return
 
-        var roleId = this.role.id,thisCtx =this.ctx
+        var roleId = this.role.id, thisCtx = this.ctx
         albedoForm.initValidate($("#role-save-form"), {
             rules: {
                 name: { remote: thisCtx + '/sys/role/checkByProperty?_statusFalse&id=' + encodeURIComponent(roleId) },

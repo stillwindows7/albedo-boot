@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core'
-import {GenTable} from "./genTable.model"
-import {DataService} from "../../../../../shared/base/service/data.service";
-import {HttpClient} from "@angular/common/http";
-import {PublicService} from "../../../../../shared/base/service/public.service";
+import { Injectable } from '@angular/core'
+import { GenTable } from "./genTable.model"
+import { DataService } from "../../../../../shared/base/service/data.service";
+import { HttpClient } from "@angular/common/http";
+import { PublicService } from "../../../../../shared/base/service/public.service";
 
 
 @Injectable()

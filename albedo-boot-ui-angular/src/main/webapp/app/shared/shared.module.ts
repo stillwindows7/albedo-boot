@@ -8,7 +8,7 @@ import { OrgService } from "../theme/pages/modules/sys/org/org.service";
 import { ModuleService } from "../theme/pages/modules/sys/module/module.service";
 import { DictService } from "../theme/pages/modules/sys/dict/dict.service";
 import { DataSystemService } from "./base/service/data.system.service";
-import {PublicService} from "./base/service/public.service";
+import { PublicService } from "./base/service/public.service";
 
 
 @NgModule({

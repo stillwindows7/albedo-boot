@@ -4,7 +4,7 @@ import { ActivatedRoute } from "@angular/router"
 import { UserService } from "./user.service"
 import { User } from "./user.model"
 import { Helpers } from "../../../../../helpers";
-import {PublicService} from "../../../../../shared/base/service/public.service";
+import { PublicService } from "../../../../../shared/base/service/public.service";
 
 @Component({
     selector: ".sys-user-form.page-form",
@@ -50,7 +50,7 @@ export class UserFormComponent implements AfterViewInit {
     initForm() {
         if (!this.afterViewInit || !this.afterLoad) return
 
-        var userId = this.user.id,thisCtx =this.ctx
+        var userId = this.user.id, thisCtx = this.ctx
         albedoForm.initValidate($("#user-save-form"), {
             // define validation rules
             rules: {

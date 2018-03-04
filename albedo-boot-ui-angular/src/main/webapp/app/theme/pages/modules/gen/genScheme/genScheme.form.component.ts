@@ -3,7 +3,7 @@ import { CTX } from "../../../../../app.constants"
 import { ActivatedRoute } from "@angular/router"
 import { GenScheme } from "./genScheme.model"
 import { GenSchemeService } from "./genScheme.service"
-import {PublicService} from "../../../../../shared/base/service/public.service";
+import { PublicService } from "../../../../../shared/base/service/public.service";
 
 @Component({
     selector: ".sys-genScheme-form.page-form",
@@ -51,7 +51,7 @@ export class GenSchemeFormComponent implements AfterViewInit {
     initForm() {
         if (!this.afterViewInit || !this.afterLoad) return
 
-        var genSchemeId = this.genScheme.id,thisCtx =this.ctx
+        var genSchemeId = this.genScheme.id, thisCtx = this.ctx
         albedoForm.initValidate($("#genScheme-save-form"), {
             // define validation rules
             rules: {

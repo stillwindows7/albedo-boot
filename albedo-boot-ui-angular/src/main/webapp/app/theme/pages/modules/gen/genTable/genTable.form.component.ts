@@ -3,7 +3,7 @@ import { CTX } from "../../../../../app.constants"
 import { ActivatedRoute } from "@angular/router"
 import { GenTable } from "./genTable.model"
 import { GenTableService } from "./genTable.service"
-import {PublicService} from "../../../../../shared/base/service/public.service";
+import { PublicService } from "../../../../../shared/base/service/public.service";
 
 @Component({
     selector: ".sys-genTable-form.page-form",
@@ -62,7 +62,7 @@ export class GenTableFormComponent implements AfterViewInit {
     initForm() {
         if (!this.afterViewInit || !this.afterLoad) return
 
-        var genTableId = this.genTable.id,thisCtx =this.ctx
+        var genTableId = this.genTable.id, thisCtx = this.ctx
         albedoForm.initValidate($("#genTable-save-form"), {
             // define validation rules
             rules: {

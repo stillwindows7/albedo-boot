@@ -3,7 +3,7 @@ import { CTX } from "../../../../../app.constants"
 import { ActivatedRoute } from "@angular/router"
 import { Dict } from "./dict.model"
 import { DictService } from "./dict.service"
-import {PublicService} from "../../../../../shared/base/service/public.service";
+import { PublicService } from "../../../../../shared/base/service/public.service";
 
 @Component({
     selector: ".sys-dict-form.page-form",
@@ -56,7 +56,7 @@ export class DictFormComponent implements OnInit, OnDestroy, AfterViewInit {
     initForm() {
         if (!this.afterViewInit || !this.afterLoad) return
 
-        var dictId = this.dict.id,thisCtx =this.ctx
+        var dictId = this.dict.id, thisCtx = this.ctx
         albedoForm.initValidate($("#dict-save-form"), {
             // define validation rules
             rules: {

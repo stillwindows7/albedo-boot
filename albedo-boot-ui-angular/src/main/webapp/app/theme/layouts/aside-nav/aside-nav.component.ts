@@ -4,7 +4,7 @@ import { LocalStorageService } from "ngx-webstorage"
 import { Module } from "../../pages/modules/sys/module/module.model";
 import { ModuleService } from "../../pages/modules/sys/module/module.service";
 import { DataSystemService } from "../../../shared/base/service/data.system.service";
-import {PublicService} from "../../../shared/base/service/public.service";
+import { PublicService } from "../../../shared/base/service/public.service";
 
 declare let mLayout: any
 @Component({

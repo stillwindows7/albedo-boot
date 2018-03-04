@@ -80,9 +80,15 @@ AlbedoBoot 提供了常用工具进行封装，包括日志工具、缓存工具
 
 ## 系统预览
 
-![img](https://raw.githubusercontent.com/somewhereMrli/resources/master/3A2836395023558F5CCA6E244C058D28.png)
-![img](https://raw.githubusercontent.com/somewhereMrli/resources/master/42806357-49CB-4EA8-A907-FB01047AB669.png)
-![img](https://raw.githubusercontent.com/somewhereMrli/resources/master/759EF3EB2F74401EAB5399917D6DFD4F.png)
+![img](https://raw.githubusercontent.com/somewhereMrli/resources/master/QQ%E5%9B%BE%E7%89%8720180304093241.png)
+![img](https://raw.githubusercontent.com/somewhereMrli/resources/master/QQ%E5%9B%BE%E7%89%8720180304093301.png)
+![img](https://raw.githubusercontent.com/somewhereMrli/resources/master/QQ%E5%9B%BE%E7%89%8720180304095527.png)
+![img](https://raw.githubusercontent.com/somewhereMrli/resources/master/QQ%E5%9B%BE%E7%89%8720180304095602.png)
+![img](https://raw.githubusercontent.com/somewhereMrli/resources/master/QQ%E5%9B%BE%E7%89%8720180304095617.png)
+![img](https://raw.githubusercontent.com/somewhereMrli/resources/master/QQ%E5%9B%BE%E7%89%8720180304095632.png)
+![img](https://raw.githubusercontent.com/somewhereMrli/resources/master/QQ%E5%9B%BE%E7%89%8720180304095646.png)
+![img](https://raw.githubusercontent.com/somewhereMrli/resources/master/QQ%E5%9B%BE%E7%89%8720180304095705.png)
+
 
 ## 快速搭建
 

@@ -2,12 +2,12 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core'
 import { NavigationEnd, NavigationStart, Router } from '@angular/router'
 import { Helpers } from '../helpers'
 import { ScriptLoaderService } from '../shared/base/service/script-loader.service'
-import {CTX} from "../app.constants"
+import { CTX } from "../app.constants"
 import { LocalStorageService, SessionStorageService } from "ngx-webstorage"
 import { Principal } from "../auth/_services/principal.service"
 import { Module } from "./pages/modules/sys/module/module.model";
 import { DataSystemService } from "../shared/base/service/data.system.service";
-import {PublicService} from "../shared/base/service/public.service";
+import { PublicService } from "../shared/base/service/public.service";
 
 declare let mApp: any
 declare let mUtil: any
@@ -47,7 +47,7 @@ export class ThemeComponent implements OnInit {
                 this.dataSystemService.moduleData().subscribe(
                     (data: any) => {
                         this.modules = data;
-                        this.sessionStorage.store("modules",data)
+                        this.sessionStorage.store("modules", data)
                         this.initBreadcrumbs(url)
                     }
                 )

@@ -91,7 +91,7 @@ public class ExceptionTranslator {
             message.addMessage("操作异常; ");
             message.addMessage(e.getMessage());
         }
-        return ResultBuilder.buildFailed(message);
+        return ResultBuilder.build(message);
 
     }
 

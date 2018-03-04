@@ -51,7 +51,7 @@ public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
         if (orgVo == null) {
             throw new RuntimeMsgException(PublicUtil.toAppendStr("查询失败，原因：无法查找到编号组织"));
         }
-        if (PublicUtil.isNotEmpty(orgVo.getParentId())) {
+        if (PublicUtil.isEmpty(orgVo.getId()) && PublicUtil.isNotEmpty(orgVo.getParentId())) {
             service.findOneById(orgVo.getParentId()).ifPresent(item -> orgVo.setParentName(item.getName()));
             service.findOptionalTopByParentId(orgVo.getParentId()).ifPresent(item -> orgVo.setSort(item.getSort() + 30));
         }

@@ -3,7 +3,7 @@ import { ScriptLoaderService } from "../../../../../shared/base/service/script-l
 import { CTX, DATA_STATUS } from "../../../../../app.constants";
 import { ActivatedRoute } from "@angular/router";
 import { Principal } from "../../../../../auth/_services/principal.service";
-import {PublicService} from "../../../../../shared/base/service/public.service";
+import { PublicService } from "../../../../../shared/base/service/public.service";
 
 @Component({
     selector: ".sys-taskScheduleJob-list.page-list",
@@ -26,7 +26,7 @@ export class TaskScheduleJobComponent implements AfterViewInit {
     }
 
     initTable() {
-        var thisPrincipal = this.principal,thisCtx =this.ctx;
+        var thisPrincipal = this.principal, thisCtx = this.ctx;
         var options = {
             data: {
                 source: {
