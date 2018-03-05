@@ -35,6 +35,10 @@ import javax.validation.Valid;
 @RequestMapping("${albedo.adminPath}/sys/module")
 public class ModuleResource extends TreeVoResource<ModuleService, ModuleVo> {
 
+    public ModuleResource(ModuleService service) {
+        super(service);
+    }
+
     /**
      * @param pm
      * @return

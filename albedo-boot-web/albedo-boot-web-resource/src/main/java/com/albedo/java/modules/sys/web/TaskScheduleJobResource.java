@@ -34,6 +34,10 @@ import javax.validation.Valid;
 @RequestMapping(value = "${albedo.adminPath}/sys/taskScheduleJob")
 public class TaskScheduleJobResource extends DataVoResource<TaskScheduleJobExcutorService, TaskScheduleJobVo> {
 
+    public TaskScheduleJobResource(TaskScheduleJobExcutorService service) {
+        super(service);
+    }
+
     /**
      * @param pm
      */

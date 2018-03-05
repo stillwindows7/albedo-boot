@@ -37,6 +37,10 @@ import java.util.stream.Collectors;
 @RequestMapping("${albedo.adminPath}/sys/role")
 public class RoleResource extends DataVoResource<RoleService, RoleVo> {
 
+    public RoleResource(RoleService service) {
+        super(service);
+    }
+
     @GetMapping(value = "/comboData")
     public ResponseEntity comboData() {
         return ResultBuilder.buildDataOk(FormDirective.convertComboDataList(SecurityUtil.getRoleList(), Role.F_ID, Role.F_NAME));

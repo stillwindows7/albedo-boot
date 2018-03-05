@@ -1,8 +1,10 @@
 package com.albedo.java.vo.sys;
 
+import com.albedo.java.util.annotation.SearchField;
 import com.albedo.java.vo.base.TreeEntityVo;
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * Created by somewhere on 2017/8/1.
@@ -12,6 +14,8 @@ import lombok.ToString;
 public class OrgVo extends TreeEntityVo {
 
     private static final long serialVersionUID = 1L;
+    ;
+    public static final String F_CODE = "code";
     private String code;
     /*** 拼音简码 */
     private String en;

@@ -2,6 +2,7 @@ package com.albedo.java.vo.base;
 
 import com.albedo.java.util.annotation.BeanField;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * 通常的数据基类 copyright 2014 albedo all right reserved author 李杰 created on 2014年12月31日 下午1:57:09
@@ -15,6 +16,7 @@ public class TreeEntityVo extends DataEntityVo {
     public static final String F_SORT = "sort";
     public static final String F_PARENT = "parent";
     /*** 模块名称 */
+    @NotBlank
     protected String name;
     /*** 上级模块 */
     protected String parentId;

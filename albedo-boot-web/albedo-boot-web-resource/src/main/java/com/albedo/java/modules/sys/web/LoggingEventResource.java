@@ -7,15 +7,10 @@ import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.BaseResource;
 import com.alibaba.fastjson.JSON;
-import com.codahale.metrics.annotation.Timed;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.annotation.Resource;
 
 /**
  * 操作日志Controller 操作日志
@@ -27,8 +22,12 @@ import javax.annotation.Resource;
 @RequestMapping(value = "${albedo.adminPath}/sys/loggingEvent")
 public class LoggingEventResource extends BaseResource {
 
-    @Resource
-    private LoggingEventService loggingEventService;
+
+    private final LoggingEventService loggingEventService;
+
+    public LoggingEventResource(LoggingEventService loggingEventService) {
+        this.loggingEventService = loggingEventService;
+    }
 
 
     /**

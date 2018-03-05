@@ -42,7 +42,9 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "${r"${albedo.adminPath}"}/${urlPrefix}")
 public class ${ClassName}Resource extends TreeVoResource<${ClassName}Service, ${ClassName}Vo> {
-
+    public ${ClassName}Resource(${ClassName}Service service) {
+        super(service);
+    }
     /**
 	 * GET / : 获取树型结构数据 ${functionNameSimple}.
 	 *

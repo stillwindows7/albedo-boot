@@ -1,8 +1,8 @@
 package com.albedo.java.common.data.persistence.repository.impl;
 
-import com.albedo.java.common.data.persistence.repository.JpaCustomeRepository;
 import com.albedo.java.common.data.persistence.BaseEntity;
 import com.albedo.java.common.data.persistence.GeneralEntity;
+import com.albedo.java.common.data.persistence.repository.JpaCustomeRepository;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.QueryUtil;
 import com.albedo.java.util.base.Reflections;
@@ -10,10 +10,10 @@ import com.albedo.java.util.domain.*;
 import com.albedo.java.util.domain.QueryCondition.Operator;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.jdbc.Work;
+import org.hibernate.query.NativeQuery;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -115,13 +115,20 @@ public class JpaCustomeRepositoryImpl<T extends BaseEntity> implements JpaCustom
     }
 
     @Override
-    public SQLQuery createSqlQuery(String SQL, Object... params) {
-        SQLQuery query = getSession().createSQLQuery(SQL);
+    public NativeQuery createSqlQuery(String SQL, Object... params) {
+        NativeQuery query = getSession().createNativeQuery(SQL);
         Map<String, Object> map = new Parameter(params);
         setParams(SQL, query, map);
         return query;
     }
 
+    @Override
+    public NativeQuery<T> createSqlQuery(String SQL, Class<T> clazz, Object... params) {
+        NativeQuery<T> query = getSession().createNativeQuery(SQL, clazz);
+        Map<String, Object> map = new Parameter(params);
+        setParams(SQL, query, map);
+        return query;
+    }
     /*
      * (non-Javadoc)
      *
@@ -242,7 +249,7 @@ public class JpaCustomeRepositoryImpl<T extends BaseEntity> implements JpaCustom
 	 */
     @Override
     public int executeSQL(String SQL, Object... params) {
-        Query query = createSqlQuery(SQL, params);
+        NativeQuery query = createSqlQuery(SQL, params);
         return query.executeUpdate();
     }
 
@@ -283,139 +290,204 @@ public class JpaCustomeRepositoryImpl<T extends BaseEntity> implements JpaCustom
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Object findByHQL(String HQL, boolean isList, List<QueryCondition> conditionList, Object... params) {
-        return findByQL(HQL, false, false, isList, 0, conditionList, params);
+        return findByHQL(HQL, false, isList, 0, conditionList, params);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Object findByHQL(String HQL, boolean isList, int maxSize, List<QueryCondition> conditionList,
                             Object... params) {
-        return findByQL(HQL, false, false, isList, maxSize, conditionList, params);
+        return findByHQL(HQL, false, isList, maxSize, conditionList, params);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List findListSizeByHQL(String HQL, int maxSize, List<QueryCondition> conditionList, Object... params) {
-        return (List) findByQL(HQL, false, false, true, maxSize, conditionList, params);
+        return (List) findByHQL(HQL, false, true, maxSize, conditionList, params);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List findListSizeByHQL(String HQL, int maxSize, Object... params) {
-        return (List) findByQL(HQL, false, false, true, maxSize, null, params);
+        return (List) findByHQL(HQL, false, true, maxSize, null, params);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List findListByHQL(String HQL, List<QueryCondition> conditionList, Object... params) {
-        return (List) findByQL(HQL, false, false, true, 0, conditionList, params);
+        return (List) findByHQL(HQL, false, true, 0, conditionList, params);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List findListByHQL(String HQL, Object... params) {
-        return (List) findByQL(HQL, false, false, true, 0, null, params);
+        return (List) findByHQL(HQL, false, true, 0, null, params);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<T> findEntityListByHQL(String HQL, int maxSize, List<QueryCondition> conditionList, Object... params) {
-        return (List<T>) findByQL(HQL, false, false, true, maxSize, conditionList, params);
+        return (List<T>) findByHQL(HQL, false, true, maxSize, conditionList, params);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<T> findEntityListByHQL(String HQL, int maxSize, Object... params) {
-        return (List<T>) findByQL(HQL, false, false, true, maxSize, null, params);
+        return (List<T>) findByHQL(HQL, false, true, maxSize, null, params);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<T> findEntityListByHQL(String HQL, List<QueryCondition> conditionList, Object... params) {
-        return (List<T>) findByQL(HQL, false, false, true, 0, conditionList, params);
+        return (List<T>) findByHQL(HQL, false, true, 0, conditionList, params);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<T> findEntityListByHQL(String HQL, Object... params) {
-        return (List<T>) findByQL(HQL, false, false, true, 0, null, params);
+        return (List<T>) findByHQL(HQL, false, true, 0, null, params);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Object findObjectByHQL(String HQL, List<QueryCondition> conditionList, Object... params) {
-        return findByQL(HQL, false, false, false, 0, conditionList, params);
+        return findByHQL(HQL, false, false, 0, conditionList, params);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Object findObjectByHQL(String HQL, Object... params) {
-        return findByQL(HQL, false, false, false, 0, null, params);
+        return findByHQL(HQL, false, false, 0, null, params);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public T findEntityByHQL(String HQL, List<QueryCondition> conditionList, Object... params) {
-        return (T) findByQL(HQL, false, false, false, 0, conditionList, params);
+        return (T) findByHQL(HQL, false, false, 0, conditionList, params);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public T findEntityByHQL(String HQL, Object... params) {
-        return (T) findByQL(HQL, false, false, false, 0, null, params);
+        return (T) findByHQL(HQL, false, false, 0, null, params);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Object findBySQL(String SQL, boolean isList, List<QueryCondition> conditionList, Object... params) {
-        return findByQL(SQL, true, false, isList, 0, conditionList, params);
+        return findBySQL(SQL, true, isList, 0, null, conditionList, params);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Object findBySQL(String SQL, boolean isList, int maxSize, List<QueryCondition> conditionList,
                             Object... params) {
-        return findByQL(SQL, true, false, isList, maxSize, conditionList, params);
+        return  findBySQL(SQL, true, isList, maxSize, null, conditionList, params);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List findListSizeBySQL(String SQL, int maxSize, List<QueryCondition> conditionList, Object... params) {
-        return (List) findByQL(SQL, true, false, true, maxSize, conditionList, params);
+        return (List) findBySQL(SQL, true, false, maxSize, null, conditionList, params);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List findListSizeBySQL(String SQL, int maxSize, Object... params) {
-        return (List) findByQL(SQL, true, false, true, maxSize, null, params);
+        return (List) findBySQL(SQL, true, false, maxSize, null, null, params);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List findListBySQL(String SQL, List<QueryCondition> conditionList, Object... params) {
-        return (List) findByQL(SQL, true, false, true, 0, conditionList, params);
+        return (List) findBySQL(SQL, true, false, 0, null, conditionList, params);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List findListBySQL(String SQL, Object... params) {
-        return (List) findByQL(SQL, true, false, true, 0, null, params);
+        return (List) findBySQL(SQL, true, false, 0, null, null, params);
+    }
+    @Override
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public List findListBySQL(String SQL, Class<T> clazz, List<QueryCondition> conditionList, Object... params) {
+        return (List) findBySQL(SQL, true, false, 0, clazz, conditionList, params);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public List findListBySQL(String SQL, Class<T> clazz, Object... params) {
+        return (List) findBySQL(SQL, true, false, 0, clazz, null, params);
+    }
+    @Override
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Object findObjectBySQL(String SQL, List<QueryCondition> conditionList, Object... params) {
-        return findByQL(SQL, true, false, false, 0, conditionList, params);
+        return findBySQL(SQL, true, false, 0, null, conditionList, params);
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Object findObjectBySQL(String SQL, Object... params) {
-        return findByQL(SQL, true, false, false, 0, null, params);
+        return findBySQL(SQL, true, false, 0, null, null, params);
+    }
+
+    public Object findBySQL(String SQL, boolean isCache, boolean isList, int maxSize, Class<T> clazz,
+                           List<QueryCondition> conditionList, Object... params) {
+        try {
+            Map<String, Object> map = Maps.newHashMap();
+            if (PublicUtil.isNotEmpty(conditionList)) {
+                SQL = QueryUtil.convertJsonToQueryCondition(SQL, conditionList, null, map);
+            }
+            NativeQuery sqlQuery = clazz!=null ? createSqlQuery(SQL, clazz, params) : createSqlQuery(SQL, map, params);
+            if (isCache) {
+                sqlQuery.setCacheable(true);
+            }
+            if (isList && maxSize != 0) {
+                sqlQuery.setMaxResults(maxSize);
+            }
+            List lst = clazz == null? parseSqlRsList(sqlQuery.list(), true, SQL) : sqlQuery.getResultList();
+            if (!isList) {
+                return PublicUtil.isNotEmpty(lst) ? lst.get(0) : null;
+            } else {
+                return lst;
+            }
+        } catch (Exception e) {
+            logger.error("SQL------->" + SQL);
+            logger.error("{}", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Object findByHQL(String HQL, boolean isCache, boolean isList, int maxSize,
+                            List<QueryCondition> conditionList, Object... params) {
+        try {
+            Map<String, Object> map = Maps.newHashMap();
+            if (PublicUtil.isNotEmpty(conditionList)) {
+                HQL = QueryUtil.convertJsonToQueryCondition(HQL, conditionList, null, map);
+            }
+            Query query = createQuery(HQL, map, params);
+            if (isCache) {
+                query.setCacheable(true);
+            }
+            if (isList && maxSize != 0) {
+                query.setMaxResults(maxSize);
+            }
+            List lst = query.list();
+            if (!isList) {
+                return PublicUtil.isNotEmpty(lst) ? lst.get(0) : null;
+            } else {
+                return lst;
+            }
+        } catch (Exception e) {
+            logger.error("HQL------->" + HQL);
+            logger.error("{}", e);
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Deprecated
     public Object findByQL(String QL, boolean isSql, boolean isCache, boolean isList, int maxSize,
                            List<QueryCondition> conditionList, Object... params) {
         try {
@@ -440,7 +512,7 @@ public class JpaCustomeRepositoryImpl<T extends BaseEntity> implements JpaCustom
             }
         } catch (Exception e) {
             logger.error("QL------->" + QL);
-            logger.error(e.getMessage());
+            logger.error("{}", e);
             throw new RuntimeException(e);
         }
     }
@@ -538,7 +610,7 @@ public class JpaCustomeRepositoryImpl<T extends BaseEntity> implements JpaCustom
             }
         } catch (Exception e) {
             logger.error("QL------->" + QL);
-            logger.error(e.getMessage());
+            logger.error("{}", e);
             throw new RuntimeException(e);
         }
     }
@@ -575,6 +647,11 @@ public class JpaCustomeRepositoryImpl<T extends BaseEntity> implements JpaCustom
         return sb.toString();
     }
 
+    private List<T> getPageModelData(String QL, boolean isSql, PageModel pm, boolean isCache, boolean isCal,
+                                     List<QueryCondition> conditionList,
+                                     Object... params){
+        return getPageModelData(QL, isSql, pm, isCache, isCal, conditionList, params);
+    }
     /**
      * 获取分页的数据
      *
@@ -587,7 +664,7 @@ public class JpaCustomeRepositoryImpl<T extends BaseEntity> implements JpaCustom
      * @param params
      * @return
      */
-    private List<T> getPageModelData(String QL, boolean isSql, PageModel pm, boolean isCache, boolean isCal,
+    private List<T> getPageModelData(String QL, boolean isSql, Class<T> clazz, PageModel pm, boolean isCache, boolean isCal,
                                      List<QueryCondition> conditionList,
                                      Object... params) {
         try {
@@ -595,18 +672,17 @@ public class JpaCustomeRepositoryImpl<T extends BaseEntity> implements JpaCustom
             if (PublicUtil.isNotEmpty(conditionList)) {
                 QL = QueryUtil.convertJsonToQueryCondition(QL, conditionList, null, map);
             }
-            Query query = isSql ? createSqlQuery(QL, map, params) : createQuery(QL, map, params);
+            Query query = isSql ?  clazz!=null ? createSqlQuery(QL, clazz, map, params):  createSqlQuery(QL, map, params) : createQuery(QL, map, params);
             query.setMaxResults(pm.getPageSize());
             query.setFirstResult(isCal ? (pm.getPageNumber() - 1) * pm.getPageSize() : 0);
             if (isCache) {
                 query.setCacheable(true);
             }
-            List lst = query.list();
+            List lst = query.getResultList();
             return parseSqlRsList(lst, isSql, QL);
         } catch (Exception e) {
-            e.printStackTrace();
             logger.error("在获取分页数据源的getData()出现异常，异常HQL-->" + QL);
-            logger.error(e.getMessage());
+            logger.error("{}", e);
         }
         return null;
     }

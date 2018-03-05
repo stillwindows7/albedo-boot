@@ -72,10 +72,14 @@ import java.util.stream.Collectors;
 public class UserResource extends DataVoResource<UserService, UserVo> {
 
 
-    @Autowired(required = false)
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private ModuleService moduleService;
+    private final PasswordEncoder passwordEncoder;
+    private final ModuleService moduleService;
+
+    public UserResource(UserService service, ModuleService moduleService, PasswordEncoder passwordEncoder) {
+        super(service);
+        this.moduleService = moduleService;
+        this.passwordEncoder=passwordEncoder;
+    }
 
 
     /**

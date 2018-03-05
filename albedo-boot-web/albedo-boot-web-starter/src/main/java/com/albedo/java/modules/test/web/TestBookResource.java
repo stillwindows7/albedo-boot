@@ -32,7 +32,11 @@ import javax.validation.Valid;
 @RequestMapping(value = "${albedo.adminPath}/test/testBook")
 public class TestBookResource extends DataVoResource<TestBookService, TestBookVo> {
 
-	/**
+    public TestBookResource(TestBookService service) {
+        super(service);
+    }
+
+    /**
 	 * GET / : get all testBook.
 	 *
 	 * @param pm

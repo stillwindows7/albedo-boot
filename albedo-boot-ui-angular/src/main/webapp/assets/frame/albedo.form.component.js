@@ -998,7 +998,6 @@ var albedoForm = function () {
             var el = $(this), $form = $target.find('.m-form'),
                 flag = true;
             if(!validateFun) validateFun = $form.attr("validateFun")
-            console.log(doValidation($form))
             if (doValidation($form)) {
                 albedo.isExitsFunction(validateFun) && eval("flag = " + validateFun + "()");
                 if (flag) {

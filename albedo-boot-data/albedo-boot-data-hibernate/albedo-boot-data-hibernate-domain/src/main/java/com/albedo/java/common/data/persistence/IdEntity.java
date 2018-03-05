@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
+import java.util.Objects;
 
 @MappedSuperclass
 public class IdEntity extends DataEntity {
@@ -34,5 +35,24 @@ public class IdEntity extends DataEntity {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        IdEntity idEntity = (IdEntity) o;
+        if (idEntity.getId() == null || getId() == null) {
+            return false;
+        }
+        return Objects.equals(getId(), idEntity.getId());
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId());
     }
 }

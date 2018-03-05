@@ -2,9 +2,11 @@ package com.albedo.java.common.data.persistence;
 
 import com.albedo.java.util.annotation.SearchField;
 import com.albedo.java.util.domain.QueryCondition.Operator;
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 
@@ -28,6 +30,7 @@ public abstract class TreeDataEntity<T extends DataEntity> extends DataEntity {
     @Length(min = 1, max = 100)
     @Column(name = "name_")
     @SearchField
+    @NotBlank
     protected String name;
     /*** 上级组织 */
     @Length(min = 0, max = 64)
@@ -79,6 +82,7 @@ public abstract class TreeDataEntity<T extends DataEntity> extends DataEntity {
     public void setName(String name) {
         this.name = name;
     }
+
 
     public Integer getSort() {
         return sort;

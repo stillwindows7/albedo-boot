@@ -108,12 +108,14 @@ public class SpecificationDetail<T> implements Specification<T>, Serializable {
                 }
                 Operator op = queryCondition.getOperate();
                 if (Operator.in.equals(op)) {
-                    String tempValue = String.valueOf(queryCondition.getValue());
-                    List<Object> list = Lists.newArrayList();
-                    Lists.newArrayList(tempValue.split(",")).forEach(item -> {
-                        list.add(QueryUtil.getQueryValue(queryCondition, item));
-                    });
-                    predicates.add(expression.in(list));
+                    if(queryCondition.getValue() instanceof List){
+                        predicates.add(expression.in(((List)queryCondition.getValue())));
+                    }else{
+                        String tempValue = (String) queryCondition.getValue();
+                        List<Object> list = Lists.newArrayList();
+                        Lists.newArrayList(tempValue.split(",")).forEach(item -> list.add(QueryUtil.getQueryValue(queryCondition, item)));
+                        predicates.add(expression.in(list));
+                    }
                 } else {
                     Object val = QueryUtil.getQueryValue(queryCondition, null);
                     predicates.add(Operator.eq.equals(op) ?

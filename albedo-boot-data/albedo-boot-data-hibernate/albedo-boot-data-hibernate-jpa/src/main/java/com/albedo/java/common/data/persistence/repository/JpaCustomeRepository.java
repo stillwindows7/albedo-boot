@@ -5,9 +5,9 @@ import com.albedo.java.util.domain.ComboSearch;
 import com.albedo.java.util.domain.ComboData;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
-import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -38,7 +38,8 @@ public interface JpaCustomeRepository<T extends BaseEntity> {
     */
     Query createQuery(String HQL, Object... params);
 
-    SQLQuery createSqlQuery(String SQL, Object... params);
+    NativeQuery createSqlQuery(String SQL, Object... params);
+    NativeQuery<T> createSqlQuery(String SQL, Class<T> clazz, Object... params);
 
     Object findByHQL(String HQL, boolean isList, List<QueryCondition> conditionList, Object... params);
 
@@ -81,6 +82,10 @@ public interface JpaCustomeRepository<T extends BaseEntity> {
     List findListBySQL(String SQL, List<QueryCondition> conditionList, Object... params);
 
     List findListBySQL(String SQL, Object... params);
+
+    List findListBySQL(String SQL, Class<T> clazz, List<QueryCondition> conditionList, Object... params);
+
+    List findListBySQL(String SQL, Class<T> clazz, Object... params);
 
     Object findObjectBySQL(String SQL, List<QueryCondition> conditionList, Object... params);
 

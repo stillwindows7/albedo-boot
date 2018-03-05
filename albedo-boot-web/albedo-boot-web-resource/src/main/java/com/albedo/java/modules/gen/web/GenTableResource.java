@@ -38,6 +38,10 @@ import java.util.Map;
 @RequestMapping(value = "${albedo.adminPath}/gen/genTable")
 public class GenTableResource extends DataVoResource<GenTableService, GenTableVo> {
 
+    public GenTableResource(GenTableService service) {
+        super(service);
+    }
+
     @GetMapping(value = "/tableList")
     @Timed
     @RequiresPermissions("gen_genScheme_view")

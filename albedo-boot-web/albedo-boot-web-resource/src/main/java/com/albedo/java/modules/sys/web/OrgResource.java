@@ -16,7 +16,9 @@ import com.albedo.java.web.rest.base.TreeVoResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.Lists;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -32,6 +34,10 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("${albedo.adminPath}/sys/org")
 public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
+
+    public OrgResource(OrgService service) {
+        super(service);
+    }
 
     /**
      * @param pm
@@ -69,9 +75,9 @@ public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
     public ResponseEntity save(@Valid @RequestBody OrgVo orgVo) {
         log.debug("REST request to save orgVo : {}", orgVo);
         // Lowercase the org login before comparing with database
-        if (!checkByProperty(Reflections.createObj(OrgVo.class, Lists.newArrayList(OrgVo.F_ID, OrgVo.F_NAME),
-                orgVo.getId(), orgVo.getName()))) {
-            throw new RuntimeMsgException("名称已存在");
+        if (!checkByProperty(Reflections.createObj(OrgVo.class, Lists.newArrayList(OrgVo.F_ID, OrgVo.F_CODE),
+                orgVo.getId(), orgVo.getCode()))) {
+            throw new RuntimeMsgException(HttpStatus.BAD_REQUEST, "名称已存在");
         }
         service.save(orgVo);
         SecurityUtil.clearUserJedisCache();
@@ -87,7 +93,7 @@ public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
     @Timed
     public ResponseEntity delete(@PathVariable String ids) {
         log.debug("REST request to delete Org: {}", ids);
-        service.lockOrUnLockByParentIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentUserId());
+        service.deleteByParentIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentUserId());
         SecurityUtil.clearUserJedisCache();
         return ResultBuilder.buildOk("删除成功");
     }
@@ -101,7 +107,7 @@ public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
     @Timed
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {
         log.debug("REST request to lockOrUnLock User: {}", ids);
-        service.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+        service.lockOrUnLockByParentIds(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)), SecurityUtil.getCurrentUserId());
         SecurityUtil.clearUserJedisCache();
         return ResultBuilder.buildOk("操作成功");
     }

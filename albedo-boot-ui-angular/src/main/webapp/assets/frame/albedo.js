@@ -88,7 +88,6 @@ var albedo = function(){
                     : val.replaceAll(" ", ""))
                     : undefined;
                 if (s) {
-                    console.log(s)
                     var fieldName = $(this).attr("realName") ? $(this)
                         .attr("realName") : $(this).attr("name");
                     if ($(this).attr('type') == 'checkbox' && json_list

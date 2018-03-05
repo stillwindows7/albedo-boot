@@ -1,6 +1,7 @@
 package com.albedo.java.common.data.persistence;
 
 import com.albedo.java.common.data.persistence.pk.IdGen;
+import com.albedo.java.modules.sys.domain.Org;
 import com.albedo.java.util.annotation.SearchField;
 import com.alibaba.fastjson.annotation.JSONField;
 
@@ -8,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
+import java.util.Objects;
 
 /**
  * 数据TreeEntity类
@@ -51,5 +53,24 @@ public abstract class TreeEntity<T extends DataEntity> extends TreeDataEntity<T>
     @JSONField(serialize = false)
     public boolean isRoot() {
         return isRoot(this.id);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        TreeEntity treeEntity = (TreeEntity) o;
+        if (treeEntity.getId() == null || getId() == null) {
+            return false;
+        }
+        return Objects.equals(getId(), treeEntity.getId());
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId());
     }
 }

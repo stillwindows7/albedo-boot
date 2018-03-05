@@ -48,6 +48,10 @@ import java.util.stream.Collectors;
 @RequestMapping("${albedo.adminPath}/sys/dict")
 public class DictResource extends TreeVoResource<DictService, DictVo> {
 
+    public DictResource(DictService service) {
+        super(service);
+    }
+
     /**
      * @param pm
      * @return

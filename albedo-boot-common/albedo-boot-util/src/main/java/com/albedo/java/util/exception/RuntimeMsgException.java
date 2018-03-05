@@ -30,7 +30,10 @@ public class RuntimeMsgException extends RuntimeException {
         super(message);
         this.setData(data);
     }
-
+    public RuntimeMsgException(HttpStatus code, String message) {
+        super(message);
+        this.setCode(code);
+    }
     public RuntimeMsgException(String message) {
         super(message);
     }

@@ -37,6 +37,10 @@ import java.util.List;
 @RequestMapping(value = "${albedo.adminPath}/test/testTree")
 public class TestTreeResource extends TreeVoResource<TestTreeService, TestTreeVo> {
 
+    public TestTreeResource(TestTreeService service) {
+        super(service);
+    }
+
     /**
 	 * GET / : 获取树型结构数据 测试树管理.
 	 *

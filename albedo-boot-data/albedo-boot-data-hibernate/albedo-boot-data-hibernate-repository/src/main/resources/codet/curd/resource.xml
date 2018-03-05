@@ -38,6 +38,10 @@ import javax.validation.Valid;
 @RequestMapping(value = "${r"${albedo.adminPath}"}/${urlPrefix}")
 public class ${ClassName}Resource extends DataVoResource<${ClassName}Service, ${ClassName}Vo> {
 
+    public ${ClassName}Resource(${ClassName}Service service) {
+        super(service);
+    }
+
 	/**
 	 * GET / : get all ${className}.
 	 *

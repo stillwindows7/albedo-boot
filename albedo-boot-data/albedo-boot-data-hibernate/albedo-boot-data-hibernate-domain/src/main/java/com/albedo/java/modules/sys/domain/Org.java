@@ -1,18 +1,22 @@
 package com.albedo.java.modules.sys.domain;
 
+import com.albedo.java.common.data.persistence.TreeDataEntity;
 import com.albedo.java.common.data.persistence.TreeEntity;
 import com.albedo.java.util.annotation.DictType;
 import com.albedo.java.util.annotation.SearchField;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.ToString;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.*;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -28,10 +32,14 @@ import java.util.Set;
 public class Org extends TreeEntity<Org> {
 
     public static final String F_TYPE = "type";
+    public static final String F_CODE = "code";
+    public static final String F_EN = "en";
+    public static final String F_GRADE = "grade";
     private static final long serialVersionUID = 1L;
     /*** 组织编码 */
     @Column(name = "code_")
     @SearchField
+    @NotBlank
     private String code;
 
     /*** 拼音简码 */
@@ -77,7 +85,10 @@ public class Org extends TreeEntity<Org> {
         this.code = code;
     }
 
-
+    public Org code(String code) {
+        setCode(code);
+        return this;
+    }
     public String getEn() {
         return en;
     }
@@ -109,5 +120,6 @@ public class Org extends TreeEntity<Org> {
     public void setUsers(Set<User> users) {
         this.users = users;
     }
+
 
 }

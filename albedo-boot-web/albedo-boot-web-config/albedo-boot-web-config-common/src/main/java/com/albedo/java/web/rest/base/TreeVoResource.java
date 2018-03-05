@@ -10,17 +10,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
+
 /**
  * 基础控制器支持类 copyright 2014 albedo all right reserved author MrLi created on 2014年10月15日 下午4:04:00
  */
 public class TreeVoResource<Service extends TreeVoService, V extends TreeEntityVo>
         extends BaseResource {
 
-    @Autowired
-    protected Service service;
+    protected final Service service;
+
+    public TreeVoResource(Service service){
+        this.service = service;
+    }
 
     @ModelAttribute
-    public V getAttribute(@RequestParam(required = false) String id) throws Exception {
+    public V getAttribute(@RequestParam(required = false) String id, HttpServletRequest request) throws Exception {
         String path = request.getRequestURI();
         if (path != null && !path.contains(Globals.URL_CHECKBY) && !path.contains(Globals.URL_FIND) &&
                 PublicUtil.isNotEmpty(id)) {
@@ -37,7 +43,7 @@ public class TreeVoResource<Service extends TreeVoService, V extends TreeEntityV
     @Timed
     public ResponseEntity get(@PathVariable String id) {
         log.debug("REST request to get Entity : {}", id);
-        return ResultBuilder.buildOk(service.findOneVo(id));
+        return ResultBuilder.wrapOrNotFound(Optional.ofNullable(service.findOneVo(id)));
     }
 
     @ResponseBody

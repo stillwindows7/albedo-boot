@@ -33,6 +33,10 @@ import java.net.URISyntaxException;
 public class GenTemplateResource extends DataResource<GenTemplateService, GenTemplate> {
 
 
+    public GenTemplateResource(GenTemplateService service) {
+        super(service);
+    }
+
     /**
      * @param pm
      * @return

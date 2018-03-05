@@ -343,7 +343,7 @@ public class StringUtil extends org.apache.commons.lang3.StringUtils {
      *
      * @return
      */
-    public static String getProjectPath(String fileName,String relativeUIPath) {
+    public static String getProjectPath(String fileName, String relativeUIPath) {
         String projectPath = "";
         try {
             File file = new DefaultResourceLoader().getResource("").getFile();

@@ -21,10 +21,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.Map;
 
@@ -37,14 +35,15 @@ import java.util.Map;
 @RequestMapping(value = "${albedo.adminPath}/gen/genScheme")
 public class GenSchemeResource extends DataVoResource<GenSchemeService, GenSchemeVo> {
 
-    @Resource
-    private GenSchemeService genSchemeService;
+    private final GenTableService genTableService;
 
-    @Resource
-    private GenTableService genTableService;
+    private final ModuleService moduleService;
 
-    @Resource
-    private ModuleService moduleService;
+    public GenSchemeResource(GenSchemeService genSchemeService, GenTableService genTableService, ModuleService moduleService) {
+        super(genSchemeService);
+        this.genTableService = genTableService;
+        this.moduleService = moduleService;
+    }
 
     /**
      * @param pm
@@ -53,7 +52,7 @@ public class GenSchemeResource extends DataVoResource<GenSchemeService, GenSchem
     @GetMapping(value = "/")
     @Timed
     public ResponseEntity getPage(PageModel pm) {
-        genSchemeService.findPage(pm);
+        service.findPage(pm);
         JSON rs = JsonUtil.getInstance().setRecurrenceStr("genTable_name").toJsonObject(pm);
         return ResultBuilder.buildObject(rs);
     }
@@ -67,7 +66,7 @@ public class GenSchemeResource extends DataVoResource<GenSchemeService, GenSchem
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity save(@Valid @RequestBody GenSchemeVo genSchemeVo) {
-        genSchemeService.save(genSchemeVo);
+        service.save(genSchemeVo);
         SecurityUtil.clearUserJedisCache();
         if (genSchemeVo.getSyncModule()) {
             GenTableVo genTableVo = genSchemeVo.getGenTable();
@@ -81,7 +80,7 @@ public class GenSchemeResource extends DataVoResource<GenSchemeService, GenSchem
         }
         // 生成代码
         if (genSchemeVo.getGenCode()) {
-            genSchemeService.generateCode(genSchemeVo);
+            service.generateCode(genSchemeVo);
         }
         return ResultBuilder.buildOk("保存", genSchemeVo.getName(), "成功");
     }
@@ -91,7 +90,7 @@ public class GenSchemeResource extends DataVoResource<GenSchemeService, GenSchem
     @Timed
     public ResponseEntity lockOrUnLock(@PathVariable String ids) {
         log.debug("REST request to lockOrUnLock genTable: {}", ids);
-        genSchemeService.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+        service.lockOrUnLock(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
         SecurityUtil.clearUserJedisCache();
         return ResultBuilder.buildOk("操作成功");
     }
@@ -102,7 +101,7 @@ public class GenSchemeResource extends DataVoResource<GenSchemeService, GenSchem
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity delete(@PathVariable String ids) {
         log.debug("REST request to delete User: {}", ids);
-        genSchemeService.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
+        service.delete(Lists.newArrayList(ids.split(StringUtil.SPLIT_DEFAULT)));
         return ResultBuilder.buildOk("删除成功");
     }
 
