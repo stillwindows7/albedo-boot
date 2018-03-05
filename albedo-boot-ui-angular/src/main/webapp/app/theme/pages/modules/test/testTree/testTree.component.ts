@@ -61,14 +61,14 @@ export class TestTreeComponent implements AfterViewInit {
                 {
                     title: '机构等级', field: 'grade'
                 },
-                {                    
-title: '节点类型', field: 'isLeaf'
+                {
+                    title: '节点类型', field: 'isLeaf'
                 },
                 {
                     title: '英文', field: 'en'
                 },
-                {                    
-title: '序号', field: 'sort'
+                {
+                    title: '序号', field: 'sort'
                 },
                 {
                     title: '组织类型', field: 'type'

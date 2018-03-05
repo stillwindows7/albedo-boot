@@ -10,7 +10,8 @@ let _CTX = 'api' // This value will be overwritten by Webpack
 export const VERSION = _VERSION
 export const DEBUG_INFO_ENABLED = _DEBUG_INFO_ENABLED
 export const CTX = _CTX
-export const GATEWAY_MODEL = false
+/*ture 网关模式， false 普通模式*/
+export const GATEWAY_MODEL = true
 
 
 /*** 返回消息类型 info */

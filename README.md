@@ -129,9 +129,10 @@ AlbedoBoot 提供了常用工具进行封装，包括日志工具、缓存工具
 
 cloud版本发布，基于[jhipster-registry](https://github.com/somewhereMrli/jhipster-registry)为注册中心。 同时也可以docker环境搭建，基于docker-compose启动，配置文件位于albedo-boot-cloud/docker/jhipster-registy.yml
 1.	启动cloud前请升级数据库，重新执行albedo-new.sql
-2.	使用docker-compose命令启动albedo-boot-cloud/docker/jhipster-registry.yml
+2.	本地启动 [jhipster-registry](https://github.com/somewhereMrli/jhipster-registry) 或者 使用docker-compose命令启动albedo-boot-cloud/docker/jhipster-registry.yml
 3.	启动albedo-boot-cloud/albedo-boot-cloud-micro AlbedoBootCloudMicro
-4.	启动albedo-boot-cloud/albedo-boot-cloud-gateway AlbedoBootCloudGateway
+4.	修改 app.constants.ts  GATEWAY_MODEL 为true 开启网关模式
+5.	启动albedo-boot-cloud/albedo-boot-cloud-gateway AlbedoBootCloudGateway
 
 
 ## 常见问题

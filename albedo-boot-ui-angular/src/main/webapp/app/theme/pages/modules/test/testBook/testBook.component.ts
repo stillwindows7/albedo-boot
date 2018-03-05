@@ -58,8 +58,8 @@ export class TestBookComponent implements AfterViewInit {
                 {
                     title: '邮箱', field: 'email'
                 },
-                {                    
-title: '手机', field: 'phone'
+                {
+                    title: '手机', field: 'phone'
                 },
                 {
                     title: 'activated_', field: 'activated'
