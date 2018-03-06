@@ -10,8 +10,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicInsert;
@@ -26,11 +24,12 @@ import javax.persistence.Table;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * 测试树管理Entity 测试树管理
  * @author admin
- * @version 2018-03-02
+ * @version 2018-03-06
  */
 @Entity
 @Table(name = "test_tree")
@@ -70,18 +69,21 @@ public class TestTree extends TreeEntity<TestTree> {
 
 
 	@Override
-	public int hashCode() {
-		return new HashCodeBuilder()
-			.append(getId())
-			.toHashCode();
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if(obj instanceof TestTree == false){ return false;}
-		if(this == obj){ return true;}
-		TestTree other = (TestTree)obj;
-		return new EqualsBuilder()
-			.append(getId(),other.getId())
-			.isEquals();
-	}
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        TestTree idEntity = (TestTree) o;
+        if (idEntity.getId() == null || getId() == null) {
+            return false;
+        }
+        return Objects.equals(getId(), idEntity.getId());
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId());
+    }
 }

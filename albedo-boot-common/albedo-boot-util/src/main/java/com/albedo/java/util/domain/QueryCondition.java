@@ -88,7 +88,12 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
 
     public QueryCondition() {
     }
-
+    public QueryCondition(String fieldName, Operator operate, Object value, String attrType) {
+        this.fieldName = fieldName;
+        this.operate = operate;
+        this.value = value;
+        this.attrType = attrType;
+    }
     public QueryCondition(String fieldNode, String fieldName, Operator operate, Object value) {
         this.fieldNode = fieldNode;
         this.fieldName = fieldName;

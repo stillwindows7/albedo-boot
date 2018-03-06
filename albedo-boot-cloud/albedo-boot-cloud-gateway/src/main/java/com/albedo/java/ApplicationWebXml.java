@@ -1,7 +1,5 @@
 package com.albedo.java;
 
-import com.albedo.java.util.DateUtil;
-import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.spring.DefaultProfileUtil;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
@@ -19,6 +17,6 @@ public class ApplicationWebXml extends SpringBootServletInitializer {
          */
 
         DefaultProfileUtil.addDefaultProfile(application.application());
-        return application.sources(AlbedoBootWebApp.class);
+        return application.sources(AlbedoBootCloudGateway.class);
     }
 }

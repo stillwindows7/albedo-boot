@@ -11,7 +11,7 @@ export const VERSION = _VERSION
 export const DEBUG_INFO_ENABLED = _DEBUG_INFO_ENABLED
 export const CTX = _CTX
 /*ture 网关模式， false 普通模式*/
-export const GATEWAY_MODEL = true
+export const GATEWAY_MODEL = false
 
 
 /*** 返回消息类型 info */

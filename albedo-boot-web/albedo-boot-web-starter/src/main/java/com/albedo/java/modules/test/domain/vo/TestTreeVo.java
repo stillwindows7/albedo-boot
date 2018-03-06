@@ -17,7 +17,7 @@ import java.util.Date;
 /**
  * 测试树管理Entity 测试树管理
  * @author admin
- * @version 2018-03-02
+ * @version 2018-03-06
  */
 @Data @ToString @NoArgsConstructor @AllArgsConstructor
 public class TestTreeVo extends TreeEntityVo {

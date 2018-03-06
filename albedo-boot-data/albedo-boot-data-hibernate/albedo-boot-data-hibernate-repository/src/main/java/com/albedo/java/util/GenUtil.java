@@ -11,6 +11,7 @@ import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.util.base.FreeMarkers;
 import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.mapper.JaxbMapper;
+import com.albedo.java.util.spring.SpringContextHolder;
 import com.albedo.java.vo.gen.GenSchemeVo;
 import com.albedo.java.vo.gen.GenTableColumnVo;
 import com.albedo.java.vo.gen.GenTableVo;
@@ -275,7 +276,9 @@ public class GenUtil {
      */
     public static Map<String, Object> getDataModel(GenSchemeVo genScheme) {
         Map<String, Object> model = Maps.newHashMap();
-
+        String applicationId = SpringContextHolder.getApplicationContext().getId();
+        String applicationName = SpringContextHolder.getApplicationContext().getBean(applicationId.substring(0, applicationId.indexOf(":"))).getClass().getName();
+        model.put("applicationName", applicationName);
         model.put("packageName", StringUtil.lowerCase(genScheme.getPackageName()));
         model.put("lastPackageName", StringUtil.substringAfterLast((String) model.get("packageName"), "."));
         model.put("moduleName", StringUtil.lowerCase(genScheme.getModuleName()));

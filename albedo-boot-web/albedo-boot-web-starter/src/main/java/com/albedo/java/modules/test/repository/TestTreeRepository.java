@@ -11,7 +11,7 @@ import com.albedo.java.modules.test.domain.TestTree;
 /**
  * 测试树管理Repository 测试树管理
  * @author admin
- * @version 2018-03-02
+ * @version 2018-03-06
  */
 public interface TestTreeRepository extends TreeRepository<TestTree, String> {
 

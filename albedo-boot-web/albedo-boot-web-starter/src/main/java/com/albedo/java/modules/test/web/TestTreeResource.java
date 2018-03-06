@@ -31,16 +31,14 @@ import java.util.List;
 /**
  * 测试树管理Controller 测试树管理
  * @author admin
- * @version 2018-03-02
+ * @version 2018-03-06
  */
 @Controller
 @RequestMapping(value = "${albedo.adminPath}/test/testTree")
 public class TestTreeResource extends TreeVoResource<TestTreeService, TestTreeVo> {
-
     public TestTreeResource(TestTreeService service) {
         super(service);
     }
-
     /**
 	 * GET / : 获取树型结构数据 测试树管理.
 	 *
@@ -72,7 +70,7 @@ public class TestTreeResource extends TreeVoResource<TestTreeService, TestTreeVo
         if (testTreeVo == null) {
             throw new RuntimeMsgException(PublicUtil.toAppendStr("查询失败，原因：无法查找到编号测试树管理"));
         }
-        if (PublicUtil.isNotEmpty(testTreeVo.getParentId())) {
+        if (PublicUtil.isEmpty(testTreeVo.getId()) && PublicUtil.isNotEmpty(testTreeVo.getParentId())) {
             service.findOneById(testTreeVo.getParentId()).ifPresent(item -> testTreeVo.setParentName(item.getName()));
             service.findOptionalTopByParentId(testTreeVo.getParentId()).ifPresent(item -> testTreeVo.setSort(item.getSort() + 30));
         }

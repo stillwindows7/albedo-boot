@@ -12,9 +12,8 @@
 
 logging:
     level:
-        ROOT: DEBUG
-        com.albedo.java: DEBUG
-        io.github.jhipster: DEBUG
+        ROOT: INFO
+        com.albedo.java: INFO
 
 eureka:
     instance:

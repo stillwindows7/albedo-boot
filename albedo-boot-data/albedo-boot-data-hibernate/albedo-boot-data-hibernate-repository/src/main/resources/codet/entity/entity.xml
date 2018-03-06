@@ -17,8 +17,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicInsert;
@@ -30,6 +28,7 @@ import javax.validation.constraints.NotNull;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 
 
@@ -62,24 +61,23 @@ public class ${ClassName} extends DataEntity {
 		</#if>
 	}
 	@Override
-	public int hashCode() {
-		return new HashCodeBuilder()
-		<#list table.pkColumnList as column>
-			<#if !table.compositeId>
-			.append(get${column.simpleJavaField?cap_first}())
-			</#if>
-		</#list>
-			.toHashCode();
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if(obj instanceof ${ClassName} == false){ return false;}
-		if(this == obj){ return true;}
-		${ClassName} other = (${ClassName})obj;
-		return new EqualsBuilder()
-			.append(getId(),other.getId())
-			.isEquals();
-	}
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ${ClassName} idEntity = (${ClassName}) o;
+        if (idEntity.getId() == null || getId() == null) {
+            return false;
+        }
+        return Objects.equals(getId(), idEntity.getId());
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId());
+    }
 }
 <#macro generateFields>
 	//columns START

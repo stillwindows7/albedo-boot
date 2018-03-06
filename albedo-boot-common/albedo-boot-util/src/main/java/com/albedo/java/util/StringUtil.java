@@ -302,7 +302,18 @@ public class StringUtil extends org.apache.commons.lang3.StringUtils {
         s = toCamelCase(s);
         return s.substring(0, 1).toUpperCase() + s.substring(1);
     }
-
+    /**
+     * 首字母小写
+     *
+     * @return toFirstUpperCase("HelloWorld") == "helloWorld"
+     */
+    public static String toFirstLowerCase(String s) {
+        if (s == null) {
+            return null;
+        }
+        char c = s.charAt(0);
+        return Character.toLowerCase(c)+s.substring(1);
+    }
     /**
      * 驼峰命名法工具
      *
