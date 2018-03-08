@@ -1,6 +1,6 @@
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.common.data.persistence.DataEntity;
+import com.albedo.java.common.persistence.domain.DataEntity;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.service.OrgService;
 import com.albedo.java.util.JsonUtil;
@@ -16,7 +16,6 @@ import com.albedo.java.web.rest.base.TreeVoResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.Lists;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

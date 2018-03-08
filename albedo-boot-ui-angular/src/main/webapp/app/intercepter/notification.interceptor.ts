@@ -31,7 +31,6 @@ export class NotificationInterceptor implements HttpInterceptor {
                         toastr.success(alert, { param: alertParams })
                     }
                 }
-                console.log(event)
                 var obj = event.body
                 if (obj) {
                     // toastr.info(reData.msg, {})

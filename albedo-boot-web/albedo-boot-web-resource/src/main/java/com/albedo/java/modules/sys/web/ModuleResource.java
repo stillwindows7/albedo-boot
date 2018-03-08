@@ -1,6 +1,6 @@
 package com.albedo.java.modules.sys.web;
 
-import com.albedo.java.common.data.persistence.DataEntity;
+import com.albedo.java.common.persistence.domain.DataEntity;
 import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.service.ModuleService;

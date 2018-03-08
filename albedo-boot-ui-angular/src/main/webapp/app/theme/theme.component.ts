@@ -97,7 +97,6 @@ export class ThemeComponent implements OnInit {
     }
     private initData() {
         if (typeof (albedoForm) != "undefined") {
-            console.log("clearData")
             albedoForm.clearData()
         }
     }

@@ -62,7 +62,6 @@ export class AuthComponent implements OnInit {
         this.loading = true
 
         this.loginService.login(this.model).then((data) => {
-            console.log(data)
             // this.authenticationError = false
             this.activeModal.dismiss('login success')
             if (this._router.url === '/register' || (/^\/activate\//.test(this._router.url)) ||
@@ -85,7 +84,6 @@ export class AuthComponent implements OnInit {
                 this._router.navigate([this.returnUrl])
             }
         }).catch((data) => {
-            console.log(data)
             this.error = data && data.error && data.error.message ? data.error.message : "用户名或密码填写有误";
             // this.showAlert('alertSignin')
             // toastr.error()

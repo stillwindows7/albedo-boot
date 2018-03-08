@@ -1,0 +1,11 @@
+com\albedo\java\common\persistence\DynamicSpecifications.class
+com\albedo\java\common\persistence\repository\BaseRepository.class
+com\albedo\java\common\persistence\GeneralEntity.class
+com\albedo\java\common\persistence\service\BaseService.class
+com\albedo\java\common\persistence\SpecificationDetail$Condition.class
+com\albedo\java\common\persistence\repository\JpaCustomeRepository.class
+com\albedo\java\common\persistence\repository\impl\JpaCustomeRepositoryImpl.class
+com\albedo\java\common\persistence\repository\TreeRepository.class
+com\albedo\java\common\persistence\SpecificationDetail.class
+com\albedo\java\common\persistence\BaseEntity.class
+com\albedo\java\common\persistence\IdGen.class

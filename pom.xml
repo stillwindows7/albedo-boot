@@ -43,10 +43,10 @@
 
     <modules>
         <module>albedo-boot-common</module>
-        <module>albedo-boot-data</module>
+        <module>albedo-boot-modules</module>
         <module>albedo-boot-api</module>
         <module>albedo-boot-web</module>
-        <module>albedo-boot-cloud</module>
+        <module>albedo-boot-plugins</module>
         <module>albedo-boot-ui-angular</module>
     </modules>
     <repositories>

@@ -1,12 +1,11 @@
 package com.albedo.java.web.rest.base;
 
-import com.albedo.java.common.service.TreeVoService;
+import com.albedo.java.common.persistence.service.TreeVoService;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.vo.base.TreeEntityVo;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.codahale.metrics.annotation.Timed;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

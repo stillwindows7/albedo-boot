@@ -58,7 +58,6 @@ var albedoForm = function () {
     }
     var _treeSearchUpdateNodes = function (tree, highlight, nodeList) {
         var $container = tree.setting.treeObj;
-        console.log(nodeList);
         for (var i = 0, l = nodeList.length; i < l; i++) {
             nodeList[i].highlight = highlight;
             tree.updateNode(nodeList[i]);
@@ -127,7 +126,6 @@ var albedoForm = function () {
                     if (allowCancelSelect && tree && tree.getSelectedNodes()[0] && tree.getSelectedNodes()[0].id == treeNode.id) {
                         tree.cancelSelectedNode();
                         var cancelClickNodeFnName;
-                        console.log(cancelClickNodeFn)
                         cancelClickNodeFn && cancelClickNodeFn.indexOf("function")!=1 && eval("cancelClickNodeFnName = "+cancelClickNodeFn);
                         if ((typeof cancelClickNodeFnName) == "function") {
                             var param = [treeId, treeNode];
@@ -209,7 +207,6 @@ var albedoForm = function () {
                     }
                 });
                 var selectNodeId = $thiz.attr("_selectNodeId") ? $thiz.attr("_selectNodeId") : "",selectId;
-                console.log(selectNodeId)
                 // try{
                 //     eval("if("+selectNodeId+"){var selectId=" + selectNodeId+"}");
                 // }catch(e){}
@@ -224,7 +221,6 @@ var albedoForm = function () {
             });
 
         }
-        console.log(albedo)
         if(albedo.getToken()){
             refreshTree();
         }else{

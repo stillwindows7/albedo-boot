@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.albedo.java.modules.gen.service.GenTableServiceTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.34 sec - in com.albedo.java.modules.gen.service.GenTableServiceTest

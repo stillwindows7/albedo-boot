@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>com.albedo.java</groupId>
-            <artifactId>albedo-boot-util</artifactId>
+            <artifactId>albedo-boot-common</artifactId>
             <version>${project.release.version}</version>
         </dependency>
         <dependency>

@@ -1,10 +1,9 @@
 package com.albedo.java.web.rest.base;
 
-import com.albedo.java.common.data.persistence.DataEntity;
-import com.albedo.java.common.service.DataService;
+import com.albedo.java.common.persistence.domain.DataEntity;
+import com.albedo.java.common.persistence.service.DataService;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.Globals;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;

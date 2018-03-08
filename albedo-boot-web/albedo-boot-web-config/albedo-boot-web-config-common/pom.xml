@@ -20,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>com.albedo.java</groupId>
-            <artifactId>albedo-boot-web-swagger</artifactId>
+            <artifactId>albedo-boot-swagger</artifactId>
             <version>${project.release.version}</version>
         </dependency>
         <dependency>

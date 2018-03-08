@@ -1,6 +1,6 @@
 package com.albedo.java.common.security.service;
 
-import com.albedo.java.common.data.persistence.BaseEntity;
+import com.albedo.java.common.persistence.domain.BaseEntity;
 import com.albedo.java.common.security.*;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.repository.UserRepository;
@@ -13,13 +13,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 /**

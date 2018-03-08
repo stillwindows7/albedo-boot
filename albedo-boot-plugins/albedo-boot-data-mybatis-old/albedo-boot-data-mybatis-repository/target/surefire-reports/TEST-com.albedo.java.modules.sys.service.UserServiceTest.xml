@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.albedo.java.modules.sys.service.UserServiceTest" time="1.297" tests="19" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="idea.version" value="2017.3.2"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_131\jre\bin"/>
+    <property name="java.vm.version" value="25.131-b11"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="maven.multiModuleProjectDirectory" value="F:\albedo\albedo-boot"/>
+    <property name="java.vendor.url" value="http://java.oracle.com/"/>
+    <property name="path.separator" value=";"/>
+    <property name="guice.disable.misplaced.annotation.check" value="true"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="file.encoding.pkg" value="sun.io"/>
+    <property name="user.script" value=""/>
+    <property name="user.country" value="CN"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="F:\albedo\albedo-boot"/>
+    <property name="java.runtime.version" value="1.8.0_131-b11"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
+    <property name="java.endorsed.dirs" value="C:\Program Files\Java\jdk1.8.0_131\jre\lib\endorsed"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.io.tmpdir" value="C:\Users\zhph\AppData\Local\Temp\"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.variant" value=""/>
+    <property name="os.name" value="Windows 10"/>
+    <property name="classworlds.conf" value="D:\Program Files\JetBrains\IntelliJ IDEA 2017.3.2\plugins\maven\lib\maven3\bin\m2.conf"/>
+    <property name="sun.jnu.encoding" value="GBK"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk1.8.0_131\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\ProgramData\Oracle\Java\javapath;C:\Python27\;C:\Python27\Scripts;D:\install\product\11.2.0\dbhome_1\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Java\jdk1.8.0_131\bin;C:\Program Files\Java\jdk1.8.0_131\jre\bin;D:\apache\apache-maven-3.3.9\bin;D:\install\redis\redis-64.3.0.503;C:\Program Files\Git\cmd;D:\apache\gradle-4.1\bin;D:\apache\android-sdk-windows\platform-tools;D:\apache\android-sdk-windows\tools;D:\apache\Redis-3.2.1\;C:\Users\zhph\AppData\Local\atom\bin;D:\Program Files\TortoiseSVN\bin;D:\Program Files\nodejs\;D:\Program Files (x86)\Yarn\bin;C:\Users\zhph\AppData\Local\Microsoft\WindowsApps;C:\Users\zhph\AppData\Roaming\npm;C:\Users\zhph\AppData\Local\Yarn\bin;."/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.class.version" value="52.0"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="os.version" value="10.0"/>
+    <property name="user.home" value="C:\Users\zhph"/>
+    <property name="user.timezone" value="Asia/Shanghai"/>
+    <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob"/>
+    <property name="java.specification.version" value="1.8"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="user.name" value="zhph"/>
+    <property name="java.class.path" value="D:\Program Files\JetBrains\IntelliJ IDEA 2017.3.2\plugins\maven\lib\maven3\boot\plexus-classworlds-2.5.2.jar;D:\Program Files\JetBrains\IntelliJ IDEA 2017.3.2\lib\idea_rt.jar"/>
+    <property name="java.vm.specification.version" value="1.8"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk1.8.0_131\jre"/>
+    <property name="sun.java.command" value="org.codehaus.classworlds.Launcher -Didea.version=2017.3.2 -s D:\apache\apache-maven-3.3.9\conf\settings.xml install"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.language" value="zh"/>
+    <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.version" value="1.8.0_131"/>
+    <property name="java.ext.dirs" value="C:\Program Files\Java\jdk1.8.0_131\jre\lib\ext;C:\WINDOWS\Sun\Java\lib\ext"/>
+    <property name="sun.boot.class.path" value="C:\Program Files\Java\jdk1.8.0_131\jre\lib\resources.jar;C:\Program Files\Java\jdk1.8.0_131\jre\lib\rt.jar;C:\Program Files\Java\jdk1.8.0_131\jre\lib\sunrsasign.jar;C:\Program Files\Java\jdk1.8.0_131\jre\lib\jsse.jar;C:\Program Files\Java\jdk1.8.0_131\jre\lib\jce.jar;C:\Program Files\Java\jdk1.8.0_131\jre\lib\charsets.jar;C:\Program Files\Java\jdk1.8.0_131\jre\lib\jfr.jar;C:\Program Files\Java\jdk1.8.0_131\jre\classes"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="maven.home" value="D:\Program Files\JetBrains\IntelliJ IDEA 2017.3.2\plugins\maven\lib\maven3"/>
+    <property name="file.separator" value="\"/>
+    <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="sun.desktop" value="windows"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+  </properties>
+  <testcase name="deletesAUserById" classname="com.albedo.java.modules.sys.service.UserServiceTest" time="0.427"/>
+  <testcase name="existReturnsWhetherAnEntityCanBeLoaded" classname="com.albedo.java.modules.sys.service.UserServiceTest" time="0.079"/>
+  <testcase name="testReadByIdReturnsNullForNotFoundEntities" classname="com.albedo.java.modules.sys.service.UserServiceTest" time="0.062"/>
+  <testcase name="deleteColletionOfEntities" classname="com.albedo.java.modules.sys.service.UserServiceTest" time="0.09"/>
+  <testcase name="testRead" classname="com.albedo.java.modules.sys.service.UserServiceTest" time="0.056"/>
+  <testcase name="findPage" classname="com.albedo.java.modules.sys.service.UserServiceTest" time="0.11"/>
+  <testcase name="deleteAll" classname="com.albedo.java.modules.sys.service.UserServiceTest" time="0.053"/>
+  <testcase name="returnsAllSortedCorrectly" classname="com.albedo.java.modules.sys.service.UserServiceTest" time="0.052"/>
+  <testcase name="testReadAll" classname="com.albedo.java.modules.sys.service.UserServiceTest" time="0.057"/>
+  <testcase name="returnsAllAsPageIfNoPageableIsGiven" classname="com.albedo.java.modules.sys.service.UserServiceTest" time="0.051"/>
+  <testcase name="savingNullCollectionIsNoOp" classname="com.albedo.java.modules.sys.service.UserServiceTest" time="0.001"/>
+  <testcase name="savingEmptyCollectionIsNoOp" classname="com.albedo.java.modules.sys.service.UserServiceTest" time="0.001"/>
+  <testcase name="testDelete" classname="com.albedo.java.modules.sys.service.UserServiceTest" time="0.045"/>
+  <testcase name="savesCollectionCorrectly" classname="com.albedo.java.modules.sys.service.UserServiceTest" time="0.009"/>
+  <testcase name="testCountsCorrectly" classname="com.albedo.java.modules.sys.service.UserServiceTest" time="0.006"/>
+  <testcase name="returnsAllIgnoreCaseSortedCorrectly" classname="com.albedo.java.modules.sys.service.UserServiceTest" time="0.046"/>
+  <testcase name="testUpdate" classname="com.albedo.java.modules.sys.service.UserServiceTest" time="0.047"/>
+  <testcase name="deleteEmptyCollectionDoesNotDeleteAnything" classname="com.albedo.java.modules.sys.service.UserServiceTest" time="0.053"/>
+  <testcase name="returnsSameListIfNoSortIsGiven" classname="com.albedo.java.modules.sys.service.UserServiceTest" time="0.052"/>
+</testsuite>

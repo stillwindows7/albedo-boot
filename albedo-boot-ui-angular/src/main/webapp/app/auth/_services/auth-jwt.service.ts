@@ -23,16 +23,13 @@ export class AuthServerProvider {
             password: credentials.password,
             rememberMe: credentials.rememberMe
         }
-        console.log(data)
         return this.http.post(CTX + '/authenticate', data, { observe: 'response' }).map(authenticateSuccess.bind(this))
 
         function authenticateSuccess(resp) {
-            console.log(resp)
             const bearerToken = resp.headers.get('Authorization')
             if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
                 const jwt = bearerToken.slice(7, bearerToken.length)
                 this.storeAuthenticationToken(jwt, credentials.rememberMe)
-                console.log(jwt)
                 return jwt
             }
         }

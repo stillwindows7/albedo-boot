@@ -1,13 +1,11 @@
 package com.albedo.java.web.rest.base;
 
-import com.albedo.java.common.data.persistence.DataEntity;
-import com.albedo.java.common.service.DataVoService;
+import com.albedo.java.common.persistence.service.DataVoService;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.vo.base.DataEntityVo;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.codahale.metrics.annotation.Timed;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

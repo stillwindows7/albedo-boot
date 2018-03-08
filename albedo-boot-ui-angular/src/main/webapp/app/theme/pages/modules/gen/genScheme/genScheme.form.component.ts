@@ -29,7 +29,6 @@ export class GenSchemeFormComponent implements AfterViewInit {
         this.genScheme = new GenScheme()
         this.routeData = this.activatedRoute.params.subscribe((params) => {
             this.genSchemeService.formData(params).subscribe((data) => {
-                console.log(data)
                 if (data.genSchemeVo) this.genScheme = data.genSchemeVo
                 this.viewTypeList = data.viewTypeList
                 this.categoryList = data.categoryList

@@ -9,7 +9,6 @@ var albedoList = function(){
     }
     var handleInitHtmlTable = function($table, options){
         var  $table = $table && $table.length>0 ? $table : $(document).find('.m_datatable');
-        console.log($table)
         options = $.extend(true, {
             data: {
                 saveState: {cookie: false},
@@ -129,7 +128,6 @@ var albedoList = function(){
                     if(re && re.status == "1"){
                         var $targetForm = $(el.attr("data-modal-id")).find(".m-form");
                         albedoForm.initFormData("#"+$targetForm.attr("id"), re.data)
-                        console.log(encodeURIComponent(albedo.toStr($("#testBook-save-form").find("input[name='id']").val())))
                         albedoForm.initValidate($targetForm)
                     }else{
                         var alertType = "warning", icon = "warning";
@@ -152,7 +150,6 @@ var albedoList = function(){
     }
     var handleModal = function (callback, btn, $target) {
         var $target = $target && $target.length>0 || $(document);
-        console.log(btn)
         $target.off("click"+btn).on("click"+btn, btn, function (){
             var el = $(this);
             if(albedo.isExitsFunction(callback)){

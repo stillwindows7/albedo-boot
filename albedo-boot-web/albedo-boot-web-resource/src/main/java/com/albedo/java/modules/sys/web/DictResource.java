@@ -1,32 +1,21 @@
 package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.security.SecurityUtil;
-import com.albedo.java.common.security.annotaion.RequiresPermissions;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.service.DictService;
 import com.albedo.java.util.DictUtil;
 import com.albedo.java.util.JsonUtil;
-import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.Reflections;
-import com.albedo.java.util.domain.ComboSearch;
-import com.albedo.java.util.domain.ComboData;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
-import com.albedo.java.vo.base.SelectResult;
 import com.albedo.java.vo.sys.DictVo;
-import com.albedo.java.vo.sys.ModuleVo;
-import com.albedo.java.vo.sys.query.DictQuery;
-import com.albedo.java.vo.sys.query.DictQuerySearch;
-import com.albedo.java.vo.sys.query.DictTreeQuery;
-import com.albedo.java.vo.sys.query.DictTreeResult;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.TreeVoResource;
 import com.alibaba.fastjson.JSON;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -35,9 +24,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Station.

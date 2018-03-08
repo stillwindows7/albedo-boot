@@ -1,0 +1,7 @@
+com\albedo\java\modules\base\web\DataSystemResource.class
+com\albedo\java\modules\base\web\ProfileInfoResource.class
+com\albedo\java\modules\base\web\PersistentTokenResource.class
+com\albedo\java\modules\base\web\LogsResource.class
+com\albedo\java\modules\base\web\FileResource.class
+com\albedo\java\modules\base\web\AuditResource.class
+com\albedo\java\modules\base\web\AccoutResource.class

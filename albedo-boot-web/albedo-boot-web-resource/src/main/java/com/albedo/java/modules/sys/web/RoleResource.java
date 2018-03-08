@@ -2,7 +2,6 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.config.template.tag.FormDirective;
 import com.albedo.java.common.security.SecurityUtil;
-import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.util.JsonUtil;
@@ -11,7 +10,6 @@ import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.exception.RuntimeMsgException;
-import com.albedo.java.vo.base.SelectResult;
 import com.albedo.java.vo.sys.RoleVo;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.DataVoResource;
@@ -24,8 +22,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 /**

@@ -1,14 +1,17 @@
 package com.albedo.java.common.security;
 
 import com.albedo.java.common.config.AlbedoProperties;
-import com.albedo.java.common.data.persistence.BaseEntity;
+import com.albedo.java.common.persistence.domain.BaseEntity;
 import com.albedo.java.modules.sys.domain.*;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.modules.sys.service.AreaService;
 import com.albedo.java.modules.sys.service.ModuleService;
 import com.albedo.java.modules.sys.service.OrgService;
 import com.albedo.java.modules.sys.service.RoleService;
-import com.albedo.java.util.*;
+import com.albedo.java.util.JedisUtil;
+import com.albedo.java.util.Json;
+import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.util.exception.RuntimeMsgException;
@@ -27,7 +30,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**

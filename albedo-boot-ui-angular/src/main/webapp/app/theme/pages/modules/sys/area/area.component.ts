@@ -122,13 +122,11 @@ export class AreaComponent implements AfterViewInit {
     }
 
     cancelClickNodeArea(event, treeId, treeNode) {
-        // console.log(event)
         albedo.getSessionStorage().store("tree_area_select_node_id", '')
         $("#parentId").val('')
         $(".filter-submit-table-area").trigger("click")
     }
     clickTreeNodeArea(event, treeId, treeNode) {
-        // console.log(event)
         var addUrl = $("#add-area").attr("data-url-temp")
         if (addUrl) $("#add-area").attr("data-url", addUrl + (addUrl.indexOf("?") == -1 ? "?" : "&") + "parentId=" + treeNode.id)
         this.nodeId = treeNode.id

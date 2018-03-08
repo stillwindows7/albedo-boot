@@ -29,10 +29,8 @@ export class ModuleFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
     ngOnInit() {
         this.routerSub = this.router.params.subscribe((params) => {
-            console.log(params)
             this.id = params['id']
             this.moduleService.formData(this.id, params['parentId']).subscribe((data) => {
-                console.log(data)
                 if (data) this.module = data
                 albedoForm.setData("#module-save-form", this.module)
                 this.afterLoad = true
@@ -71,7 +69,6 @@ export class ModuleFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
     initFormModuleType() {
         $(".m-content").off("click", "input[name='type']").on("click", "input[name='type']", function() {
-            console.log($(this).val())
             if ($(this).val() == "2") {
                 $(".permission_item").removeClass("hide").find("input").addClass("required")
             } else {

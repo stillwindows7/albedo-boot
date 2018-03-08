@@ -2,13 +2,11 @@ package com.albedo.java.modules.sys.web;
 
 import com.albedo.java.common.security.SecurityUtil;
 import com.albedo.java.modules.sys.domain.TaskScheduleJob;
-import com.albedo.java.modules.sys.service.impl.TaskScheduleJobExcutorService;
+import com.albedo.java.modules.sys.service.TaskScheduleJobExcutorService;
 import com.albedo.java.util.JsonUtil;
-import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.PageModel;
-import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.sys.TaskScheduleJobVo;
 import com.albedo.java.web.rest.ResultBuilder;
 import com.albedo.java.web.rest.base.DataVoResource;
@@ -18,7 +16,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
