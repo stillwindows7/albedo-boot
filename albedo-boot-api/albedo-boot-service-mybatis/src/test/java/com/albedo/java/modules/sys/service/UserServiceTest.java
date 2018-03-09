@@ -8,6 +8,7 @@ import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.repository.ModuleRepository;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.util.domain.PageModel;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.junit.Before;
 import org.junit.Test;
@@ -152,13 +153,13 @@ public class UserServiceTest {
         assertThat(user2.getId(), is(notNullValue()));
         assertThat(user3.getId(), is(notNullValue()));
         assertThat(user4.getId(), is(notNullValue()));
-        User userTest = userRepository.findOne(id);
+        User userTest = userRepository.selectById(id);
         assertThat(userTest.getRoles() != null && userTest.getRoles().size() > 0,
                 is(true));
-        assertThat(userRepository.exists(id), is(true));
-        assertThat(userRepository.exists(user2.getId()), is(true));
-        assertThat(userRepository.exists(user3.getId()), is(true));
-        assertThat(userRepository.exists(user4.getId()), is(true));
+        assertThat(userRepository.selectById(id), is(notNullValue()));
+        assertThat(userRepository.selectById(user2.getId()), is(notNullValue()));
+        assertThat(userRepository.selectById(user3.getId()), is(notNullValue()));
+        assertThat(userRepository.selectById(user4.getId()), is(notNullValue()));
 
     }
 
@@ -174,7 +175,7 @@ public class UserServiceTest {
         assertThat(pm.getData().size(), is(4));
         assertThat(pm.getData().get(0).getLoginId(), is(user1.getLoginId()));
 
-        User temp = userRepository.findOneByLoginId(user1.getLoginId()).get();
+        User temp = userRepository.selectUserByLoginId(user1.getLoginId());
 
         List<Module> modules = moduleRepository.findAllAuthByUser(new User("1"));
 //        assertThat(modules.size()!=0, is(true));
@@ -196,9 +197,9 @@ public class UserServiceTest {
     public void testRead() throws Exception {
 
         flushTestUsers();
-//        Optional<User> oneByLoginId = userRepository.findOneByLoginId(null);
+//        Optional<User> oneByLoginId = userRepository.selectByIdByLoginId(null);
 //        System.out.println(oneByLoginId);
-        User foundPerson = userRepository.findOne(id);
+        User foundPerson = userRepository.selectById(id);
         assertThat(user1.getName(), is(foundPerson.getName()));
     }
 
@@ -207,206 +208,207 @@ public class UserServiceTest {
 
         flushTestUsers();
 
-        assertThat(userRepository.findOne(id + 27), is(nullValue()));
+        assertThat(userRepository.selectById(id + 27), is(nullValue()));
     }
 
     @Test
     public void savesCollectionCorrectly() throws Exception {
 
-        List<User> result = userRepository.saveList(Arrays.asList(user1, user2, user3));
-        assertThat(result, is(notNullValue()));
-        assertThat(result.size(), is(3));
-        assertThat(result, hasItems(user1, user2, user3));
+        boolean b = userService.insertOrUpdateBatch(Arrays.asList(user1, user2, user3));
+        assertThat(b, is(true));
+//        assertThat(result.size(), is(3));
+        assertThat(userService.selectBatchIds(Lists.newArrayList(user1.getId(), user2.getId(), user3.getId())),
+            hasItems(user1, user2, user3));
     }
 
-    @Test
-    public void savingNullCollectionIsNoOp() throws Exception {
-
-        List<User> result = userRepository.saveList((Collection<User>) null);
-        assertThat(result, is(notNullValue()));
-        assertThat(result.isEmpty(), is(true));
-    }
-
-    @Test
-    public void savingEmptyCollectionIsNoOp() throws Exception {
-
-        List<User> result = userRepository.saveList(new ArrayList<User>());
-        assertThat(result, is(notNullValue()));
-        assertThat(result.isEmpty(), is(true));
-    }
+//    @Test
+//    public void savingNullCollectionIsNoOp() throws Exception {
+//
+//        List<User> result = userRepository.saveList((Collection<User>) null);
+//        assertThat(result, is(notNullValue()));
+//        assertThat(result.isEmpty(), is(true));
+//    }
+//
+//    @Test
+//    public void savingEmptyCollectionIsNoOp() throws Exception {
+//
+//        List<User> result = userRepository.saveList(new ArrayList<User>());
+//        assertThat(result, is(notNullValue()));
+//        assertThat(result.isEmpty(), is(true));
+//    }
 
     @Test
     public void testUpdate() {
 
         flushTestUsers();
 
-        User foundPerson = userRepository.findOne(id);
+        User foundPerson = userRepository.selectById(id);
         foundPerson.setName("Schlicht");
 
-        User updatedPerson = userRepository.findOne(id);
+        User updatedPerson = userRepository.selectById(id);
         assertThat(updatedPerson.getName(), is(foundPerson.getName()));
     }
 
-    @Test
-    public void existReturnsWhetherAnEntityCanBeLoaded() throws Exception {
-
-        flushTestUsers();
-        assertThat(userRepository.exists(id), is(true));
-        assertThat(userRepository.exists(id + 27), is(false));
-    }
-
-    @Test
-    public void deletesAUserById() {
-
-        flushTestUsers();
-
-        userRepository.delete(user1.getId());
-        assertThat(userRepository.exists(id), is(false));
-        assertThat(userRepository.findOne(id), is(nullValue()));
-    }
-
-    @Test
-    public void testDelete() {
-
-        flushTestUsers();
-
-        userRepository.delete(user1);
-        assertThat(userRepository.exists(id), is(false));
-        assertThat(userRepository.findOne(id), is(nullValue()));
-    }
-
-    @Test
-    public void returnsAllSortedCorrectly() throws Exception {
-
-        flushTestUsers();
-        List<User> result = userRepository.findAll(new Sort(ASC, "loginId"));
-        assertThat(result, is(notNullValue()));
-        assertThat(result.size(), is(4));
-        assertThat(result.get(0).getLoginId(), is(user1.getLoginId()));
-        assertThat(result.get(1).getLoginId(), is(user2.getLoginId()));
-        assertThat(result.get(2).getLoginId(), is(user3.getLoginId()));
-        assertThat(result.get(3).getLoginId(), is(user4.getLoginId()));
-    }
-
-    @Test
-    public void returnsAllIgnoreCaseSortedCorrectly() throws Exception {
-
-        flushTestUsers();
-
-        Sort.Order order = new Sort.Order(ASC, "loginId").ignoreCase();
-        List<User> result = userRepository.findAll(new Sort(order));
-
-        assertThat(result, is(notNullValue()));
-        assertThat(result.size(), is(4));
-        assertThat(result.get(0).getLoginId(), is(user1.getLoginId()));
-        assertThat(result.get(1).getLoginId(), is(user2.getLoginId()));
-        assertThat(result.get(2).getLoginId(), is(user3.getLoginId()));
-        assertThat(result.get(3).getLoginId(), is(user4.getLoginId()));
-    }
-
-    @Test
-    public void deleteColletionOfEntities() {
-
-        flushTestUsers();
-
-        long before = userRepository.count();
-
-        userRepository.delete(Arrays.asList(user1, user2));
-        assertThat(userRepository.exists(user1.getId()), is(false));
-        assertThat(userRepository.exists(user2.getId()), is(false));
-        assertThat(userRepository.count(), is(before - 2));
-    }
-
-    @Test
-    public void deleteEmptyCollectionDoesNotDeleteAnything() {
-
-        assertDeleteCallDoesNotDeleteAnything(new ArrayList<User>());
-    }
-
-    @Test
-    public void testReadAll() {
-
-        flushTestUsers();
-
-        assertThat(userRepository.count(), is(4L));
-//        assertThat(userRepository.findAll(), hasItems(user1, user2, user3, user4));
-    }
-
-    @Test
-    public void deleteAll() throws Exception {
-
-        flushTestUsers();
-
-        userRepository.deleteAll();
-
-        assertThat(userRepository.count(), is(0L));
-    }
-
-    @Test
-    public void testCountsCorrectly() {
-
-        long count = userRepository.count();
-
-        User user = new User();
-        user.setLoginId("tempLoginId");
-        user.setEmail("gierke@synyx.de");
-        userRepository.save(user);
-
-        assertThat(userRepository.count() == count + 1, is(true));
-    }
-
 //    @Test
-//    public void returnsSamePageIfNoSpecGiven() throws Exception {
-//
-//        Pageable pageable = new PageRequest(0, 1);
+//    public void existReturnsWhetherAnEntityCanBeLoaded() throws Exception {
 //
 //        flushTestUsers();
-//        assertThat(userRepository.findAll(null, pageable), is(userRepository.findAll(pageable)));
+//        assertThat(userRepository.exists(id), is(true));
+//        assertThat(userRepository.exists(id + 27), is(false));
 //    }
-
-    @Test
-    public void returnsSameListIfNoSortIsGiven() throws Exception {
-
-        flushTestUsers();
-        assertSameElements(userRepository.findAll((Sort) null), userRepository.findAll());
-    }
-
-
-//    @Test(expected = MybatisQueryNotSupportException.class)
-//    public void executesFindByColleaguesLastnameCorrectly() {
+//
+//    @Test
+//    public void deletesAUserById() {
 //
 //        flushTestUsers();
 //
-//        user1.addColleague(user2);
-//        user3.addColleague(user1);
-//        userRepository.save(Arrays.asList(user1, user3));
-//
-//        List<User> result = userRepository.findByColleaguesLastname(user2.getLastname());
-//
-//        assertThat(result.size(), is(1));
-//        assertThat(result, hasItem(user1));
-//
-//        result = userRepository.findByColleaguesLastname("Gierke");
-//        assertThat(result.size(), is(2));
-//        assertThat(result, hasItems(user3, user2));
+//        userRepository.delete(user1.getId());
+//        assertThat(userRepository.exists(id), is(false));
+//        assertThat(userRepository.selectById(id), is(nullValue()));
 //    }
-
-    @Test
-    public void returnsAllAsPageIfNoPageableIsGiven() throws Exception {
-
-        flushTestUsers();
-        assertThat(userRepository.findAll((Pageable) null), is((Page<User>) new PageImpl<User>(userRepository.findAll())));
-    }
-
-    private void assertDeleteCallDoesNotDeleteAnything(List<User> collection) {
-
-        flushTestUsers();
-
-        long count = userRepository.count();
-
-        userRepository.delete(collection);
-        assertThat(userRepository.count(), is(count));
-    }
+//
+//    @Test
+//    public void testDelete() {
+//
+//        flushTestUsers();
+//
+//        userRepository.delete(user1);
+//        assertThat(userRepository.exists(id), is(false));
+//        assertThat(userRepository.selectById(id), is(nullValue()));
+//    }
+//
+//    @Test
+//    public void returnsAllSortedCorrectly() throws Exception {
+//
+//        flushTestUsers();
+//        List<User> result = userRepository.findAll(new Sort(ASC, "loginId"));
+//        assertThat(result, is(notNullValue()));
+//        assertThat(result.size(), is(4));
+//        assertThat(result.get(0).getLoginId(), is(user1.getLoginId()));
+//        assertThat(result.get(1).getLoginId(), is(user2.getLoginId()));
+//        assertThat(result.get(2).getLoginId(), is(user3.getLoginId()));
+//        assertThat(result.get(3).getLoginId(), is(user4.getLoginId()));
+//    }
+//
+//    @Test
+//    public void returnsAllIgnoreCaseSortedCorrectly() throws Exception {
+//
+//        flushTestUsers();
+//
+//        Sort.Order order = new Sort.Order(ASC, "loginId").ignoreCase();
+//        List<User> result = userRepository.findAll(new Sort(order));
+//
+//        assertThat(result, is(notNullValue()));
+//        assertThat(result.size(), is(4));
+//        assertThat(result.get(0).getLoginId(), is(user1.getLoginId()));
+//        assertThat(result.get(1).getLoginId(), is(user2.getLoginId()));
+//        assertThat(result.get(2).getLoginId(), is(user3.getLoginId()));
+//        assertThat(result.get(3).getLoginId(), is(user4.getLoginId()));
+//    }
+//
+//    @Test
+//    public void deleteColletionOfEntities() {
+//
+//        flushTestUsers();
+//
+//        long before = userRepository.count();
+//
+//        userRepository.delete(Arrays.asList(user1, user2));
+//        assertThat(userRepository.exists(user1.getId()), is(false));
+//        assertThat(userRepository.exists(user2.getId()), is(false));
+//        assertThat(userRepository.count(), is(before - 2));
+//    }
+//
+//    @Test
+//    public void deleteEmptyCollectionDoesNotDeleteAnything() {
+//
+//        assertDeleteCallDoesNotDeleteAnything(new ArrayList<User>());
+//    }
+//
+//    @Test
+//    public void testReadAll() {
+//
+//        flushTestUsers();
+//
+//        assertThat(userRepository.count(), is(4L));
+////        assertThat(userRepository.findAll(), hasItems(user1, user2, user3, user4));
+//    }
+//
+//    @Test
+//    public void deleteAll() throws Exception {
+//
+//        flushTestUsers();
+//
+//        userRepository.deleteAll();
+//
+//        assertThat(userRepository.count(), is(0L));
+//    }
+//
+//    @Test
+//    public void testCountsCorrectly() {
+//
+//        long count = userRepository.count();
+//
+//        User user = new User();
+//        user.setLoginId("tempLoginId");
+//        user.setEmail("gierke@synyx.de");
+//        userRepository.save(user);
+//
+//        assertThat(userRepository.count() == count + 1, is(true));
+//    }
+//
+////    @Test
+////    public void returnsSamePageIfNoSpecGiven() throws Exception {
+////
+////        Pageable pageable = new PageRequest(0, 1);
+////
+////        flushTestUsers();
+////        assertThat(userRepository.findAll(null, pageable), is(userRepository.findAll(pageable)));
+////    }
+//
+//    @Test
+//    public void returnsSameListIfNoSortIsGiven() throws Exception {
+//
+//        flushTestUsers();
+//        assertSameElements(userRepository.findAll((Sort) null), userRepository.findAll());
+//    }
+//
+//
+////    @Test(expected = MybatisQueryNotSupportException.class)
+////    public void executesFindByColleaguesLastnameCorrectly() {
+////
+////        flushTestUsers();
+////
+////        user1.addColleague(user2);
+////        user3.addColleague(user1);
+////        userRepository.save(Arrays.asList(user1, user3));
+////
+////        List<User> result = userRepository.findByColleaguesLastname(user2.getLastname());
+////
+////        assertThat(result.size(), is(1));
+////        assertThat(result, hasItem(user1));
+////
+////        result = userRepository.findByColleaguesLastname("Gierke");
+////        assertThat(result.size(), is(2));
+////        assertThat(result, hasItems(user3, user2));
+////    }
+//
+//    @Test
+//    public void returnsAllAsPageIfNoPageableIsGiven() throws Exception {
+//
+//        flushTestUsers();
+//        assertThat(userRepository.findAll((Pageable) null), is((Page<User>) new PageImpl<User>(userRepository.findAll())));
+//    }
+//
+//    private void assertDeleteCallDoesNotDeleteAnything(List<User> collection) {
+//
+//        flushTestUsers();
+//
+//        long count = userRepository.count();
+//
+//        userRepository.delete(collection);
+//        assertThat(userRepository.count(), is(count));
+//    }
 
 
 }

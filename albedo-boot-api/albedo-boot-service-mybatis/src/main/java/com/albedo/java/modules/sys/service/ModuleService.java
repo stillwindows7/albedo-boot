@@ -1,6 +1,6 @@
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.persistence.BaseEntity;
+import com.albedo.java.common.persistence.domain.BaseEntity;
 import com.albedo.java.common.persistence.service.TreeVoService;
 import com.albedo.java.modules.sys.domain.Module;
 import com.albedo.java.modules.sys.domain.User;
@@ -12,6 +12,7 @@ import com.albedo.java.vo.sys.ModuleVo;
 import com.albedo.java.vo.sys.query.ModuleMenuTreeResult;
 import com.albedo.java.vo.sys.query.ModuleTreeQuery;
 import com.albedo.java.vo.sys.query.TreeResult;
+import com.baomidou.mybatisplus.mapper.Condition;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,14 +86,12 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
 
 
     public void generatorModuleData(String moduleName, String parentModuleId, String url) {
-        Module currentModule = repository.findOneByName(moduleName);
+        Module currentModule = selectOne(Condition.create().eq(Module.F_NAME, moduleName));
         if (currentModule != null) {
 
-            List<Module> tempList = repository.findOneByIdOrParentId(currentModule.getId(), currentModule.getId());
-            repository.delete(tempList);
+            repository.delete(Condition.create().eq(Module.F_ID, currentModule.getId()).or(Module.F_PARENTID, currentModule.getId()));
         }
-//			baseRepository.execute("delete Module where id=:p1 or parentId=:p1", currentModule.getId());
-        Module parentModule = repository.findOne(parentModuleId);
+        Module parentModule = repository.selectById(parentModuleId);
         if (parentModule == null) {
 
             new Exception(PublicUtil.toAppendStr("根据模块id[", parentModuleId, "无法查询到模块信息]"));
@@ -153,10 +152,6 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
         moduleDelete.setRequestMethod(RequestMethod.DELETE);
         save(moduleDelete);
 
-    }
-
-    public List<Module> findAllByStatusOrderBySort(Integer flagNormal) {
-        return repository.findAllByStatusOrderBySort(flagNormal);
     }
 
     public List<Module> findAllAuthByUser(String userId) {

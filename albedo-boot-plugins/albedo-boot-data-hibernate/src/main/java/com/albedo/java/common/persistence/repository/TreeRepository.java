@@ -21,7 +21,7 @@ public interface TreeRepository<T extends BaseEntity, PK extends Serializable> e
 
     List<T> findAllByParentIdsLike(String parentIds);
 
-    List<T> findAllByParentIdAndStatusNot(String parentId, Integer status);
+    List<T> findAllByParentIdAndStatusNot(String parentId, String status);
 
     List<T> findAllByStatusNotOrderBySort(Integer status);
 

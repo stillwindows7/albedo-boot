@@ -16,56 +16,7 @@
         <result property="parentTableFk" column="parentTableFk" javaType="java.lang.String" jdbcType="VARCHAR"/>
         <result property="status" column="status" javaType="java.lang.Integer" jdbcType="INTEGER"/>
         <result property="version" column="version" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-        <association property="parent" javaType="com.albedo.java.modules.gen.domain.GenTable">
-            <id property="id" column="parent.id" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <result property="comments" column="parent.comments" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <result property="className" column="parent.className" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <result property="createdBy" column="parent.createdBy" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <result property="createdDate" column="parent.createdDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
-            <result property="description" column="parent.description" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <result property="lastModifiedBy" column="parent.lastModifiedBy" javaType="java.lang.String"
-                    jdbcType="VARCHAR"/>
-            <result property="lastModifiedDate" column="parent.lastModifiedDate" javaType="java.util.Date"
-                    jdbcType="TIMESTAMP"/>
-            <result property="name" column="parent.name" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <result property="parentTable" column="parent.parentTable" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <result property="parentTableFk" column="parent.parentTableFk" javaType="java.lang.String"
-                    jdbcType="VARCHAR"/>
-            <result property="status" column="parent.status" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <result property="version" column="parent.version" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-        </association>
-        <collection property="columnList" ofType="com.albedo.java.modules.gen.domain.GenTableColumn">
-            <id property="id" column="columnList.id" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <result property="comments" column="columnList.comments" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <result property="createdBy" column="columnList.createdBy" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <result property="createdDate" column="columnList.createdDate" javaType="java.util.Date"
-                    jdbcType="TIMESTAMP"/>
-            <result property="dictType" column="columnList.dictType" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <result property="description" column="columnList.description" javaType="java.lang.String"
-                    jdbcType="VARCHAR"/>
-            <result property="genTableId" column="columnList.genTableId" javaType="java.lang.String"
-                    jdbcType="VARCHAR"/>
-            <result property="isPk" column="columnList.isPk" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <result property="isUnique" column="columnList.isUnique" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <result property="isNull" column="columnList.isNull" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <result property="isInsert" column="columnList.isInsert" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <result property="isEdit" column="columnList.isEdit" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <result property="isList" column="columnList.isList" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <result property="isQuery" column="columnList.isQuery" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <result property="jdbcType" column="columnList.jdbcType" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <result property="javaType" column="columnList.javaType" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <result property="javaField" column="columnList.javaField" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <result property="lastModifiedBy" column="columnList.lastModifiedBy" javaType="java.lang.String"
-                    jdbcType="VARCHAR"/>
-            <result property="lastModifiedDate" column="columnList.lastModifiedDate" javaType="java.util.Date"
-                    jdbcType="TIMESTAMP"/>
-            <result property="name" column="columnList.name" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <result property="queryType" column="columnList.queryType" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <result property="showType" column="columnList.showType" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <result property="sort" column="columnList.sort" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <result property="status" column="columnList.status" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-            <result property="version" column="columnList.version" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-        </collection>
+        <association column="parent" property="parent" select="com.albedo.java.modules.gen.repository.GenTableRepository.selectById"/>
     </resultMap>
     <sql id="pageGenTableColumn">
         a.id_ AS `id`,
@@ -80,101 +31,8 @@
         a.parent_table AS `parentTable`,
         a.parent_table_fk AS `parentTableFk`,
         a.status_ AS `status`,
-        a.version_ AS `version`,
-        b.id_ AS `creator.id`,
-        b.activated_ AS `creator.activated`,
-        b.activation_key AS `creator.activationKey`,
-        b.created_by AS `creator.createdBy`,
-        b.created_date AS `creator.createdDate`,
-        b.description_ AS `creator.description`,
-        b.email_ AS `creator.email`,
-        b.login_id AS `creator.loginId`,
-        b.lang_key AS `creator.langKey`,
-        b.last_modified_by AS `creator.lastModifiedBy`,
-        b.last_modified_date AS `creator.lastModifiedDate`,
-        b.name_ AS `creator.name`,
-        b.org_id AS `creator.orgId`,
-        b.password_hash AS `creator.password`,
-        b.phone_ AS `creator.phone`,
-        b.reset_key AS `creator.resetKey`,
-        b.reset_date AS `creator.resetDate`,
-        b.status_ AS `creator.status`,
-        b.version_ AS `creator.version`,
-        b.created_by AS `creator.creator.id`,
-        b.last_modified_by AS `creator.modifier.id`,
-        b.org_id AS `creator.org.id`,
-        c.id_ AS `modifier.id`,
-        c.activated_ AS `modifier.activated`,
-        c.activation_key AS `modifier.activationKey`,
-        c.created_by AS `modifier.createdBy`,
-        c.created_date AS `modifier.createdDate`,
-        c.description_ AS `modifier.description`,
-        c.email_ AS `modifier.email`,
-        c.login_id AS `modifier.loginId`,
-        c.lang_key AS `modifier.langKey`,
-        c.last_modified_by AS `modifier.lastModifiedBy`,
-        c.last_modified_date AS `modifier.lastModifiedDate`,
-        c.name_ AS `modifier.name`,
-        c.org_id AS `modifier.orgId`,
-        c.password_hash AS `modifier.password`,
-        c.phone_ AS `modifier.phone`,
-        c.reset_key AS `modifier.resetKey`,
-        c.reset_date AS `modifier.resetDate`,
-        c.status_ AS `modifier.status`,
-        c.version_ AS `modifier.version`,
-        c.created_by AS `modifier.creator.id`,
-        c.last_modified_by AS `modifier.modifier.id`,
-        c.org_id AS `modifier.org.id`,
-        d.id_ AS `parent.id`,
-        d.comments AS `parent.comments`,
-        d.class_name AS `parent.className`,
-        d.created_by AS `parent.createdBy`,
-        d.created_date AS `parent.createdDate`,
-        d.description_ AS `parent.description`,
-        d.last_modified_by AS `parent.lastModifiedBy`,
-        d.last_modified_date AS `parent.lastModifiedDate`,
-        d.name_ AS `parent.name`,
-        d.parent_table AS `parent.parentTable`,
-        d.parent_table_fk AS `parent.parentTableFk`,
-        d.status_ AS `parent.status`,
-        d.version_ AS `parent.version`,
-        d.created_by AS `parent.creator.id`,
-        d.last_modified_by AS `parent.modifier.id`,
-        d.parent_table AS `parent.parent.name`
+        a.version_ AS `version`
     </sql>
-
-    <select id="selectPage" parameterType="com.albedo.java.util.domain.PageModel" resultMap="GenTableMap" >
-        select
-        <include refid="pageGenTableColumn"/>
-        from gen_table_t
-        a left outer join sys_user_t b on a.created_by=b.id_ left
-        outer join sys_user_t c on a.last_modified_by=c.id_ left outer join
-        gen_table_t d on a.parent_table=d.name_
-        <if test="_condition != null">
-            <trim prefix=" where " prefixOverrides="and |or ">${_sqlConditionDsf}
-            </trim>
-        </if>
-        <if test="_sorts != null">
-            <bind name="_columnsMap"
-                  value='#{"id":"a.id_","comments":"a.comments","className":"a.class_name","createdBy":"a.created_by","createdDate":"a.created_date","description":"a.description_","lastModifiedBy":"a.last_modified_by","lastModifiedDate":"a.last_modified_date","name":"a.name_","parentTable":"a.parent_table","parentTableFk":"a.parent_table_fk","status":"a.status_","version":"a.version_","creator.id":"b.id_","creator.activated":"b.activated_","creator.activationKey":"b.activation_key","creator.createdBy":"b.created_by","creator.createdDate":"b.created_date","creator.description":"b.description_","creator.email":"b.email_","creator.loginId":"b.login_id","creator.langKey":"b.lang_key","creator.lastModifiedBy":"b.last_modified_by","creator.lastModifiedDate":"b.last_modified_date","creator.name":"b.name_","creator.orgId":"b.org_id","creator.password":"b.password_hash","creator.phone":"b.phone_","creator.resetKey":"b.reset_key","creator.resetDate":"b.reset_date","creator.status":"b.status_","creator.version":"b.version_","creator.creator.id":"b.created_by","creator.modifier.id":"b.last_modified_by","creator.org.id":"b.org_id","modifier.id":"c.id_","modifier.activated":"c.activated_","modifier.activationKey":"c.activation_key","modifier.createdBy":"c.created_by","modifier.createdDate":"c.created_date","modifier.description":"c.description_","modifier.email":"c.email_","modifier.loginId":"c.login_id","modifier.langKey":"c.lang_key","modifier.lastModifiedBy":"c.last_modified_by","modifier.lastModifiedDate":"c.last_modified_date","modifier.name":"c.name_","modifier.orgId":"c.org_id","modifier.password":"c.password_hash","modifier.phone":"c.phone_","modifier.resetKey":"c.reset_key","modifier.resetDate":"c.reset_date","modifier.status":"c.status_","modifier.version":"c.version_","modifier.creator.id":"c.created_by","modifier.modifier.id":"c.last_modified_by","modifier.org.id":"c.org_id","parent.id":"d.id_","parent.comments":"d.comments","parent.className":"d.class_name","parent.createdBy":"d.created_by","parent.createdDate":"d.created_date","parent.description":"d.description_","parent.lastModifiedBy":"d.last_modified_by","parent.lastModifiedDate":"d.last_modified_date","parent.name":"d.name_","parent.parentTable":"d.parent_table","parent.parentTableFk":"d.parent_table_fk","parent.status":"d.status_","parent.version":"d.version_","parent.creator.id":"d.created_by","parent.modifier.id":"d.last_modified_by","parent.parent.name":"d.parent_table","columnList.id":"`genTable.columnList`.id_","columnList.comments":"`genTable.columnList`.comments","columnList.createdBy":"`genTable.columnList`.created_by","columnList.createdDate":"`genTable.columnList`.created_date","columnList.dictType":"`genTable.columnList`.dict_type","columnList.description":"`genTable.columnList`.description_","columnList.genTableId":"`genTable.columnList`.gen_table_id","columnList.isPk":"`genTable.columnList`.is_pk","columnList.isUnique":"`genTable.columnList`.is_unique","columnList.isNull":"`genTable.columnList`.is_null","columnList.isInsert":"`genTable.columnList`.is_insert","columnList.isEdit":"`genTable.columnList`.is_edit","columnList.isList":"`genTable.columnList`.is_list","columnList.isQuery":"`genTable.columnList`.is_query","columnList.jdbcType":"`genTable.columnList`.jdbc_type","columnList.javaType":"`genTable.columnList`.java_type","columnList.javaField":"`genTable.columnList`.java_field","columnList.lastModifiedBy":"`genTable.columnList`.last_modified_by","columnList.lastModifiedDate":"`genTable.columnList`.last_modified_date","columnList.name":"`genTable.columnList`.name_","columnList.queryType":"`genTable.columnList`.query_type","columnList.showType":"`genTable.columnList`.show_type","columnList.sort":"`genTable.columnList`.sort_","columnList.status":"`genTable.columnList`.status_","columnList.version":"`genTable.columnList`.version_","columnList.creator.id":"`genTable.columnList`.created_by","columnList.genTable.id":"`genTable.columnList`.gen_table_id","columnList.modifier.id":"`genTable.columnList`.last_modified_by"}'/>
-            order by
-            <foreach item="item" index="idx" collection="_sorts" open="" separator="," close=""><if
-                    test="item.ignoreCase">lower(</if>${_columnsMap[item.property]}<if test="item.ignoreCase">)</if> ${item.direction}
-            </foreach>
-        </if>
-        limit #{pageSize} offset #{offset}
-    </select>
-    <select id="countPage" resultType="long" lang="XML">
-        select count(*) from gen_table_t
-        a left outer join sys_user_t b on a.created_by=b.id_ left
-        outer join sys_user_t c on a.last_modified_by=c.id_ left outer join
-        gen_table_t d on a.parent_table=d.name_
-        <if test="_condition != null">
-            <trim prefix=" where " prefixOverrides="and |or ">${_sqlConditionDsf}
-            </trim>
-        </if>
-    </select>
-
 
 
 <select id="findTableList" resultType="com.albedo.java.modules.gen.domain.GenTable">

@@ -1,9 +1,8 @@
 package com.albedo.java.common.persistence.service;
 
-import com.albedo.java.common.persistence.BaseEntity;
+import com.albedo.java.common.persistence.domain.BaseEntity;
+import com.albedo.java.common.persistence.domain.TreeEntity;
 import com.albedo.java.common.persistence.repository.TreeRepository;
-import com.albedo.java.common.persistence.TreeEntity;
-import com.albedo.java.modules.sys.domain.Module;
 import com.albedo.java.util.BeanVoUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.vo.base.TreeEntityVo;
@@ -99,7 +98,7 @@ public class TreeVoService<Repository extends TreeRepository<T, PK>,
     public V save(V form) {
         T entity = null;
         try {
-            entity = PublicUtil.isNotEmpty(form.getId()) ? repository.findOne((PK) form.getId()) :
+            entity = PublicUtil.isNotEmpty(form.getId()) ? repository.selectById((PK) form.getId()) :
                     getPersistentClass().newInstance();
             copyVoToBean(form, entity);
         } catch (Exception e) {
@@ -112,14 +111,14 @@ public class TreeVoService<Repository extends TreeRepository<T, PK>,
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<V> findAllByParentId(String parentId) {
-        return repository.findAllByParentIdAndStatusNot(parentId, Module.FLAG_DELETE).stream()
+        return super.findAllByParentIdAndStatusNot(parentId, BaseEntity.FLAG_DELETE).stream()
                 .map(item -> copyBeanToVo(item))
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Optional<V> findOptionalTopByParentId(String parentId) {
-        List<T> tempList = repository.findTop1ByParentIdAndStatusNotOrderBySortDesc(parentId, BaseEntity.FLAG_DELETE);
+        List<T> tempList = super.findTop1ByParentIdAndStatusNotOrderBySortDesc(parentId, BaseEntity.FLAG_DELETE);
         return PublicUtil.isNotEmpty(tempList) ? Optional.of(copyBeanToVo(tempList.get(0))) : Optional.empty();
     }
 

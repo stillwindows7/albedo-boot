@@ -6,6 +6,7 @@ import com.albedo.java.util.domain.Globals;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.google.common.collect.Sets;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +20,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A user.
@@ -91,8 +93,12 @@ public class User extends IdEntity<Area> {
     @TableField(exist = false)
     @ApiModelProperty(hidden = true)
     private String roleNames;
+
     @TableField(exist = false)
     private List<String> roleIdList;
+
+    @TableField(exist = false)
+    private Set<Role> roles = Sets.newHashSet();
 
     public User(String id) {
         this.id = id;

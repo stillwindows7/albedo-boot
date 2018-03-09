@@ -51,7 +51,7 @@ public class GenTableService extends DataVoService<GenTableRepository, GenTable,
                 buildSpecification(pm.getQueryConditionJson(),
                         QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE).setAnalytiColumnPrefix("a"));
         spec.orAll(authQueryConditions);
-        findBasePage(pm, spec);
+        findPage(pm, spec);
         return pm;
     }
 
@@ -180,12 +180,6 @@ public class GenTableService extends DataVoService<GenTableRepository, GenTable,
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<String> findTablePK(GenTableVo genTableVo) {
         List<String> pkList = null;
-//		String sql = "";
-//		if (SystemConfig.isMySql()) {
-//			sql = "SELECT lower(au.COLUMN_NAME) AS columnName FROM information_schema.`COLUMNS` au WHERE au.TABLE_SCHEMA = (select database()) AND au.COLUMN_KEY='PRI' AND au.TABLE_NAME = :p1";
-//		} else if (SystemConfig.isOracle()) {
-//			sql = "SELECT lower(cu.COLUMN_NAME) AS columnName FROM user_cons_columns cu, user_constraints au WHERE cu.constraint_name = au.constraint_name AND au.constraint_type = 'P' AND au.table_name = :p1";
-//		}
 
         pkList = repository.findTablePK(genTableVo);
         return pkList;
@@ -195,20 +189,7 @@ public class GenTableService extends DataVoService<GenTableRepository, GenTable,
     public List<GenTableColumnVo> findTableColumnList(GenTableVo genTableVo) {
         List<String[]> GenString = null;
         List<GenTableColumnVo> list = null;
-//		String sql = "";
-//		if (SystemConfig.isMySql()) {
-//			sql = "SELECT t.COLUMN_NAME AS name, (CASE WHEN t.IS_NULLABLE = 'YES' THEN '1' ELSE '0' END) AS isNull, (t.ORDINAL_POSITION * 10) AS sort,t.COLUMN_COMMENT AS comments,t.COLUMN_TYPE AS jdbcType FROM information_schema.`COLUMNS` t WHERE t.TABLE_SCHEMA = (select database()) AND t.TABLE_NAME = :p1 ORDER BY t.ORDINAL_POSITION";
-//		} else if (SystemConfig.isOracle()) {
-//			sql = "SELECT t.COLUMN_NAME AS name, (CASE WHEN t.NULLABLE = 'Y' THEN '1' ELSE '0' END) AS isNull, (t.COLUMN_ID * 10) AS sort, c.COMMENTS AS comments, decode(t.DATA_TYPE, 'DATE', t.DATA_TYPE || '(' || t.DATA_LENGTH || ')', 'VARCHAR2', t.DATA_TYPE || '(' || t.DATA_LENGTH || ')','VARCHAR', t.DATA_TYPE || '(' || t.DATA_LENGTH || ')','NVARCHAR2', t.DATA_TYPE || '(' || t.DATA_LENGTH/2 || ')','CHAR', t.DATA_TYPE || '(' || t.DATA_LENGTH || ')','NUMBER',t.DATA_TYPE || (nvl2(t.DATA_PRECISION,nvl2(decode(t.DATA_SCALE,0,null,t.DATA_SCALE),'(' || t.DATA_PRECISION || ',' || t.DATA_SCALE || ')', '(' || t.DATA_PRECISION || ')'),'(18)')),t.DATA_TYPE) AS jdbcType FROM user_tab_columns t, user_col_comments c WHERE t.TABLE_NAME = c.table_name AND t.COLUMN_NAME = c.column_name AND t.TABLE_NAME = :p1 ORDER BY t.COLUMN_ID";
-//		}
         list = repository.findTableColumnList(genTableVo);
-//		if (PublicUtil.isNotEmpty(GenString)) {
-//			list = Lists.newArrayList();
-//			for (Object[] str : GenString) {
-//				list.add(new GenTableColumn(String.valueOf(str[0]), Integer.parseInt(String.valueOf(str[1])),
-//						Integer.parseInt(String.valueOf(str[2])), String.valueOf(str[3]), String.valueOf(str[4])));
-//			}
-//		}else{
         if (PublicUtil.isEmpty(list)) {
             throw new RuntimeMsgException(PublicUtil.toAppendStr("无法获取[", genTableVo.getName(), "]表的列信息"));
         }
@@ -220,7 +201,6 @@ public class GenTableService extends DataVoService<GenTableRepository, GenTable,
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<GenTableVo> findTableListFormDb(GenTableVo genTableVo) {
-//		List<String[]> GenString = null;
         List<GenTable> genTables = findAll();
         GenTableQuery genTableQuery = new GenTableQuery();
         if (genTableVo != null) {
@@ -234,24 +214,6 @@ public class GenTableService extends DataVoService<GenTableRepository, GenTable,
             genTableQuery.setNotNames(Collections3.extractToList(genTables, GenTable.F_NAME));
         }
         List<GenTable> list = repository.findTableList(genTableQuery);
-//		String sql = "";
-//		if (SystemConfig.isMySql()) {
-//			sql = "SELECT t.table_name AS name,t.TABLE_COMMENT AS comments FROM information_schema.`TABLES` t WHERE t.TABLE_SCHEMA = (select database()) AND t.TABLE_NAME=:p1 ORDER BY t.TABLE_NAME";
-//		} else if (SystemConfig.isOracle()) {
-//			sql = "SELECT t.TABLE_NAME AS name, c.COMMENTS AS comments FROM user_tables t, user_tab_comments c WHERE t.table_name = c.table_name AND t.TABLE_NAME=:p1 ORDER BY t.TABLE_NAME";
-//		}
-//		if (PublicUtil.isNotEmpty(genTable.getName())) {
-//			GenString = baseRepository.createSqlQuery(sql, StringUtil.upperCase(genTable.getName())).list();
-//		}
-//		if(PublicUtil.isEmpty(GenString)){
-//			GenString = baseRepository.createSqlQuery(sql.replace(" AND t.TABLE_NAME=:p1", "")).list();
-//		}
-//
-//		if (PublicUtil.isNotEmpty(GenString)) {
-//			for (Object[] str : GenString) {
-//				list.add(new GenTableVo((String) str[0], (String) str[1]));
-//			}
-//		}
         return list.stream().map(item -> copyBeanToVo(item)).collect(Collectors.toList());
     }
 

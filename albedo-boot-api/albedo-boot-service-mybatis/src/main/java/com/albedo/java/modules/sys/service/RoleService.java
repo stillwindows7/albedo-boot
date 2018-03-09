@@ -1,8 +1,8 @@
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.persistence.BaseEntity;
 import com.albedo.java.common.persistence.DynamicSpecifications;
 import com.albedo.java.common.persistence.SpecificationDetail;
+import com.albedo.java.common.persistence.domain.BaseEntity;
 import com.albedo.java.common.persistence.service.DataVoService;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.repository.OrgRepository;
@@ -42,13 +42,9 @@ public class RoleService extends DataVoService<RoleRepository, Role, String, Rol
     @Override
     public PageModel<Role> findPage(PageModel<Role> pm, List<QueryCondition> authQueryConditions) {
         SpecificationDetail<Role> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
-                getPersistentClass(),
                 QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
         spec.orAll(authQueryConditions);
-//		specificationDetail.setPersistentClass();
-//        findBasePage(pm, spec, true);
-//        pm.getData().forEach(item -> item.setOrg(orgRepository.findBasicOne(item.getOrgId())));
-        findBasePage(pm, spec, true, "selectPage", "countPage");
+        findPage(pm, spec);
         return pm;
     }
 
@@ -64,7 +60,7 @@ public class RoleService extends DataVoService<RoleRepository, Role, String, Rol
 
     @Override
     public void save(RoleVo roleVo) {
-        Role role = PublicUtil.isNotEmpty(roleVo.getId()) ? repository.findOne(roleVo.getId()) : new Role();
+        Role role = PublicUtil.isNotEmpty(roleVo.getId()) ? repository.selectById(roleVo.getId()) : new Role();
         copyVoToBean(roleVo, role);
         role = super.save(role);
         if (PublicUtil.isNotEmpty(role.getModuleIdList())) {

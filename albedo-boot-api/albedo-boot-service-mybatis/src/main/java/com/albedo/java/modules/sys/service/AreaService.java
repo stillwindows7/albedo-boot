@@ -3,9 +3,9 @@
  */
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.persistence.BaseEntity;
 import com.albedo.java.common.persistence.DynamicSpecifications;
 import com.albedo.java.common.persistence.SpecificationDetail;
+import com.albedo.java.common.persistence.domain.BaseEntity;
 import com.albedo.java.common.persistence.service.TreeVoService;
 import com.albedo.java.modules.sys.domain.Area;
 import com.albedo.java.modules.sys.domain.Org;

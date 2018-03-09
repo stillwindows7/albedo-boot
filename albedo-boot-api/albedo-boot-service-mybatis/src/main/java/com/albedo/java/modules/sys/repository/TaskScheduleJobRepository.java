@@ -16,9 +16,4 @@ import java.util.List;
  */
 public interface TaskScheduleJobRepository extends BaseRepository<TaskScheduleJob, String> {
 
-    List<TaskScheduleJob> findByStatusAndJobStatus(Integer status, String jobStatus);
-
-    TaskScheduleJob findTopBySourceIdAndStatusNot(String soruceId, Integer flagDelete);
-
-    List<TaskScheduleJob> findAllBySourceId(String sourceId);
 }

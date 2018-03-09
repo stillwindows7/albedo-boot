@@ -1,7 +1,7 @@
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.persistence.BaseEntity;
 import com.albedo.java.common.persistence.SpecificationDetail;
+import com.albedo.java.common.persistence.domain.BaseEntity;
 import com.albedo.java.common.persistence.service.TreeVoService;
 import com.albedo.java.modules.sys.domain.Org;
 import com.albedo.java.modules.sys.repository.OrgRepository;
@@ -72,7 +72,7 @@ public class OrgService extends TreeVoService<OrgRepository, Org, String, OrgVo>
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public PageModel<Org> findPage(PageModel<Org> pm, List<QueryCondition> queryConditions) {
-        return findPageQuery(pm, queryConditions, false);
+        return findPageQuery(pm, queryConditions);
     }
 
 }

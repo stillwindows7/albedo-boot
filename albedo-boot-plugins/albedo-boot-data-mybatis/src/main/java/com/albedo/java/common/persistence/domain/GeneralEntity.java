@@ -44,44 +44,13 @@ public abstract class GeneralEntity<T extends Model>  extends Model<T> implement
     public static final String F_VERSION = "version";
     public static final String F_DESCRIPTION = "description";
     private static final long serialVersionUID = 1L;
-    /**
-     * 自定义SQL（SQL标识，SQL内容）
-     */
-    @Transient
-    @JSONField(serialize = false)
-    protected Map<String, Object> paramsMap;
 
-    /**
-     * 自定义条件SQL
-     */
-    @Transient
-    @JSONField(serialize = false)
-    protected String sqlConditionDsf;
 
     @Transient
     @JSONField(serialize = false)
     protected String dbName = SystemConfig.get("jdbc.type");
 
 
-    @JsonIgnore
-    @XmlTransient
-    public Map<String, Object> getParamsMap() {
-        return paramsMap;
-    }
-
-    public void setParamsMap(Map<String, Object> paramsMap) {
-        this.paramsMap = paramsMap;
-    }
-
-    @JsonIgnore
-    @JSONField(serialize = false)
-    public String getSqlConditionDsf() {
-        return sqlConditionDsf;
-    }
-
-    public void setSqlConditionDsf(String sqlConditionDsf) {
-        this.sqlConditionDsf = sqlConditionDsf;
-    }
 
 
 }

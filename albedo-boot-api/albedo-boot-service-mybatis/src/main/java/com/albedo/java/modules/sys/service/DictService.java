@@ -1,6 +1,6 @@
 package com.albedo.java.modules.sys.service;
 
-import com.albedo.java.common.persistence.BaseEntity;
+import com.albedo.java.common.persistence.domain.BaseEntity;
 import com.albedo.java.common.persistence.service.TreeVoService;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.repository.DictRepository;
@@ -9,6 +9,7 @@ import com.albedo.java.vo.base.SelectResult;
 import com.albedo.java.vo.sys.DictVo;
 import com.albedo.java.vo.sys.query.DictTreeQuery;
 import com.albedo.java.vo.sys.query.DictTreeResult;
+import com.baomidou.mybatisplus.mapper.Condition;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,12 @@ import java.util.List;
  */
 @Service
 public class DictService extends TreeVoService<DictRepository, Dict, String, DictVo> {
+
+    public List<Dict> findAllByStatusNotAndIsShowOrderBySortAsc(String flagDelete, Integer yes) {
+        return selectList(Condition.create().ne(Dict.F_STATUS, flagDelete).eq(Dict.F_ISSHOW, yes));
+
+    }
+
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<DictTreeResult> findTreeData(DictTreeQuery dictTreeQuery, List<Dict> dictList) {
@@ -62,5 +69,6 @@ public class DictService extends TreeVoService<DictRepository, Dict, String, Dic
         SelectResult selectResult = new SelectResult(item.getVal(), item.getName());
         return selectResult;
     }
+
 
 }

@@ -18,18 +18,17 @@
 
 package com.albedo.java.config;
 
+import com.baomidou.mybatisplus.spring.boot.starter.MybatisPlusAutoConfiguration;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.AuditorAware;
-import org.springframework.data.mybatis.domains.AuditDateAware;
-import org.springframework.data.mybatis.replication.datasource.ReplicationRoutingDataSource;
-import org.springframework.data.mybatis.replication.transaction.ReadWriteManagedTransactionFactory;
-import org.springframework.data.mybatis.repository.config.EnableMybatisRepositories;
-import org.springframework.data.mybatis.support.SqlSessionFactoryBean;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
@@ -46,39 +45,20 @@ import java.util.Date;
  * Created by songjiawei on 2016/11/9.
  */
 @Configuration
-@EnableMybatisRepositories(
-        value = {"com.albedo.java.modules.*.repository"},
-        mapperLocations = "classpath*:/mappings/modules/*/*Mapper.xml"
-)
 @EnableTransactionManagement
-@ComponentScan(basePackages = "com.albedo.java.*")
+@ComponentScan(basePackages = {"com.baomidou.mybatisplus.*","com.albedo.java.*"})
+//@MapperScan("com.albedo.java.modules.*.repository")
+@AutoConfigureAfter({MybatisPlusAutoConfiguration.class})
 public class TestConfig implements ResourceLoaderAware {
 
     private ResourceLoader resourceLoader;
 
+
     @Bean
-    public DataSource routingDataSource() throws SQLException {
+    public DataSource dataSource() {
         EmbeddedDatabase embeddedDatabase = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
-                .addScript("classpath:/test-init.sql").build();
-
-        ReplicationRoutingDataSource proxy = new ReplicationRoutingDataSource(embeddedDatabase, null);
-        proxy.addSlave(embeddedDatabase);
-        proxy.addSlave(embeddedDatabase);
-        proxy.addSlave(embeddedDatabase);
-        return proxy;
-    }
-
-    @Bean
-    public DataSource dataSource(@Qualifier("routingDataSource") DataSource routingDataSource) {
-        return new LazyConnectionDataSourceProxy(routingDataSource);
-    }
-
-    @Bean
-    public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource) {
-        SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
-        factoryBean.setDataSource(dataSource);
-        factoryBean.setTransactionFactory(new ReadWriteManagedTransactionFactory());
-        return factoryBean;
+            .addScript("classpath:/test-init.sql").build();
+        return new LazyConnectionDataSourceProxy(embeddedDatabase);
     }
 
     @Bean
@@ -96,15 +76,6 @@ public class TestConfig implements ResourceLoaderAware {
         };
     }
 
-    @Bean
-    public AuditDateAware<Date> auditDateAware() {
-        return new AuditDateAware<Date>() {
-            @Override
-            public Date getCurrentDate() {
-                return new Date();
-            }
-        };
-    }
 
     @Override
     public void setResourceLoader(ResourceLoader resourceLoader) {

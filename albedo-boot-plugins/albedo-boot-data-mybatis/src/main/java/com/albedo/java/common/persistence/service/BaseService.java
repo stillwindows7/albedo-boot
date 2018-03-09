@@ -220,7 +220,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
      * @return
      */
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public PageModel<T> findBasePage(PageModel<T> pm, SpecificationDetail<T> specificationDetail) {
+    public PageModel<T> findPage(PageModel<T> pm, SpecificationDetail<T> specificationDetail) {
         try {
 
             Page page = selectPage(new PageQuery<>(pm, null), QueryWrapperUtil.convertSpecificationDetail(specificationDetail));

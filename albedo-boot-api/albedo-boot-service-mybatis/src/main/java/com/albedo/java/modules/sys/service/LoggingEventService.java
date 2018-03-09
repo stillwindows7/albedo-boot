@@ -26,7 +26,7 @@ public class LoggingEventService extends BaseService<LoggingEventRepository, Log
     @Override
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public LoggingEvent findOne(String id) {
-        return repository.findOne(id);
+        return repository.selectById(id);
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)

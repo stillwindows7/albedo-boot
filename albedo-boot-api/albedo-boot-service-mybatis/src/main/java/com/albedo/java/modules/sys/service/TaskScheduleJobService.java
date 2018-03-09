@@ -40,7 +40,7 @@ public class TaskScheduleJobService extends DataService<TaskScheduleJobRepositor
                 buildSpecification(pm.getQueryConditionJson(),
                         queryConditions,
                         QueryCondition.ne(TaskScheduleJob.F_STATUS, TaskScheduleJob.FLAG_DELETE));
-        return findBasePage(pm, spec, false);
+        return findPage(pm, spec);
     }
 
 

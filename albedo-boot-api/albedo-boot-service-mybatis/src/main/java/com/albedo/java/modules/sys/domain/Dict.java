@@ -35,6 +35,7 @@ public class Dict extends TreeEntity<Dict> {
     public static final String FLAG_UNLEAF = "1";
     public static final String F_CODE = "code";
     public static final String F_VAL = "val";
+    public static final String F_ISSHOW = "isShow";
     private static final long serialVersionUID = 1L;
     /*** 编码 */
     @SearchField

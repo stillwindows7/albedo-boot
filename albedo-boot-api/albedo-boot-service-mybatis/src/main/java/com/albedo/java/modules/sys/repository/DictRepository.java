@@ -10,6 +10,6 @@ import java.util.List;
  */
 public interface DictRepository extends TreeRepository<Dict, String> {
 
-    List<Dict> findAllByStatusNotAndIsShowOrderBySortAsc(Integer status, Integer isShow);
+
 
 }

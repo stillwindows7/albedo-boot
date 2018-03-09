@@ -3,6 +3,7 @@ package com.albedo.java.util;
 import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.repository.DictRepository;
+import com.albedo.java.modules.sys.service.DictService;
 import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.domain.DictVm;
 import com.albedo.java.util.spring.SpringContextHolder;
@@ -24,7 +25,7 @@ public class DictUtil {
     public static final String CACHE_DICT_MAP = "dictMap";
     public static final String CACHE_DICT_LIST = "dictList";
     public static AlbedoProperties albedoProperties = SpringContextHolder.getBean(AlbedoProperties.class);
-    public static DictRepository dictService = SpringContextHolder.getBean(DictRepository.class);
+    public static DictService dictService = SpringContextHolder.getBean(DictService.class);
     private static Map<String, String> dataMap = Maps.newHashMap();
 
     private static boolean cluster = albedoProperties.getCluster();
@@ -136,7 +137,8 @@ public class DictUtil {
     /**
      * 根据code 和 原始值 获取数据字典name
      *
-     * @param types
+     * @param code
+     * @param values
      * @return
      */
     public static String getNamesByValues(String code, String values) {
@@ -157,7 +159,7 @@ public class DictUtil {
      * 根据code 和 name 获取数据字典原始值 下级
      *
      * @param code
-     * @param val
+     * @param name
      * @return
      */
     public static String getValByName(String code, String name) {
@@ -208,7 +210,7 @@ public class DictUtil {
      * 根据code 和 编码 获取数据字典name
      *
      * @param code
-     * @param val
+     * @param codeVal
      * @return
      */
     public static String getCode(String code, String codeVal) {
@@ -239,7 +241,7 @@ public class DictUtil {
      * 根据code 和 编码 获取数据字典对象
      *
      * @param code
-     * @param val
+     * @param codeVal
      * @return
      */
     public static Dict getCodeItem(String code, String codeVal) {

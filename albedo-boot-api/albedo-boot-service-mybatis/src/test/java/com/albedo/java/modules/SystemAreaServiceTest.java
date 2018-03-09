@@ -28,7 +28,7 @@
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration(classes = TestConfig.class)
 ////@SpringApplicationConfiguration(classes = ExampleApplication.class)
-//@TestPropertySource(locations="classpath:application.properties")
+//@TestPropertySource(locations="classpath:application.yml")
 //public class SystemAreaServiceTest {
 //
 //    @Autowired
