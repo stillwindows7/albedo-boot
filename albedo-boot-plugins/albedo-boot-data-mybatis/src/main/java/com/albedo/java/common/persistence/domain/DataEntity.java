@@ -4,6 +4,7 @@ import com.albedo.java.util.PublicUtil;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.Version;
+import com.baomidou.mybatisplus.enums.FieldFill;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedBy;
@@ -22,23 +23,19 @@ import java.util.Date;
 public abstract class DataEntity<T extends BaseEntity> extends BaseEntity<T> {
 
     private static final long serialVersionUID = 1L;
-    @CreatedBy
     @JSONField(serialize = false)
     @ApiModelProperty(hidden = true)
-    @TableField("created_by")
+    @TableField(value = "created_by",fill = FieldFill.INSERT)
     protected String createdBy;
 
 
-    @CreatedDate
-    @TableField("created_date")
+    @TableField(value = "created_date",fill = FieldFill.INSERT)
     protected Date createdDate = PublicUtil.getCurrentDate();
 
-    @LastModifiedBy
-    @TableField("last_modified_by")
+    @TableField(value = "last_modified_by",fill = FieldFill.INSERT_UPDATE)
     protected String lastModifiedBy;
 
-    @LastModifiedDate
-    @TableField("last_modified_date")
+    @TableField(value = "last_modified_date",fill = FieldFill.INSERT_UPDATE)
     protected Date lastModifiedDate = PublicUtil.getCurrentDate();
 
     /*** 默认0，必填，离线乐观锁 */

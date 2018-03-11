@@ -48,6 +48,7 @@ public abstract class GeneralEntity<T extends Model>  extends Model<T> implement
 
     @Transient
     @JSONField(serialize = false)
+    @TableField(exist = false)
     protected String dbName = SystemConfig.get("jdbc.type");
 
 
