@@ -49,7 +49,7 @@ public class GenTableService extends DataVoService<GenTableRepository, GenTable,
         //拼接查询动态对象
         SpecificationDetail<GenTable> spec = DynamicSpecifications.
                 buildSpecification(pm.getQueryConditionJson(),
-                        QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE).setAnalytiColumnPrefix("a"));
+                        QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE));
         spec.orAll(authQueryConditions);
         findPage(pm, spec);
         return pm;

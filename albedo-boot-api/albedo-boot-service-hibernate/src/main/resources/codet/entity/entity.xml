@@ -42,13 +42,20 @@ import java.util.Objects;
 @DynamicInsert @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Data @ToString @NoArgsConstructor @AllArgsConstructor
-public class ${ClassName} extends DataEntity {
+public class ${ClassName} extends IdEntity<${ClassName}> {
 
 	private static final long serialVersionUID = 1L;
 	<#list table.columnList as column>
 		<#if !column.pk && column.isNotBaseField>
 	/** F_${column.constantJavaField} ${column.nameAndTitle} */
 	public static final String F_${column.constantJavaField} = "${column.simpleJavaField}";
+		</#if>
+	</#list>
+
+	<#list table.columnList as column>
+		<#if !column.pk && column.isNotBaseField>
+	/** F_SQL_${column.constantJavaField} ${column.nameAndTitle} */
+	public static final String F_SQL_${column.constantJavaField} = "${column.name}";
 		</#if>
 	</#list>
 
@@ -81,15 +88,6 @@ public class ${ClassName} extends DataEntity {
 }
 <#macro generateFields>
 	//columns START
-<#if table.compositeId>
-	@EmbeddedId
-	private ${ClassName}Id id;
-<#else>
-	@Id
-	@Column(name = "${table.pkSqlName}"<#if table.pkJavaType = 'java.lang.String'>, length = ${table.pkSize}</#if>)
-	@SearchField
-	private ${table.pkJavaType} id;
-</#if>
 	<#list table.columnList as column>
 		<#if !column.pk && column.isNotBaseField>
 	/** ${column.simpleJavaField} ${column.title} */<#if table.parentExists && table.parentTableFk == column.name>

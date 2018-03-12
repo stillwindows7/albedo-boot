@@ -53,8 +53,7 @@ public class TaskScheduleJobExcutorService extends DataVoService<TaskScheduleJob
      */
     public void afterPropertiesSet() {
         // 这里获取任务信息数据
-        List<TaskScheduleJob> jobList = repository
-                .findByStatusAndJobStatus(TaskScheduleJob.FLAG_NORMAL, SystemConfig.STR_YES);
+        List<TaskScheduleJob> jobList = taskScheduleJobService.findByStatusAndJobStatus(TaskScheduleJob.FLAG_NORMAL, SystemConfig.STR_YES);
 
         for (TaskScheduleJob job : jobList) {
             try {
@@ -77,12 +76,12 @@ public class TaskScheduleJobExcutorService extends DataVoService<TaskScheduleJob
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public TaskScheduleJob findOne(String id) {
-        return repository.findOne(id);
+        return taskScheduleJobService.findOne(id);
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public TaskScheduleJob findOneBySourceId(String soruceId) {
-        return repository.findTopBySourceIdAndStatusNot(soruceId, TaskScheduleJob.FLAG_DELETE);
+        return taskScheduleJobService.findTopBySourceIdAndStatusNot(soruceId, TaskScheduleJob.FLAG_DELETE);
     }
 
     /*
@@ -105,7 +104,7 @@ public class TaskScheduleJobExcutorService extends DataVoService<TaskScheduleJob
      * com.albedo.java.modules.sys.service.ITaskScheduleJobService#getAllTask()
      */
     public List<TaskScheduleJob> getAllTask() {
-        return repository.findAll();
+        return taskScheduleJobService.findAll();
     }
 
     @Override
@@ -150,7 +149,7 @@ public class TaskScheduleJobExcutorService extends DataVoService<TaskScheduleJob
             throw new RuntimeMsgException("未找到目标方法！");
         }
         try {
-            scheduleJob = repository.save(scheduleJob);
+            scheduleJob = taskScheduleJobService.save(scheduleJob);
         } catch (Exception e) {
             log.error("msg {}", e.getMessage());
             throw new RuntimeMsgException("保存失败，检查 name group 组合是否有重复！");
@@ -173,7 +172,7 @@ public class TaskScheduleJobExcutorService extends DataVoService<TaskScheduleJob
      * java.lang.String)
      */
     public TaskScheduleJob getTaskById(String jobId) {
-        return repository.findOne(jobId);
+        return taskScheduleJobService.findOne(jobId);
     }
 
     /*
@@ -195,7 +194,7 @@ public class TaskScheduleJobExcutorService extends DataVoService<TaskScheduleJob
             job.setJobStatus(SystemConfig.STR_YES);
             addJob(job);
         }
-        repository.save(job);
+        taskScheduleJobService.save(job);
     }
 
     /*
@@ -221,7 +220,7 @@ public class TaskScheduleJobExcutorService extends DataVoService<TaskScheduleJob
         if (SystemConfig.YES.equals(job.getJobStatus())) {
             updateJobCron(job);
         }
-        repository.save(job);
+        taskScheduleJobService.save(job);
     }
 
     /*
@@ -378,11 +377,11 @@ public class TaskScheduleJobExcutorService extends DataVoService<TaskScheduleJob
     }
 
     public void removeBySourceId(String sourceId) {
-        List<TaskScheduleJob> itemList = repository.findAllBySourceId(sourceId);
+        List<TaskScheduleJob> itemList = taskScheduleJobService.findAllBySourceId(sourceId);
         if (itemList != null) {
             for (TaskScheduleJob taskScheduleJob : itemList) {
                 deleteJob(taskScheduleJob);
-                repository.delete(taskScheduleJob.getId());
+                taskScheduleJobService.deleteById(taskScheduleJob.getId());
             }
         }
     }
