@@ -65,20 +65,6 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
      */
     private Integer weight = Integer.valueOf(0x186a0);
 
-    /**
-     * 是否解析动态条件查询前缀（一般自定义sql查询时建议设置为false,动态则设置为true）
-     */
-    @JSONField(serialize = false)
-    private boolean analytiColumn = true;
-
-    /**
-     * 解析动态条件查询前缀
-     */
-    @JSONField(serialize = false)
-    private String analytiColumnPrefix;
-    @JSONField(serialize = false)
-    private String fieldRealColumnName;
-
     public QueryCondition() {
     }
     public QueryCondition(String fieldName, Operator operate, Object value, String attrType) {
@@ -213,16 +199,6 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
      */
     public static QueryCondition isNotNull(String property) {
         return new QueryCondition(property, QueryCondition.Operator.isNotNull, null);
-    }
-
-    public QueryCondition setAnalytiColumn(boolean flag) {
-        this.analytiColumn = flag;
-        return this;
-    }
-
-    public QueryCondition setAnalytiColumnPrefix(String analytiPrefix) {
-        this.analytiColumnPrefix = analytiPrefix;
-        return this;
     }
 
     public String getFieldNode() {

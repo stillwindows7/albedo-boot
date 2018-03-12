@@ -1,14 +1,18 @@
 package com.albedo.java.common.persistence;
 
+import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.Order;
 import com.albedo.java.util.domain.QueryCondition;
 import com.alibaba.fastjson.JSONArray;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -24,7 +28,7 @@ public class SpecificationDetail<T> implements Serializable {
      */
     private static final String PROPERTY_SEPARATOR = ".";
     protected static Logger logger = LoggerFactory.getLogger(SpecificationDetail.class);
-//    public Class<T> persistentClass;
+    public Class<T> persistentClass;
     /**
      * and条件
      */
@@ -39,31 +43,31 @@ public class SpecificationDetail<T> implements Serializable {
     private List<Order> orders = Lists.newArrayList();
 
     public SpecificationDetail() {
-//        Class<?> c = getClass();
-//        Type type = c.getGenericSuperclass();
-//        if (type instanceof ParameterizedType) {
-//            Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
-//            persistentClass = (Class<T>) parameterizedType[0];
-//        }
+        Class<?> c = getClass();
+        Type type = c.getGenericSuperclass();
+        if (type instanceof ParameterizedType) {
+            Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
+            persistentClass = (Class<T>) parameterizedType[0];
+        }
     }
 
-//    public SpecificationDetail<T> setPersistentClass(Class<T> persistentClass) {
-//        this.persistentClass = persistentClass;
-//        return this;
-//    }
-
+    public SpecificationDetail<T> setPersistentClass(Class<T> persistentClass) {
+        this.persistentClass = persistentClass;
+        return this;
+    }
+    public Class<T> getPersistentClass() {
+        return persistentClass;
+    }
     public List<Order> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<Order> orders) {
+    public SpecificationDetail<T> setOrders(List<Order> orders) {
         this.orders = orders;
+        return this;
     }
 
     public List<QueryCondition> getAndQueryConditions() {
-//        if (persistentClass != null && PublicUtil.isNotEmpty(andQueryConditions)) {
-//            andQueryConditions.forEach(item -> item.setPersistentClass(persistentClass));
-//        }
         return andQueryConditions;
     }
 
@@ -72,9 +76,6 @@ public class SpecificationDetail<T> implements Serializable {
     }
 
     public List<QueryCondition> getOrQueryConditions() {
-//        if (persistentClass != null && PublicUtil.isNotEmpty(orQueryConditions)) {
-//            orQueryConditions.forEach(item -> item.setPersistentClass(persistentClass));
-//        }
         return orQueryConditions;
     }
 
@@ -251,6 +252,11 @@ public class SpecificationDetail<T> implements Serializable {
      */
     public enum Condition {
         AND, OR
+    }
+
+
+    public EntityWrapper toEntityWrapper(){
+       return QueryWrapperUtil.convertSpecificationDetail(this);
     }
 
 }

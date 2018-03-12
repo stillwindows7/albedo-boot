@@ -9,7 +9,6 @@ import com.albedo.java.common.security.MailService;
 import com.albedo.java.modules.sys.domain.Org;
 import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.User;
-import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.modules.sys.service.OrgService;
 import com.albedo.java.modules.sys.service.RoleService;
 import com.albedo.java.modules.sys.service.UserService;
@@ -32,17 +31,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Test class for the UserResource REST controller.
@@ -77,9 +71,6 @@ public class UserResourceIntTest {
     private static final String UPDATED_LANGKEY = "fr";
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private MailService mailService;
 
     @Autowired
@@ -90,10 +81,6 @@ public class UserResourceIntTest {
     private RoleService roleService;
     @Autowired
     private AlbedoProperties albedoProperties;
-
-
-    @Autowired
-    private EntityManager em;
 
     private MockMvc restUserMockMvc;
 
@@ -143,13 +130,13 @@ public class UserResourceIntTest {
         anotherUser.setEmail(DEFAULT_ANOTHER_EMAIL);
         anotherUser.setName("java");
         anotherUser.setLangKey("en");
-        userRepository.save(anotherUser);
+        userService.save(anotherUser);
     }
 
     @Test
     @Transactional
     public void createUser() throws Exception {
-        int databaseSizeBeforeCreate = userRepository.findAll().size();
+        int databaseSizeBeforeCreate = userService.findAll().size();
 
         // Create the User
         UserVo managedUserVM = new UserVo(null,
@@ -175,9 +162,9 @@ public class UserResourceIntTest {
             .andExpect(status().isOk());
 
         // Validate the User in the database
-        List<User> userList = userRepository.findAll();
+        List<User> userList = userService.findAll();
         assertThat(userList).hasSize(databaseSizeBeforeCreate + 1);
-        User testUser = userRepository.findOneByLoginId(managedUserVM.getLoginId()).get();
+        User testUser = userService.findOneByLoginId(managedUserVM.getLoginId()).get();
         assertThat(testUser.getLoginId()).isEqualTo(DEFAULT_LOGIN);
         assertThat(testUser.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testUser.getEmail()).isEqualTo(DEFAULT_EMAIL);
@@ -187,7 +174,7 @@ public class UserResourceIntTest {
     @Test
     @Transactional
     public void createUserWithExistingLogin() throws Exception {
-        int databaseSizeBeforeCreate = userRepository.findAll().size();
+        int databaseSizeBeforeCreate = userService.findAll().size();
 
         // Create the User
         UserVo managedUserVM = new UserVo(null,
@@ -216,7 +203,7 @@ public class UserResourceIntTest {
                 .andExpect(jsonPath("$.message").isNotEmpty());
 
         // Validate the User in the database
-        List<User> userList = userRepository.findAll();
+        List<User> userList = userService.findAll();
         assertThat(userList).hasSize(databaseSizeBeforeCreate);
     }
 
@@ -224,7 +211,7 @@ public class UserResourceIntTest {
     @Transactional
     public void getAllUsers() throws Exception {
         // Initialize the database
-        userRepository.save(user);
+        userService.save(user);
         // Get all the users
         restUserMockMvc.perform(get(albedoProperties.getAdminPath("/sys/user/"))
                 .accept(MediaType.APPLICATION_JSON))
@@ -241,7 +228,7 @@ public class UserResourceIntTest {
     @Transactional
     public void getUser() throws Exception {
         // Initialize the database
-        userRepository.save(user);
+        userService.save(user);
 
         // Get the user
         restUserMockMvc.perform(get(albedoProperties.getAdminPath("/sys/user/{id}"), user.getId()))
@@ -265,11 +252,11 @@ public class UserResourceIntTest {
     @Transactional
     public void updateUser() throws Exception {
         // Initialize the database
-        userRepository.save(user);
-        int databaseSizeBeforeUpdate = userRepository.findAll().size();
+        userService.save(user);
+        int databaseSizeBeforeUpdate = userService.findAll().size();
 
         // Update the user
-        User updatedUser = userRepository.findOne(user.getId());
+        User updatedUser = userService.findOne(user.getId());
 
         UserVo managedUserVM = new UserVo(updatedUser.getId(),
                 UPDATED_LOGIN,
@@ -295,9 +282,9 @@ public class UserResourceIntTest {
                 .andExpect(jsonPath("$.status").value(Globals.MSG_TYPE_SUCCESS));
 
         // Validate the User in the database
-        List<User> userList = userRepository.findAll();
+        List<User> userList = userService.findAll();
         assertThat(userList).hasSize(databaseSizeBeforeUpdate);
-        User testUser = userRepository.findOne(updatedUser.getId());
+        User testUser = userService.findOne(updatedUser.getId());
         assertThat(testUser.getLoginId()).isEqualTo(UPDATED_LOGIN);
         assertThat(testUser.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testUser.getEmail()).isEqualTo(UPDATED_EMAIL);
@@ -310,9 +297,9 @@ public class UserResourceIntTest {
     @Transactional
     public void updateUserExistingEmail() throws Exception {
 
-        userRepository.save(user);
+        userService.save(user);
         // Update the user
-        User updatedUser = userRepository.findOne(user.getId());
+        User updatedUser = userService.findOne(user.getId());
 
 
         UserVo managedUserVM = new UserVo(updatedUser.getId(),
@@ -345,9 +332,9 @@ public class UserResourceIntTest {
     @Transactional
     public void updateUserExistingLogin() throws Exception {
 
-        userRepository.save(user);
+        userService.save(user);
         // Update the user
-        User updatedUser = userRepository.findOne(user.getId());
+        User updatedUser = userService.findOne(user.getId());
 
         UserVo managedUserVM = new UserVo(updatedUser.getId(),
                 DEFAULT_ANOTHER_LOGIN,
@@ -376,7 +363,7 @@ public class UserResourceIntTest {
     @Transactional
     public void lockOrUnLockUser() throws Exception {
         // Initialize the database
-        userRepository.save(user);
+        userService.save(user);
         SpecificationDetail<User> spec = DynamicSpecifications.bySearchQueryCondition(
             QueryCondition.eq(BaseEntity.F_STATUS, BaseEntity.FLAG_NORMAL));
         long databaseSizeBeforeLock = userService.count(spec);
@@ -394,7 +381,7 @@ public class UserResourceIntTest {
     @Transactional
     public void deleteUser() throws Exception {
         // Initialize the database
-        userRepository.save(user);
+        userService.save(user);
         SpecificationDetail<User> spec = DynamicSpecifications.bySearchQueryCondition(
                 QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
         long databaseSizeBeforeDelete = userService.count(spec);

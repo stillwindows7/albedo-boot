@@ -1,11 +1,13 @@
 package com.albedo.java.modules.sys.domain;
 
 import com.albedo.java.common.persistence.domain.IdEntity;
+import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.annotation.SearchField;
 import com.albedo.java.util.domain.Globals;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -30,7 +32,7 @@ import java.util.Set;
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-public class User extends IdEntity<Area> {
+public class User extends IdEntity<User> {
 
     /*** F_LOGINID */
     public static final String F_LOGINID = "loginId";
@@ -55,7 +57,7 @@ public class User extends IdEntity<Area> {
     private String orgId;
 
     @ApiModelProperty(hidden = true)
-    @TableField("org.id")
+    @TableField(exist = false)
     private Org org;
 
     @Size(max = 50)
@@ -196,9 +198,6 @@ public class User extends IdEntity<Area> {
         this.langKey = langKey;
     }
 
-
-
-
     public Org getOrg() {
         return org;
     }
@@ -208,11 +207,25 @@ public class User extends IdEntity<Area> {
     }
 
     public List<String> getRoleIdList() {
+        if (PublicUtil.isEmpty(roleIdList) && PublicUtil.isNotEmpty(roles)) {
+            roleIdList = Lists.newArrayList();
+            roles.forEach(m -> {
+                if (PublicUtil.isNotEmpty(m)) roleIdList.add(m.getId());
+            });
+        }
         return roleIdList;
     }
 
     public void setRoleIdList(List<String> roleIdList) {
         this.roleIdList = roleIdList;
+        if (PublicUtil.isNotEmpty(roleIdList)) {
+            roles = Sets.newHashSet();
+            roleIdList.forEach(m -> {
+                if (PublicUtil.isNotEmpty(m)) {
+                    roles.add(new Role(m));
+                }
+            });
+        }
     }
 
 }

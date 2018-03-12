@@ -12,7 +12,7 @@ public class IdEntity<T extends BaseEntity> extends DataEntity<T> {
 
     private static final long serialVersionUID = 1L;
     @SearchField
-    @TableId(value = "id_", type = IdType.UUID)
+    @TableId(value = GeneralEntity.F_SQL_ID, type = IdType.UUID)
     protected String id; // 编号
 
     public IdEntity() {

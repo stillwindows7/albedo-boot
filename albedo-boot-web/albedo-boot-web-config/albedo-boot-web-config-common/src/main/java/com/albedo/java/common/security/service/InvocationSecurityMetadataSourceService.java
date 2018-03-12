@@ -7,6 +7,7 @@ import com.albedo.java.common.security.jwt.TokenProvider;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.domain.Module;
 import com.albedo.java.modules.sys.repository.ModuleRepository;
+import com.albedo.java.modules.sys.service.ModuleService;
 import com.albedo.java.util.DictUtil;
 import com.albedo.java.util.JedisUtil;
 import com.albedo.java.util.PublicUtil;
@@ -45,7 +46,7 @@ public class InvocationSecurityMetadataSourceService
     AlbedoProperties albedoProperties;
     private Map<String, Collection<ConfigAttribute>> resourceMap = null;
     @Resource
-    private ModuleRepository moduleRepository;
+    private ModuleService moduleService;
 
 
     @Resource
@@ -86,7 +87,7 @@ public class InvocationSecurityMetadataSourceService
             }
 
             if (PublicUtil.isEmpty(resourceMap)) {
-                List<Module> moduleList = moduleRepository.findAllByStatusOrderBySort(Module.FLAG_NORMAL);
+                List<Module> moduleList = moduleService.findAllByStatusOrderBySort(Module.FLAG_NORMAL);
                 List<Dict> dictRequestList = DictUtil.getDictList("sys_request_method");
                 moduleList.stream().forEach(item -> {
                     if (PublicUtil.isNotEmpty(item.getPermission())) {
@@ -145,7 +146,7 @@ public class InvocationSecurityMetadataSourceService
 
     @Override
     public Collection<ConfigAttribute> getAllConfigAttributes() {
-        return moduleRepository.findAllByStatusOrderBySort(Module.FLAG_NORMAL).stream()
+        return moduleService.findAllByStatusOrderBySort(Module.FLAG_NORMAL).stream()
                 .map(item -> new SecurityConfig(item.getPermission())).collect(Collectors.toList());
     }
 

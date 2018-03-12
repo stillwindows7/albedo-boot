@@ -22,13 +22,13 @@ import java.util.Map;
 public abstract class GeneralEntity<T extends Model>  extends Model<T> implements Serializable {
 
     /*** 状态 审核 */
-    public static final String FLAG_AUDIT = "1";
+    public static final Integer FLAG_AUDIT = 1;
     /*** 状态 正常 */
-    public static final String FLAG_NORMAL = "0";
+    public static final Integer FLAG_NORMAL = 0;
     /*** 状态 停用 */
-    public static final String FLAG_UNABLE = "-1";
+    public static final Integer FLAG_UNABLE = -1;
     /*** 状态 已删除 */
-    public static final String FLAG_DELETE = "-2";
+    public static final Integer FLAG_DELETE = -2;
     /**
      * 状态（-2：删除；-1：停用 0：正常 1:审核）
      */
@@ -43,6 +43,16 @@ public abstract class GeneralEntity<T extends Model>  extends Model<T> implement
     public static final String F_LASTMODIFIEDDATE = "lastModifiedDate";
     public static final String F_VERSION = "version";
     public static final String F_DESCRIPTION = "description";
+
+    public static final String F_SQL_ID = "id_";
+    public static final String F_SQL_CREATEDBY = "created_by";
+    public static final String F_SQL_CREATEDDATE = "created_date";
+    public static final String F_SQL_LASTMODIFIEDBY = "last_modified_by";
+    public static final String F_SQL_MODIFIER = "modifier";
+    public static final String F_SQL_LASTMODIFIEDDATE = "last_modified_date";
+    public static final String F_SQL_VERSION = "version_";
+    public static final String F_SQL_DESCRIPTION = "description_";
+    public static final String F_SQL_STATUS = "status_";
     private static final long serialVersionUID = 1L;
 
 

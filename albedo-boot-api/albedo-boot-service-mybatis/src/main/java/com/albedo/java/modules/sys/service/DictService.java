@@ -22,8 +22,8 @@ import java.util.List;
 @Service
 public class DictService extends TreeVoService<DictRepository, Dict, String, DictVo> {
 
-    public List<Dict> findAllByStatusNotAndIsShowOrderBySortAsc(String flagDelete, Integer yes) {
-        return selectList(Condition.create().ne(Dict.F_STATUS, flagDelete).eq(Dict.F_ISSHOW, yes));
+    public List<Dict> findAllByStatusNotAndIsShowOrderBySortAsc(Integer status, Integer yes) {
+        return selectList(Condition.create().ne(Dict.F_STATUS, status).eq(Dict.F_ISSHOW, yes));
 
     }
 

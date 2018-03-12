@@ -35,7 +35,7 @@ public class UserDetailsService implements org.springframework.security.core.use
     @Transactional
     public UserDetails loadUserByUsername(final String login) {
         log.debug("Authenticating {}", login);
-        Optional<User> userFromDatabase = userRepository.findOneByLoginId(login);
+        Optional<User> userFromDatabase = Optional.of(userRepository.selectUserByLoginId(login));
         return userFromDatabase.map(user -> {
             if (!BaseEntity.FLAG_NORMAL.equals(user.getStatus())) {
                 throw new RuntimeMsgException("用户 " + login + " 登录信息已被锁定");

@@ -25,17 +25,17 @@ public abstract class DataEntity<T extends BaseEntity> extends BaseEntity<T> {
     private static final long serialVersionUID = 1L;
     @JSONField(serialize = false)
     @ApiModelProperty(hidden = true)
-    @TableField(value = "created_by",fill = FieldFill.INSERT)
+    @TableField(value = GeneralEntity.F_SQL_CREATEDBY,fill = FieldFill.INSERT)
     protected String createdBy;
 
 
-    @TableField(value = "created_date",fill = FieldFill.INSERT)
+    @TableField(value = GeneralEntity.F_SQL_CREATEDDATE,fill = FieldFill.INSERT)
     protected Date createdDate = PublicUtil.getCurrentDate();
 
-    @TableField(value = "last_modified_by",fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = GeneralEntity.F_SQL_LASTMODIFIEDBY,fill = FieldFill.INSERT_UPDATE)
     protected String lastModifiedBy;
 
-    @TableField(value = "last_modified_date",fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = GeneralEntity.F_SQL_LASTMODIFIEDDATE,fill = FieldFill.INSERT_UPDATE)
     protected Date lastModifiedDate = PublicUtil.getCurrentDate();
 
     /*** 默认0，必填，离线乐观锁 */
@@ -43,12 +43,12 @@ public abstract class DataEntity<T extends BaseEntity> extends BaseEntity<T> {
     @JSONField(serialize = false)
     @XmlTransient
     @ApiModelProperty(hidden = true)
-    @TableField("version_")
+    @TableField(GeneralEntity.F_SQL_VERSION)
     protected Integer version = 0;
 
     /*** 备注 */
     @XmlTransient
-    @TableField("description_")
+    @TableField(GeneralEntity.F_SQL_DESCRIPTION)
     protected String description;
 
 

@@ -33,6 +33,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -108,7 +109,7 @@ public final class SecurityUtil {
         }
         if (user == null || isSearch || PublicUtil.isEmpty(user.getRoles()) ||
                 user.getRoles().size() != user.getRoleIdList().size()) {
-            user = userRepository.findOne(userId);
+            user = userRepository.selectById(userId);
 
             if (user == null) {
                 throw new UsernameNotFoundException("User " + userId + " was not found in the database");
@@ -129,10 +130,10 @@ public final class SecurityUtil {
     public static User getByLoginId(final String loginId) {
         User user = JedisUtil.getJson(USER_CACHE, USER_CACHE_LOGIN_NAME_ + loginId, User.class);
         if (user == null||PublicUtil.isEmpty(user.getId())) {
-            user = userRepository.findOneByLoginId(loginId).map(u -> {
+            user = Optional.of(userRepository.selectUserByLoginId(loginId)).map(u -> {
                 if(PublicUtil.isEmpty(u.getId())){
                     SpringContextHolder.getBean(CacheManager.class).getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(loginId);
-                    u = userRepository.findOneByLoginId(loginId).get();
+                    u = userRepository.selectUserByLoginId(loginId);
                 }
                 if(!BaseEntity.FLAG_NORMAL.equals(u.getStatus())){
                     throw new RuntimeMsgException("用户 " + loginId + " 登录信息已被锁定");
@@ -534,9 +535,6 @@ public final class SecurityUtil {
                 // 如果包含全部权限，则去掉之前添加的所有条件，并跳出循环。
                 queryConditions.clear();
             }
-        }
-        if (isSql) {
-            queryConditions.forEach(item -> item.setAnalytiColumn(false));
         }
         return queryConditions;
     }

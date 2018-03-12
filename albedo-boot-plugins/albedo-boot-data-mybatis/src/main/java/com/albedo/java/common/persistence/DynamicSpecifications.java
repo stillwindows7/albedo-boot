@@ -26,12 +26,18 @@ public class DynamicSpecifications {
     public static <T> SpecificationDetail<T> bySearchQueryCondition(QueryCondition... conditions) {
         return new SpecificationDetail<T>().and(conditions);
     }
-
+    public static <T> SpecificationDetail<T> bySearchQueryCondition(Class<T> persistentClass, QueryCondition... conditions) {
+        return new SpecificationDetail<T>().setPersistentClass(persistentClass).and(conditions);
+    }
     public static <T> SpecificationDetail<T> buildSpecification(String queryConditionJson, QueryCondition... conditions) {
-        return buildSpecification(queryConditionJson, null, conditions);
+        return buildSpecification(null, queryConditionJson, null, conditions);
     }
 
-    public static <T> SpecificationDetail<T> buildSpecification(String queryConditionJson,
+    public static <T> SpecificationDetail<T> buildSpecification(Class<T> persistentClass, String queryConditionJson, QueryCondition... conditions) {
+        return buildSpecification(persistentClass, queryConditionJson, null, conditions);
+    }
+
+    public static <T> SpecificationDetail<T> buildSpecification(Class<T> persistentClass, String queryConditionJson,
                                                                 List<QueryCondition> list,
                                                                 QueryCondition... conditions) {
         if (list == null) list = Lists.newArrayList();
@@ -45,7 +51,7 @@ public class DynamicSpecifications {
             }
         }
 
-        return new SpecificationDetail<T>().andAll(list).and(conditions);
+        return new SpecificationDetail<T>().andAll(list).and(conditions).setPersistentClass(persistentClass);
     }
 
 }

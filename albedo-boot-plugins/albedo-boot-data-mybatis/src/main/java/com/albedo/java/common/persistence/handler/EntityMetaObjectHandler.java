@@ -16,7 +16,7 @@ public class EntityMetaObjectHandler extends MetaObjectHandler {
 
     public AuditorAware getAuditorAware() {
         if(auditorAware==null){
-            AuditorAware auditorAware = SpringContextHolder.getBean(AuditorAware.class);
+            auditorAware = SpringContextHolder.getBean(AuditorAware.class);
             Assert.assertIsTrue(auditorAware!=null, "auditorAware is not defined");
         }
         return auditorAware;

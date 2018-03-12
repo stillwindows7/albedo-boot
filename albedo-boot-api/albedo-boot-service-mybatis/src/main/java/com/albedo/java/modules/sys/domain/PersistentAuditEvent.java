@@ -13,6 +13,8 @@ import lombok.ToString;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Persist AuditEvent managed by the Spring Boot actuator
@@ -26,6 +28,15 @@ import java.util.Date;
 @NoArgsConstructor
 public class PersistentAuditEvent extends GeneralEntity<PersistentAuditEvent> {
 
+
+    public static final String F_AUDITEVENTDATE = "auditEventDate";
+    public static final String F_PRINCIPAL = "principal";
+    public static final String F_AUDITEVENTTYPE = "auditEventType";
+
+    public static final String F_SQL_AUDITEVENTDATE = "event_date";
+    public static final String F_SQL_PRINCIPAL = "principal";
+    public static final String F_SQL_AUDITEVENTTYPE = "auditEventType";
+
     @TableId(value = "event_id", type = IdType.AUTO)
     private Long id;
 
@@ -33,7 +44,7 @@ public class PersistentAuditEvent extends GeneralEntity<PersistentAuditEvent> {
     @TableField
     private String principal;
 
-    @TableField("event_date")
+    @TableField(PersistentAuditEvent.F_SQL_AUDITEVENTDATE)
     private Date auditEventDate;
     @TableField("event_type")
     private String auditEventType;
@@ -42,7 +53,8 @@ public class PersistentAuditEvent extends GeneralEntity<PersistentAuditEvent> {
 //    @MapKeyTableField("name")
 //    @TableField("value")
 //    @CollectionTable(name = "jhi_persistent_audit_evt_data", joinColumns=@JoinColumn(name="event_id"))
-//    private Map<String, String> data = new HashMap<>();
+    @TableField(exist = false)
+    private Map<String, String> data = new HashMap<>();
 
     public Long getId() {
         return id;
@@ -81,11 +93,11 @@ public class PersistentAuditEvent extends GeneralEntity<PersistentAuditEvent> {
         return this.id;
     }
 
-//    public Map<String, String> getData() {
-//        return data;
-//    }
-//
-//    public void setData(Map<String, String> data) {
-//        this.data = data;
-//    }
+    public Map<String, String> getData() {
+        return data;
+    }
+
+    public void setData(Map<String, String> data) {
+        this.data = data;
+    }
 }

@@ -3,9 +3,10 @@ package com.albedo.java.web.rest;
 import com.albedo.java.AlbedoBootWebApp;
 import com.albedo.java.common.audit.AuditEventService;
 import com.albedo.java.common.config.audit.AuditEventConverter;
+import com.albedo.java.modules.base.web.AuditResource;
 import com.albedo.java.modules.sys.domain.PersistentAuditEvent;
 import com.albedo.java.modules.sys.repository.PersistenceAuditEventRepository;
-import com.albedo.java.modules.base.web.AuditResource;
+import com.albedo.java.modules.sys.service.PersistenceAuditEventService;
 import com.albedo.java.util.DateUtil;
 import com.albedo.java.util.PublicUtil;
 import org.junit.Before;
@@ -45,10 +46,10 @@ public class AuditResourceIntTest {
     private static final long SECONDS_PER_DAY = 60*60*24;
 
     @Autowired
-    private PersistenceAuditEventRepository auditEventRepository;
+    private PersistenceAuditEventService persistenceAuditEventService;
 
     @Autowired
-    private AuditEventConverter auditEventConverter;
+    private AuditEventConverter audtEventConverter;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -67,7 +68,7 @@ public class AuditResourceIntTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         AuditEventService auditEventService =
-            new AuditEventService(auditEventRepository, auditEventConverter);
+            new AuditEventService(persistenceAuditEventService, audtEventConverter);
         AuditResource auditResource = new AuditResource(auditEventService);
         this.restAuditMockMvc = MockMvcBuilders.standaloneSetup(auditResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
@@ -77,7 +78,7 @@ public class AuditResourceIntTest {
 
     @Before
     public void initTest() {
-        auditEventRepository.deleteAll();
+        persistenceAuditEventService.delete(null);
         auditEvent = new PersistentAuditEvent();
         auditEvent.setAuditEventType(SAMPLE_TYPE);
         auditEvent.setPrincipal(SAMPLE_PRINCIPAL);
@@ -87,7 +88,7 @@ public class AuditResourceIntTest {
     @Test
     public void getAllAudits() throws Exception {
         // Initialize the database
-        auditEventRepository.save(auditEvent);
+        persistenceAuditEventService.insert(auditEvent);
 
         // Get all the audits
         restAuditMockMvc.perform(get("/management/audits"))
@@ -99,7 +100,7 @@ public class AuditResourceIntTest {
     @Test
     public void getAudit() throws Exception {
         // Initialize the database
-        auditEventRepository.save(auditEvent);
+        persistenceAuditEventService.insert(auditEvent);
 
         // Get the audit
         restAuditMockMvc.perform(get("/management/audits/{id}", auditEvent.getId()))
@@ -111,7 +112,7 @@ public class AuditResourceIntTest {
     @Test
     public void getAuditsByDate() throws Exception {
         // Initialize the database
-        auditEventRepository.save(auditEvent);
+        persistenceAuditEventService.insert(auditEvent);
 
         // Generate dates for selecting audits by date, making sure the period will contain the audit
         String fromDate  = DateUtil.formatDate(DateUtil.addDays(SAMPLE_TIMESTAMP, -1), PublicUtil.TIME_FORMAT);
@@ -127,7 +128,7 @@ public class AuditResourceIntTest {
     @Test
     public void getNonExistingAuditsByDate() throws Exception {
         // Initialize the database
-        auditEventRepository.save(auditEvent);
+        persistenceAuditEventService.insert(auditEvent);
 
         // Generate dates for selecting audits by date, making sure the period will contain the audit
         String fromDate  = DateUtil.formatDate(DateUtil.addDays(SAMPLE_TIMESTAMP, -2), PublicUtil.TIME_FORMAT);

@@ -42,21 +42,19 @@
         c.COMMENTS AS comments
         FROM user_tables t, user_tab_comments c
         WHERE t.table_name = c.table_name
-        <if test="genTableQuery != null">
-            <if test="genTableQuery.name != null">
-                AND t.TABLE_NAME = upper(#{genTableQuery.name})
+            <if test="name != null">
+                AND t.TABLE_NAME = upper(#{name})
             </if>
-            <if test="genTableQuery.notNames != null">
-                <foreach collection="genTableQuery.notNames" item="notName">
+            <if test="notNames != null">
+                <foreach collection="notNames" item="notName">
                     AND t.TABLE_NAME != #{notName}
                 </foreach>
             </if>
-            <if test="genTableQuery.notLikeNames != null">
-                <foreach collection="genTableQuery.notLikeNames" item="notLikeName">
+            <if test="notLikeNames != null">
+                <foreach collection="notLikeNames" item="notLikeName">
                     AND instr(t.TABLE_NAME, #{notLikeName}) &lt;= 0
                 </foreach>
             </if>
-        </if>
         ORDER BY t.TABLE_NAME
     </if>
     <if test="_databaseId == 'mssql'">
@@ -64,42 +62,38 @@
         FROM sys.objects t LEFT JOIN sys.extended_properties b ON b.major_id=t.object_id and b.minor_id=0 and
         b.class=1 AND b.name='MS_Description'
         WHERE t.type='U'
-        <if test="genTableQuery != null">
-            <if test="genTableQuery.name != null">
-                AND t.name = upper(#{genTableQuery.name})
+            <if test="name != null">
+                AND t.name = upper(#{name})
             </if>
-            <if test="genTableQuery.notNames != null">
-                <foreach collection="genTableQuery.notNames" item="notName">
+            <if test="notNames != null">
+                <foreach collection="notNames" item="notName">
                     AND t.name != #{notName}
                 </foreach>
             </if>
-            <if test="genTableQuery.notLikeNames != null">
-                <foreach collection="genTableQuery.notLikeNames" item="notLikeName">
+            <if test="notLikeNames != null">
+                <foreach collection="notLikeNames" item="notLikeName">
                     AND instr(t.name, #{notLikeName}) &lt;= 0
                 </foreach>
             </if>
-        </if>
         ORDER BY t.name
     </if>
     <if test="_databaseId == 'mysql'">
         SELECT t.table_name AS name,t.TABLE_COMMENT AS comments
         FROM information_schema.`TABLES` t
         WHERE t.TABLE_SCHEMA = (select database())
-        <if test="genTableQuery != null">
-            <if test="genTableQuery.name != null">
-                AND t.TABLE_NAME = #{genTableQuery.name}
+            <if test="name != null">
+                AND t.TABLE_NAME = #{name}
             </if>
-            <if test="genTableQuery.notNames != null">
-                <foreach collection="genTableQuery.notNames" item="notName">
+            <if test="notNames != null">
+                <foreach collection="notNames" item="notName">
                     AND t.TABLE_NAME != #{notName}
                 </foreach>
             </if>
-            <if test="genTableQuery.notLikeNames != null">
-                <foreach collection="genTableQuery.notLikeNames" item="notLikeName">
+            <if test="notLikeNames != null">
+                <foreach collection="notLikeNames" item="notLikeName">
                     AND instr(t.TABLE_NAME, #{notLikeName}) &lt;= 0
                 </foreach>
             </if>
-        </if>
         ORDER BY t.TABLE_NAME
     </if>
 </select>
@@ -126,8 +120,8 @@
         FROM user_tab_columns t, user_col_comments c
         WHERE t.TABLE_NAME = c.table_name
         AND t.COLUMN_NAME = c.column_name
-        <if test="genTableVo != null and genTableVo.name != null">
-            AND t.TABLE_NAME = upper(#{genTableVo.name})
+        <if test="name != null">
+            AND t.TABLE_NAME = upper(#{name})
         </if>
         ORDER BY t.COLUMN_ID
     </if>
@@ -145,8 +139,8 @@
         LEFT JOIN sys.extended_properties g ON o.id = g.major_id
         AND t.ORDINAL_POSITION = g.minor_id AND g.name='MS_Description'
         WHERE t.TABLE_SCHEMA = (SCHEMA_NAME())
-        <if test="genTableVo != null and genTableVo.name != null">
-            AND t.TABLE_NAME = (#{genTableVo.name})
+        <if test="name != null">
+            AND t.TABLE_NAME = (#{name})
         </if>
         ORDER BY t.ORDINAL_POSITION
     </if>
@@ -155,8 +149,8 @@
         (t.ORDINAL_POSITION * 10) AS sort,t.COLUMN_COMMENT AS comments,t.COLUMN_TYPE AS jdbcType
         FROM information_schema.`COLUMNS` t
         WHERE t.TABLE_SCHEMA = (select database())
-        <if test="genTableVo != null and genTableVo.name != null">
-            AND t.TABLE_NAME = (#{genTableVo.name})
+        <if test="name != null">
+            AND t.TABLE_NAME = (#{name})
         </if>
         ORDER BY t.ORDINAL_POSITION
     </if>
@@ -168,19 +162,19 @@
         FROM user_cons_columns cu, user_constraints au
         WHERE cu.constraint_name = au.constraint_name
         AND au.constraint_type = 'P'
-        AND au.table_name = upper(#{genTableVo.name})
+        AND au.table_name = upper(#{name})
     </if>
     <if test="_databaseId == 'mssql'">
         SELECT lower(au.COLUMN_NAME) AS columnName
         FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE au
-        WHERE au.TABLE_NAME = (#{genTableVo.name})
+        WHERE au.TABLE_NAME = (#{name})
         AND au.TABLE_SCHEMA = (SCHEMA_NAME())
     </if>
     <if test="_databaseId == 'mysql'">
         SELECT lower(au.COLUMN_NAME) AS columnName
         FROM information_schema.`COLUMNS` au
         WHERE au.TABLE_SCHEMA = (select database())
-        AND au.COLUMN_KEY='PRI' AND au.TABLE_NAME = (#{genTableVo.name})
+        AND au.COLUMN_KEY='PRI' AND au.TABLE_NAME = (#{name})
     </if>
 </select>
 

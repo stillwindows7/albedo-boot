@@ -21,6 +21,10 @@ import lombok.ToString;
 public class Org extends TreeEntity<Org> {
 
     public static final String F_TYPE = "type";
+    public static final String F_CODE = "code";
+    public static final String F_EN = "en";
+    public static final String F_GRADE = "grade";
+
     private static final long serialVersionUID = 1L;
     /*** 组织编码 */
     @TableField("code_")
@@ -92,6 +96,5 @@ public class Org extends TreeEntity<Org> {
     public void setGrade(String grade) {
         this.grade = grade;
     }
-
 
 }

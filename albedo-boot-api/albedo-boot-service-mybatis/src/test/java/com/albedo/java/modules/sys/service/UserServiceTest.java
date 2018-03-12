@@ -15,19 +15,17 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
-import static org.springframework.data.domain.Sort.Direction.ASC;
 
 /**
  * Created by somewhere on 2017/4/19.
@@ -131,8 +129,10 @@ public class UserServiceTest {
         user1.setOrgId(org.getId());
         user1.setRoles(roles);
         user1 = userService.save(user1);
-        userRepository.deleteUserRoles(user1);
+        userRepository.deleteUserRoles(user1.getId());
         userRepository.addUserRoles(user1);
+
+
         user2.setOrgId(org.getId());
         user2.setRoles(roles);
         userService.save(user2);
@@ -154,7 +154,7 @@ public class UserServiceTest {
         assertThat(user2.getId(), is(notNullValue()));
         assertThat(user3.getId(), is(notNullValue()));
         assertThat(user4.getId(), is(notNullValue()));
-        User userTest = userRepository.selectById(id);
+        User userTest = userRepository.selectUserByLoginId(user1.getLoginId());
         assertThat(userTest.getRoles() != null && userTest.getRoles().size() > 0,
                 is(true));
         assertThat(userRepository.selectById(id), is(notNullValue()));
@@ -170,7 +170,7 @@ public class UserServiceTest {
         flushTestUsers();
 
         PageModel<User> pm = new PageModel<User>(1, 10);
-        pm.setSort(new Sort(new Sort.Order(Sort.Direction.ASC, "loginId")));
+        pm.setSort(new Sort(new Sort.Order(Sort.Direction.ASC, User.F_LOGINID)));
         userService.findPage(pm);
 
         assertThat(pm.getData().size(), is(4));
@@ -178,9 +178,9 @@ public class UserServiceTest {
 
         User temp = userRepository.selectUserByLoginId(user1.getLoginId());
 
-        List<Module> modules = moduleRepository.findAllAuthByUser(new User("1"));
+//        List<Module> modules = moduleRepository.findAllAuthByUser("1");
 //        assertThat(modules.size()!=0, is(true));
-        assertThat(pm.getData().get(0), is(temp));
+        assertThat(pm.getData().get(0).getId(), is(temp.getId()));
 
 
     }

@@ -12,6 +12,6 @@ import java.util.List;
  */
 public interface ModuleRepository extends TreeRepository<Module, String> {
 
-    List<Module> findAllAuthByUser(@Param("user") User user);
+    List<Module> findAllAuthByUser(String userId);
 
 }

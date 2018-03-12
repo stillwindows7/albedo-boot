@@ -21,43 +21,47 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
         extends DataService<Repository, T, PK> {
     public Integer countByParentId(String parentId){
        return repository.selectCount(
-           Condition.create().eq(TreeEntity.F_PARENTID, parentId)
+           Condition.create().eq(TreeEntity.F_SQL_PARENTID, parentId)
        );
     }
 
-    public Integer countByParentIdAndStatusNot(String parentId, String status){
+    public Integer countByParentIdAndStatusNot(String parentId, Integer status){
         return repository.selectCount(
-            Condition.create().eq(TreeEntity.F_PARENTID, parentId).ne(TreeEntity.F_STATUS, status)
+            Condition.create().eq(TreeEntity.F_SQL_PARENTID, parentId).ne(TreeEntity.F_STATUS, status)
         );
 
     }
 
     public List<T> findAllByParentIdsLike(String parentIds){
         return repository.selectList(
-            Condition.create().like(TreeEntity.F_PARENTIDS, parentIds));
+            Condition.create().like(TreeEntity.F_SQL_PARENTIDS, parentIds));
     }
 
-    public List<T> findAllByParentIdAndStatusNot(String parentId, String status){
-        return repository.selectList(Condition.create().eq(TreeEntity.F_PARENTID, parentId).ne(TreeEntity.F_STATUS, status));
-
-    }
-
-    public List<T> findAllByStatusNot(String status){
-        return repository.selectList(Condition.create().ne(TreeEntity.F_STATUS, status));
+    public List<T> findAllByParentIdAndStatusNot(String parentId, Integer status){
+        return repository.selectList(Condition.create().eq(TreeEntity.F_SQL_PARENTID, parentId).ne(TreeEntity.F_STATUS, status));
 
     }
 
-    public List<T> findTop1ByParentIdAndStatusNotOrderBySortDesc(String parentId, String status){
+    public List<T> findAllByStatusNot(Integer status){
+        return repository.selectList(Condition.create().ne(TreeEntity.F_SQL_STATUS, status));
+
+    }
+
+    public List<T> findTop1ByParentIdAndStatusNotOrderBySortDesc(String parentId, Integer status){
 
         return repository.selectList(
-            Condition.create().eq(TreeEntity.F_PARENTID, parentId).ne(TreeEntity.F_STATUS, status)
+            Condition.create().eq(TreeEntity.F_SQL_PARENTID, parentId).ne(TreeEntity.F_SQL_STATUS, status)
         );
 
     }
-
+    public List<T> findAllByStatusOrderBySort(Integer status) {
+        return repository.selectList(
+            Condition.create().eq(TreeEntity.F_SQL_STATUS, status).orderBy(TreeEntity.F_SQL_SORT, true)
+        );
+    }
     public List<T> findAllByIdOrParentIdsLike(PK id, String likeParentIds){
         return repository.selectList(
-            Condition.create().eq(TreeEntity.F_PARENTIDS, likeParentIds).or().ne(TreeEntity.F_ID, id)
+            Condition.create().eq(TreeEntity.F_SQL_PARENTIDS, likeParentIds).or().ne(TreeEntity.F_SQL_ID, id)
         );
     }
     /**
@@ -74,7 +78,7 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
         return operateStatusById(id, likeParentIds, BaseEntity.FLAG_DELETE, lastModifiedBy);
     }
 
-    public int operateStatusById(PK id, String likeParentIds, String status, String lastModifiedBy) {
+    public int operateStatusById(PK id, String likeParentIds, Integer status, String lastModifiedBy) {
         List<T> entityList = findAllByIdOrParentIdsLike(id, PublicUtil.toAppendStr(likeParentIds, id, ",", "%"));
 //        Assert.assertNotNull(entityList, "无法查询到对象信息");
         Assert.assertNotNull(id, "id 信息为空，操作失败");
@@ -114,13 +118,15 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
 //        checkSave(entity);
         insertOrUpdate(entity);
         // 更新子节点 parentIds
-        List<T> list = findAllByParentIdsLike(PublicUtil.toAppendStr("%,", entity.getId(), ",%"));
+        List<T> list = findAllByParentIdsLike(entity.getId());
         for (T e : list) {
             if (PublicUtil.isNotEmpty(e.getParentIds())) {
                 e.setParentIds(e.getParentIds().replace(oldParentIds, entity.getParentIds()));
             }
         }
-        insertOrUpdateBatch(list);
+        if(PublicUtil.isNotEmpty(list)){
+            insertOrUpdateBatch(list);
+        }
         log.debug("Save Information for T: {}", entity);
         return entity;
     }
@@ -210,4 +216,6 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
         Assert.assertNotNull(lastModifiedBy, "lastModifiedBy 信息为空，操作失败");
         ids.forEach(id -> lockOrUnLockByParentIds(id, lastModifiedBy));
     }
+
+
 }

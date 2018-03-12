@@ -6,13 +6,13 @@ import com.albedo.java.common.persistence.DynamicSpecifications;
 import com.albedo.java.common.persistence.SpecificationDetail;
 import com.albedo.java.common.persistence.domain.BaseEntity;
 import com.albedo.java.modules.sys.domain.Org;
-import com.albedo.java.modules.sys.repository.OrgRepository;
 import com.albedo.java.modules.sys.service.OrgService;
 import com.albedo.java.modules.sys.web.OrgResource;
 import com.albedo.java.util.Json;
 import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.vo.sys.OrgVo;
+import com.baomidou.mybatisplus.mapper.Condition;
 import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +20,6 @@ import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,7 +30,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 import static com.albedo.java.web.rest.TestUtil.createFormattingConversionService;
@@ -77,9 +75,6 @@ public class OrgResourceIntTest {
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
     @Autowired
-    private OrgRepository orgRepository;
-
-    @Autowired
     private OrgService orgService;
 
     @Autowired
@@ -91,8 +86,6 @@ public class OrgResourceIntTest {
     @Autowired
     private ExceptionTranslator exceptionTranslator;
 
-    @Autowired
-    private EntityManager em;
 
     @Autowired
     private AlbedoProperties albedoProperties;
@@ -124,7 +117,7 @@ public class OrgResourceIntTest {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Org createEntity(EntityManager em) {
+    public static Org createEntity() {
         Org org = Reflections.createObj(Org.class, Lists.newArrayList(
             Org.F_NAME, Org.F_CODE, Org.F_SORT, Org.F_TYPE, Org.F_PARENTID, Org.F_EN, Org.F_GRADE, Org.F_DESCRIPTION
         ), DEFAULT_NAME, DEFAULT_CODE,DEFAULT_SORT,DEFAULT_TYPE,DEFAULT_PARENTID,DEFAULT_EN,DEFAULT_GRADE,DEFAULT_DESCRIPTION);
@@ -133,13 +126,13 @@ public class OrgResourceIntTest {
 
     @Before
     public void initTest() {
-        org = createEntity(em);
+        org = createEntity();
     }
 
     @Test
     @Transactional
     public void createOrg() throws Exception {
-        int databaseSizeBeforeCreate = orgRepository.findAll().size();
+        int databaseSizeBeforeCreate = orgService.findAll().size();
         OrgVo orgVo = orgService.copyBeanToVo(org);
         // Create the Org
         restOrgMockMvc.perform(post(DEFAULT_API_URL)
@@ -147,8 +140,8 @@ public class OrgResourceIntTest {
             .content(TestUtil.convertObjectToJsonBytes(orgVo)))
             .andExpect(status().isOk());
         ;
-        // Validate the Org in the database
-        List<Org> orgList = orgRepository.findAll(new Sort(Sort.Direction.ASC, Org.F_CREATEDDATE));
+        // Validate the Org in the database new Sort(Sort.Direction.ASC, Org.F_CREATEDDATE)
+        List<Org> orgList = orgService.findAll(Condition.create().orderBy(Org.F_SQL_CREATEDDATE, true));
         assertThat(orgList).hasSize(databaseSizeBeforeCreate + 1);
         Org testOrg = orgList.get(orgList.size() - 1);
         assertThat(testOrg.getName()).isEqualTo(DEFAULT_NAME);
@@ -164,8 +157,8 @@ public class OrgResourceIntTest {
     @Test
     @Transactional
     public void createOrgWithExistingCode() throws Exception {
-        orgRepository.saveAndFlush(org);
-        int databaseSizeBeforeCreate = orgRepository.findAll().size();
+        orgService.save(org);
+        int databaseSizeBeforeCreate = orgService.findAll().size();
 
         // Create the Org with an existing ID
         OrgVo orgVo = Reflections.createObj(OrgVo.class, Lists.newArrayList(OrgVo.F_ID, OrgVo.F_CODE),
@@ -178,14 +171,14 @@ public class OrgResourceIntTest {
             .andExpect(status().isBadRequest());
 
         // Validate the Org in the database
-        List<Org> orgList = orgRepository.findAll();
+        List<Org> orgList = orgService.findAll();
         assertThat(orgList).hasSize(databaseSizeBeforeCreate);
     }
 
     @Test
     @Transactional
     public void checkNameIsRequired() throws Exception {
-        int databaseSizeBeforeTest = orgRepository.findAll().size();
+        int databaseSizeBeforeTest = orgService.findAll().size();
         // set the field null
         org.setName(null);
 
@@ -196,7 +189,7 @@ public class OrgResourceIntTest {
             .content(TestUtil.convertObjectToJsonBytes(org)))
             .andExpect(status().isBadRequest());
 
-        List<Org> orgList = orgRepository.findAll();
+        List<Org> orgList = orgService.findAll();
         assertThat(orgList).hasSize(databaseSizeBeforeTest);
     }
 
@@ -204,7 +197,7 @@ public class OrgResourceIntTest {
     @Transactional
     public void getAllOrgs() throws Exception {
         // Initialize the database
-        orgRepository.saveAndFlush(org);
+        orgService.save(org);
 
         // Get all the orgList
         restOrgMockMvc.perform(get(DEFAULT_API_URL))
@@ -224,7 +217,7 @@ public class OrgResourceIntTest {
     @Transactional
     public void getOrg() throws Exception {
         // Initialize the database
-        orgRepository.saveAndFlush(org);
+        orgService.save(org);
 
         // Get the org
         restOrgMockMvc.perform(get(DEFAULT_API_URL+"{id}", org.getId()))
@@ -244,7 +237,7 @@ public class OrgResourceIntTest {
     @Transactional
     public void getAllOrgsBySortIsEqualToSomething() throws Exception {
         // Initialize the database
-        orgRepository.saveAndFlush(org);
+        orgService.save(org);
 
         // Get all the orgList where sort equals to DEFAULT_SORT
         defaultOrgShouldBeFound(QueryCondition.eq(Org.F_SORT, DEFAULT_SORT));
@@ -257,7 +250,7 @@ public class OrgResourceIntTest {
     @Transactional
     public void getAllOrgsBySortIsInShouldWork() throws Exception {
         // Initialize the database
-        orgRepository.saveAndFlush(org);
+        orgService.save(org);
 
         // Get all the orgList where sort in DEFAULT_SORT or UPDATED_SORT
         defaultOrgShouldBeFound(QueryCondition.in(Org.F_SORT, Lists.newArrayList(DEFAULT_SORT, UPDATED_SORT)));
@@ -270,7 +263,7 @@ public class OrgResourceIntTest {
     @Transactional
     public void getAllOrgsBySortIsNullOrNotNull() throws Exception {
         // Initialize the database
-        orgRepository.saveAndFlush(org);
+        orgService.save(org);
 
         // Get all the orgList where sort is not null
         defaultOrgShouldBeFound(QueryCondition.isNotNull(Org.F_SORT));
@@ -283,7 +276,7 @@ public class OrgResourceIntTest {
     @Transactional
     public void getAllOrgsBySortIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
-        orgRepository.saveAndFlush(org);
+        orgService.save(org);
 
         // Get all the orgList where sort greater than or equals to DEFAULT_SORT
         defaultOrgShouldBeFound(QueryCondition.eq(Org.F_ID, org.getId()), QueryCondition.ge(Org.F_SORT, DEFAULT_SORT));
@@ -296,7 +289,7 @@ public class OrgResourceIntTest {
     @Transactional
     public void getAllOrgsBySortIsLessThanSomething() throws Exception {
         // Initialize the database
-        orgRepository.saveAndFlush(org);
+        orgService.save(org);
 
         // Get all the orgList where sort less than or equals to DEFAULT_SORT
         defaultOrgShouldNotBeFound(QueryCondition.eq(Org.F_ID, org.getId()), QueryCondition.lt(Org.F_SORT, DEFAULT_SORT));
@@ -310,7 +303,7 @@ public class OrgResourceIntTest {
     @Transactional
     public void getAllOrgsByDescptionIsEqualToSomething() throws Exception {
         // Initialize the database
-        orgRepository.saveAndFlush(org);
+        orgService.save(org);
 
         // Get all the orgList where descption equals to DEFAULT_DESCPTION
         defaultOrgShouldBeFound(QueryCondition.eq(Org.F_DESCRIPTION, DEFAULT_DESCRIPTION));
@@ -323,7 +316,7 @@ public class OrgResourceIntTest {
     @Transactional
     public void getAllOrgsByDescptionIsInShouldWork() throws Exception {
         // Initialize the database
-        orgRepository.saveAndFlush(org);
+        orgService.save(org);
 
         // Get all the orgList where descption in DEFAULT_DESCPTION or UPDATED_DESCPTION
         defaultOrgShouldBeFound(QueryCondition.in(Org.F_DESCRIPTION, Lists.newArrayList(DEFAULT_DESCRIPTION, UPDATED_DESCRIPTION)));
@@ -336,7 +329,7 @@ public class OrgResourceIntTest {
     @Transactional
     public void getAllOrgsByDescptionIsNullOrNotNull() throws Exception {
         // Initialize the database
-        orgRepository.saveAndFlush(org);
+        orgService.save(org);
         ;
         // Get all the orgList where descption is not null
         defaultOrgShouldBeFound(QueryCondition.isNotNull(Org.F_DESCRIPTION));
@@ -388,12 +381,12 @@ public class OrgResourceIntTest {
         // Initialize the database
         orgService.save(org);
 
-        int databaseSizeBeforeUpdate = orgRepository.findAll().size();
+        int databaseSizeBeforeUpdate = orgService.findAll().size();
 
         // Update the org
-        Org updatedOrg = orgRepository.findOne(org.getId());
+        Org updatedOrg = orgService.findOne(org.getId());
         // Disconnect from session so that the updates on updatedOrg are not directly saved in db
-        em.detach(updatedOrg);
+//        em.detach(updatedOrg);
         Reflections.updateObj(updatedOrg, Lists.newArrayList(
             Org.F_NAME, Org.F_CODE, Org.F_SORT, Org.F_TYPE, Org.F_PARENTID, Org.F_EN, Org.F_GRADE, Org.F_DESCRIPTION
         ), UPDATED_NAME, UPDATED_CODE,UPDATED_SORT,UPDATED_TYPE,UPDATED_PARENTID,UPDATED_EN,UPDATED_GRADE,UPDATED_DESCRIPTION);
@@ -405,7 +398,7 @@ public class OrgResourceIntTest {
             .andExpect(status().isOk());
 
         // Validate the Org in the database
-        List<Org> orgList = orgRepository.findAll();
+        List<Org> orgList = orgService.findAll();
         assertThat(orgList).hasSize(databaseSizeBeforeUpdate);
 
 
@@ -428,7 +421,7 @@ public class OrgResourceIntTest {
         orgService.save(org);
         SpecificationDetail<Org> spec = DynamicSpecifications.bySearchQueryCondition(
             QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
-        int databaseSizeBeforeDelete = orgRepository.findAll(spec).size();
+        int databaseSizeBeforeDelete = orgService.findAll(spec).size();
 
         // Get the org
         restOrgMockMvc.perform(delete(DEFAULT_API_URL+"{id}", org.getId())
@@ -436,7 +429,7 @@ public class OrgResourceIntTest {
             .andExpect(status().isOk());
 
         // Validate the database is empty
-        List<Org> orgList = orgRepository.findAll(spec);
+        List<Org> orgList = orgService.findAll(spec);
         assertThat(orgList).hasSize(databaseSizeBeforeDelete - 1);
     }
 

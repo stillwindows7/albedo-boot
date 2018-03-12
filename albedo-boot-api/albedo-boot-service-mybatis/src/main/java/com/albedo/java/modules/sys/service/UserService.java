@@ -64,7 +64,7 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
         user.setActivated(true);
         insertOrUpdate(user);
         if (PublicUtil.isNotEmpty(user.getRoleIdList())) {
-            repository.deleteUserRoles(user);
+            repository.deleteUserRoles(user.getId());
             repository.addUserRoles(user);
         }
         log.debug("Save Information for User: {}", user);
@@ -94,8 +94,8 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
         //拼接查询动态对象
         SpecificationDetail<User> spec = DynamicSpecifications.bySearchQueryCondition(
                 andQueryConditions,
-                QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE).setAnalytiColumnPrefix("a"),
-                QueryCondition.ne("a.id_", "1").setAnalytiColumn(false));
+                QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE),
+                QueryCondition.ne(User.F_ID, "1"));
         spec.orAll(orQueryConditions);
         //动态生成sql分页查询
 //        Page<User> page = repository.findAll(spec, pm);
@@ -114,8 +114,8 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
         //拼接查询动态对象
         SpecificationDetail<User> spec = DynamicSpecifications.
                 buildSpecification(pm.getQueryConditionJson(),
-                        QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE).setAnalytiColumnPrefix("a"),
-                        QueryCondition.ne("a.id_", "1").setAnalytiColumn(false));
+                        QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE),
+                        QueryCondition.ne(User.F_ID,  "1"));
         spec.orAll(authQueryConditions);
         //动态生成sql分页查询
 //        Page<User> page = repository.findAll(spec, pm);
@@ -136,5 +136,9 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
                 log.debug("Changed password for User: {}", user);
             }
         );
+    }
+
+    public Optional<User> findOneByLoginId(String loginId) {
+        return Optional.of(repository.selectUserByLoginId(loginId));
     }
 }

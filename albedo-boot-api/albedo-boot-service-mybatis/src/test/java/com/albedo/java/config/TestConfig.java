@@ -18,6 +18,7 @@
 
 package com.albedo.java.config;
 
+import com.albedo.java.common.persistence.handler.EntityMetaObjectHandler;
 import com.baomidou.mybatisplus.MybatisSessionFactoryBuilder;
 import com.baomidou.mybatisplus.entity.GlobalConfiguration;
 import com.baomidou.mybatisplus.spring.boot.starter.ConfigurationCustomizer;
@@ -61,7 +62,7 @@ import java.util.List;
 @Configuration
 @ComponentScan({"com.albedo.java.*"})
 @EnableTransactionManagement
-@MapperScan("com.albedo.java.modules.*.repository")
+//@MapperScan("com.albedo.java.modules.*.repository")
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableConfigurationProperties({MybatisPlusProperties.class})
 public class TestConfig extends MybatisPlusAutoConfiguration  {
@@ -81,6 +82,11 @@ public class TestConfig extends MybatisPlusAutoConfiguration  {
     @Bean
     public PlatformTransactionManager transactionManager(DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
+    }
+
+    @Bean
+    public EntityMetaObjectHandler entityMetaObjectHandler(){
+        return new EntityMetaObjectHandler();
     }
 
     @Bean

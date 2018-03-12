@@ -110,7 +110,7 @@ public class AccoutResourceIntTest {
         user.setEmail("user-jwt-controller@example.com");
         user.setPassword(passwordEncoder.encode("test11"));
 
-        userRepository.save(user);
+        userRepository.insert(user);
 
         LoginVo login = new LoginVo();
         login.setUsername("user-jwt-controller");
@@ -132,7 +132,7 @@ public class AccoutResourceIntTest {
         user.setActivated(true);
         user.setPassword(passwordEncoder.encode("test11"));
 
-        userRepository.save(user);
+        userRepository.insert(user);
 
         LoginVo login = new LoginVo();
         login.setUsername("user-jwt-controller-remember-me");

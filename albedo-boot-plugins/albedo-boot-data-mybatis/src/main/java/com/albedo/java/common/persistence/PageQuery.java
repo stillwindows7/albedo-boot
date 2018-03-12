@@ -2,6 +2,7 @@ package com.albedo.java.common.persistence;
 
 import com.albedo.java.util.PublicUtil;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -31,8 +32,10 @@ public class PageQuery<T> extends Page<T> {
             while (iterator.hasNext()){
                 Sort.Order order = iterator.next();
                 if(order.getDirection().isAscending()){
+                    if(this.getAscs() == null)this.setAscs(Lists.newArrayList());
                     this.getAscs().add(order.getProperty());
                 }else if(order.getDirection().isDescending()){
+                    if(this.getDescs() == null)this.setDescs(Lists.newArrayList());
                     this.getDescs().add(order.getProperty());
                 }
             }

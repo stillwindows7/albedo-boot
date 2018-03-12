@@ -56,7 +56,7 @@ public class Role extends IdEntity {
     private String orgId;
 
     @ApiModelProperty(hidden = true)
-    @TableField("org.id")
+    @TableField(value = "org.id", exist = false)
     private Org org;
 
     /*** 是否系统数据  0 是 1否*/

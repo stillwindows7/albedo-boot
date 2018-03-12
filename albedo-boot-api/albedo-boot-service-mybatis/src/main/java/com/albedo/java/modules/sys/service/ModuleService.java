@@ -155,7 +155,7 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
     }
 
     public List<Module> findAllAuthByUser(String userId) {
-        return repository.findAllAuthByUser(new User(userId));
+        return repository.findAllAuthByUser(userId);
     }
 
     public List<ModuleVo> findMenuDataVo(ModuleTreeQuery moduleTreeQuery, List<Module> moduleList) {

@@ -3,7 +3,7 @@
  */
 package com.albedo.java.common.persistence.service;
 
-import com.albedo.java.common.data.util.QueryWrapperUtil;
+import com.albedo.java.common.persistence.DynamicSpecifications;
 import com.albedo.java.common.persistence.PageQuery;
 import com.albedo.java.common.persistence.SpecificationDetail;
 import com.albedo.java.common.persistence.domain.BaseEntity;
@@ -15,7 +15,9 @@ import com.albedo.java.util.base.Assert;
 import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.Order;
 import com.albedo.java.util.domain.PageModel;
+import com.albedo.java.util.domain.QueryCondition;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
@@ -61,6 +63,17 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
     public Class<T> getPersistentClass() {
         return persistentClass;
     }
+
+    public EntityWrapper createEntityWrapper(List<Order> orders,QueryCondition... queryConditions){
+        return DynamicSpecifications.
+            bySearchQueryCondition(getPersistentClass(), queryConditions).setOrders(orders)
+            .toEntityWrapper();
+    }
+
+    public EntityWrapper createEntityWrapper(QueryCondition... queryConditions){
+       return createEntityWrapper(null, queryConditions);
+    }
+
 
     public boolean doCheckWithEntity(T entity) {
         boolean rs = false;
@@ -186,7 +199,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Integer count(SpecificationDetail specificationDetail) {
         try {
-            return repository.selectCount(QueryWrapperUtil.convertSpecificationDetail(specificationDetail));
+            return repository.selectCount(specificationDetail.toEntityWrapper());
         } catch (Exception e) {
             log.error(e.getMessage());
             Assert.buildException(e.getMessage());
@@ -202,16 +215,21 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
      */
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<T> findAll(SpecificationDetail specificationDetail) {
+        return findAll(specificationDetail.toEntityWrapper());
+    }
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public List<T> findAll(Wrapper<T> wrapper) {
         try {
-            return repository.selectList(QueryWrapperUtil.convertSpecificationDetail(specificationDetail));
+            return repository.selectList(wrapper);
         } catch (Exception e) {
             log.error(e.getMessage());
             Assert.buildException(e.getMessage());
         }
         return null;
     }
-
-
+    public PageModel<T> findPage(PageModel<T> pm) {
+        return findPage(pm, null);
+    }
     /**
      * 动态分页查询
      *
@@ -221,9 +239,21 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
      */
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public PageModel<T> findPage(PageModel<T> pm, SpecificationDetail<T> specificationDetail) {
+        return findPageWrapper(pm, specificationDetail.toEntityWrapper());
+    }
+
+    /**
+     * 动态分页查询
+     *
+     * @param pm                  分页对象
+     * @param wrapper 动态条件对象
+     * @return
+     */
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public PageModel<T> findPageWrapper(PageModel<T> pm, Wrapper<T> wrapper) {
         try {
 
-            Page page = selectPage(new PageQuery<>(pm, null), QueryWrapperUtil.convertSpecificationDetail(specificationDetail));
+            Page page = selectPage(new PageQuery<>(pm, null), wrapper);
             pm.setData(page.getRecords());
             pm.setRecordsTotal(page.getTotal());
 
@@ -234,5 +264,6 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
         }
         return null;
     }
+
 
 }

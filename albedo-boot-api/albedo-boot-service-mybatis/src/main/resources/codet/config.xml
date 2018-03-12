@@ -9,6 +9,7 @@
         </category>
         <category val="curd_modal" name="增删改查（单表）弹窗">
             <template>curd/resource.xml</template>
+            <template>curd/resourceIntTest.xml</template>
             <template>category-ref:service</template>
             <template>curd/viewModelTs.xml</template>
             <template>curd/viewServiceTs.xml</template>
@@ -43,6 +44,7 @@
         </category>
         <category val="treeTable_modal" name="树结构表（一体）弹窗">
             <template>treetable/resource.xml</template>
+            <template>treetable/resourceIntTest.xml</template>
             <template>treetable/repository.xml</template>
             <template>treetable/service.xml</template>
             <template>treetable/vo/entityVo.xml</template>

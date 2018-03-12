@@ -2,6 +2,7 @@ package com.albedo.java.modules.sys.repository;
 
 import com.albedo.java.common.persistence.repository.BaseRepository;
 import com.albedo.java.modules.sys.domain.User;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.repository.query.Param;
 
 /**
@@ -9,9 +10,13 @@ import org.springframework.data.repository.query.Param;
  */
 public interface UserRepository extends BaseRepository<User, String> {
 
-    void deleteUserRoles(@Param("user") User user);
+    String USERS_BY_LOGIN_CACHE = "usersByLogin";
 
-    void addUserRoles(@Param("user") User user);
-
+    @Cacheable(cacheNames = USERS_BY_LOGIN_CACHE)
     User selectUserByLoginId(String loginId);
+
+    void deleteUserRoles(@Param("userId") String userId);
+
+    void addUserRoles(User user);
+
 }

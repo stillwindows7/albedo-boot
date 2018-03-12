@@ -69,6 +69,15 @@ public class TaskScheduleJob extends IdEntity<TaskScheduleJob> {
      * F_METHODPARAMS method_params : 调用方法参数 json
      */
     public static final String F_METHODPARAMS = "methodParams";
+
+
+
+    public static final String F_DESCRIPTION = "description";
+
+    public static final String F_SQL_SOURCEID = "source_id";
+    public static final String F_SQL_JOBSTATUS = "job_status";
+
+
     private static final long serialVersionUID = 1L;
     // columns START
     /**
@@ -86,7 +95,7 @@ public class TaskScheduleJob extends IdEntity<TaskScheduleJob> {
     /**
      * jobStatus 任务状态
      */
-    @TableField("job_status")
+    @TableField(F_SQL_JOBSTATUS)
     @DictType(name = "sys_yes_no")
     private String jobStatus;
     /**
@@ -118,7 +127,7 @@ public class TaskScheduleJob extends IdEntity<TaskScheduleJob> {
      * sourceId 业务编号
      */
     @Length(max = 32)
-    @TableField("source_id")
+    @TableField(F_SQL_SOURCEID)
     private String sourceId;
     /**
      * methodName 调用方法名

@@ -20,30 +20,35 @@ public abstract class TreeEntity<T extends TreeEntity> extends IdEntity {
     public static final String F_ISLEAF = "isLeaf";
     public static final String F_SORT = "sort";
     public static final String F_PARENT = "parent";
+    public static final String F_SQL_NAME = "name_";
+    public static final String F_SQL_PARENTID = "parent_id";
+    public static final String F_SQL_PARENTIDS = "parent_ids";
+    public static final String F_SQL_ISLEAF = "is_leaf";
+    public static final String F_SQL_SORT = "sort_";
     private static final long serialVersionUID = 1L;
     /*** 组织名称 */
     @SearchField(op = Operator.like)
-    @TableField("name_")
+    @TableField(TreeEntity.F_SQL_NAME)
     protected String name;
     /*** 上级组织 */
     @SearchField
-    @TableField("parent_id")
+    @TableField(TreeEntity.F_SQL_PARENTID)
     protected String parentId;
     /*** 所有父编号 */
     @SearchField(op = Operator.like)
-    @TableField("parent_ids")
+    @TableField(TreeEntity.F_SQL_PARENTIDS)
     protected String parentIds;
     /*** 上级组织 */
-    @TableField(el = "parent.id")
+    @TableField(el = "parent.id",exist = false)
     protected T parent;
     /*** 序号 */
-    @TableField("sort_")
+    @TableField(TreeEntity.F_SQL_SORT)
     protected Integer sort = 30;
     /*** 父模块名称 */
     @TableField(exist = false)
     protected String parentName;
     /*** 1 叶子节点 0非叶子节点 */
-    @TableField("is_leaf")
+    @TableField(TreeEntity.F_SQL_ISLEAF)
     private boolean isLeaf = false;
 
     public TreeEntity() {

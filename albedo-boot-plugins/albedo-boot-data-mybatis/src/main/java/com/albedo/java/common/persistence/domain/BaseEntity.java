@@ -24,19 +24,19 @@ public abstract class BaseEntity<T extends GeneralEntity> extends GeneralEntity<
     @SearchField
     @DictType(name = "sys_status")
     @ApiModelProperty(hidden = true)
-    @TableLogic(delval = BaseEntity.FLAG_DELETE, value = BaseEntity.FLAG_NORMAL)
-    protected String status;
+    @TableLogic(delval = "-2", value = "0")
+    protected Integer status;
 
     public BaseEntity() {
         super();
         this.status = FLAG_NORMAL;
     }
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

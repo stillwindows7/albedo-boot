@@ -2,21 +2,13 @@ package com.albedo.java.modules.base.web;
 
 import com.albedo.java.common.audit.AuditEventService;
 import com.albedo.java.util.DateUtil;
-import com.albedo.java.web.rest.util.PaginationUtil;
+import com.albedo.java.util.domain.PageModel;
+import com.albedo.java.web.rest.ResultBuilder;
 import org.springframework.boot.actuate.audit.AuditEvent;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URISyntaxException;
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 
 /**
  * REST controller for getting the audit events.
@@ -36,15 +28,13 @@ public class AuditResource {
     /**
      * GET  /audits : get a page of AuditEvents.
      *
-     * @param pageable the pagination information
+     * @param pm the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of AuditEvents in body
-     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @GetMapping
-    public ResponseEntity<List<AuditEvent>> getAll(Pageable pageable) throws URISyntaxException {
-        Page<AuditEvent> page = auditEventService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/audits");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public ResponseEntity getAll(PageModel pm){
+        PageModel<AuditEvent> page = auditEventService.findAll(pm);
+        return ResultBuilder.buildObject(page);
     }
 
     /**
@@ -52,20 +42,18 @@ public class AuditResource {
      *
      * @param fromDate the start of the time period of AuditEvents to get
      * @param toDate   the end of the time period of AuditEvents to get
-     * @param pageable the pagination information
+     * @param pm the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of AuditEvents in body
-     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
 
     @GetMapping(params = {"fromDate", "toDate"})
-    public ResponseEntity<List<AuditEvent>> getByDates(
+    public ResponseEntity getByDates(
             @RequestParam(value = "fromDate") String fromDate,
             @RequestParam(value = "toDate") String toDate,
-            Pageable pageable) throws URISyntaxException {
+            PageModel pm) {
 
-        Page<AuditEvent> page = auditEventService.findByDates(DateUtil.parseDate(fromDate), DateUtil.parseDate(toDate), pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/audits");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        PageModel<AuditEvent> page = auditEventService.findByDates(DateUtil.parseDate(fromDate), DateUtil.parseDate(toDate), pm);
+        return ResultBuilder.buildObject(page);
     }
 
     /**
