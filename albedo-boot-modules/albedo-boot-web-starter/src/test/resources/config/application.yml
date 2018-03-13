@@ -77,7 +77,7 @@ mybatis-plus:
     refresh-mapper: true
     #数据库大写下划线转换
     #capital-mode: true
-    meta-object-handler: com.albedo.java.common.persistence.handler.EntityMetaObjectHandler
+#    meta-object-handler: com.albedo.java.common.persistence.handler.EntityMetaObjectHandler
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: true

@@ -19,6 +19,7 @@
 package com.albedo.java.config;
 
 import com.albedo.java.common.persistence.handler.EntityMetaObjectHandler;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.spring.boot.starter.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.spring.boot.starter.MybatisPlusAutoConfiguration;
 import com.baomidou.mybatisplus.spring.boot.starter.MybatisPlusProperties;
@@ -55,7 +56,6 @@ import java.util.List;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableConfigurationProperties({MybatisPlusProperties.class})
 public class TestConfig extends MybatisPlusAutoConfiguration  {
-
     public TestConfig(MybatisPlusProperties properties, ObjectProvider<Interceptor[]> interceptorsProvider, ResourceLoader resourceLoader, ObjectProvider<DatabaseIdProvider> databaseIdProvider, ObjectProvider<List<ConfigurationCustomizer>> configurationCustomizersProvider, ApplicationContext applicationContext) {
         super(properties, interceptorsProvider, resourceLoader, databaseIdProvider, configurationCustomizersProvider, applicationContext);
     }
@@ -79,6 +79,7 @@ public class TestConfig extends MybatisPlusAutoConfiguration  {
 
     @Bean
     public AuditorAware<String> auditorAware() {
+
         return new AuditorAware<String>() {
             @Override
             public String getCurrentAuditor() {

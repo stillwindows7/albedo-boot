@@ -12,7 +12,6 @@
     <artifactId>albedo-boot-data-mybatis</artifactId>
     <properties>
         <mybatis-plus.version>2.1.9</mybatis-plus.version>
-        <mybatisplus-spring-boot-starter.version>2.1.9</mybatisplus-spring-boot-starter.version>
     </properties>
 <dependencies>
     <dependency>
@@ -44,6 +43,11 @@
         <artifactId>mybatis-plus-boot-starter</artifactId>
         <version>${mybatis-plus.version}</version>
     </dependency>
+    <!--<dependency>-->
+        <!--<groupId>com.baomidou</groupId>-->
+        <!--<artifactId>mybatisplus-spring-boot-starter</artifactId>-->
+        <!--<version>1.0.5</version>-->
+    <!--</dependency>-->
     <!--HikariCP连接池-->
     <dependency>
         <groupId>com.zaxxer</groupId>
