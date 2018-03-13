@@ -116,7 +116,7 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
                 buildSpecification(pm.getQueryConditionJson(),
                         QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE),
                         QueryCondition.ne(User.F_ID,  "1"));
-        spec.orAll(authQueryConditions);
+        spec.setPersistentClass(getPersistentClass()).orAll(authQueryConditions);
         //动态生成sql分页查询
 //        Page<User> page = repository.findAll(spec, pm);
 //        pm.setPageInstance(page);

@@ -10,6 +10,7 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.base.Assert;
 import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.domain.CustomMessage;
+import com.albedo.java.util.spring.SpringContextHolder;
 import com.albedo.java.vo.account.LoginVo;
 import com.albedo.java.vo.account.PasswordChangeVo;
 import com.albedo.java.vo.sys.UserVo;
@@ -102,6 +103,7 @@ public class AccoutResource extends BaseResource {
                 new UsernamePasswordAuthenticationToken(loginVo.getUsername(), loginVo.getPassword());
 
         try {
+            logger.info(SpringContextHolder.getApplicationContext().toString());
             Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             boolean rememberMe = (loginVo.isRememberMe() == null) ? false : loginVo.isRememberMe();

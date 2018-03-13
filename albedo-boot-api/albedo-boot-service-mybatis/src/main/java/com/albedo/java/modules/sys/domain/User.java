@@ -22,6 +22,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -69,6 +70,7 @@ public class User extends IdEntity<User> {
 
     @Email
     @Size(max = 100)
+    @SearchField
     @TableField("email_")
     private String email;
 
@@ -227,5 +229,12 @@ public class User extends IdEntity<User> {
             });
         }
     }
-
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

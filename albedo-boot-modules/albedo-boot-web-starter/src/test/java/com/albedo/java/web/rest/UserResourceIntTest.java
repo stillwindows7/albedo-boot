@@ -18,6 +18,8 @@ import com.albedo.java.util.base.Collections3;
 import com.albedo.java.util.domain.Globals;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.vo.sys.UserVo;
+import com.baomidou.mybatisplus.mapper.Condition;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -136,6 +138,7 @@ public class UserResourceIntTest {
     @Test
     @Transactional
     public void createUser() throws Exception {
+        userService.delete(null);
         int databaseSizeBeforeCreate = userService.findAll().size();
 
         // Create the User
@@ -173,7 +176,7 @@ public class UserResourceIntTest {
 
     @Test
     @Transactional
-    public void createUserWithExistingLogin() throws Exception {
+    public void createUserWithExistingEmail() throws Exception {
         int databaseSizeBeforeCreate = userService.findAll().size();
 
         // Create the User
@@ -364,9 +367,8 @@ public class UserResourceIntTest {
     public void lockOrUnLockUser() throws Exception {
         // Initialize the database
         userService.save(user);
-        SpecificationDetail<User> spec = DynamicSpecifications.bySearchQueryCondition(
-            QueryCondition.eq(BaseEntity.F_STATUS, BaseEntity.FLAG_NORMAL));
-        long databaseSizeBeforeLock = userService.count(spec);
+        Wrapper eq = Condition.create().eq(BaseEntity.F_SQL_STATUS, BaseEntity.FLAG_NORMAL);
+        long databaseSizeBeforeLock = userService.selectCount(eq);
 
         // Delete the user
         restUserMockMvc.perform(put(albedoProperties.getAdminPath("/sys/user/{id}"), user.getId())
@@ -374,7 +376,7 @@ public class UserResourceIntTest {
             .andExpect(status().isOk());
 
         // Validate the database is empty
-        long databaseSizeAfterLock = userService.count(spec);
+        long databaseSizeAfterLock = userService.selectCount(eq);
         assertThat(databaseSizeAfterLock == databaseSizeBeforeLock - 1);
     }
     @Test
@@ -382,9 +384,8 @@ public class UserResourceIntTest {
     public void deleteUser() throws Exception {
         // Initialize the database
         userService.save(user);
-        SpecificationDetail<User> spec = DynamicSpecifications.bySearchQueryCondition(
-                QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
-        long databaseSizeBeforeDelete = userService.count(spec);
+        Wrapper eq = Condition.create().eq(BaseEntity.F_SQL_STATUS, BaseEntity.FLAG_NORMAL);
+        long databaseSizeBeforeDelete = userService.selectCount(eq);
 
         // Delete the user
         restUserMockMvc.perform(delete(albedoProperties.getAdminPath("/sys/user/{id}"), user.getId())
@@ -392,7 +393,7 @@ public class UserResourceIntTest {
                 .andExpect(status().isOk());
 
         // Validate the database is empty
-        long databaseSizeAfterDelete = userService.count(spec);
+        long databaseSizeAfterDelete = userService.selectCount(eq);
         assertThat(databaseSizeAfterDelete == databaseSizeBeforeDelete - 1);
     }
 

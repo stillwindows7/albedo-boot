@@ -36,7 +36,6 @@ public class UserRole extends GeneralEntity<UserRole> {
     @TableField("org_id")
     private String orgId;
 
-
     @Override
     protected Serializable pkVal() {
         return this.roleId;

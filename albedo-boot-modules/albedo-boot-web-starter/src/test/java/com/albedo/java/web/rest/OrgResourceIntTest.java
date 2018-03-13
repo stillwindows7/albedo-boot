@@ -421,6 +421,7 @@ public class OrgResourceIntTest {
         orgService.save(org);
         SpecificationDetail<Org> spec = DynamicSpecifications.bySearchQueryCondition(
             QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
+        spec.setPersistentClass(Org.class);
         int databaseSizeBeforeDelete = orgService.findAll(spec).size();
 
         // Get the org

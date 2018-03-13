@@ -2,38 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.albedo.java.modules.gen.repository.GenTableRepository">
 
-    <resultMap id="GenTableMap" type="com.albedo.java.modules.gen.domain.GenTable">
-        <id property="id" column="id" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="comments" column="comments" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="className" column="className" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="createdBy" column="createdBy" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="createdDate" column="createdDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
-        <result property="description" column="description" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="lastModifiedBy" column="lastModifiedBy" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="lastModifiedDate" column="lastModifiedDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
-        <result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="parentTable" column="parentTable" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="parentTableFk" column="parentTableFk" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="status" column="status" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-        <result property="version" column="version" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-        <association column="parent" property="parent" select="com.albedo.java.modules.gen.repository.GenTableRepository.selectById"/>
-    </resultMap>
-    <sql id="pageGenTableColumn">
-        a.id_ AS `id`,
-        a.comments AS `comments`,
-        a.class_name AS `className`,
-        a.created_by AS `createdBy`,
-        a.created_date AS `createdDate`,
-        a.description_ AS `description`,
-        a.last_modified_by AS `lastModifiedBy`,
-        a.last_modified_date AS `lastModifiedDate`,
-        a.name_ AS `name`,
-        a.parent_table AS `parentTable`,
-        a.parent_table_fk AS `parentTableFk`,
-        a.status_ AS `status`,
-        a.version_ AS `version`
-    </sql>
-
 
 <select id="findTableList" resultType="com.albedo.java.modules.gen.domain.GenTable">
     <if test="_databaseId == 'oracle'">

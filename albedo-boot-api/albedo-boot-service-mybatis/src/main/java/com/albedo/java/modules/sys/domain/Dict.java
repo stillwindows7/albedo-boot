@@ -36,6 +36,7 @@ public class Dict extends TreeEntity<Dict> {
     public static final String F_CODE = "code";
     public static final String F_VAL = "val";
     public static final String F_ISSHOW = "isShow";
+    public static final String F_SQL_ISSHOW = "is_show";
     private static final long serialVersionUID = 1L;
     /*** 编码 */
     @SearchField
@@ -51,7 +52,7 @@ public class Dict extends TreeEntity<Dict> {
     @TableField("key_")
     private String key;
     @NotNull
-    @TableField("is_show")
+    @TableField(F_SQL_ISSHOW)
     @DictType(name = "sys_yes_no")
     private Integer isShow = 1;
     @TableField(exist = false)
@@ -123,4 +124,12 @@ public class Dict extends TreeEntity<Dict> {
         this.parentCode = parentCode;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

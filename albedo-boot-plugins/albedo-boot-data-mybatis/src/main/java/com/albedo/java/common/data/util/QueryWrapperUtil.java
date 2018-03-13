@@ -7,6 +7,7 @@ import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.Order;
 import com.albedo.java.util.domain.QueryCondition;
 import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -43,7 +44,13 @@ public class QueryWrapperUtil {
 
         if (targetPersistentClass != null && PublicUtil.isNotEmpty(fieldPropery)) {
             TableField column = Reflections.getAnnotationByClazz(targetPersistentClass, fieldPropery, TableField.class);
-            if (column != null) fieldPropery = column.value();
+            if (column != null){
+                fieldPropery = column.value();
+            }else{
+                TableId columnId = Reflections.getAnnotationByClazz(targetPersistentClass, fieldPropery, TableId.class);
+                if(columnId!=null)
+                fieldPropery = columnId.value();
+            }
         }
 
         return fieldPropery;
@@ -83,8 +90,8 @@ public class QueryWrapperUtil {
                         default:
                             entityWrapper.where(PublicUtil.toAppendStr(
                                 fieldName," ",
-                                queryCondition.getOperate().getOperator(), " ",
-                                queryValue));
+                                queryCondition.getOperate().getOperator(), " {0} "
+                                ), queryValue);
                             break;
 
                 }

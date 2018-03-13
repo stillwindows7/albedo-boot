@@ -280,4 +280,13 @@ public class TaskScheduleJob extends IdEntity<TaskScheduleJob> {
     public void setMethodParams(String methodParams) {
         this.methodParams = StringEscapeUtils.escapeHtml4(methodParams);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

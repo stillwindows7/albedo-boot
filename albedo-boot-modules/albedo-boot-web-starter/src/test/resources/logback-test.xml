@@ -10,6 +10,11 @@
     <logger name="org.hibernate.ejb.HibernatePersistence" level="OFF"/>
     <logger name="org.apache.catalina.startup.DigesterFactory" level="OFF"/>
 
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.springframework.boot" level="DEBUG"/>
+    <logger name="org.springframework.web" level="DEBUG"/>
+    <logger name="org.springframework.security" level="INFO"/>
+    <logger name="org.springframework.cache" level="INFO"/>
 
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>

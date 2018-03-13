@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -54,7 +55,7 @@ public class ExceptionTranslatorIntTest {
     public void testMethodArgumentNotValid() throws Exception {
          mockMvc.perform(post("/test/method-argument").content("{}")
                  .contentType(MediaType.APPLICATION_JSON))
-             .andExpect(status().isOk())
+             .andExpect(status().isBadRequest())
 //             .andExpect(content().contentType(MediaTypes.PROBLEM))
              .andExpect(jsonPath("$.status").value(Globals.MSG_TYPE_WARNING))
              .andExpect(jsonPath("$.data.[0].objectName").value("testDTO"))
@@ -65,7 +66,7 @@ public class ExceptionTranslatorIntTest {
     @Test
     public void testParameterizedError() throws Exception {
         mockMvc.perform(get("/test/parameterized-error"))
-            .andExpect(status().isOk())
+            .andExpect(status().isBadRequest())
 //            .andExpect(content().contentType(MediaTypes.PROBLEM))
             .andExpect(jsonPath("$.message").value("test parameterized error"))
             .andExpect(jsonPath("$.data.p1").value("param0_value"))
@@ -75,7 +76,7 @@ public class ExceptionTranslatorIntTest {
     @Test
     public void testParameterizedError2() throws Exception {
         mockMvc.perform(get("/test/parameterized-error2"))
-            .andExpect(status().isOk())
+            .andExpect(status().isBadRequest())
 //            .andExpect(content().contentType(MediaTypes.PROBLEM))
             .andExpect(jsonPath("$.message").value("test parameterized error"))
             .andExpect(jsonPath("$.data.foo").value("foo_value"))
@@ -85,45 +86,48 @@ public class ExceptionTranslatorIntTest {
     @Test
     public void testMissingServletRequestPartException() throws Exception {
         mockMvc.perform(get("/test/missing-servlet-request-part"))
-            .andExpect(status().isOk())
+            .andExpect(status().isBadRequest());
 //            .andExpect(content().contentType(MediaTypes.PROBLEM))
-            .andExpect(jsonPath("$.code").value(Globals.ERROR_HTTP_CODE_400));
+//            .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST));
     }
 
     @Test
     public void testMissingServletRequestParameterException() throws Exception {
         mockMvc.perform(get("/test/missing-servlet-request-parameter"))
-            .andExpect(status().isOk())
+            .andExpect(status().isBadRequest());
 //            .andExpect(content().contentType(MediaTypes.PROBLEM))
-            .andExpect(jsonPath("$.code").value(Globals.ERROR_HTTP_CODE_400));
+//            .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.getReasonPhrase()));
     }
 
     @Test
     public void testAccessDenied() throws Exception {
         mockMvc.perform(get("/test/access-denied"))
-            .andExpect(status().isOk())
+            .andExpect(status().isForbidden())
 //            .andExpect(content().contentType(MediaTypes.PROBLEM))
-            .andExpect(jsonPath("$.code").value(Globals.ERROR_HTTP_CODE_403))
-            .andExpect(jsonPath("$.message").value("权限不足"));
+//            .andExpect(jsonPath("$.code").value(Globals.ERROR_HTTP_CODE_403))
+//            .andExpect(jsonPath("$.message").value("权限不足"))
+        ;
     }
 
     @Test
     public void testMethodNotSupported() throws Exception {
         mockMvc.perform(post("/test/access-denied"))
-            .andExpect(status().isOk())
+            .andExpect(status().isInternalServerError())
 //            .andExpect(content().contentType(MediaTypes.PROBLEM))
-            .andExpect(jsonPath("$.code").value(Globals.ERROR_HTTP_CODE_500))
-            .andExpect(jsonPath("$.message").value("操作异常; Request method 'POST' not supported"));
+//            .andExpect(jsonPath("$.code").value(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()))
+//            .andExpect(jsonPath("$.message").value("操作异常; Request method 'POST' not supported"))
+        ;
     }
 
 
     @Test
     public void testInternalServerError() throws Exception {
         mockMvc.perform(get("/test/internal-server-error"))
-            .andExpect(status().isOk())
+            .andExpect(status().is5xxServerError())
 //            .andExpect(content().contentType(MediaTypes.PROBLEM))
-            .andExpect(jsonPath("$.code").value(Globals.ERROR_HTTP_CODE_500))
-            .andExpect(jsonPath("$.message").value("操作异常; null"));
+//            .andExpect(jsonPath("$.code").value(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()))
+//            .andExpect(jsonPath("$.message").value("操作异常; null"))
+        ;
     }
 
 

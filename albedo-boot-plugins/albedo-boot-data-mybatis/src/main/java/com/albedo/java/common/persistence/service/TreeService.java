@@ -61,7 +61,8 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
     }
     public List<T> findAllByIdOrParentIdsLike(PK id, String likeParentIds){
         return repository.selectList(
-            Condition.create().eq(TreeEntity.F_SQL_PARENTIDS, likeParentIds).or().ne(TreeEntity.F_SQL_ID, id)
+            Condition.create().eq(TreeEntity.F_SQL_PARENTIDS, likeParentIds).or()
+                .eq(TreeEntity.F_SQL_ID, id)
         );
     }
     /**
@@ -98,15 +99,11 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
         String oldParentIds = entity.getParentIds(); // 获取修改前的parentIds，用于更新子节点的parentIds
         if (entity.getParentId() != null) {
             T parent = repository.selectById(entity.getParentId());
-            if (parent == null || PublicUtil.isEmpty(parent.getId())) {
-                throw new RuntimeMsgException("无法获取模块的父节点，插入失败");
-            }
-            if (parent != null) {
+            if (parent != null && PublicUtil.isNotEmpty(parent.getId())) {
                 parent.setLeaf(false);
-//                checkSave(parent);
                 insertOrUpdate(parent);
+                entity.setParentIds(PublicUtil.toAppendStr(parent.getParentIds(), parent.getId(), ","));
             }
-            entity.setParentIds(PublicUtil.toAppendStr(parent.getParentIds(), parent.getId(), ","));
         }
 
         if (PublicUtil.isNotEmpty(entity.getId())) {

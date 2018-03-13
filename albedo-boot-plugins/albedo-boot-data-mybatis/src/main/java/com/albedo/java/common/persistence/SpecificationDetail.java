@@ -80,7 +80,9 @@ public class SpecificationDetail<T> implements Serializable {
     }
 
     public void setOrQueryConditions(List<QueryCondition> orQueryConditions) {
-        this.orQueryConditions = orQueryConditions;
+        if(PublicUtil.isNotEmpty(orQueryConditions)){
+            this.orQueryConditions = orQueryConditions;
+        }
     }
 
     /**
@@ -149,6 +151,7 @@ public class SpecificationDetail<T> implements Serializable {
     }
 
     public SpecificationDetail<T> orAll(Collection<QueryCondition> conditions) {
+        if(PublicUtil.isNotEmpty(conditions))
         this.orQueryConditions.addAll(conditions);
         return this;
     }

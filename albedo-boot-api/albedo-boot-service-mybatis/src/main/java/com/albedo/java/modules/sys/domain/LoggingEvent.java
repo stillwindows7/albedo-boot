@@ -196,4 +196,12 @@ public class LoggingEvent extends GeneralEntity<LoggingEvent> {
     protected Serializable pkVal() {
         return getId();
     }
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

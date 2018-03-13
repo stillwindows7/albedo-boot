@@ -26,6 +26,9 @@ public class DynamicSpecifications {
     public static <T> SpecificationDetail<T> bySearchQueryCondition(QueryCondition... conditions) {
         return new SpecificationDetail<T>().and(conditions);
     }
+    public static <T> SpecificationDetail<T> bySearchQueryCondition(Class<T> persistentClass, List<QueryCondition> queryConditions) {
+        return new SpecificationDetail<T>().setPersistentClass(persistentClass).andAll(queryConditions);
+    }
     public static <T> SpecificationDetail<T> bySearchQueryCondition(Class<T> persistentClass, QueryCondition... conditions) {
         return new SpecificationDetail<T>().setPersistentClass(persistentClass).and(conditions);
     }

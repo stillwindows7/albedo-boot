@@ -70,4 +70,12 @@ public class Area extends TreeEntity<Area> {
         this.id = id;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

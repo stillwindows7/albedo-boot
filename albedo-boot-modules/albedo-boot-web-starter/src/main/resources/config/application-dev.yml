@@ -62,7 +62,7 @@ server:
 
 #mybaits-plus配置，修改主键类型，mapper.xml、type 别名等
 mybatis-plus:
-  mapper-locations: classpath*:/modules/*/*Mapper.xml
+  mapper-locations: classpath*:/mappings/modules/*/*Mapper.xml
   typeAliasesPackage: com.albedo.java.modules.*.domain
   global-config:
     #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
@@ -75,7 +75,7 @@ mybatis-plus:
     refresh-mapper: true
     #数据库大写下划线转换
     #capital-mode: true
-    meta-object-handler: com.albedo.java.common.persistence.handler.EntityMetaObjectHandler
+#    meta-object-handler: com.albedo.java.common.persistence.handler.EntityMetaObjectHandler
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: true

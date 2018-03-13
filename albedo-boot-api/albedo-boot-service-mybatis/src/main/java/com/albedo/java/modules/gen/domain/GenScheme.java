@@ -106,4 +106,12 @@ public class GenScheme extends IdEntity<GenScheme> {
         this.viewType = viewType;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

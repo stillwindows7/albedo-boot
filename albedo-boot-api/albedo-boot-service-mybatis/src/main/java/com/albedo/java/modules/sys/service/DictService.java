@@ -23,10 +23,9 @@ import java.util.List;
 public class DictService extends TreeVoService<DictRepository, Dict, String, DictVo> {
 
     public List<Dict> findAllByStatusNotAndIsShowOrderBySortAsc(Integer status, Integer yes) {
-        return selectList(Condition.create().ne(Dict.F_STATUS, status).eq(Dict.F_ISSHOW, yes));
+        return selectList(Condition.create().ne(Dict.F_SQL_STATUS, status).eq(Dict.F_SQL_ISSHOW, yes));
 
     }
-
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<DictTreeResult> findTreeData(DictTreeQuery dictTreeQuery, List<Dict> dictList) {

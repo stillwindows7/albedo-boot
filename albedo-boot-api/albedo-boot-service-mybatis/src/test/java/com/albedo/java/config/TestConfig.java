@@ -19,23 +19,15 @@
 package com.albedo.java.config;
 
 import com.albedo.java.common.persistence.handler.EntityMetaObjectHandler;
-import com.baomidou.mybatisplus.MybatisSessionFactoryBuilder;
-import com.baomidou.mybatisplus.entity.GlobalConfiguration;
 import com.baomidou.mybatisplus.spring.boot.starter.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.spring.boot.starter.MybatisPlusAutoConfiguration;
 import com.baomidou.mybatisplus.spring.boot.starter.MybatisPlusProperties;
-import com.baomidou.mybatisplus.toolkit.GlobalConfigUtils;
-import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.ResourceLoaderAware;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -51,9 +43,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import java.io.InputStream;
-import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -62,14 +51,13 @@ import java.util.List;
 @Configuration
 @ComponentScan({"com.albedo.java.*"})
 @EnableTransactionManagement
-//@MapperScan("com.albedo.java.modules.*.repository")
+@MapperScan("com.albedo.java.modules.*.repository")
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableConfigurationProperties({MybatisPlusProperties.class})
 public class TestConfig extends MybatisPlusAutoConfiguration  {
 
-
-    public TestConfig(MybatisPlusProperties properties, ObjectProvider<Interceptor[]> interceptorsProvider, ResourceLoader resourceLoader, ObjectProvider<DatabaseIdProvider> databaseIdProvider, ObjectProvider<List<ConfigurationCustomizer>> configurationCustomizersProvider) {
-        super(properties, interceptorsProvider, resourceLoader, databaseIdProvider, configurationCustomizersProvider);
+    public TestConfig(MybatisPlusProperties properties, ObjectProvider<Interceptor[]> interceptorsProvider, ResourceLoader resourceLoader, ObjectProvider<DatabaseIdProvider> databaseIdProvider, ObjectProvider<List<ConfigurationCustomizer>> configurationCustomizersProvider, ApplicationContext applicationContext) {
+        super(properties, interceptorsProvider, resourceLoader, databaseIdProvider, configurationCustomizersProvider, applicationContext);
     }
 
     @Bean
@@ -85,8 +73,8 @@ public class TestConfig extends MybatisPlusAutoConfiguration  {
     }
 
     @Bean
-    public EntityMetaObjectHandler entityMetaObjectHandler(){
-        return new EntityMetaObjectHandler();
+    public EntityMetaObjectHandler entityMetaObjectHandler(AuditorAware auditorAware){
+        return new EntityMetaObjectHandler(auditorAware);
     }
 
     @Bean

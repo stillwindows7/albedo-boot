@@ -150,4 +150,12 @@ public class GenTable extends IdEntity<GenTable> {
         this.nameAndTitle = nameAndTitle;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

@@ -11,6 +11,7 @@ import com.albedo.java.common.persistence.domain.GeneralEntity;
 import com.albedo.java.common.persistence.repository.BaseRepository;
 import com.albedo.java.common.persistence.repository.JpaCustomeRepository;
 import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.QueryUtil;
 import com.albedo.java.util.base.Assert;
 import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.Order;
@@ -21,6 +22,7 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -69,22 +71,27 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
             bySearchQueryCondition(getPersistentClass(), queryConditions).setOrders(orders)
             .toEntityWrapper();
     }
-
+    public EntityWrapper createEntityWrapper(List<QueryCondition> queryConditions){
+        return DynamicSpecifications.
+            bySearchQueryCondition(getPersistentClass(), queryConditions)
+            .toEntityWrapper();
+    }
     public EntityWrapper createEntityWrapper(QueryCondition... queryConditions){
        return createEntityWrapper(null, queryConditions);
     }
 
 
-    public boolean doCheckWithEntity(T entity) {
+    public boolean doCheckWithEntity(T entity, Map<String, QueryCondition.Operator> maps) {
         boolean rs = false;
         if (PublicUtil.isNotEmpty(entity)) {
 //            Map<String, Object> paramsMap = Maps.newHashMap();
-//            List<QueryCondition> conditionList = QueryUtil.convertObjectToQueryCondition(entity, maps, persistentClass);
+            List<QueryCondition> conditionList = QueryUtil.convertObjectToQueryCondition(entity, maps);
 //            String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(conditionList,
 //                    null,
 //                    paramsMap, true, true);
 //            paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_DSF, sqlConditionDsf);
-            Integer obj = countBasicAll(entity);
+            EntityWrapper entityWrapper = createEntityWrapper(conditionList);
+            Integer obj = countBasicAll(entityWrapper);
             if (obj == null || obj == 0) {
                 rs = true;
             }
@@ -93,27 +100,27 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
     }
 
     public boolean doCheckByProperty(T entity) {
-//        Map<String, QueryCondition.Operator> maps = Maps.newHashMap();
+        Map<String, QueryCondition.Operator> maps = Maps.newHashMap();
         try {
-//            maps.put(BaseEntity.F_ID, QueryCondition.Operator.ne);
-//            maps.put(BaseEntity.F_STATUS, QueryCondition.Operator.ne);
+            maps.put(BaseEntity.F_ID, QueryCondition.Operator.ne);
+            maps.put(BaseEntity.F_STATUS, QueryCondition.Operator.ne);
             Reflections.setProperty(entity, BaseEntity.F_STATUS, GeneralEntity.FLAG_DELETE);
         } catch (Exception e) {
             log.error("{}", e);
         }
-        return doCheckWithEntity(entity);
+        return doCheckWithEntity(entity, maps);
 
     }
 
     public boolean doCheckByPK(T entity) {
-//        Map<String, QueryCondition.Operator> maps = Maps.newHashMap();
+        Map<String, QueryCondition.Operator> maps = Maps.newHashMap();
         try {
-//            maps.put(BaseEntity.F_STATUS, QueryCondition.Operator.ne);
+            maps.put(BaseEntity.F_STATUS, QueryCondition.Operator.ne);
             Reflections.setProperty(entity, BaseEntity.F_STATUS, GeneralEntity.FLAG_DELETE);
         } catch (Exception e) {
             log.error("{}", e);
         }
-        return doCheckWithEntity(entity);
+        return doCheckWithEntity(entity, maps);
     }
 
     public Iterable<T> save(Iterable<T> entitys) {
@@ -165,8 +172,8 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
 
     }
 
-    public Integer countBasicAll(T entity) {
-        return repository.selectCount(new EntityWrapper<>(entity));
+    public Integer countBasicAll(Wrapper<T> wrapper) {
+        return repository.selectCount(wrapper);
     }
 
     public List<Sort.Order> toOrders(List<Order> orders) {
@@ -239,7 +246,8 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
      */
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public PageModel<T> findPage(PageModel<T> pm, SpecificationDetail<T> specificationDetail) {
-        return findPageWrapper(pm, specificationDetail.toEntityWrapper());
+        return findPageWrapper(pm, specificationDetail!=null ?
+            specificationDetail.toEntityWrapper() : null);
     }
 
     /**
