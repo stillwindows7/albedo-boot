@@ -38,8 +38,8 @@ public class TreeEntity<T extends TreeEntity> extends IdEntity {
     @TableField(TreeEntity.F_SQL_PARENTIDS)
     protected String parentIds;
     /*** 上级组织 */
-    @ManyToOne
     @TableField(exist = false)
+    @ManyToOne(name = TreeEntity.F_SQL_PARENTID)
     protected T parent;
     /*** 序号 */
     @TableField(TreeEntity.F_SQL_SORT)

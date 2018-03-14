@@ -21,11 +21,11 @@ import java.beans.PropertyDescriptor;
 import java.util.Iterator;
 import java.util.List;
 
-public class TreeEntitySqlInjector extends AutoSqlInjector {
+public class ManyToOneEntitySqlInjector extends AutoSqlInjector {
 
     public final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(getClass());
     public enum SqlTreeMethod {
-        FIND_TREE_LIST("findTreeList", "查询树形结构", "<script>SELECT %s FROM %s %s</script>");
+        FIND_RELATION_LIST("findRelationList", "查询树形结构", "<script>SELECT %s FROM %s %s</script>");
 
         private final String method;
         private final String desc;
@@ -57,17 +57,7 @@ public class TreeEntitySqlInjector extends AutoSqlInjector {
         try {
             if (null != modelClass) {
                 TableInfo table = TableInfoHelper.initTableInfo(builderAssistant, modelClass);
-                PropertyDescriptor[] ps = PropertyUtils.getPropertyDescriptors(modelClass);
-                for (PropertyDescriptor p : ps) {
-                    ManyToOne annotation = Reflections.getAnnotation(mapperClass, p.getName(), ManyToOne.class);
-                    if (annotation != null) {
-
-
-                    }
-                }
-
-
-                this.injectFindTreeList(SqlTreeMethod.FIND_TREE_LIST, mapperClass, modelClass, table);
+                this.injectFindTreeList(SqlTreeMethod.FIND_RELATION_LIST, mapperClass, modelClass, table);
             }
 
 
@@ -78,15 +68,27 @@ public class TreeEntitySqlInjector extends AutoSqlInjector {
     }
 
     public void injectFindTreeList(SqlTreeMethod sqlMethod, Class<?> mapperClass, Class<?> modelClass, TableInfo table) {
-        String tableAlias = StringUtil.toFirstLowerCase(modelClass.getSimpleName()),sql = String.format(sqlMethod.getSql(),
-            PublicUtil.toAppendStr(sqlSelectColumns(table, false, tableAlias, null),", ",
-                sqlSelectColumns(table, false, TreeEntity.F_PARENT, TreeEntity.F_PARENT)
-                ),
-            PublicUtil.toAppendStr( table.getTableName(), " ", tableAlias, " LEFT JOIN ",
-                table.getTableName(), " ", TreeEntity.F_PARENT," ON ",
-                tableAlias,".",TreeEntity.F_SQL_PARENTID, " = ", TreeEntity.F_PARENT,".", TreeEntity.F_SQL_ID
-                ),
-            sqlWhereEntityWrapper(table, tableAlias));
+        String tableNameAlias = StringUtil.toFirstLowerCase(modelClass.getSimpleName()), tempNameAlias;
+        TableInfo tableAlias;
+        PropertyDescriptor[] ps = PropertyUtils.getPropertyDescriptors(modelClass);
+        StringBuffer sbSelectCoumns = new StringBuffer(sqlSelectColumns(table, false, tableNameAlias, null)),
+        sbLeftJoin = new StringBuffer(table.getTableName()).append(" ").append(tableNameAlias);
+        for (PropertyDescriptor p : ps) {
+            ManyToOne annotation = Reflections.getAnnotationByClazz(modelClass, p.getName(), ManyToOne.class);
+            if (annotation != null) {
+//                tempNameAlias =  StringUtil.toFirstLowerCase(p.getPropertyType().getSimpleName());
+                tableAlias = TableInfoHelper.initTableInfo(builderAssistant, p.getPropertyType());
+                sbSelectCoumns.append(",")
+                    .append(sqlSelectColumns(tableAlias, false, p.getName(), p.getName()));
+                sbLeftJoin.append(" LEFT JOIN ").append(tableAlias.getTableName()).append(" ").append(p.getName())
+                    .append(" ON ").append(tableNameAlias).append(".").append(annotation.name())
+                    .append(" = ").append(p.getName()).append(".").append(TreeEntity.F_SQL_ID);
+            }
+        }
+       String sql = String.format(sqlMethod.getSql(),
+           sbSelectCoumns.toString(),
+           sbLeftJoin.toString(),
+           sqlWhereEntityWrapper(table, tableNameAlias));
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, modelClass);
         this.addSelectMappedStatement(mapperClass, sqlMethod.getMethod(), sqlSource, modelClass, table);
     }

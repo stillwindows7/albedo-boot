@@ -1,5 +1,8 @@
 package com.albedo.java;
 
+import com.albedo.java.common.persistence.annotation.ManyToOne;
+import com.albedo.java.modules.sys.domain.Dict;
+import com.albedo.java.util.base.Reflections;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
@@ -12,7 +15,14 @@ import java.util.regex.Pattern;
  * Created by somewhere on 2017/4/19.
  */
 public class TransformMysqlToH2 {
-    public static void main(String[] args) throws Exception {
+
+    public static void main(String[] args) {
+
+        ManyToOne annotation = Reflections.getAnnotationByClazz(Dict.class, "parent", ManyToOne.class);
+        System.out.println(annotation);
+    }
+
+    public static void main1(String[] args) throws Exception {
         File file = new File("E:\\soft\\hcxd-pay.sql");
         String content = Files.toString(file, Charsets.UTF_8);
 

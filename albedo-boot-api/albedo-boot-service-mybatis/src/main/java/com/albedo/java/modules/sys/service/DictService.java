@@ -25,7 +25,7 @@ import java.util.List;
 public class DictService extends TreeVoService<DictRepository, Dict, String, DictVo> {
 
     public List<Dict> findAllByStatusNotAndIsShowOrderBySortAsc(Integer status, Integer yes) {
-        return repository.findTreeList(
+        return repository.findRelationList(
             Condition.create()
                 .ne(getClassNameProfix()+Dict.F_SQL_STATUS, status)
                 .eq(getClassNameProfix()+Dict.F_SQL_ISSHOW, yes)

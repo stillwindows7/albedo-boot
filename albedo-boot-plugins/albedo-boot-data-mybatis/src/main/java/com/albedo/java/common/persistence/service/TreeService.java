@@ -23,7 +23,7 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public T findTreeOne(Serializable id) {
-        List<T> treeList = repository.findTreeList(
+        List<T> treeList = repository.findRelationList(
             Condition.create().eq(getClassNameProfix() + TreeEntity.F_SQL_ID, id));
         return SqlHelper.getObject(treeList);
     }
@@ -42,36 +42,36 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
     }
 
     public List<T> findAllByParentIdsLike(String parentIds){
-        return repository.findTreeList(
+        return repository.findRelationList(
             Condition.create().like(getClassNameProfix()+TreeEntity.F_SQL_PARENTIDS, parentIds));
     }
 
     public List<T> findAllByParentIdAndStatusNot(String parentId, Integer status){
-        return repository.findTreeList(
+        return repository.findRelationList(
             Condition.create().eq(getClassNameProfix()+TreeEntity.F_SQL_PARENTID, parentId).ne(getClassNameProfix()+TreeEntity.F_STATUS, status)
         );
 
     }
 
     public List<T> findAllByStatusNot(Integer status){
-        return repository.findTreeList(Condition.create().ne(getClassNameProfix()+TreeEntity.F_SQL_STATUS, status));
+        return repository.findRelationList(Condition.create().ne(getClassNameProfix()+TreeEntity.F_SQL_STATUS, status));
 
     }
 
     public List<T> findTop1ByParentIdAndStatusNotOrderBySortDesc(String parentId, Integer status){
 
-        return repository.findTreeList(
+        return repository.findRelationList(
             Condition.create().eq(getClassNameProfix()+TreeEntity.F_SQL_PARENTID, parentId).ne(getClassNameProfix()+TreeEntity.F_SQL_STATUS, status)
         );
 
     }
     public List<T> findAllByStatusOrderBySort(Integer status) {
-        return repository.findTreeList(
+        return repository.findRelationList(
             Condition.create().eq(getClassNameProfix()+TreeEntity.F_SQL_STATUS, status).orderBy(getClassNameProfix()+TreeEntity.F_SQL_SORT, true)
         );
     }
     public List<T> findAllByIdOrParentIdsLike(PK id, String likeParentIds){
-        return repository.findTreeList(
+        return repository.findRelationList(
             Condition.create().eq(getClassNameProfix()+TreeEntity.F_SQL_PARENTIDS, likeParentIds).or()
                 .eq(getClassNameProfix()+TreeEntity.F_SQL_ID, id)
         );
