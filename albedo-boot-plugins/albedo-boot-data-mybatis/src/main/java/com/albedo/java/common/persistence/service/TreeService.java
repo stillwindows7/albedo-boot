@@ -9,6 +9,7 @@ import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.sys.query.TreeQuery;
 import com.albedo.java.vo.sys.query.TreeResult;
 import com.baomidou.mybatisplus.mapper.Condition;
+import com.baomidou.mybatisplus.mapper.SqlHelper;
 import com.google.common.collect.Lists;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,14 @@ import java.util.List;
 @Transactional
 public abstract class TreeService<Repository extends TreeRepository<T, PK>, T extends TreeEntity, PK extends Serializable>
         extends DataService<Repository, T, PK> {
+
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public T findTreeOne(Serializable id) {
+        List<T> treeList = repository.findTreeList(
+            Condition.create().eq(getClassNameProfix() + TreeEntity.F_SQL_ID, id));
+        return SqlHelper.getObject(treeList);
+    }
+
     public Integer countByParentId(String parentId){
        return repository.selectCount(
            Condition.create().eq(TreeEntity.F_SQL_PARENTID, parentId)
@@ -33,36 +42,38 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
     }
 
     public List<T> findAllByParentIdsLike(String parentIds){
-        return repository.selectList(
-            Condition.create().like(TreeEntity.F_SQL_PARENTIDS, parentIds));
+        return repository.findTreeList(
+            Condition.create().like(getClassNameProfix()+TreeEntity.F_SQL_PARENTIDS, parentIds));
     }
 
     public List<T> findAllByParentIdAndStatusNot(String parentId, Integer status){
-        return repository.selectList(Condition.create().eq(TreeEntity.F_SQL_PARENTID, parentId).ne(TreeEntity.F_STATUS, status));
+        return repository.findTreeList(
+            Condition.create().eq(getClassNameProfix()+TreeEntity.F_SQL_PARENTID, parentId).ne(getClassNameProfix()+TreeEntity.F_STATUS, status)
+        );
 
     }
 
     public List<T> findAllByStatusNot(Integer status){
-        return repository.selectList(Condition.create().ne(TreeEntity.F_SQL_STATUS, status));
+        return repository.findTreeList(Condition.create().ne(getClassNameProfix()+TreeEntity.F_SQL_STATUS, status));
 
     }
 
     public List<T> findTop1ByParentIdAndStatusNotOrderBySortDesc(String parentId, Integer status){
 
-        return repository.selectList(
-            Condition.create().eq(TreeEntity.F_SQL_PARENTID, parentId).ne(TreeEntity.F_SQL_STATUS, status)
+        return repository.findTreeList(
+            Condition.create().eq(getClassNameProfix()+TreeEntity.F_SQL_PARENTID, parentId).ne(getClassNameProfix()+TreeEntity.F_SQL_STATUS, status)
         );
 
     }
     public List<T> findAllByStatusOrderBySort(Integer status) {
-        return repository.selectList(
-            Condition.create().eq(TreeEntity.F_SQL_STATUS, status).orderBy(TreeEntity.F_SQL_SORT, true)
+        return repository.findTreeList(
+            Condition.create().eq(getClassNameProfix()+TreeEntity.F_SQL_STATUS, status).orderBy(getClassNameProfix()+TreeEntity.F_SQL_SORT, true)
         );
     }
     public List<T> findAllByIdOrParentIdsLike(PK id, String likeParentIds){
-        return repository.selectList(
-            Condition.create().eq(TreeEntity.F_SQL_PARENTIDS, likeParentIds).or()
-                .eq(TreeEntity.F_SQL_ID, id)
+        return repository.findTreeList(
+            Condition.create().eq(getClassNameProfix()+TreeEntity.F_SQL_PARENTIDS, likeParentIds).or()
+                .eq(getClassNameProfix()+TreeEntity.F_SQL_ID, id)
         );
     }
     /**
@@ -158,7 +169,7 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public T findTopByParentId(String parentId) {
         List<T> tempList = findTop1ByParentIdAndStatusNotOrderBySortDesc(parentId, BaseEntity.FLAG_DELETE);
-        return PublicUtil.isNotEmpty(tempList) ? tempList.get(0) : null;
+        return  SqlHelper.getObject(tempList);
     }
 
     /**

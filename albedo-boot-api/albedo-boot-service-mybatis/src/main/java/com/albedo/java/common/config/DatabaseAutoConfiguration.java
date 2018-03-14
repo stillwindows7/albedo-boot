@@ -1,6 +1,7 @@
 package com.albedo.java.common.config;
 
 import com.albedo.java.common.persistence.handler.EntityMetaObjectHandler;
+import com.albedo.java.common.persistence.injector.TreeEntitySqlInjector;
 import com.baomidou.mybatisplus.spring.boot.starter.MybatisPlusProperties;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
@@ -33,5 +34,9 @@ public class DatabaseAutoConfiguration {
     @Bean
     public EntityMetaObjectHandler entityMetaObjectHandler(AuditorAware auditorAware){
         return new EntityMetaObjectHandler(auditorAware);
+    }
+    @Bean
+    public TreeEntitySqlInjector treeEntitySqlInjector(){
+        return new TreeEntitySqlInjector();
     }
 }

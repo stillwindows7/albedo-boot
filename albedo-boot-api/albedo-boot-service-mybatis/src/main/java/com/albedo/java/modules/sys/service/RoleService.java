@@ -5,12 +5,14 @@ import com.albedo.java.common.persistence.SpecificationDetail;
 import com.albedo.java.common.persistence.domain.BaseEntity;
 import com.albedo.java.common.persistence.service.DataVoService;
 import com.albedo.java.modules.sys.domain.Role;
+import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.repository.OrgRepository;
 import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.vo.sys.RoleVo;
+import com.albedo.java.vo.sys.UserVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +40,15 @@ public class RoleService extends DataVoService<RoleRepository, Role, String, Rol
         return userResult;
     }
 
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public RoleVo findOneVo(String id) {
+        Role role = findOne(id);
+        if(role!=null){
+            role.setOrg(orgRepository.selectById(role.getOrgId()));
+        }
+        return copyBeanToVo(role);
+    }
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public PageModel<Role> findPage(PageModel<Role> pm, List<QueryCondition> authQueryConditions) {

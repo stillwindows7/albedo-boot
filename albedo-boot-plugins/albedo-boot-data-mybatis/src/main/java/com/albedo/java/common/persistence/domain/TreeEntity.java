@@ -1,16 +1,16 @@
 package com.albedo.java.common.persistence.domain;
 
+import com.albedo.java.common.persistence.annotation.ManyToOne;
 import com.albedo.java.util.annotation.SearchField;
 import com.albedo.java.util.domain.QueryCondition.Operator;
 import com.baomidou.mybatisplus.annotations.TableField;
-import lombok.Data;
 
 /**
  * 数据TreeEntity类
  *
  * @author somewhere version 2013-12-27 下午12:27:10
  */
-public abstract class TreeEntity<T extends TreeEntity> extends IdEntity {
+public class TreeEntity<T extends TreeEntity> extends IdEntity {
 
     public static final String ROOT = "1";
     public static final String F_NAME = "name";
@@ -38,7 +38,8 @@ public abstract class TreeEntity<T extends TreeEntity> extends IdEntity {
     @TableField(TreeEntity.F_SQL_PARENTIDS)
     protected String parentIds;
     /*** 上级组织 */
-    @TableField(el = "parent.id",exist = false)
+    @ManyToOne
+    @TableField(exist = false)
     protected T parent;
     /*** 序号 */
     @TableField(TreeEntity.F_SQL_SORT)
@@ -54,7 +55,11 @@ public abstract class TreeEntity<T extends TreeEntity> extends IdEntity {
         super();
         this.sort = 30;
     }
-
+    public TreeEntity(String id) {
+        super();
+        this.id = id;
+        this.sort = 30;
+    }
     public String getName() {
         return name;
     }

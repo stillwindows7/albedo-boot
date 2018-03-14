@@ -2,7 +2,6 @@ package com.albedo.java.modules.base.web;
 
 import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.common.security.SecurityUtil;
-import com.albedo.java.common.security.annotaion.RequiresPermissions;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.service.DictService;
 import com.albedo.java.modules.sys.service.ModuleService;
@@ -58,14 +57,12 @@ public class DataSystemResource {
     }
 
     @GetMapping(value = "module/findTreeData")
-    @RequiresPermissions("sys_module_view")
     public ResponseEntity findTreeData(ModuleTreeQuery moduleTreeQuery) {
         List<TreeResult> rs = moduleService.findTreeData(moduleTreeQuery, SecurityUtil.getModuleList());
         return ResultBuilder.buildOk(rs);
     }
 
     @GetMapping(value = "dict/findTreeData")
-    @RequiresPermissions("sys_dict_view")
     public ResponseEntity findTreeData(DictTreeQuery dictTreeQuery) {
         List<DictTreeResult> rs = dictService.findTreeData(dictTreeQuery, DictUtil.getDictList());
         return ResultBuilder.buildOk(rs);

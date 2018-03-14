@@ -113,7 +113,7 @@ public class UserResourceIntTest {
         user.setPhone(DEFAULT_PHONE);
         user.setName(DEFAULT_NAME);
         user.setLangKey(DEFAULT_LANGKEY);
-        user.setOrgId(orgs.get(0).getId());
+        user.setOrg(orgs.get(0));
         user.setRoleIdList(Collections3.extractToList(roles, Role.F_ID));
         return user;
     }

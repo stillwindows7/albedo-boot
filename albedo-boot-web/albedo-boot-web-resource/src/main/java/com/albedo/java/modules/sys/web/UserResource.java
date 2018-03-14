@@ -25,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -76,7 +77,6 @@ public class UserResource extends DataVoResource<UserService, UserVo> {
         this.moduleService = moduleService;
         this.passwordEncoder=passwordEncoder;
     }
-
 
     /**
      * 分页

@@ -5,6 +5,7 @@ import com.albedo.java.common.persistence.domain.TreeEntity;
 import com.albedo.java.common.persistence.repository.TreeRepository;
 import com.albedo.java.util.BeanVoUtil;
 import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.StringUtil;
 import com.albedo.java.vo.base.TreeEntityVo;
 import lombok.Data;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +41,7 @@ public class TreeVoService<Repository extends TreeRepository<T, PK>,
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public V findOneVo(PK id) {
-        return copyBeanToVo(findOne(id));
+        return copyBeanToVo(findTreeOne(id));
     }
 
     public boolean doCheckByProperty(V entityForm) {
@@ -119,7 +120,12 @@ public class TreeVoService<Repository extends TreeRepository<T, PK>,
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Optional<V> findOptionalTopByParentId(String parentId) {
         List<T> tempList = super.findTop1ByParentIdAndStatusNotOrderBySortDesc(parentId, BaseEntity.FLAG_DELETE);
-        return PublicUtil.isNotEmpty(tempList) ? Optional.of(copyBeanToVo(tempList.get(0))) : Optional.empty();
+        if(PublicUtil.isNotEmpty(tempList)){
+            T entity = tempList.get(0);
+            entity.setParent(selectById(entity.getParentId()));
+            return Optional.of(copyBeanToVo(entity));
+        }
+        return  Optional.empty();
     }
 
 }

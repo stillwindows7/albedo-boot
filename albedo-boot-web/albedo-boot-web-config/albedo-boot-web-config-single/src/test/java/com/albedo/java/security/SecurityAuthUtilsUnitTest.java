@@ -1,7 +1,6 @@
 package com.albedo.java.security;
 
 import com.albedo.java.common.security.SecurityAuthUtil;
-import com.albedo.java.common.security.SecurityUtil;
 import org.junit.Test;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;

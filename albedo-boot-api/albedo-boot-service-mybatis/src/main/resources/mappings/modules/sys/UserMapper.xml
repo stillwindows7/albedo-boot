@@ -2,28 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.albedo.java.modules.sys.repository.UserRepository">
 
-    <resultMap id="UserMap" type="com.albedo.java.modules.sys.domain.User">
-        <id property="id" column="id" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="activated" column="activated" javaType="boolean" jdbcType="BIT"/>
-        <result property="activationKey" column="activationKey" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="createdBy" column="createdBy" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="createdDate" column="createdDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
-        <result property="description" column="description" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="email" column="email" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="loginId" column="loginId" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="langKey" column="langKey" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="lastModifiedBy" column="lastModifiedBy" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="lastModifiedDate" column="lastModifiedDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
-        <result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="orgId" column="orgId" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="password" column="password" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="phone" column="phone" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="resetKey" column="resetKey" javaType="java.lang.String" jdbcType="VARCHAR"/>
-        <result property="resetDate" column="resetDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
-        <result property="status" column="status" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-        <result property="version" column="version" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-        <association column="org" property="org" select="com.albedo.java.modules.sys.repository.OrgRepository.selectById"/>
-    </resultMap>
     <sql id="pageUserColumn">
         a.id_ AS `id`,
         a.activated_ AS `activated`,
@@ -66,7 +44,7 @@
         <result property="resetDate" column="resetDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
         <result property="status" column="status" javaType="java.lang.Integer" jdbcType="INTEGER"/>
         <result property="version" column="version" javaType="java.lang.Integer" jdbcType="INTEGER"/>
-        <association column="org" property="org" select="com.albedo.java.modules.sys.repository.OrgRepository.selectById"/>
+        <association property="org" column="org" autoMapping="true" select="com.albedo.java.modules.sys.repository.OrgRepository.selectById"/>
         <collection property="roles" column="id" select="com.albedo.java.modules.sys.repository.RoleRepository.selectListByUserId"
                     ofType="com.albedo.java.modules.sys.domain.Role" javaType="java.util.Set"/>
     </resultMap>

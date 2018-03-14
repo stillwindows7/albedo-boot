@@ -4,6 +4,7 @@ import com.albedo.java.common.persistence.DynamicSpecifications;
 import com.albedo.java.common.persistence.SpecificationDetail;
 import com.albedo.java.common.persistence.service.DataVoService;
 import com.albedo.java.modules.sys.domain.User;
+import com.albedo.java.modules.sys.repository.OrgRepository;
 import com.albedo.java.modules.sys.repository.RoleRepository;
 import com.albedo.java.modules.sys.repository.UserRepository;
 import com.albedo.java.util.PublicUtil;
@@ -29,7 +30,7 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
 
 
     @Resource
-    private RoleRepository roleRepository;
+    private OrgRepository orgRepository;
 
     @Override
     public UserVo copyBeanToVo(User user) {
@@ -48,6 +49,15 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
         user.setRoleIdList(userVo.getRoleIdList());
     }
 
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Override
+    public UserVo findOneVo(String id) {
+        User user = findOne(id);
+        if(user!=null){
+            user.setOrg(orgRepository.selectById(user.getOrgId()));
+        }
+        return copyBeanToVo(user);
+    }
 
     @Override
     public void save(UserVo userVo) {

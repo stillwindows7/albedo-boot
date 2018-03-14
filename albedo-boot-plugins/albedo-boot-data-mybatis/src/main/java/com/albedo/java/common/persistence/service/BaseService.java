@@ -12,6 +12,7 @@ import com.albedo.java.common.persistence.repository.BaseRepository;
 import com.albedo.java.common.persistence.repository.JpaCustomeRepository;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.QueryUtil;
+import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.Assert;
 import com.albedo.java.util.base.Reflections;
 import com.albedo.java.util.domain.Order;
@@ -50,6 +51,8 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
     @Autowired
     public JpaCustomeRepository<T> jpaCustomeRepository;
     private Class<T> persistentClass;
+    private String classNameProfix;
+
 
     @SuppressWarnings("unchecked")
     public BaseService() {
@@ -58,6 +61,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
         if (type instanceof ParameterizedType) {
             Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
             persistentClass = (Class<T>) parameterizedType[1];
+            classNameProfix = StringUtil.toFirstLowerCase(persistentClass.getSimpleName())+".";
         }
 
     }
@@ -65,6 +69,11 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
     public Class<T> getPersistentClass() {
         return persistentClass;
     }
+
+    public String getClassNameProfix(){
+        return classNameProfix;
+    }
+
 
     public EntityWrapper createEntityWrapper(List<Order> orders,QueryCondition... queryConditions){
         return DynamicSpecifications.
@@ -206,6 +215,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public Integer count(SpecificationDetail specificationDetail) {
         try {
+            specificationDetail.setPersistentClass(getPersistentClass());
             return repository.selectCount(specificationDetail.toEntityWrapper());
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -222,6 +232,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
      */
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<T> findAll(SpecificationDetail specificationDetail) {
+        specificationDetail.setPersistentClass(getPersistentClass());
         return findAll(specificationDetail.toEntityWrapper());
     }
     @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -246,8 +257,12 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
      */
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     public PageModel<T> findPage(PageModel<T> pm, SpecificationDetail<T> specificationDetail) {
-        return findPageWrapper(pm, specificationDetail!=null ?
-            specificationDetail.toEntityWrapper() : null);
+        if(specificationDetail!=null){
+            specificationDetail.setPersistentClass(getPersistentClass());
+            return findPageWrapper(pm, specificationDetail.toEntityWrapper());
+        }
+        return findPageWrapper(pm, null);
+
     }
 
     /**

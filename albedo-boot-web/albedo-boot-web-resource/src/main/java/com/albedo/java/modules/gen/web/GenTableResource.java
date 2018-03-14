@@ -3,7 +3,6 @@ package com.albedo.java.modules.gen.web;
 import com.albedo.java.common.config.template.tag.FormDirective;
 import com.albedo.java.common.security.AuthoritiesConstants;
 import com.albedo.java.common.security.SecurityUtil;
-import com.albedo.java.common.security.annotaion.RequiresPermissions;
 import com.albedo.java.modules.gen.domain.GenTable;
 import com.albedo.java.modules.gen.service.GenTableService;
 import com.albedo.java.util.JsonUtil;
@@ -43,7 +42,6 @@ public class GenTableResource extends DataVoResource<GenTableService, GenTableVo
 
     @GetMapping(value = "/tableList")
     @Timed
-    @RequiresPermissions("gen_genScheme_view")
     public ResponseEntity tableList() {
         return ResultBuilder.buildOk(FormDirective.convertComboDataList(service.findTableListFormDb(null), GenTable.F_NAME, GenTable.F_NAMESANDTITLE));
     }

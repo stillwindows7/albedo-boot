@@ -2,7 +2,6 @@ package com.albedo.java.security.jwt;
 
 import com.albedo.java.common.config.AlbedoProperties;
 import com.albedo.java.common.security.AuthoritiesConstants;
-import com.albedo.java.common.security.SecurityConstants;
 import com.albedo.java.common.security.jwt.TokenProvider;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

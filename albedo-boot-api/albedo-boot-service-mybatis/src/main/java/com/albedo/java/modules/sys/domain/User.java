@@ -28,7 +28,7 @@ import java.util.Set;
 /**
  * A user.
  */
-@TableName("sys_user_t")
+@TableName(value = "sys_user_t")
 @Data
 @AllArgsConstructor
 @ToString
@@ -54,11 +54,11 @@ public class User extends IdEntity<User> {
     private String password;
 
     @Size(max = 32)
-    @TableField("org_id")
+    @TableField(exist = false)
     private String orgId;
 
     @ApiModelProperty(hidden = true)
-    @TableField(exist = false)
+    @TableField(value = "org_id", el="org_id")
     private Org org;
 
     @Size(max = 50)
@@ -229,6 +229,16 @@ public class User extends IdEntity<User> {
             });
         }
     }
+
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+        this.org=new Org(orgId);
+    }
+
     @Override
     public boolean equals(Object o) {
         return super.equals(o);

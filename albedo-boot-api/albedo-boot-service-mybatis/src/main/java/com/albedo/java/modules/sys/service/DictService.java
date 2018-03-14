@@ -1,10 +1,12 @@
 package com.albedo.java.modules.sys.service;
 
+import com.albedo.java.common.persistence.DynamicSpecifications;
 import com.albedo.java.common.persistence.domain.BaseEntity;
 import com.albedo.java.common.persistence.service.TreeVoService;
 import com.albedo.java.modules.sys.domain.Dict;
 import com.albedo.java.modules.sys.repository.DictRepository;
 import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.vo.base.SelectResult;
 import com.albedo.java.vo.sys.DictVo;
 import com.albedo.java.vo.sys.query.DictTreeQuery;
@@ -23,7 +25,11 @@ import java.util.List;
 public class DictService extends TreeVoService<DictRepository, Dict, String, DictVo> {
 
     public List<Dict> findAllByStatusNotAndIsShowOrderBySortAsc(Integer status, Integer yes) {
-        return selectList(Condition.create().ne(Dict.F_SQL_STATUS, status).eq(Dict.F_SQL_ISSHOW, yes));
+        return repository.findTreeList(
+            Condition.create()
+                .ne(getClassNameProfix()+Dict.F_SQL_STATUS, status)
+                .eq(getClassNameProfix()+Dict.F_SQL_ISSHOW, yes)
+        );
 
     }
 

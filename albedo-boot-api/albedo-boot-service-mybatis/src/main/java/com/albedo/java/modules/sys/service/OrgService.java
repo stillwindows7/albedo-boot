@@ -65,7 +65,7 @@ public class OrgService extends TreeVoService<OrgRepository, Org, String, OrgVo>
         if (!admin) {
             spd.orAll(authQueryList);
         }
-        spd.orderASC(Org.F_SORT);
+        spd.setPersistentClass(getPersistentClass()).orderASC(Org.F_SORT);
         return findAll(spd);
     }
 
