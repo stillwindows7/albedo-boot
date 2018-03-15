@@ -2,6 +2,7 @@ package com.albedo.java.common.persistence;
 
 import com.albedo.java.common.data.util.QueryWrapperUtil;
 import com.albedo.java.util.PublicUtil;
+import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.domain.Order;
 import com.albedo.java.util.domain.QueryCondition;
 import com.alibaba.fastjson.JSONArray;
@@ -23,12 +24,13 @@ public class SpecificationDetail<T> implements Serializable {
      *
      */
     private static final long serialVersionUID = 1L;
-    /**
-     * 属性分隔符
-     */
-    private static final String PROPERTY_SEPARATOR = ".";
     protected static Logger logger = LoggerFactory.getLogger(SpecificationDetail.class);
     public Class<T> persistentClass;
+    private String classNameProfix;
+    /**
+     * 关联查询拼接前缀
+     */
+    private boolean relationQuery = false;
     /**
      * and条件
      */
@@ -42,17 +44,13 @@ public class SpecificationDetail<T> implements Serializable {
      */
     private List<Order> orders = Lists.newArrayList();
 
-    public SpecificationDetail() {
-        Class<?> c = getClass();
-        Type type = c.getGenericSuperclass();
-        if (type instanceof ParameterizedType) {
-            Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
-            persistentClass = (Class<T>) parameterizedType[0];
-        }
-    }
 
     public SpecificationDetail<T> setPersistentClass(Class<T> persistentClass) {
-        this.persistentClass = persistentClass;
+        if(persistentClass!=null){
+            this.persistentClass = persistentClass;
+            this.classNameProfix = StringUtil.toFirstLowerCase(persistentClass.getSimpleName())+".";
+
+        }
         return this;
     }
     public Class<T> getPersistentClass() {
@@ -249,6 +247,20 @@ public class SpecificationDetail<T> implements Serializable {
             this.orders.clear();
         return this;
     }
+
+    public String getClassNameProfix() {
+        return classNameProfix;
+    }
+
+    public boolean isRelationQuery() {
+        return relationQuery;
+    }
+
+    public SpecificationDetail<T> setRelationQuery(boolean relationQuery) {
+        this.relationQuery = relationQuery;
+        return this;
+    }
+
 
     /**
      * 连接条件

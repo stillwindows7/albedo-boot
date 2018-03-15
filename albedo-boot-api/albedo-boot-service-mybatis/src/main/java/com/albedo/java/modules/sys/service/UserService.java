@@ -3,6 +3,7 @@ package com.albedo.java.modules.sys.service;
 import com.albedo.java.common.persistence.DynamicSpecifications;
 import com.albedo.java.common.persistence.SpecificationDetail;
 import com.albedo.java.common.persistence.service.DataVoService;
+import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.repository.OrgRepository;
 import com.albedo.java.modules.sys.repository.RoleRepository;
@@ -16,7 +17,6 @@ import com.baomidou.mybatisplus.mapper.Condition;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,8 +29,14 @@ import java.util.Optional;
 public class UserService extends DataVoService<UserRepository, User, String, UserVo> {
 
 
-    @Resource
-    private OrgRepository orgRepository;
+    private final OrgRepository orgRepository;
+
+    private final RoleRepository roleRepository;
+
+    public UserService(OrgRepository orgRepository, RoleRepository roleRepository) {
+        this.orgRepository = orgRepository;
+        this.roleRepository = roleRepository;
+    }
 
     @Override
     public UserVo copyBeanToVo(User user) {
@@ -52,11 +58,9 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public UserVo findOneVo(String id) {
-        User user = findOne(id);
-        if(user!=null){
-            user.setOrg(orgRepository.selectById(user.getOrgId()));
-        }
-        return copyBeanToVo(user);
+        User relationOne = findRelationOne(id);
+        relationOne.setRoles(roleRepository.selectListByUserId(id));
+        return copyBeanToVo(relationOne);
     }
 
     @Override
@@ -107,12 +111,8 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
                 QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE),
                 QueryCondition.ne(User.F_ID, "1"));
         spec.orAll(orQueryConditions);
-        //动态生成sql分页查询
-//        Page<User> page = repository.findAll(spec, pm);
-//        pm.setPageInstance(page);
-//        pm.getData().forEach(item -> item.setOrg(orgRepository.findBasicOne(item.getOrgId())));
         //自定义sql分页查询
-        findPage(pm, spec);
+        findRelationPage(pm, spec);
 
 
         return pm;
@@ -128,12 +128,7 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
                         QueryCondition.ne(User.F_ID,  "1"));
         spec.setPersistentClass(getPersistentClass()).orAll(authQueryConditions);
         //动态生成sql分页查询
-//        Page<User> page = repository.findAll(spec, pm);
-//        pm.setPageInstance(page);
-//        pm.getData().forEach(item -> item.setOrg(orgRepository.findBasicOne(item.getOrgId())));
-        //自定义sql分页查询
-        findPage(pm, spec);
-
+        findRelationPage(pm, spec);
 
         return pm;
     }

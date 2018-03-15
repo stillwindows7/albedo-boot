@@ -55,7 +55,7 @@ public class RoleService extends DataVoService<RoleRepository, Role, String, Rol
         SpecificationDetail<Role> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
                 QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
         spec.orAll(authQueryConditions);
-        findPage(pm, spec);
+        findRelationPage(pm, spec);
         return pm;
     }
 

@@ -1,5 +1,6 @@
 package com.albedo.java.modules.sys.domain;
 
+import com.albedo.java.common.persistence.annotation.ManyToOne;
 import com.albedo.java.common.persistence.domain.IdEntity;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.annotation.SearchField;
@@ -58,7 +59,8 @@ public class User extends IdEntity<User> {
     private String orgId;
 
     @ApiModelProperty(hidden = true)
-    @TableField(value = "org_id", el="org_id")
+    @ManyToOne(name = "org_id")
+    @TableField(exist = false)
     private Org org;
 
     @Size(max = 50)

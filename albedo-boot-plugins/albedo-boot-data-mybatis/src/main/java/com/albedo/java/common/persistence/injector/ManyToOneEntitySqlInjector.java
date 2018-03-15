@@ -25,7 +25,8 @@ public class ManyToOneEntitySqlInjector extends AutoSqlInjector {
 
     public final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(getClass());
     public enum SqlTreeMethod {
-        FIND_RELATION_LIST("findRelationList", "查询树形结构", "<script>SELECT %s FROM %s %s</script>");
+        FIND_RELATION_LIST("findRelationList", "查询包含关联对象集合", "<script>SELECT %s FROM %s %s</script>"),
+        FIND_RELATION_PAGE("findRelationPage", "查询包含关联对象集合（并翻页）", "<script>SELECT %s FROM %s %s</script>");
 
         private final String method;
         private final String desc;
@@ -57,7 +58,8 @@ public class ManyToOneEntitySqlInjector extends AutoSqlInjector {
         try {
             if (null != modelClass) {
                 TableInfo table = TableInfoHelper.initTableInfo(builderAssistant, modelClass);
-                this.injectFindTreeList(SqlTreeMethod.FIND_RELATION_LIST, mapperClass, modelClass, table);
+                this.injectFindRelationList(SqlTreeMethod.FIND_RELATION_LIST, mapperClass, modelClass, table);
+                this.injectFindRelationList(SqlTreeMethod.FIND_RELATION_PAGE, mapperClass, modelClass, table);
             }
 
 
@@ -67,7 +69,7 @@ public class ManyToOneEntitySqlInjector extends AutoSqlInjector {
         }
     }
 
-    public void injectFindTreeList(SqlTreeMethod sqlMethod, Class<?> mapperClass, Class<?> modelClass, TableInfo table) {
+    public void injectFindRelationList(SqlTreeMethod sqlMethod, Class<?> mapperClass, Class<?> modelClass, TableInfo table) {
         String tableNameAlias = StringUtil.toFirstLowerCase(modelClass.getSimpleName()), tempNameAlias;
         TableInfo tableAlias;
         PropertyDescriptor[] ps = PropertyUtils.getPropertyDescriptors(modelClass);

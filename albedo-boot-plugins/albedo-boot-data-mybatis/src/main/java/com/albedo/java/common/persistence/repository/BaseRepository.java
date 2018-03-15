@@ -7,6 +7,7 @@ import com.albedo.java.common.persistence.domain.GeneralEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
 import java.io.Serializable;
 import java.util.List;
@@ -28,5 +29,17 @@ public interface BaseRepository<T extends GeneralEntity, pk extends Serializable
      * @version 2018-03-07
      */
     List<T> findRelationList(@Param("ew") Wrapper<T> wrapper);
+
+
+    /**
+     * <p>
+     * 根据 entity 条件，查询全部记录（并翻页）
+     * </p>
+     *
+     * @param rowBounds 分页查询条件（可以为 RowBounds.DEFAULT）
+     * @param wrapper   实体对象封装操作类（可以为 null）
+     * @return List<T>
+     */
+    List<T> findRelationPage(RowBounds rowBounds, @Param("ew") Wrapper<T> wrapper);
 
 }

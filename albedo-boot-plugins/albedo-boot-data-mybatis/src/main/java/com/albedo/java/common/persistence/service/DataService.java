@@ -14,6 +14,8 @@ import com.albedo.java.util.domain.ComboData;
 import com.albedo.java.util.domain.ComboSearch;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
+import com.baomidou.mybatisplus.mapper.Condition;
+import com.baomidou.mybatisplus.mapper.SqlHelper;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
@@ -35,7 +37,11 @@ public abstract class DataService<Repository extends BaseRepository<T, PK>, T ex
         return repository.selectById(id);
     }
 
-
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public T findRelationOne(Serializable id) {
+        List<T> relationList = repository.findRelationList(Condition.create().eq(getClassNameProfix()+DataEntity.F_SQL_ID, id));
+        return SqlHelper.getObject(relationList);
+    }
 
 
     /**

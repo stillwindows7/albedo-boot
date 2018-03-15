@@ -19,6 +19,7 @@ import com.albedo.java.util.domain.Order;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.SqlHelper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
@@ -287,6 +288,42 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
         }
         return null;
     }
+    /**
+     * 动态分页查询
+     *
+     * @param pm                  分页对象
+     * @param specificationDetail 动态条件对象
+     * @return
+     */
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public PageModel<T> findRelationPage(PageModel<T> pm, SpecificationDetail<T> specificationDetail) {
+        if(specificationDetail!=null){
+            specificationDetail.setPersistentClass(getPersistentClass()).setRelationQuery(true);
+            return findRelationPageWrapper(pm, specificationDetail.toEntityWrapper());
+        }
+        return findRelationPageWrapper(pm, null);
 
+    }
 
+    /**
+     * 动态分页查询
+     *
+     * @param pm                  分页对象
+     * @param wrapper 动态条件对象
+     * @return
+     */
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public PageModel<T> findRelationPageWrapper(PageModel<T> pm, Wrapper<T> wrapper) {
+        try {
+            PageQuery<T> page = new PageQuery(pm, null);
+            page.setRecords(repository.findRelationPage(page, (Wrapper<T>) SqlHelper.fillWrapper(page, wrapper)));
+            pm.setData(page.getRecords());
+            pm.setRecordsTotal(page.getTotal());
+            return pm;
+        } catch (Exception e) {
+            log.error("error: {}", e);
+            Assert.buildException(e.getMessage());
+        }
+        return null;
+    }
 }

@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Spring Data JPA repository for the Authority entity.
@@ -20,6 +21,6 @@ public interface RoleRepository extends BaseRepository<Role, String> {
 
     void addRoleModules(@Param("role") Role role);
 
-    List<Role> selectListByUserId(String userId);
+    Set<Role> selectListByUserId(String userId);
 
 }

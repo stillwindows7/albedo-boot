@@ -113,7 +113,7 @@ public class AccoutResource extends BaseResource {
             return new ResponseEntity<>(CustomMessage.createSuccessData(jwt), httpHeaders, HttpStatus.OK);
 
         } catch (AuthenticationException ae) {
-            log.trace("Authentication exception trace: {}", ae);
+            log.warn("Authentication exception trace: {}", ae);
             return ResultBuilder.buildFailed(HttpStatus.UNAUTHORIZED, ae instanceof BadCredentialsException ? "用户名或密码填写错误" : ae.getMessage());
         }
     }
