@@ -1,5 +1,6 @@
 package com.albedo.java.modules.gen.domain;
 
+import com.albedo.java.common.persistence.annotation.ManyToOne;
 import com.albedo.java.common.persistence.domain.IdEntity;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotations.TableField;
@@ -63,7 +64,8 @@ public class GenScheme extends IdEntity<GenScheme> {
     private String functionNameSimple; // 生成功能名（简写）
     @TableField("function_author")
     private String functionAuthor; // 生成功能作者
-    @TableField("genTable.id")
+    @ManyToOne(name = "gen_table_id")
+    @TableField(exist = false)
     private GenTable genTable; // 业务表名
     @TableField("gen_table_id")
     private String genTableId; // 业务表名

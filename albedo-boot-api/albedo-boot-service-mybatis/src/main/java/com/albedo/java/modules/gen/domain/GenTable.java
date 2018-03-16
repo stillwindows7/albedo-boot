@@ -1,5 +1,6 @@
 package com.albedo.java.modules.gen.domain;
 
+import com.albedo.java.common.persistence.annotation.ManyToOne;
 import com.albedo.java.common.persistence.domain.IdEntity;
 import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.StringUtil;
@@ -49,7 +50,8 @@ public class GenTable extends IdEntity<GenTable> {
     private List<GenTableColumn> columnList; // 表列
 
     @JSONField(serialize = false)
-    @TableField("genTable.id")
+    @ManyToOne(name = "parent_table")
+    @TableField(exist = false)
     private GenTable parent; // 父表对象
 
     @TableField(exist = false)

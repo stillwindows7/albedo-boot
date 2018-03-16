@@ -1,5 +1,6 @@
 package com.albedo.java.modules.sys.domain;
 
+import com.albedo.java.common.persistence.annotation.ManyToOne;
 import com.albedo.java.common.persistence.domain.IdEntity;
 import com.albedo.java.util.annotation.DictType;
 import com.albedo.java.util.annotation.SearchField;
@@ -56,7 +57,8 @@ public class Role extends IdEntity {
     private String orgId;
 
     @ApiModelProperty(hidden = true)
-    @TableField(value = "org.id", exist = false)
+    @ManyToOne(name = "org_id")
+    @TableField(exist = false)
     private Org org;
 
     /*** 是否系统数据  0 是 1否*/
