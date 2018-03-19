@@ -21,12 +21,14 @@ import com.albedo.java.util.exception.RuntimeMsgException;
 import com.albedo.java.vo.gen.GenTableColumnVo;
 import com.albedo.java.vo.gen.GenTableFormVo;
 import com.albedo.java.vo.gen.GenTableVo;
+import com.baomidou.mybatisplus.mapper.Condition;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.table.TableColumn;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -64,9 +66,9 @@ public class GenTableService extends DataVoService<GenTableRepository, GenTable,
         int index = 0;
         for (GenTableColumn item : genTable.getColumnFormList()) {
             item.setGenTableId(genTable.getId());
-            if (!isNew) {
-                item.setVersion(genTable.getColumnList().get(index++).getVersion());
-            }
+//            if (!isNew) {
+//                item.setVersion(genTable.getColumnList().get(index++).getVersion());
+//            }
         }
         genTableColumnService.insertOrUpdateBatch(genTable.getColumnFormList());
 
@@ -232,6 +234,10 @@ public class GenTableService extends DataVoService<GenTableRepository, GenTable,
         GenTableVo genTableVo = new GenTableVo(genTableFormVo);
         if (PublicUtil.isNotEmpty(genTableFormVo.getId())) {
             genTableVo = findOneVo(genTableFormVo.getId());
+            genTableVo.setColumnList(
+                (List<GenTableColumnVo>) genTableColumnService.selectList(Condition.create().eq(GenTableColumn.F_SQL_GENTABLEID, genTableFormVo.getId()))
+                    .stream().map(item->genTableColumnService.copyBeanToVo((GenTableColumn) item)).collect(Collectors.toList())
+            );
         }
         // 获取物理表字段
         genTableVo = getTableFormDb(genTableVo);

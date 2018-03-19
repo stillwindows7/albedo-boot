@@ -97,10 +97,8 @@ public class GenTableVo extends DataEntityVo {
 
     @JSONField(serialize = false)
     public boolean isCompositeId() {
-        if (getPkList() == null) {
-            throw new RuntimeMsgException("无法获取表的主键信息");
-        }
-        return getPkList().size() > 1;
+        List<String> pkList = getPkList();
+        return PublicUtil.isNotEmpty(pkList);
     }
 
     @JSONField(serialize = false,deserialize=false)

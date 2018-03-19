@@ -1,5 +1,6 @@
 package com.albedo.java.modules.gen.domain;
 
+import com.albedo.java.common.persistence.annotation.ManyToOne;
 import com.albedo.java.common.persistence.domain.IdEntity;
 import com.albedo.java.util.config.SystemConfig;
 import com.baomidou.mybatisplus.annotations.TableField;
@@ -9,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Transient;
 
 /**
@@ -21,19 +23,25 @@ import org.springframework.data.annotation.Transient;
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-public class GenTableColumn extends IdEntity<GenTableColumn> {
+public class GenTableColumn extends IdEntity<GenTableColumn> implements Comparable<GenTableColumn> {
 
     private static final long serialVersionUID = 1L;
 
     public static final String F_GENTABLEID = "genTableId";
     public static final String F_SORT = "sort";
-    @TableField("gen_table_id")
+
+    public static final String F_SQL_GENTABLEID = "gen_table_id";
+    @TableField(F_SQL_GENTABLEID)
     private String genTableId; // 列名
-    @TableField("genTable.id")
+    @ManyToOne
+    @TableField(exist = false)
     private GenTable genTable; // 归属表
     @Length(min = 1, max = 200)
     @TableField("name_")
     private String name; // 列名
+    @TableField("title_")
+    @NotBlank
+    private String title; // 标题
     @TableField("comments")
     private String comments; // 描述
     @TableField("jdbc_type")
@@ -83,5 +91,17 @@ public class GenTableColumn extends IdEntity<GenTableColumn> {
         this.jdbcType = jdbcType;
     }
 
+    /**
+     * 获取列名和说明
+     *
+     * @return
+     */
+    public String getNameAndTitle() {
+        return getName() + (comments == null ? "" : "  :  " + comments);
+    }
 
+    @Override
+    public int compareTo(GenTableColumn o) {
+        return o.getSort()!=null ? this.sort!=null ? this.sort - o.getSort() : 0 : this.sort;
+    }
 }

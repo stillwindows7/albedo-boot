@@ -43,6 +43,7 @@ export class GenTableFormComponent implements AfterViewInit {
             this.javaTypeList = data.javaTypeList
             this.queryTypeList = data.queryTypeList
             this.showTypeList = data.showTypeList
+            console.log(data.tableList)
             this.tableList = data.tableList
             this.columnList = data.columnList
             albedoForm.setData("#genTable-save-form", data.genTableVo)
