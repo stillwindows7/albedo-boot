@@ -15,20 +15,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import org.hibernate.validator.constraints.Length;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+
+import org.hibernate.validator.constraints.*;
 <#list table.importList as i>
 import ${i};
 </#list>
-
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  * ${functionName}Entity ${functionNameSimple}
  * @author ${functionAuthor}
  * @version ${functionVersion}
  */
-@Entity(table = "${table.name}")
+@TableName(value = "${table.name}")
 @Data @ToString @NoArgsConstructor @AllArgsConstructor
 public class ${ClassName} extends TreeEntity<${ClassName}> {
 
@@ -37,52 +37,44 @@ public class ${ClassName} extends TreeEntity<${ClassName}> {
 		<#if !column.pk && column.isNotBaseField && column.isNotBaseTreeField>
 	/** F_${column.constantJavaField} ${column.nameAndTitle} */
 	public static final String F_${column.constantJavaField} = "${column.simpleJavaField}";
+	/** F_SQL_${column.constantJavaField} ${column.nameAndTitle} */
+	public static final String F_SQL_${column.constantJavaField} = "${column.name}";
 		</#if>
 	</#list>
 
 	<@generateFields/>
-	<@generateCompositeIdConstructorIfis/>
 
-	@Override
-	public int hashCode() {
-		return new HashCodeBuilder()
-		<#list table.pkColumnList as column>
-			<#if !table.compositeId>
-			.append(get${column.simpleJavaField?cap_first}())
-			</#if>
-		</#list>
-			.toHashCode();
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if(obj instanceof ${ClassName} == false) { return false;}
-		if(this == obj) {return true;}
-		${ClassName} other = (${ClassName})obj;
-		return new EqualsBuilder()
-			.append(getId(),other.getId())
-			.isEquals();
-	}
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }
 <#macro generateFields>
 	//columns START
 	<#list table.columnList as column>
 		<#if !column.pk && column.isNotBaseField && column.isNotBaseTreeField>
 	/** ${column.simpleJavaField} ${column.title} */<#if table.parentExists && table.parentTableFk == column.name>
-	@ManyToOne@JoinColumn(name = "${table.parentTableFk}")
+	@ManyToOne(name = "${table.parentTableFk}")
+	@TableField(exist = false)
 	private ${table.parent.className} ${column.simpleJavaField};
 	<#elseif column.showType == "userselect" || column.showType == "orgselect" || column.showType == "areaselect">
-	@ManyToOne@JoinColumn(name = "${column.name}", updatable = false,insertable = false)
+	@ManyToOne(name = "${column.name}")
+	@TableField(exist = false)
 	private ${column.simpleJavaType} ${column.simpleJavaField};
 	@Column(name = "${column.name}")
 	private String ${column.simpleJavaField}Id;
-	<#else>${column.hibernateValidatorExprssion}<#if column.isDateTimeColumn>@Temporal(TemporalType.DATE)</#if>@Column(name = "${column.name}")<#if column.unique>@SearchField</#if><#if column.dictType?? && column.dictType != "">@DictType(name="${column.dictType}")</#if>
+	<#else>${column.hibernateValidatorExprssion}<#if column.isDateTimeColumn>@Temporal(TemporalType.DATE)</#if>@TableField("${column.name}")<#if column.unique>@SearchField</#if><#if column.dictType?? && column.dictType != "">@DictType(name="${column.dictType}")</#if>
 	private ${column.simpleJavaType} ${column.simpleJavaField};
 			</#if>
 		</#if>
 	</#list>
 	<#list table.childList as c>
-	@OneToMany
-	@JoinColumn(name = "${column.name}")
+	@TableField(exist = false)
 	private List<${c.className}> ${c.className?uncap_first}List = Lists.newArrayList();
 	</#list>
 	//columns END

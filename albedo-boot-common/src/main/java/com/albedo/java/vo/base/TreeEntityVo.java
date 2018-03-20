@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.NotBlank;
  * 通常的数据基类 copyright 2014 albedo all right reserved author 李杰 created on 2014年12月31日 下午1:57:09
  */
 @Data
-public class TreeEntityVo extends DataEntityVo {
+public class TreeEntityVo extends DataEntityVo<String> {
     public static final String F_NAME = "name";
     public static final String F_PARENTID = "parentId";
     public static final String F_PARENTIDS = "parentIds";

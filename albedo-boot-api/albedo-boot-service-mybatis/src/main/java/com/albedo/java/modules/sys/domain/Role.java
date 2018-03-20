@@ -24,7 +24,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-public class Role extends IdEntity {
+public class Role extends IdEntity<Role, String> {
 
     /*** 数据范围(所有数据) */
     public static final Integer DATA_SCOPE_ALL = 1;

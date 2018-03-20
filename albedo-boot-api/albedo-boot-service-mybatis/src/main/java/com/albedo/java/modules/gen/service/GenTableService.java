@@ -33,6 +33,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Service class for managing genTables.
@@ -63,13 +64,22 @@ public class GenTableService extends DataVoService<GenTableRepository, GenTable,
         boolean isNew = PublicUtil.isEmpty(genTable.getId());
         insertOrUpdate(genTable);
         log.debug("Save Information for GenTable: {}", genTable);
-        int index = 0;
-        for (GenTableColumn item : genTable.getColumnFormList()) {
-            item.setGenTableId(genTable.getId());
-//            if (!isNew) {
-//                item.setVersion(genTable.getColumnList().get(index++).getVersion());
-//            }
+        if (isNew) {
+            for (GenTableColumn item : genTable.getColumnFormList()) {
+                item.setGenTableId(genTable.getId());
+            }
+        }else{
+            List<GenTableColumn> genTableColumns = genTableColumnService.selectList(Condition.create().eq(GenTableColumn.F_SQL_GENTABLEID, genTable.getId()));
+            for (GenTableColumn item : genTable.getColumnFormList()) {
+                for (GenTableColumn genTableColumn : genTableColumns) {
+                    if (genTableColumn.getId().equals(item.getId())) {
+                        item.setVersion(genTableColumn.getVersion());
+                        break;
+                    }
+                }
+            }
         }
+
         genTableColumnService.insertOrUpdateBatch(genTable.getColumnFormList());
 
         return genTable;
@@ -132,7 +142,7 @@ public class GenTableService extends DataVoService<GenTableRepository, GenTable,
             if (list.size() > 0) {
 
                 // 如果是新增，初始化表属性
-                if (StringUtil.isBlank(genTableVo.getId())) {
+                if (PublicUtil.isNotEmpty(genTableVo.getId())) {
                     genTableVo = list.get(0);
                     // 设置字段说明
                     if (StringUtil.isBlank(genTableVo.getComments())) {

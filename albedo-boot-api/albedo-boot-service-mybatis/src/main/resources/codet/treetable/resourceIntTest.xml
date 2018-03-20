@@ -10,9 +10,9 @@
 package ${packageName}.${moduleName}.web<#if subModuleName != "">.${subModuleName}</#if>;
 
 import com.albedo.java.common.config.AlbedoProperties;
-import BaseEntity;
-import DynamicSpecifications;
-import SpecificationDetail;
+import com.albedo.java.common.persistence.DynamicSpecifications;
+import com.albedo.java.common.persistence.SpecificationDetail;
+import com.albedo.java.common.persistence.domain.BaseEntity;
 import ${packageName}.${moduleName}.domain.${ClassName};
 import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Vo;
 import ${packageName}.${moduleName}.repository<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Repository;
@@ -45,8 +45,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import com.baomidou.mybatisplus.mapper.Condition;
 
-import javax.persistence.EntityManager;
 import java.util.Date;
 import java.util.List;
 
@@ -115,9 +115,6 @@ public class ${ClassName}ResourceIntTest {
     private ExceptionTranslator exceptionTranslator;
 
     @Autowired
-    private EntityManager em;
-
-    @Autowired
     private AlbedoProperties albedoProperties;
 
     private MockMvc rest${ClassName}MockMvc;
@@ -146,7 +143,7 @@ public class ${ClassName}ResourceIntTest {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static ${ClassName} createEntity(EntityManager em) {
+    public static ${ClassName} createEntity() {
         ${ClassName} ${className} = Reflections.createObj(${ClassName}.class, Lists.newArrayList(
     <#assign firstListField = true>
     <#list table.columnList as column>
@@ -164,13 +161,13 @@ public class ${ClassName}ResourceIntTest {
 
     @Before
     public void initTest() {
-        ${className} = createEntity(em);
+        ${className} = createEntity();
     }
 
     @Test
     @Transactional
     public void create${ClassName}() throws Exception {
-        int databaseSizeBeforeCreate = ${className}Repository.findAll().size();
+        int databaseSizeBeforeCreate = ${className}Service.findAll().size();
         ${ClassName}Vo ${className}Vo = ${className}Service.copyBeanToVo(${className});
         // Create the ${ClassName}
         rest${ClassName}MockMvc.perform(post(DEFAULT_API_URL)
@@ -179,7 +176,10 @@ public class ${ClassName}ResourceIntTest {
             .andExpect(status().isOk());
         ;
         // Validate the ${ClassName} in the database
-        List<${ClassName}> ${className}List = ${className}Repository.findAll(new Sort(Sort.Direction.ASC, ${ClassName}.F_CREATEDDATE));
+        List<${ClassName}> ${className}List = ${className}Service.findAll(
+            Condition.create().orderBy(${ClassName}.F_CREATEDDATE, true)
+
+        );
         assertThat(${className}List).hasSize(databaseSizeBeforeCreate + 1);
         ${ClassName} test${ClassName} = ${className}List.get(${className}List.size() - 1);
     <#list table.columnList as column>
@@ -193,8 +193,8 @@ public class ${ClassName}ResourceIntTest {
     @Test
     @Transactional
     public void create${ClassName}WithExisting${column.simpleJavaField?cap_first}() throws Exception {
-        ${className}Repository.saveAndFlush(${className});
-        int databaseSizeBeforeCreate = ${className}Repository.findAll().size();
+        ${className}Repository.insert(${className});
+        int databaseSizeBeforeCreate = ${className}Service.findAll().size();
 
         // Create the ${ClassName} with an existing ID
         ${ClassName}Vo ${className}Vo = Reflections.createObj(${ClassName}Vo.class, Lists.newArrayList(${ClassName}Vo.F_ID, ${ClassName}Vo.F_${column.constantJavaField}),
@@ -207,7 +207,7 @@ public class ${ClassName}ResourceIntTest {
             .andExpect(status().isBadRequest());
 
         // Validate the ${ClassName} in the database
-        List<${ClassName}> ${className}List = ${className}Repository.findAll();
+        List<${ClassName}> ${className}List = ${className}Service.findAll();
         assertThat(${className}List).hasSize(databaseSizeBeforeCreate);
     }
     </#if>
@@ -218,7 +218,7 @@ public class ${ClassName}ResourceIntTest {
     @Test
     @Transactional
     public void check${column.simpleJavaField?cap_first}IsRequired() throws Exception {
-        int databaseSizeBeforeTest = ${className}Repository.findAll().size();
+        int databaseSizeBeforeTest = ${className}Service.findAll().size();
         // set the field null
         ${className}.set${column.simpleJavaField?cap_first}(null);
 
@@ -229,7 +229,7 @@ public class ${ClassName}ResourceIntTest {
             .content(TestUtil.convertObjectToJsonBytes(${className})))
             .andExpect(status().isBadRequest());
 
-        List<${ClassName}> ${className}List = ${className}Repository.findAll();
+        List<${ClassName}> ${className}List = ${className}Service.findAll();
         assertThat(${className}List).hasSize(databaseSizeBeforeTest);
     }
     </#if>
@@ -240,7 +240,7 @@ public class ${ClassName}ResourceIntTest {
     @Transactional
     public void getAll${ClassName}s() throws Exception {
         // Initialize the database
-        ${className}Repository.saveAndFlush(${className});
+        ${className}Repository.insert(${className});
 
         // Get all the ${className}List
         rest${ClassName}MockMvc.perform(get(DEFAULT_API_URL))
@@ -259,7 +259,7 @@ public class ${ClassName}ResourceIntTest {
     @Transactional
     public void get${ClassName}() throws Exception {
         // Initialize the database
-        ${className}Repository.saveAndFlush(${className});
+        ${className}Repository.insert(${className});
 
         // Get the ${className}
         rest${ClassName}MockMvc.perform(get(DEFAULT_API_URL+"{id}", ${className}.getId()))
@@ -279,7 +279,7 @@ public class ${ClassName}ResourceIntTest {
     @Transactional
     public void getAll${ClassName}sBy${column.simpleJavaField?cap_first}IsEqualToSomething() throws Exception {
         // Initialize the database
-        ${className}Repository.saveAndFlush(${className});
+        ${className}Repository.insert(${className});
 
         // Get all the ${className}List where ${column.simpleJavaField} equals to DEFAULT_${column.constantJavaField}
         default${ClassName}ShouldBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}.getId()),
@@ -302,7 +302,7 @@ public class ${ClassName}ResourceIntTest {
     @Transactional
     public void getAll${ClassName}sBy${column.simpleJavaField?cap_first}IsInShouldWork() throws Exception {
         // Initialize the database
-        ${className}Repository.saveAndFlush(${className});
+        ${className}Repository.insert(${className});
 
         // Get all the ${className}List where ${column.simpleJavaField} in DEFAULT_${column.constantJavaField} or UPDATED_${column.constantJavaField}
         default${ClassName}ShouldBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}.getId()),
@@ -325,7 +325,7 @@ public class ${ClassName}ResourceIntTest {
     @Transactional
     public void getAll${ClassName}sBy${column.simpleJavaField?cap_first}IsNullOrNotNull() throws Exception {
         // Initialize the database
-        ${className}Repository.saveAndFlush(${className});
+        ${className}Repository.insert(${className});
 
         // Get all the ${className}List where ${column.simpleJavaField} is not null
         default${ClassName}ShouldBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}.getId()), QueryCondition.isNotNull(${ClassName}.F_${column.constantJavaField}));
@@ -338,7 +338,7 @@ public class ${ClassName}ResourceIntTest {
     @Transactional
     public void getAll${ClassName}sBy${column.simpleJavaField?cap_first}IsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
-        ${className}Repository.saveAndFlush(${className});
+        ${className}Repository.insert(${className});
 
         // Get all the ${className}List where ${column.simpleJavaField} greater than or equals to DEFAULT_${column.constantJavaField}
         default${ClassName}ShouldBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}.getId()),
@@ -361,7 +361,7 @@ public class ${ClassName}ResourceIntTest {
     @Transactional
     public void getAll${ClassName}sBy${column.simpleJavaField?cap_first}IsLessThanSomething() throws Exception {
         // Initialize the database
-        ${className}Repository.saveAndFlush(${className});
+        ${className}Repository.insert(${className});
 
         // Get all the ${className}List where ${column.simpleJavaField} less than or equals to DEFAULT_SORT
         default${ClassName}ShouldNotBeFound(QueryCondition.eq(${ClassName}.F_ID, ${className}.getId()),
@@ -426,12 +426,11 @@ public class ${ClassName}ResourceIntTest {
         // Initialize the database
         ${className}Service.save(${className});
 
-        int databaseSizeBeforeUpdate = ${className}Repository.findAll().size();
+        int databaseSizeBeforeUpdate = ${className}Service.findAll().size();
 
         // Update the ${className}
-        ${ClassName} updated${ClassName} = ${className}Repository.findOne(${className}.getId());
+        ${ClassName} updated${ClassName} = ${className}Service.findOne(${className}.getId());
         // Disconnect from session so that the updates on updated${ClassName} are not directly saved in db
-        em.detach(updated${ClassName});
         Reflections.updateObj(updated${ClassName}, Lists.newArrayList(
     <#assign firstListField = true>
     <#list table.columnList as column>
@@ -452,7 +451,7 @@ public class ${ClassName}ResourceIntTest {
             .andExpect(status().isOk());
 
         // Validate the ${ClassName} in the database
-        List<${ClassName}> ${className}List = ${className}Repository.findAll();
+        List<${ClassName}> ${className}List = ${className}Service.findAll();
         assertThat(${className}List).hasSize(databaseSizeBeforeUpdate);
 
         ${ClassName} test${ClassName} = ${className}List.stream().filter(item->${className}.getId().equals(item.getId())).findAny().get();
@@ -471,7 +470,7 @@ public class ${ClassName}ResourceIntTest {
         ${className}Service.save(${className});
         SpecificationDetail<${ClassName}> spec = DynamicSpecifications.bySearchQueryCondition(
             QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
-        int databaseSizeBeforeDelete = ${className}Repository.findAll(spec).size();
+        int databaseSizeBeforeDelete = ${className}Service.findAll(spec).size();
 
         // Get the ${className}
         rest${ClassName}MockMvc.perform(delete(DEFAULT_API_URL+"{id}", ${className}.getId())
@@ -479,7 +478,7 @@ public class ${ClassName}ResourceIntTest {
             .andExpect(status().isOk());
 
         // Validate the database is empty
-        List<${ClassName}> ${className}List = ${className}Repository.findAll(spec);
+        List<${ClassName}> ${className}List = ${className}Service.findAll(spec);
         assertThat(${className}List).hasSize(databaseSizeBeforeDelete - 1);
     }
 

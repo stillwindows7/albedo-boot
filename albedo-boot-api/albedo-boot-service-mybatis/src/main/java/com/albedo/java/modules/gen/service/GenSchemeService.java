@@ -5,7 +5,7 @@ import com.albedo.java.common.persistence.SpecificationDetail;
 import com.albedo.java.common.persistence.service.DataVoService;
 import com.albedo.java.modules.gen.domain.GenScheme;
 import com.albedo.java.modules.gen.domain.GenTable;
-import com.albedo.java.modules.gen.domain.GenTemplate;
+import com.albedo.java.modules.gen.domain.GenTableColumn;
 import com.albedo.java.modules.gen.domain.xml.GenConfig;
 import com.albedo.java.modules.gen.repository.GenSchemeRepository;
 import com.albedo.java.modules.gen.repository.GenTableRepository;
@@ -16,12 +16,14 @@ import com.albedo.java.util.StringUtil;
 import com.albedo.java.util.base.Collections3;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.vo.gen.GenSchemeVo;
+import com.albedo.java.vo.gen.GenTableColumnVo;
 import com.albedo.java.vo.gen.GenTableVo;
+import com.albedo.java.vo.gen.GenTemplateVo;
+import com.baomidou.mybatisplus.mapper.Condition;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -35,10 +37,15 @@ import java.util.stream.Collectors;
 @Service
 public class GenSchemeService extends DataVoService<GenSchemeRepository, GenScheme, String, GenSchemeVo> {
 
-    @Resource
-    private GenTableRepository genTableRepository;
-    @Resource
-    private GenTableService genTableService;
+    private final GenTableRepository genTableRepository;
+    private final GenTableService genTableService;
+    private final GenTableColumnService genTableColumnService;
+
+    public GenSchemeService(GenTableRepository genTableRepository, GenTableService genTableService, GenTableColumnService genTableColumnService) {
+        this.genTableRepository = genTableRepository;
+        this.genTableService = genTableService;
+        this.genTableColumnService = genTableColumnService;
+    }
 
     public List<GenScheme> findAll(String id) {
 
@@ -55,15 +62,19 @@ public class GenSchemeService extends DataVoService<GenSchemeRepository, GenSche
 
         // 查询主表及字段列
         GenTableVo genTableVo = genTableService.findOneVo(genSchemeVo.getGenTableId());
-
+        genTableVo.setColumnList(
+            (List<GenTableColumnVo>) genTableColumnService.selectList(Condition.create().eq(GenTableColumn.F_SQL_GENTABLEID,
+                genTableVo.getId()))
+                .stream().map(item->genTableColumnService.copyBeanToVo((GenTableColumn) item)).collect(Collectors.toList())
+        );
         Collections.sort(genTableVo.getColumnList());
 
         // 获取所有代码模板
         GenConfig config = GenUtil.getConfig();
 
         // 获取模板列表
-        List<GenTemplate> templateList = GenUtil.getTemplateList(config, genSchemeVo.getCategory(), false);
-        List<GenTemplate> childTableTemplateList = GenUtil.getTemplateList(config, genSchemeVo.getCategory(), true);
+        List<GenTemplateVo> templateList = GenUtil.getTemplateList(config, genSchemeVo.getCategory(), false);
+        List<GenTemplateVo> childTableTemplateList = GenUtil.getTemplateList(config, genSchemeVo.getCategory(), true);
 
         // 如果有子表模板，则需要获取子表列表
         if (childTableTemplateList.size() > 0) {
@@ -80,7 +91,7 @@ public class GenSchemeService extends DataVoService<GenSchemeRepository, GenSche
             childTable.setCategory(genSchemeVo.getCategory());
             genSchemeVo.setGenTable(childTable);
             Map<String, Object> childTableModel = GenUtil.getDataModel(genSchemeVo);
-            for (GenTemplate tpl : childTableTemplateList) {
+            for (GenTemplateVo tpl : childTableTemplateList) {
                 result.append(GenUtil.generateToFile(tpl, childTableModel, genSchemeVo.getReplaceFile()));
             }
         }
@@ -88,7 +99,7 @@ public class GenSchemeService extends DataVoService<GenSchemeRepository, GenSche
         // 生成主表模板代码
         genSchemeVo.setGenTable(genTableVo);
         Map<String, Object> model = GenUtil.getDataModel(genSchemeVo);
-        for (GenTemplate tpl : templateList) {
+        for (GenTemplateVo tpl : templateList) {
             result.append(GenUtil.generateToFile(tpl, model, genSchemeVo.getReplaceFile()));
         }
         return result.toString();

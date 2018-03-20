@@ -106,7 +106,7 @@ public class TreeVoService<Repository extends TreeRepository<T, PK>,
             log.warn("{}", e);
         }
         save(entity);
-        form.setId(entity.getId());
+        form.setId((String) entity.getId());
         return form;
     }
 

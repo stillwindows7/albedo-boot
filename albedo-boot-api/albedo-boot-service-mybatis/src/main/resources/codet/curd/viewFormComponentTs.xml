@@ -12,6 +12,7 @@ import { CTX } from "../../../../../app.constants";
 import { ActivatedRoute } from "@angular/router";
 import {${ClassName}} from "./${className}.model";
 import {${ClassName}Service} from "./${className}.service";
+import {PublicService} from "../../../../../shared/base/service/public.service";
 
 @Component({
     selector: ".${moduleName}-${className}-form.page-form",
@@ -28,8 +29,9 @@ export class ${ClassName}FormComponent implements AfterViewInit {
     private afterLoad = false;
     constructor(
         private activatedRoute: ActivatedRoute,
-        private ${className}Service: ${ClassName}Service) {
-        this.ctx = CTX;
+        private ${className}Service: ${ClassName}Service,
+        private publicService: PublicService) {
+        this.ctx = publicService.getServiceCtx('${permissionPrefix}')
         this.${className} = new ${ClassName}();
         this.routeData = this.activatedRoute.params.subscribe((params) => {
             this.id = params['id'];
@@ -56,11 +58,11 @@ export class ${ClassName}FormComponent implements AfterViewInit {
     initForm() {
         if (!this.afterViewInit || !this.afterLoad) return;
 
-        var ${className}Id = this.${className}.id;
+        var ${className}Id = this.${className}.id,thisCtx =this.ctx
         albedoForm.initValidate($("#${className}-save-form"), {
             // define validation rules
             rules:{<#list table.columnList as column><#if column.unique && !column.pk>
-				${column.simpleJavaField}: {remote: CTX + '/${urlPrefix}/checkByProperty?id=' + ${className}Id}<#if column_has_next>,</#if></#if></#list>
+				${column.simpleJavaField}: {remote: thisCtx + '/${urlPrefix}/checkByProperty?id=' + ${className}Id}<#if column_has_next>,</#if></#if></#list>
 			},
             messages:{<#list table.columnList as column><#if column.unique && !column.pk>
 				${column.simpleJavaField}: {remote: '${column.title }已存在'}<#if column_has_next>,</#if></#if></#list>

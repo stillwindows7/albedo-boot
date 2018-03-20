@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Data
 @ToString
-public class RoleVo extends DataEntityVo {
+public class RoleVo extends DataEntityVo<String> {
 
     /*** 数据范围(所有数据) */
     public static final Integer DATA_SCOPE_ALL = 1;

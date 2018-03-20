@@ -19,11 +19,14 @@
 package com.albedo.java.config;
 
 import com.albedo.java.common.persistence.handler.EntityMetaObjectHandler;
+import com.albedo.java.common.persistence.injector.ManyToOneEntitySqlInjector;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.spring.boot.starter.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.spring.boot.starter.MybatisPlusAutoConfiguration;
 import com.baomidou.mybatisplus.spring.boot.starter.MybatisPlusProperties;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
+import org.apache.ibatis.mapping.VendorDatabaseIdProvider;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.ObjectProvider;
@@ -45,6 +48,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by songjiawei on 2016/11/9.
@@ -56,6 +60,24 @@ import java.util.List;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableConfigurationProperties({MybatisPlusProperties.class})
 public class TestConfig extends MybatisPlusAutoConfiguration  {
+    @Configuration
+    static class BeforeTestConfig{
+        @Bean
+        public DatabaseIdProvider getDatabaseIdProvider() {
+            DatabaseIdProvider databaseIdProvider = new VendorDatabaseIdProvider();
+            Properties p = new Properties();
+            p.setProperty("Oracle", "oracle");
+            p.setProperty("MySQL", "mysql");
+            databaseIdProvider.setProperties(p);
+            return databaseIdProvider;
+        }
+
+
+        @Bean
+        public OptimisticLockerInterceptor optimisticLockerInterceptor(){
+            return new OptimisticLockerInterceptor();
+        }
+    }
 
     public TestConfig(MybatisPlusProperties properties, ObjectProvider<Interceptor[]> interceptorsProvider, ResourceLoader resourceLoader, ObjectProvider<DatabaseIdProvider> databaseIdProvider, ObjectProvider<List<ConfigurationCustomizer>> configurationCustomizersProvider, ApplicationContext applicationContext) {
         super(properties, interceptorsProvider, resourceLoader, databaseIdProvider, configurationCustomizersProvider, applicationContext);
@@ -76,6 +98,10 @@ public class TestConfig extends MybatisPlusAutoConfiguration  {
     @Bean
     public EntityMetaObjectHandler entityMetaObjectHandler(AuditorAware auditorAware){
         return new EntityMetaObjectHandler(auditorAware);
+    }
+    @Bean
+    public ManyToOneEntitySqlInjector treeEntitySqlInjector(){
+        return new ManyToOneEntitySqlInjector();
     }
 
     @Bean
@@ -119,3 +145,6 @@ public class TestConfig extends MybatisPlusAutoConfiguration  {
 //        return factoryBuilder..build(inputStream);
 //    }
 }
+
+
+

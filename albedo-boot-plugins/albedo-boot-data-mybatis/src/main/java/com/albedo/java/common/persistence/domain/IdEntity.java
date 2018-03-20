@@ -9,12 +9,12 @@ import java.io.Serializable;
 import java.util.Objects;
 
 
-public class IdEntity<T extends BaseEntity> extends DataEntity<T> {
+public class IdEntity<T extends BaseEntity, PK extends Serializable> extends DataEntity<T> {
 
     private static final long serialVersionUID = 1L;
     @SearchField
     @TableId(value = GeneralEntity.F_SQL_ID, type = IdType.UUID)
-    protected String id; // 编号
+    protected PK id; // 编号
 
     public IdEntity() {
         super();
@@ -25,11 +25,11 @@ public class IdEntity<T extends BaseEntity> extends DataEntity<T> {
         return getId();
     }
 
-    public String getId() {
+    public PK getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(PK id) {
         if (PublicUtil.isNotEmpty(id)) this.id = id;
     }
     @Override

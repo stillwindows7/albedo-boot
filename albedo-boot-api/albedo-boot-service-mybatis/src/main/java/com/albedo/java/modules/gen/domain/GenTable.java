@@ -27,7 +27,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-public class GenTable extends IdEntity<GenTable> {
+public class GenTable extends IdEntity<GenTable, String> {
 
     public static final String F_NAME = "name";
     public static final String F_NAMESANDTITLE = "nameAndTitle";

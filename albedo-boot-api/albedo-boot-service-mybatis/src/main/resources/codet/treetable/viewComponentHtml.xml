@@ -43,8 +43,8 @@
                         </div>
                     </div>
                     <div class="m-portlet__head-tools">
-                        <a *ngIf="this.principal.hasAnyAuthorityDirectOne('${permissionPrefix}_edit')" <#if scheme.modalView>href="javascript:void(0)" data-modal-id="#${className}-edit-modal"<#else>href="#/${urlPrefix}/form/"</#if> id="btn-edit-${className}" title="添加${functionNameSimple}"
-                           class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill <#if scheme.modalView>dialog-add</#if>">
+                        <a *ngIf="this.principal.hasAnyAuthorityDirectOne('${permissionPrefix}_edit')" <#if scheme.modalView>href="javascript:void(0)" data-modal-id="#${className}-edit-modal" [attr.data-url]="ctx+'/${urlPrefix}/formData?parentId='+nodeId"<#else> [routerLink]="['/${urlPrefix}/form/', { parentId: nodeId }]"</#if> id="btn-edit-${className}" title="添加${functionNameSimple}"
+                           class="m-portlet__nav-link btn btn-lg btn-outline-primary m-btn m-btn--outline-1x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill <#if scheme.modalView>dialog-edit</#if>">
                             <i class="la la-plus"></i>
                         </a>
                     </div>
@@ -130,7 +130,7 @@
                     <!--begin::Form-->
                     <form class="m-form m-form--fit m-form--label-align-right form-validation" action="{{ctx}}/${urlPrefix}/" method="post" id="${className}-save-form" config="{
                         rules:{<#list table.columnList as column><#if column.unique && !column.pk>
-                            ${column.simpleJavaField}: {remote: albedo.getCtx()+'/${urlPrefix}/checkByProperty?id=' + encodeURIComponent(albedo.toStr($('#${className}-save-form').find('#id').val()))}<#if column_has_next>,</#if></#if></#list>
+                            ${column.simpleJavaField}: {remote: albedo.getCtx('${permissionPrefix}')+'/${urlPrefix}/checkByProperty?id=' + encodeURIComponent(albedo.toStr($('#${className}-save-form').find('#id').val()))}<#if column_has_next>,</#if></#if></#list>
                         },
                         messages:{<#list table.columnList as column><#if column.unique && !column.pk>
                             ${column.simpleJavaField}: {remote: '${column.title }已存在'}<#if column_has_next>,</#if></#if></#list>

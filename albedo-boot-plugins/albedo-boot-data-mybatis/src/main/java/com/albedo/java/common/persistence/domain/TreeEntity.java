@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.annotations.TableField;
  *
  * @author somewhere version 2013-12-27 下午12:27:10
  */
-public class TreeEntity<T extends TreeEntity> extends IdEntity {
+public class TreeEntity<T extends TreeEntity> extends IdEntity<T, String> {
 
     public static final String ROOT = "1";
     public static final String F_NAME = "name";

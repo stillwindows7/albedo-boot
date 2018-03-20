@@ -245,8 +245,17 @@ public class UserServiceTest {
 
         User foundPerson = userRepository.selectById(id);
         foundPerson.setName("Schlicht");
+        Integer version = foundPerson.getVersion();
+
+        userRepository.updateById(foundPerson);
+
+
 
         User updatedPerson = userRepository.selectById(id);
+
+        assertThat(version, is(updatedPerson.getVersion()-1));
+
+
         assertThat(updatedPerson.getName(), is(foundPerson.getName()));
     }
 

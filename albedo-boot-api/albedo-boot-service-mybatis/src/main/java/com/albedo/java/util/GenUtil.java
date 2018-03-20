@@ -11,9 +11,11 @@ import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.util.base.FreeMarkers;
 import com.albedo.java.util.config.SystemConfig;
 import com.albedo.java.util.mapper.JaxbMapper;
+import com.albedo.java.util.spring.SpringContextHolder;
 import com.albedo.java.vo.gen.GenSchemeVo;
 import com.albedo.java.vo.gen.GenTableColumnVo;
 import com.albedo.java.vo.gen.GenTableVo;
+import com.albedo.java.vo.gen.GenTemplateVo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.io.Charsets;
@@ -55,7 +57,14 @@ public class GenUtil {
             // 设置字段说明
             if (StringUtil.isBlank(column.getTitle())) {
                 column.setTitle(column.getName());
+            }else{
+                int i = column.getTitle().indexOf(" ");
+                if(i!=-1){
+                    column.setComments(column.getTitle().substring(i+1));
+                    column.setTitle(column.getTitle().substring(0, i));
+                }
             }
+
 
             // 设置java类型
             if (StringUtil.startsWithIgnoreCase(column.getJdbcType(), "CHAR") || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "VARCHAR") || StringUtil.startsWithIgnoreCase(column.getJdbcType(), "NARCHAR")) {
@@ -232,8 +241,8 @@ public class GenUtil {
      * @param childTable 是否是子表
      * @return
      */
-    public static List<GenTemplate> getTemplateList(GenConfig config, String category, boolean childTable) {
-        List<GenTemplate> templateList = Lists.newArrayList();
+    public static List<GenTemplateVo> getTemplateList(GenConfig config, String category, boolean childTable) {
+        List<GenTemplateVo> templateList = Lists.newArrayList();
         if (config != null && config.getCategoryList() != null && category != null) {
             for (GenCategory e : config.getCategoryList()) {
                 if (category.equals(e.getVal())) {
@@ -248,7 +257,7 @@ public class GenUtil {
                             if (StringUtil.startsWith(s, GenCategory.CATEGORY_REF)) {
                                 templateList.addAll(getTemplateList(config, StringUtil.replace(s, GenCategory.CATEGORY_REF, ""), false));
                             } else {
-                                GenTemplate template = fileToObject(s, GenTemplate.class);
+                                GenTemplateVo template = fileToObject(s, GenTemplateVo.class);
                                 if (template != null) {
                                     templateList.add(template);
                                 }
@@ -271,6 +280,9 @@ public class GenUtil {
     public static Map<String, Object> getDataModel(GenSchemeVo genSchemeVo) {
         Map<String, Object> model = Maps.newHashMap();
 
+        String applicationId = SpringContextHolder.getApplicationContext().getId();
+        String applicationName = SpringContextHolder.getApplicationContext().getBean(applicationId.substring(0, applicationId.indexOf(":"))).getClass().getName();
+        model.put("applicationName", applicationName);
         model.put("packageName", StringUtil.lowerCase(genSchemeVo.getPackageName()));
         model.put("lastPackageName", StringUtil.substringAfterLast((String) model.get("packageName"), "."));
         model.put("moduleName", StringUtil.lowerCase(genSchemeVo.getModuleName()));
@@ -302,8 +314,9 @@ public class GenUtil {
      * @param model
      * @param replaceFile
      * @return
+     * @return
      */
-    public static String generateToFile(GenTemplate tpl, Map<String, Object> model, boolean replaceFile) {
+    public static String generateToFile(GenTemplateVo tpl, Map<String, Object> model, boolean replaceFile) {
         // 获取生成文件 "c:\\temp\\"//
         String realFileName = FreeMarkers.renderString(tpl.getFileName(), model),fileName = StringUtil.getProjectPath(realFileName, DictUtil.getCodeItemVal("sys_gen_code_ui_path")) + File.separator
             + StringUtil.replaceEach(FreeMarkers.renderString(tpl.getFilePath() + "/", model), new String[]{"//", "/", "."}, new String[]{File.separator, File.separator, File.separator})

@@ -12,6 +12,7 @@ mybatis-plus:
     db-column-underline: true
     #刷新mapper 调试神器
     refresh-mapper: true
+    identifier-quote: '`%s`'
     #数据库大写下划线转换
     #capital-mode: true
 #    meta-object-handler: com.albedo.java.common.persistence.handler.EntityMetaObjectHandler

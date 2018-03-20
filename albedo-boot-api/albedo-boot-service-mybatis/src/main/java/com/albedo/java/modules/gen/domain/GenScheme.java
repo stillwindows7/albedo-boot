@@ -22,7 +22,7 @@ import org.hibernate.validator.constraints.Length;
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-public class GenScheme extends IdEntity<GenScheme> {
+public class GenScheme extends IdEntity<GenScheme, String> {
 
     /**
      * @Fields CATEGORY_CURD : 增删改查（单表）

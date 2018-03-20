@@ -10,7 +10,6 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,7 +22,6 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -34,7 +32,7 @@ import java.util.Set;
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-public class User extends IdEntity<User> {
+public class User extends IdEntity<User, String> {
 
     /*** F_LOGINID */
     public static final String F_LOGINID = "loginId";
@@ -58,7 +56,6 @@ public class User extends IdEntity<User> {
     @TableField(exist = false)
     private String orgId;
 
-    @ApiModelProperty(hidden = true)
     @ManyToOne(name = "org_id")
     @TableField(exist = false)
     private Org org;
@@ -97,7 +94,6 @@ public class User extends IdEntity<User> {
     private Date resetDate = null;
 
     @TableField(exist = false)
-    @ApiModelProperty(hidden = true)
     private String roleNames;
 
     @TableField(exist = false)

@@ -27,7 +27,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-public class TaskScheduleJob extends IdEntity<TaskScheduleJob> {
+public class TaskScheduleJob extends IdEntity<TaskScheduleJob, String> {
 
     /**
      * F_NAME name_ : 名称

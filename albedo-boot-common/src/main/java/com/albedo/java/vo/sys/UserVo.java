@@ -18,7 +18,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserVo extends DataEntityVo {
+public class UserVo extends DataEntityVo<String> {
 
     public static final int PASSWORD_MIN_LENGTH = 6;
 

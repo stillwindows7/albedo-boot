@@ -17,7 +17,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-public class GenSchemeVo extends DataEntityVo {
+public class GenSchemeVo extends DataEntityVo<String> {
 
     /**
      * @Fields CATEGORY_CURD : 增删改查（单表）

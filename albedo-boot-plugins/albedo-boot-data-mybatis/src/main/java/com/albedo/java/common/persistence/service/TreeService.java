@@ -118,7 +118,7 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
         }
 
         if (PublicUtil.isNotEmpty(entity.getId())) {
-            Integer count = countByParentId(entity.getId());
+            Integer count = countByParentId((String) entity.getId());
             entity.setLeaf(count == null || count == 0 ? true : false);
         } else {
             entity.setLeaf(true);
@@ -126,7 +126,7 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
 //        checkSave(entity);
         insertOrUpdate(entity);
         // 更新子节点 parentIds
-        List<T> list = findAllByParentIdsLike(entity.getId());
+        List<T> list = findAllByParentIdsLike((String) entity.getId());
         for (T e : list) {
             if (PublicUtil.isNotEmpty(e.getParentIds())) {
                 e.setParentIds(e.getParentIds().replace(oldParentIds, entity.getParentIds()));
@@ -150,11 +150,11 @@ public abstract class TreeService<Repository extends TreeRepository<T, PK>, T ex
                     || PublicUtil.isEmpty(e.getParentIds()) || (PublicUtil.isNotEmpty(extId) && !extId.equals(e.getId()) && e.getParentIds() != null && e.getParentIds().indexOf("," + extId + ",") == -1))
                     && (all != null || (all == null && BaseEntity.FLAG_NORMAL.equals(e.getStatus())))) {
                 treeResult = new TreeResult();
-                treeResult.setId(e.getId());
+                treeResult.setId((String) e.getId());
                 treeResult.setPid(PublicUtil.isEmpty(e.getParentId()) ? "0" : e.getParentId());
                 treeResult.setLabel(e.getName());
                 treeResult.setKey(e.getName());
-                treeResult.setValue(e.getId());
+                treeResult.setValue((String) e.getId());
                 mapList.add(treeResult);
             }
         }

@@ -17,93 +17,60 @@ import lombok.ToString;
 import ${i};
 </#list>
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.validator.constraints.Length;
+
+import org.hibernate.validator.constraints.*;
 
 /**
  * ${functionName}Entity ${functionNameSimple}
  * @author ${functionAuthor}
  * @version ${functionVersion}
  */
-@Entity(table = "${table.name}")
+@TableName(value = "${table.name}")
 @Data @ToString @NoArgsConstructor @AllArgsConstructor
-public class ${ClassName} extends DataEntity {
+public class ${ClassName} extends IdEntity<${ClassName}, ${table.pkJavaType}> {
 
 	private static final long serialVersionUID = 1L;
 	<#list table.columnList as column>
 		<#if !column.pk && column.isNotBaseField>
 	/** F_${column.constantJavaField} ${column.nameAndTitle} */
 	public static final String F_${column.constantJavaField} = "${column.simpleJavaField}";
+	/** F_SQL_${column.constantJavaField} ${column.nameAndTitle} */
+	public static final String F_SQL_${column.constantJavaField} = "${column.name}";
 		</#if>
 	</#list>
 
 	<@generateFields/>
-	<@generateCompositeIdConstructorIfis/>
-	<@generatePkProperties/>
-	@PreInssert
-	public void preInssert() {
-	    <#if table.pkJavaType = 'String'>
-		if(PublicUtil.isEmpty(getId())){
-			setId(IdGen.uuid());
-		}
-		</#if>
-	}
-	@PreUpdate
-	public void preUpdate() {
 
-	}
-    @Override
-	public int hashCode() {
-		return new HashCodeBuilder()
-		<#list table.pkColumnList as column>
-			<#if !table.compositeId>
-			.append(<#if column.simpleJavaType == "boolean">is<#else>get</#if>${column.simpleJavaField?cap_first}())
-			</#if>
-		</#list>
-			.toHashCode();
-	}
 	@Override
-	public boolean equals(Object obj) {
-		if(obj instanceof ${ClassName} == false){ return false;}
-		if(this == obj){ return true;}
-		${ClassName} other = (${ClassName})obj;
-		return new EqualsBuilder()
-			.append(getId(),other.getId())
-			.isEquals();
-	}
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }
 <#macro generateFields>
 	//columns START
-<#if table.compositeId>
-	@EmbeddedId
-	private ${ClassName}Id id;
-<#else>
-	@Column(name = "${table.pkSqlName}")
-	@SearchField
-	@Id(strategy = Id.GenerationType.UUID)
-	private ${table.pkJavaType} id;
-</#if>
 	<#list table.columnList as column>
 		<#if !column.pk && column.isNotBaseField>
 	/** ${column.simpleJavaField} ${column.title} */<#if table.parentExists && table.parentTableFk == column.name>
-	@ManyToOne@JoinColumn(name = "${table.parentTableFk}")
+	@ManyToOne(name = "${table.parentTableFk}")
+	@TableField(exist = false)
 	private ${table.parent.className} ${column.simpleJavaField};
 	<#elseif column.showType == "userselect" || column.showType == "orgselect" || column.showType == "areaselect">
-	@Column(name = "${column.name}")
+	@TableField(${ClassName}.F_SQL_${column.constantJavaField})
 	private String ${column.simpleJavaField}Id;
-	@ManyToOne
-	@JoinColumn(name = "${column.name}", updatable = false,insertable = false)
+    @ManyToOne(name = ${ClassName}.F_SQL_${column.constantJavaField})
+	@TableField(exist = false)
 	private ${column.simpleJavaType} ${column.simpleJavaField};
-	<#else>${column.hibernateValidatorExprssion}@Column(name = "${column.name}")<#if column.unique>@SearchField</#if><#if column.dictType?? && column.dictType != "">@DictType(name="${column.dictType}")</#if>
+	<#else>${column.hibernateValidatorExprssion}@TableField("${column.name}")<#if column.unique>@SearchField</#if><#if column.dictType?? && column.dictType != "">@DictType(name="${column.dictType}")</#if>
 	private ${column.simpleJavaType} ${column.simpleJavaField};
 			</#if>
 		</#if>
 	</#list>
 	<#list table.childList as c>
-	@OneToMany
-	@JoinColumn(name = "${column.name}")
+	@TableField(exist = false)
 	private List<${c.className}> ${c.className?uncap_first}List = Lists.newArrayList();
 	</#list>
 	//columns END

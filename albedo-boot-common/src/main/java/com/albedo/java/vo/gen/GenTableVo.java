@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Data
 @ToString
-public class GenTableVo extends DataEntityVo {
+public class GenTableVo extends DataEntityVo<String> {
 
     public static final String F_NAME = "name";
     public static final String F_NAMESANDCOMMENTS = "nameAndTitle";
@@ -98,7 +98,7 @@ public class GenTableVo extends DataEntityVo {
     @JSONField(serialize = false)
     public boolean isCompositeId() {
         List<String> pkList = getPkList();
-        return PublicUtil.isNotEmpty(pkList);
+        return PublicUtil.isNotEmpty(pkList) && pkList.size() > 1;
     }
 
     @JSONField(serialize = false,deserialize=false)
@@ -171,24 +171,22 @@ public class GenTableVo extends DataEntityVo {
      */
     @JSONField(serialize = false)
     public List<String> getImportList() {
-        List<String> importList = Lists.newArrayList("com.albedo.java.util.PublicUtil", "org.apache.commons.lang3.builder.EqualsBuilder", "org.apache.commons.lang3.builder.HashCodeBuilder", "org.springframework.data.mybatis.annotations.*",
+        List<String> importList = Lists.newArrayList("com.albedo.java.util.PublicUtil",
+            "com.baomidou.mybatisplus.annotations.*",
                 "com.albedo.java.util.annotation.SearchField"); // 引用列表
         if ("treeTable".equalsIgnoreCase(getCategory())) {
-            importList.add("com.albedo.java.common.domain.base.TreeEntity");
+            importList.add("com.albedo.java.common.persistence.domain.TreeEntity");
             // 如果有子表，则需要导入List相关引用
             if (getChildList() != null && getChildList().size() > 0) {
                 addNoRepeatList(importList, "java.util.List", "com.google.common.collect.Lists", "org.hibernate.annotations.FetchMode", "org.hibernate.annotations.Fetch",
                         "org.hibernate.annotations.Where");
             }
         } else {
-            importList.add("com.albedo.java.common.domain.base.DataEntity");
+            importList.add("com.albedo.java.common.persistence.domain.IdEntity");
             initImport(importList);
             // 如果有子表，则需要导入List相关引用
             if (getChildList() != null && getChildList().size() > 0) {
                 addNoRepeatList(importList, "java.util.List", "com.google.common.collect.Lists");
-            }
-            if (getPkJavaType().equals(SystemConfig.TYPE_STRING)) {
-                addNoRepeatList(importList, "com.albedo.java.common.data.persistence.IdGen");
             }
         }
 

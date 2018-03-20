@@ -23,7 +23,7 @@ import org.springframework.data.annotation.Transient;
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-public class GenTableColumn extends IdEntity<GenTableColumn> implements Comparable<GenTableColumn> {
+public class GenTableColumn extends IdEntity<GenTableColumn, String> implements Comparable<GenTableColumn> {
 
     private static final long serialVersionUID = 1L;
 

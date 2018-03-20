@@ -12,7 +12,7 @@ package ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModul
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import DataVoService;
+import com.albedo.java.common.persistence.service.DataVoService;
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
 import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Vo;
 <#if (table.compositeId)!>

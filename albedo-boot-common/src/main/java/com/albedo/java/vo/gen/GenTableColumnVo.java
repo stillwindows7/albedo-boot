@@ -25,7 +25,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @NoArgsConstructor
-public class GenTableColumnVo extends DataEntityVo implements Comparable {
+public class GenTableColumnVo extends DataEntityVo<String> implements Comparable {
 
     private static final long serialVersionUID = 1L;
     /**

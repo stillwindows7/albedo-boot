@@ -22,7 +22,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskScheduleJobVo extends DataEntityVo {
+public class TaskScheduleJobVo extends DataEntityVo<String> {
 
     /**
      * F_NAME name_  :  名称

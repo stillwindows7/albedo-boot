@@ -10,7 +10,8 @@
 package ${packageName}.${moduleName}.repository<#if subModuleName != "">.${subModuleName}</#if>;
 
 
-import BaseRepository;
+import com.albedo.java.common.persistence.repository.BaseRepository;
+
 
 import ${packageName}.${moduleName}.domain<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
 
