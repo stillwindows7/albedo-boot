@@ -51,8 +51,7 @@ AlbedoBoot 提供了常用工具进行封装，包括日志工具、缓存工具
           │  │  ├─albedo-boot-web-config-micro (micro配置)
           │  │  └─albedo-boot-web-config-single (单体配置)
           │  ├─albedo-boot-web-resource (web resource)
-          │  └─albedo-boot-web-resource-base (web resource 基础 cloud 版依赖)
-          └─albedo-boot-ui-angular   
+          │  └─albedo-boot-web-resource-base (web resource 基础 cloud 版依赖) 
           └─albedo-boot-ui-angular `(基于angular js 5 的前端实现, 使用metronic脚手架:4201)`
               ├─build (项目构建配置)
               ├─src

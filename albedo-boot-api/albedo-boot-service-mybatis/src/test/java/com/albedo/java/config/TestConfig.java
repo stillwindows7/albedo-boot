@@ -30,16 +30,29 @@ import com.baomidou.mybatisplus.spring.boot.starter.MybatisPlusProperties;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.mapping.VendorDatabaseIdProvider;
 import org.apache.ibatis.plugin.Interceptor;
+import org.junit.After;
+import org.junit.Rule;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.redis.RedisTestServer;
+import org.springframework.boot.test.util.EnvironmentTestUtils;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.*;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.GenericToStringSerializer;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
@@ -52,6 +65,19 @@ import javax.sql.DataSource;
 import java.util.List;
 import java.util.Properties;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 /**
  * Created by songjiawei on 2016/11/9.
  */
@@ -62,8 +88,78 @@ import java.util.Properties;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableConfigurationProperties({MybatisPlusProperties.class})
 public class TestConfig extends MybatisPlusAutoConfiguration  {
+
+//    @Configuration
+//    @EnableCaching
+//    static class RedisCacheConfiguration {
+//
+//        @Bean
+//        public RedisTemplate<?, ?> redisTemplate() {
+//            return mock(RedisTemplate.class);
+//        }
+//
+//        private AnnotationConfigApplicationContext context;
+//
+//
+//
+////        private <T extends CacheManager> T validateCacheManager(Class<T> type) {
+////            CacheManager cacheManager = this.context.getBean(CacheManager.class);
+////            assertThat("Wrong cache manager type", cacheManager, instanceOf(type));
+////            return type.cast(cacheManager);
+////        }
+////
+////        private void load(Class<?> config, String... environment) {
+////            AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
+////            EnvironmentTestUtils.addEnvironment(applicationContext, environment);
+////            applicationContext.register(config);
+////            applicationContext.register(CacheAutoConfiguration.class);
+////            applicationContext.refresh();
+////            this.context = applicationContext;
+////        }
+////
+////        @Bean(name = "redisCacheManager")
+////        @Primary
+////        public RedisCacheManager redisCacheManager() {
+////            load(RedisCacheConfiguration.class, "spring.cache.type=redis"
+//////                ,"spring.cache.cacheNames[0]=foo", "spring.cache.cacheNames[1]=bar"
+////            );
+////            RedisCacheManager cacheManager = validateCacheManager(RedisCacheManager.class);
+////            return cacheManager;
+////        }
+//
+//    }
+//        @Configuration
+//    @EnableCaching
+//    static class GenericCacheConfiguration {
+//
+//        @Bean
+//        public Cache firstCache() {
+//            return new ConcurrentMapCache("first");
+//        }
+//
+//        @Bean
+//        public Cache secondCache() {
+//            return new ConcurrentMapCache("second");
+//        }
+//
+//    }
+        @Configuration
+//    @Import({ GenericCacheConfiguration.class, RedisCacheConfiguration.class })
+    static class CustomCacheManagerConfiguration {
+
+        @Bean
+        public CacheManager cacheManager() {
+            return new ConcurrentMapCacheManager();
+        }
+
+
+
+    }
+
     @Configuration
     static class BeforeTestConfig{
+
+
         @Bean
         public DatabaseIdProvider getDatabaseIdProvider() {
             DatabaseIdProvider databaseIdProvider = new VendorDatabaseIdProvider();

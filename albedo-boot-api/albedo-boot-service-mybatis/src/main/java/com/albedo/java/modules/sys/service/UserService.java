@@ -159,7 +159,7 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
             cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLoginId());
             user = repository.selectUserByLoginId(loginId);
         }
-        return Optional.of(user);
+        return user!=null ? Optional.of(user) : Optional.empty();
     }
 
     @Override
