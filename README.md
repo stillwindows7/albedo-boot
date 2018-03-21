@@ -40,8 +40,7 @@ AlbedoBoot 提供了常用工具进行封装，包括日志工具、缓存工具
           │  ├─albedo-boot-data-hibernate (hibernate基础模块)
           │  ├─albedo-boot-data-mybatis (mybatis基础模块)
           │  ├─albedo-boot-quartz (定时任务模块)
-          │  ├─albedo-boot-swagger (swagger文档模块)
-          │  └─albedo-boot-vo (vo模块)
+          │  └─albedo-boot-swagger (swagger文档模块)
           ├─albedo-boot-web    `(web)`
           │  ├─albedo-boot-web-base (服务数据配置)
           │  ├─albedo-boot-web-config (hibernate模块)
