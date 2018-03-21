@@ -63,8 +63,9 @@ public class AreaService extends TreeVoService<AreaRepository, Area, String, Are
 
 
     public List<Area> findAllList() {
-        SpecificationDetail<Area> spd = DynamicSpecifications
-                .bySearchQueryCondition(QueryCondition.ne(Org.F_STATUS, Org.FLAG_DELETE));
+        SpecificationDetail<Area> spd = DynamicSpecifications.bySearchQueryCondition(
+//            QueryCondition.ne(Org.F_STATUS, Org.FLAG_DELETE)
+        );
         spd.orderASC(Area.F_ID);
         return findAll(spd);
     }

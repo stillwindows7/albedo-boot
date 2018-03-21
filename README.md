@@ -27,44 +27,44 @@ AlbedoBoot 提供了常用工具进行封装，包括日志工具、缓存工具
 
     AlbedoBoot:
           ├─albedo-boot-api `(服务基础依赖模块)`
-          ├─albedo-boot-cloud  (cloud模块)
+          │  ├─albedo-boot-service (数据服务基础)
+          │  ├─albedo-boot-service-hibernate (hibernate版数据服务)
+          │  └─albedo-boot-service-mybatis (mybatis版数据服务)
+          ├─albedo-boot-common   `(公共基础)`
+          ├─albedo-boot-modules  `(启动模块)`
           │  ├─albedo-boot-cloud-gateway (cloud网关)
-          │  └─albedo-boot-cloud-micro (cloud服务)
-          ├─albedo-boot-common    `(公共基础)`
+          │  ├─albedo-boot-cloud-micro (cloud服务)
+          │  └─albedo-boot-web-start (单体应用)
+          ├─albedo-boot-plugins  `(插件模块)`
+          │  ├─albedo-boot-data-hibernate (hibernate基础模块)
+          │  ├─albedo-boot-data-mybatis (mybatis基础模块)
           │  ├─albedo-boot-quartz (定时任务模块)
-          │  └─albedo-boot-util (公共工具)
+          │  ├─albedo-boot-swagger (swagger文档模块)
           │  └─albedo-boot-vo (vo模块)
-          ├─albedo-boot-data    `(服务数据层)`
-          │  ├─albedo-boot-data-config (服务数据配置)
-          │  ├─albedo-boot-data-hibernate (hibernate模块)
-          │  │  ├─albedo-boot-data-hibernate-base (hibernate基础配置)
-          │  │  ├─albedo-boot-data-hibernate-base (hibernate基础配置)
-          │  │  ├─albedo-boot-data-hibernate-base (hibernate基础配置)
-          │  │  ├─albedo-boot-data-hibernate-base (hibernate基础配置)
-          │  ├─albedo-boot-data-mybatis (mybatis模块)
-          ├─fastjee-config-repo   (配置中心指向的git仓库)
-          ├─fastjee-gateway   `(对外暴露的API服务网关:5002)`
-          ├─fastjee-persistence (持久化工具)
-          │  ├─fastjee-db-mybatis (Mybatis-Plus集成实现)
-          │  └─fastjee-nosql-redis  (Redis集成实现)
-          ├─fastjee-registration  `(Eureka服务注册中心:5000)`
-          ├─fastjee-usercenter  `(用户中心微服务:5004)`
-          └─fastjee-webui `(基于vue的前端实现, 使用iview-admin脚手架:8080)`
+          ├─albedo-boot-web    `(web)`
+          │  ├─albedo-boot-web-base (服务数据配置)
+          │  ├─albedo-boot-web-config (hibernate模块)
+          │  │  ├─albedo-boot-web-config-cloud (cloud基础配置)
+          │  │  ├─albedo-boot-web-config-common (基础配置)
+          │  │  ├─albedo-boot-web-config-geteway (geteway配置)
+          │  │  ├─albedo-boot-web-config-micro (micro配置)
+          │  │  └─albedo-boot-web-config-single (单体配置)
+          │  ├─albedo-boot-web-resource (web resource)
+          │  └─albedo-boot-web-resource-base (web resource 基础 cloud 版依赖)
+          └─albedo-boot-ui-angular   
+          └─albedo-boot-ui-angular `(基于angular js 5 的前端实现, 使用metronic脚手架:4201)`
               ├─build (项目构建配置)
               ├─src
-              │  ├─api  (API请求封装)
-              │  ├─assets (静态资源)
-              │  ├─components (自定义组件)
-              │  ├─libs (工具文件)
-              │  ├─locale (多语言文件)
-              │  ├─router (路由配置)
-              │  ├─store  (状态管理)
-              │  ├─styles (样式文件)
-              │  ├─template (模板文件)
-              │  ├─utils  (自定义工具)
-              │  ├─vendors (公共库文件)
-              │  └─views  (页面文件)
-              └─static  (静态资源)
+              │  ├─main
+              │  │  ├─webapp
+              │  │  │  ├─app  (ts文件)
+              │  │  │  │  ├─auth  (权限)
+              │  │  │  │  ├─directives  (metronic组件)
+              │  │  │  │  ├─intercepter  (拦截器)
+              │  │  │  │  ├─shared  (基础公用)
+              │  │  │  │  ├─theme  (页面)
+              │  │  │  ├─assets (静态资源)
+              └─────environments (环境)
 
 
 
@@ -176,7 +176,7 @@ cloud版本发布，基于[jhipster-registry](https://github.com/somewhereMrli/j
 1.	启动cloud前请升级数据库，重新执行albedo-new.sql
 2.	本地启动 [jhipster-registry](https://github.com/somewhereMrli/jhipster-registry) 或者 使用docker-compose命令启动albedo-boot-cloud/docker/jhipster-registry.yml
 3.	启动albedo-boot-cloud/albedo-boot-cloud-micro AlbedoBootCloudMicro
-4.	修改 app.constants.ts  GATEWAY_MODEL 为true 开启网关模式
+4.	修改 app.constants.ts  GATEWAY_MODEL 为true 开启网关模式 修改后 重新编译 npm run build
 5.	启动albedo-boot-cloud/albedo-boot-cloud-gateway AlbedoBootCloudGateway
 
 

@@ -13,7 +13,7 @@ export class AuditsComponent implements OnInit {
     audits: Audit[];
     fromDate: string;
     itemsPerPage: any;
-    links: any;
+    // links: any;
     page: number;
     orderProp: string;
     reverse: boolean;
@@ -52,10 +52,9 @@ export class AuditsComponent implements OnInit {
             page: this.page - 1, size: this.itemsPerPage,
             fromDate: this.fromDate, toDate: this.toDate
         }).subscribe((res) => {
-
-            this.audits = res.body;
-            this.links = this.parseLinks.parse(res.headers.get('link'));
-            this.totalItems = + res.headers.get('X-Total-Count');
+            this.audits = res.data;
+            // this.links = this.parseLinks.parse(res.headers.get('link'));
+            this.totalItems = + res.total;
         });
     }
 

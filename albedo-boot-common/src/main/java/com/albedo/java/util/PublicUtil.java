@@ -17,7 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * copyright 2014 albedo all right reserved author 李杰 created on 2014年12月12日 上午9:22:09
+ * copyright 2014 albedo all right reserved author somewhere created on 2014年12月12日 上午9:22:09
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class PublicUtil {

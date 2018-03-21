@@ -51,7 +51,7 @@ public class UserServiceTest {
     // Test fixture
     User user1, user2, user3, user4;
     String id;
-    Set<Role> roles = Sets.newHashSet();
+    List<Role> roles = Lists.newArrayList();
 
     Role role1, role2;
 
@@ -124,7 +124,7 @@ public class UserServiceTest {
         orgParent = orgService.save(orgParent);
         org.setParentId(orgParent.getId());
         org = orgService.save(org);
-        roles = (Set<Role>) roleService.save(roles);
+        roles =  roleService.save(roles);
 
         user1.setOrgId(org.getId());
         user1.setRoles(roles);
@@ -173,6 +173,7 @@ public class UserServiceTest {
         pm.setSort(new Sort(new Sort.Order(Sort.Direction.ASC, User.F_LOGINID)));
         userService.findPage(pm);
 
+        assertThat(pm.getRecordsTotal(), is(4l));
         assertThat(pm.getData().size(), is(4));
         assertThat(pm.getData().get(0).getLoginId(), is(user1.getLoginId()));
 

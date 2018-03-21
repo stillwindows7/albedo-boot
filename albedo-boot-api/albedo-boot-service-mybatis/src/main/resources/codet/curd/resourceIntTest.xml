@@ -85,9 +85,9 @@ public class ${ClassName}ResourceIntTest {
     private static final float UPDATED_${column.constantJavaField} = 1;
 		<#elseif column.simpleJavaType == "Date">
 	/** DEFAULT_${column.constantJavaField} ${column.nameAndTitle} */
-	private static final ${column.simpleJavaType} DEFAULT_${column.constantJavaField} = PublicUtil.getCurrentDate();
+	private static final ${column.simpleJavaType} DEFAULT_${column.constantJavaField} = PublicUtil.parseDate(PublicUtil.fmtDate(PublicUtil.getCurrentDate()));
 	/** UPDATED_${column.constantJavaField} ${column.nameAndTitle} */
-    private static final ${column.simpleJavaType} UPDATED_${column.constantJavaField} = DateUtil.addDays(PublicUtil.getCurrentDate(), 1);
+    private static final ${column.simpleJavaType} UPDATED_${column.constantJavaField} = DateUtil.addDays(DEFAULT_${column.constantJavaField}, 1);
 		<#else>
 	/** DEFAULT_${column.constantJavaField} ${column.nameAndTitle} */
 	private static final ${column.simpleJavaType} DEFAULT_${column.constantJavaField} = <#if column.name?contains('mail')>"1@albedo.com"<#else>"A"</#if>;
@@ -118,6 +118,7 @@ public class ${ClassName}ResourceIntTest {
 
     @Before
     public void setup() {
+        ${className}Repository.delete(null);
         DEFAULT_API_URL = albedoProperties.getAdminPath("/${urlPrefix}/");
         MockitoAnnotations.initMocks(this);
         final ${ClassName}Resource ${className}Resource = new ${ClassName}Resource(${className}Service);

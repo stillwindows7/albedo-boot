@@ -55,6 +55,9 @@ public class Module extends TreeEntity<Module> {
     /*** 针对顶层菜单，0 普通展示下级菜单， 1以树形结构展示 */
     @TableField("show_type")
     private String showType;
+    /*** 服务名称 */
+    @TableField("microservice_")
+    private String microservice;
 
 //    @ManyToMany
 //    @JoinTable(

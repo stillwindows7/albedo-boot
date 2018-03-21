@@ -3,7 +3,6 @@ package com.albedo.java.modules.sys.service;
 import com.albedo.java.common.persistence.DynamicSpecifications;
 import com.albedo.java.common.persistence.SpecificationDetail;
 import com.albedo.java.common.persistence.service.DataVoService;
-import com.albedo.java.modules.sys.domain.Role;
 import com.albedo.java.modules.sys.domain.User;
 import com.albedo.java.modules.sys.repository.OrgRepository;
 import com.albedo.java.modules.sys.repository.RoleRepository;
@@ -14,9 +13,12 @@ import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
 import com.albedo.java.vo.sys.UserVo;
 import com.baomidou.mybatisplus.mapper.Condition;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,9 +35,12 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
 
     private final RoleRepository roleRepository;
 
-    public UserService(OrgRepository orgRepository, RoleRepository roleRepository) {
+    private final CacheManager cacheManager;
+
+    public UserService(OrgRepository orgRepository, RoleRepository roleRepository, CacheManager cacheManager) {
         this.orgRepository = orgRepository;
         this.roleRepository = roleRepository;
+        this.cacheManager = cacheManager;
     }
 
     @Override
@@ -81,6 +86,7 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
             repository.deleteUserRoles(user.getId());
             repository.addUserRoles(user);
         }
+        cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLoginId());
         log.debug("Save Information for User: {}", user);
 
     }
@@ -124,7 +130,7 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
         //拼接查询动态对象
         SpecificationDetail<User> spec = DynamicSpecifications.
                 buildSpecification(pm.getQueryConditionJson(),
-                        QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE),
+//                        QueryCondition.ne(User.F_STATUS, User.FLAG_DELETE),
                         QueryCondition.ne(User.F_ID,  "1"));
         spec.setPersistentClass(getPersistentClass()).orAll(authQueryConditions);
         //动态生成sql分页查询
@@ -138,12 +144,38 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
             user -> {
                 user.setPassword(newPassword);
                 repository.updateById(user);
+                cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLoginId());
                 log.debug("Changed password for User: {}", user);
             }
         );
     }
 
     public Optional<User> findOneByLoginId(String loginId) {
-        return Optional.of(repository.selectUserByLoginId(loginId));
+        User user = null;
+        try {
+            user = repository.selectUserByLoginId(loginId);
+        }catch (Exception e){
+            log.error("{}",e);
+            cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLoginId());
+            user = repository.selectUserByLoginId(loginId);
+        }
+        return Optional.of(user);
+    }
+
+    @Override
+    public void lockOrUnLock(List<String> idList) {
+        super.lockOrUnLock(idList);
+        selectBatchIds(idList).forEach(user ->
+            cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLoginId()));
+    }
+
+
+    @Override
+    public boolean deleteBatchIds(Collection<? extends Serializable> idList) {
+
+        boolean rs = super.deleteBatchIds(idList);
+        selectBatchIds(idList).forEach(user ->
+                cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLoginId()));
+        return rs;
     }
 }

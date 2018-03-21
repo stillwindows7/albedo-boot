@@ -2,8 +2,10 @@ package com.albedo.java.modules.base.web;
 
 import com.albedo.java.common.audit.AuditEventService;
 import com.albedo.java.util.DateUtil;
+import com.albedo.java.util.JsonUtil;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.web.rest.ResultBuilder;
+import com.alibaba.fastjson.JSON;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,8 +35,9 @@ public class AuditResource {
      */
     @GetMapping
     public ResponseEntity getAll(PageModel pm){
-        PageModel<AuditEvent> page = auditEventService.findAll(pm);
-        return ResultBuilder.buildObject(page);
+        pm = auditEventService.findAll(pm);
+        JSON json = JsonUtil.getInstance().setClassName(AuditEvent.class.getName()).toJsonObject(pm);
+        return ResultBuilder.buildObject(json);
     }
 
     /**
@@ -52,8 +55,9 @@ public class AuditResource {
             @RequestParam(value = "toDate") String toDate,
             PageModel pm) {
 
-        PageModel<AuditEvent> page = auditEventService.findByDates(DateUtil.parseDate(fromDate), DateUtil.parseDate(toDate), pm);
-        return ResultBuilder.buildObject(page);
+        pm = auditEventService.findByDates(DateUtil.parseDate(fromDate), DateUtil.parseDate(toDate), pm);
+        JSON json = JsonUtil.getInstance().setClassName(AuditEvent.class.getName()).toJsonObject(pm);
+        return ResultBuilder.buildObject(json);
     }
 
     /**

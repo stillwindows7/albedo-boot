@@ -91,8 +91,8 @@ public abstract class DataService<Repository extends BaseRepository<T, PK>, T ex
     public PageModel<T> findPageQuery(PageModel<T> pm, List<QueryCondition> authQueryConditions) {
         SpecificationDetail<T> specificationDetail = DynamicSpecifications.buildSpecification(
             getPersistentClass(),
-            pm.getQueryConditionJson(),
-            QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE)
+            pm.getQueryConditionJson()
+//          ,QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE)
         );
         if (PublicUtil.isNotEmpty(authQueryConditions)) {
             specificationDetail.orAll(authQueryConditions);

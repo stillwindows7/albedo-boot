@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 数据字典工具类 copyright 2014 albedo all right reserved author 李杰 created on
+ * 数据字典工具类 copyright 2014 albedo all right reserved author somewhere created on
  * 2015年1月27日 上午9:52:55
  */
 public class DictUtil {

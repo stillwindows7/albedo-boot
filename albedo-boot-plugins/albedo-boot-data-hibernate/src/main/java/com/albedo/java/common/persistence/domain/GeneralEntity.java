@@ -4,7 +4,7 @@ import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
 /**
- * 通常的数据基类 copyright 2014 albedo all right reserved author 李杰 created on 2014年12月31日 下午1:57:09
+ * 通常的数据基类 copyright 2014 albedo all right reserved author somewhere created on 2014年12月31日 下午1:57:09
  */
 @MappedSuperclass
 public abstract class GeneralEntity implements Serializable {

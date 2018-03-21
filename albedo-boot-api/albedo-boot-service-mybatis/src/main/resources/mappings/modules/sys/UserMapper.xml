@@ -46,7 +46,7 @@
         <result property="version" column="version" javaType="java.lang.Integer" jdbcType="INTEGER"/>
         <association property="org" column="org" autoMapping="true" select="com.albedo.java.modules.sys.repository.OrgRepository.selectById"/>
         <collection property="roles" column="id" select="com.albedo.java.modules.sys.repository.RoleRepository.selectListByUserId"
-                    ofType="com.albedo.java.modules.sys.domain.Role" javaType="java.util.Set"/>
+                    ofType="com.albedo.java.modules.sys.domain.Role" javaType="java.util.List"/>
     </resultMap>
 
     <sql id="selectUserRelation">

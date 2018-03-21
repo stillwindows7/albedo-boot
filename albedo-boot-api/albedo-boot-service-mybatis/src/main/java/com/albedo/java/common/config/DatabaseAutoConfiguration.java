@@ -1,8 +1,10 @@
 package com.albedo.java.common.config;
 
 import com.albedo.java.common.persistence.handler.EntityMetaObjectHandler;
-import com.albedo.java.common.persistence.injector.ManyToOneEntitySqlInjector;
+import com.albedo.java.common.persistence.injector.EntityMetaSqlInjector;
+import com.baomidou.mybatisplus.mapper.LogicSqlInjector;
 import com.baomidou.mybatisplus.plugins.OptimisticLockerInterceptor;
+import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.spring.boot.starter.MybatisPlusProperties;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.mapping.VendorDatabaseIdProvider;
@@ -35,14 +37,24 @@ public class DatabaseAutoConfiguration {
         return new DataSourceTransactionManager(dataSource);
     }
 
+    /**
+     * 新增，修改 公共字段填充
+     * @return
+     */
     @Bean
     public EntityMetaObjectHandler entityMetaObjectHandler(AuditorAware auditorAware){
         return new EntityMetaObjectHandler(auditorAware);
     }
+
+    /**
+     * ql注入
+     * @return
+     */
     @Bean
-    public ManyToOneEntitySqlInjector treeEntitySqlInjector(){
-        return new ManyToOneEntitySqlInjector();
+    public EntityMetaSqlInjector entityMetaSqlInjector(){
+        return new EntityMetaSqlInjector();
     }
+
 
     @Bean
     public DatabaseIdProvider getDatabaseIdProvider() {
@@ -55,6 +67,18 @@ public class DatabaseAutoConfiguration {
     }
 
 
+    /**
+     * 分页拦截器 count
+     * @return
+     */
+    @Bean
+    public PaginationInterceptor paginationInterceptor(){
+        return new PaginationInterceptor();
+    }
+    /**
+     * 乐观锁拦截器 version
+     * @return
+     */
     @Bean
     public OptimisticLockerInterceptor optimisticLockerInterceptor(){
         return new OptimisticLockerInterceptor();

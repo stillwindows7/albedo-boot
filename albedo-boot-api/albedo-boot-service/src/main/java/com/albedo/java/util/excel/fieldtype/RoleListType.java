@@ -9,7 +9,7 @@
 //import com.albedo.util.spring.SpringContextHolder;
 //import com.google.common.collect.Lists;
 //
-///** 字段类型转换 copyright 2014 albedo all right reserved author 李杰 created on 2014年10月20日 下午2:35:55 */
+///** 字段类型转换 copyright 2014 albedo all right reserved author somewhere created on 2014年10月20日 下午2:35:55 */
 //public class RoleListType {
 //
 //	private static RoleService roleService = SpringContextHolder.getBean(RoleService.class);

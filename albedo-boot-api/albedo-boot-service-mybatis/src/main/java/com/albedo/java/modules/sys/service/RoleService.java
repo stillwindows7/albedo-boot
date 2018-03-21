@@ -52,8 +52,9 @@ public class RoleService extends DataVoService<RoleRepository, Role, String, Rol
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
     public PageModel<Role> findPage(PageModel<Role> pm, List<QueryCondition> authQueryConditions) {
-        SpecificationDetail<Role> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson(),
-                QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE));
+        SpecificationDetail<Role> spec = DynamicSpecifications.buildSpecification(pm.getQueryConditionJson()
+//            ,QueryCondition.ne(BaseEntity.F_STATUS, BaseEntity.FLAG_DELETE)
+        );
         spec.orAll(authQueryConditions);
         findRelationPage(pm, spec);
         return pm;

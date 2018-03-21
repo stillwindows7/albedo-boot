@@ -133,7 +133,7 @@ public abstract class BaseService<Repository extends BaseRepository<T, pk>,
         return doCheckWithEntity(entity, maps);
     }
 
-    public Iterable<T> save(Iterable<T> entitys) {
+    public List<T> save(List<T> entitys) {
         entitys.forEach(item -> save(item));
         return entitys;
     }

@@ -21,6 +21,6 @@ public interface RoleRepository extends BaseRepository<Role, String> {
 
     void addRoleModules(@Param("role") Role role);
 
-    Set<Role> selectListByUserId(String userId);
+    List<Role> selectListByUserId(String userId);
 
 }

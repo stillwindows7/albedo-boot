@@ -19,9 +19,11 @@
 package com.albedo.java.config;
 
 import com.albedo.java.common.persistence.handler.EntityMetaObjectHandler;
-import com.albedo.java.common.persistence.injector.ManyToOneEntitySqlInjector;
-import com.alibaba.fastjson.JSONObject;
+import com.albedo.java.common.persistence.injector.EntityMetaSqlInjector;
+import com.baomidou.mybatisplus.mapper.LogicSqlInjector;
 import com.baomidou.mybatisplus.plugins.OptimisticLockerInterceptor;
+import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.plugins.PerformanceInterceptor;
 import com.baomidou.mybatisplus.spring.boot.starter.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.spring.boot.starter.MybatisPlusAutoConfiguration;
 import com.baomidou.mybatisplus.spring.boot.starter.MybatisPlusProperties;
@@ -72,6 +74,19 @@ public class TestConfig extends MybatisPlusAutoConfiguration  {
             return databaseIdProvider;
         }
 
+        /**
+         * 性能分析
+         * @return
+         */
+        @Bean
+        public PerformanceInterceptor performanceInterceptor(){
+            return new PerformanceInterceptor();
+        }
+
+        @Bean
+        public PaginationInterceptor paginationInterceptor(){
+            return new PaginationInterceptor();
+        }
 
         @Bean
         public OptimisticLockerInterceptor optimisticLockerInterceptor(){
@@ -100,8 +115,8 @@ public class TestConfig extends MybatisPlusAutoConfiguration  {
         return new EntityMetaObjectHandler(auditorAware);
     }
     @Bean
-    public ManyToOneEntitySqlInjector treeEntitySqlInjector(){
-        return new ManyToOneEntitySqlInjector();
+    public EntityMetaSqlInjector entityMetaSqlInjector(){
+        return new EntityMetaSqlInjector();
     }
 
     @Bean

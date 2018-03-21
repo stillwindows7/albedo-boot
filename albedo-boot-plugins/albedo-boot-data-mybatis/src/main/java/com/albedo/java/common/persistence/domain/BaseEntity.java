@@ -24,7 +24,7 @@ public abstract class BaseEntity<T extends GeneralEntity> extends GeneralEntity<
     @SearchField
     @DictType(name = "sys_status")
     @ApiModelProperty(hidden = true)
-    @TableLogic(delval = "-2", value = "0")
+    @TableLogic(delval = "-2" )
     protected Integer status;
 
     public BaseEntity() {

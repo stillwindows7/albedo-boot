@@ -100,7 +100,7 @@ public class User extends IdEntity<User, String> {
     private List<String> roleIdList;
 
     @TableField(exist = false)
-    private Set<Role> roles = Sets.newHashSet();
+    private List<Role> roles = Lists.newArrayList();
 
     public User(String id) {
         this.id = id;
@@ -219,7 +219,7 @@ public class User extends IdEntity<User, String> {
     public void setRoleIdList(List<String> roleIdList) {
         this.roleIdList = roleIdList;
         if (PublicUtil.isNotEmpty(roleIdList)) {
-            roles = Sets.newHashSet();
+            roles = Lists.newArrayList();
             roleIdList.forEach(m -> {
                 if (PublicUtil.isNotEmpty(m)) {
                     roles.add(new Role(m));
