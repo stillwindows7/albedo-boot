@@ -27,7 +27,7 @@ import java.util.List;
 @DynamicInsert
 @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class GenTemplate extends IdEntity {
+public class GenTemplate extends IdEntity<String> {
 
     private static final long serialVersionUID = 1L;
     public static final String F_NAME = "name";

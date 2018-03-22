@@ -12,6 +12,7 @@ import com.albedo.java.util.PublicUtil;
 import com.albedo.java.util.RandomUtil;
 import com.albedo.java.util.domain.PageModel;
 import com.albedo.java.util.domain.QueryCondition;
+import com.albedo.java.util.spring.SpringContextHolder;
 import com.albedo.java.vo.sys.UserVo;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
@@ -180,5 +181,21 @@ public class UserService extends DataVoService<UserRepository, User, String, Use
         super.delete(idList);
         repository.findAll(idList).forEach(user ->
             cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(user.getLoginId()));
+    }
+
+    public Optional<User> findOneByLoginId(String loginId) {
+        Optional<User> user = null;
+        try {
+            user = repository.findOneByLoginId(loginId);
+            if(PublicUtil.isEmpty(user.get().getId())){
+                cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(loginId);
+                user = repository.findOneByLoginId(loginId);
+            }
+        }catch (Exception e){
+            log.error("{}",e);
+            cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(loginId);
+            user = repository.findOneByLoginId(loginId);
+        }
+        return user;
     }
 }

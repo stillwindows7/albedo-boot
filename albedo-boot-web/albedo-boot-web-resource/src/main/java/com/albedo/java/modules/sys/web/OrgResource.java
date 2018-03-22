@@ -76,7 +76,7 @@ public class OrgResource extends TreeVoResource<OrgService, OrgVo> {
         // Lowercase the org login before comparing with database
         if (!checkByProperty(Reflections.createObj(OrgVo.class, Lists.newArrayList(OrgVo.F_ID, OrgVo.F_CODE),
                 orgVo.getId(), orgVo.getCode()))) {
-            throw new RuntimeMsgException(HttpStatus.BAD_REQUEST, "名称已存在");
+            throw new RuntimeMsgException(HttpStatus.BAD_REQUEST, "编码已存在");
         }
         service.save(orgVo);
         SecurityUtil.clearUserJedisCache();

@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @DynamicInsert
 @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class GenScheme extends IdEntity {
+public class GenScheme extends IdEntity<String> {
 
     /**
      * @Fields CATEGORY_CURD : 增删改查（单表）

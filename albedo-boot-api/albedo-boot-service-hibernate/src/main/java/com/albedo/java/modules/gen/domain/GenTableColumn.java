@@ -27,7 +27,7 @@ import java.util.List;
 @DynamicInsert
 @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class GenTableColumn extends IdEntity {
+public class GenTableColumn extends IdEntity<String> {
 
     private static final long serialVersionUID = 1L;
     @Column(name = "gen_table_id")

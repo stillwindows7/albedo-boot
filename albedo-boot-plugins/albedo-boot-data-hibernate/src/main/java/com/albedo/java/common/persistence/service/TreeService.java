@@ -141,10 +141,12 @@ public class TreeService<Repository extends TreeRepository<T, PK>, T extends Tre
         entity = repository.save(entity);
         // 更新子节点 parentIds
         List<T> list = repository.findAllByParentIdsLike(PublicUtil.toAppendStr("%,", entity.getId(), ",%"));
-        for (T e : list) {
-            e.setParentIds(e.getParentIds().replace(oldParentIds, entity.getParentIds()));
+        if(PublicUtil.isNotEmpty(list)){
+            for (T e : list) {
+                e.setParentIds(e.getParentIds().replace(oldParentIds, entity.getParentIds()));
+            }
+            repository.save(list);
         }
-        repository.save(list);
         log.debug("Save Information for T: {}", entity);
         return entity;
     }

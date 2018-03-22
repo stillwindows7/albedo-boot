@@ -70,7 +70,7 @@ public class CustomAuditEventRepository implements AuditEventRepository {
 //            Instant instant = Instant.ofEpochMilli(event.getTimestamp().getTime());
             persistentAuditEvent.setAuditEventDate(PublicUtil.getCurrentDate());
             persistentAuditEvent.setData(auditEventConverter.convertDataToStrings(event.getData()));
-            persistenceAuditEventService.insert(persistentAuditEvent);
+            persistenceAuditEventService.save(persistentAuditEvent);
         }
     }
 }

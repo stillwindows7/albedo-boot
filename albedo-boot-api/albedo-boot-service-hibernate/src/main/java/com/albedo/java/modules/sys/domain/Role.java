@@ -29,7 +29,7 @@ import java.util.Set;
 @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @ToString
-public class Role extends IdEntity {
+public class Role extends IdEntity<String> {
 
     public static final String F_SORT = "sort";
     public static final String F_NAME = "name";

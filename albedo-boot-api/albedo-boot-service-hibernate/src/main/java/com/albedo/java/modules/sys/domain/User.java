@@ -32,7 +32,7 @@ import java.util.Set;
 @DynamicInsert
 @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class User extends IdEntity {
+public class User extends IdEntity<String> {
 
     /*** F_LOGINID */
     public static final String F_LOGINID = "loginId";

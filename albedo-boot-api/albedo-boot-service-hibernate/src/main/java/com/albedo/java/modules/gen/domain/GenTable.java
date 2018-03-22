@@ -31,7 +31,7 @@ import java.util.List;
 @DynamicInsert
 @DynamicUpdate
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class GenTable extends IdEntity {
+public class GenTable extends IdEntity<String> {
 
     public static final String F_NAME = "name";
     public static final String F_NAMESANDTITLE = "nameAndTitle";

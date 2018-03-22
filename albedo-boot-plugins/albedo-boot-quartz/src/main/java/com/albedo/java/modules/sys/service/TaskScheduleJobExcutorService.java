@@ -80,8 +80,8 @@ public class TaskScheduleJobExcutorService extends DataVoService<TaskScheduleJob
     }
 
     @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public TaskScheduleJob findOneBySourceId(String soruceId) {
-        return taskScheduleJobService.findTopBySourceIdAndStatusNot(soruceId, TaskScheduleJob.FLAG_DELETE);
+    public TaskScheduleJob findOneBySourceId(String sourceId) {
+        return taskScheduleJobService.findTopBySourceIdAndStatusNot(sourceId, TaskScheduleJob.FLAG_DELETE);
     }
 
     /*

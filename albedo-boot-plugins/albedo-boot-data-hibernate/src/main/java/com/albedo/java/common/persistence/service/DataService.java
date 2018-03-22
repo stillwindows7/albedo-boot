@@ -14,6 +14,7 @@ import com.albedo.java.util.domain.QueryCondition;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +47,7 @@ public class DataService<Repository extends DataRepository<T, PK>, T extends Dat
      * @param idList
      * @return
      */
-    public void deleteById(List<PK> idList) {
+    public void deleteBatchIds(List<PK> idList) {
         for (PK id : idList) {
             deleteById(id);
         }
@@ -106,5 +107,12 @@ public class DataService<Repository extends DataRepository<T, PK>, T extends Dat
     }
     public List<ComboData> findJson(ComboSearch comboSearch) {
         return baseRepository.findJson(comboSearch);
+    }
+
+    public long findCount(SpecificationDetail<T> specificationDetail) {
+        return repository.count(specificationDetail);
+    }
+    public long findCount() {
+        return repository.count();
     }
 }

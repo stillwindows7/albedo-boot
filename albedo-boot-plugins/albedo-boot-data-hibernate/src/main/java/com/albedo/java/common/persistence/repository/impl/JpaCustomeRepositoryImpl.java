@@ -30,7 +30,7 @@ import java.util.Map;
 
 @Component
 @Transactional
-public class JpaCustomeRepositoryImpl<T extends BaseEntity> implements JpaCustomeRepository<T> {
+public class JpaCustomeRepositoryImpl<T extends GeneralEntity> implements JpaCustomeRepository<T> {
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
     @PersistenceContext
