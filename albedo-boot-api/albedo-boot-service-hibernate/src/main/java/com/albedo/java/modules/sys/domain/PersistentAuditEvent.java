@@ -17,7 +17,7 @@ public class PersistentAuditEvent extends GeneralEntity {
 
     public static final String F_AUDITEVENTDATE = "auditEventDate";
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "event_id")
     private Long id;
 

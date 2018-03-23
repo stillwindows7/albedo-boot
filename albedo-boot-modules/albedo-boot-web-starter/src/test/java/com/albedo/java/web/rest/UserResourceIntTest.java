@@ -140,7 +140,7 @@ public class UserResourceIntTest {
         int databaseSizeBeforeCreate = userService.findAll().size();
 
         // Create the User
-        UserVo managedUserVM = new UserVo(null,
+        UserVo managedUserVM = new UserVo(
                 DEFAULT_LOGIN,
                 DEFAULT_PASSWORD,
                 DEFAULT_PASSWORD,
@@ -178,7 +178,7 @@ public class UserResourceIntTest {
         int databaseSizeBeforeCreate = userService.findAll().size();
 
         // Create the User
-        UserVo managedUserVM = new UserVo(null,
+        UserVo managedUserVM = new UserVo(
                 DEFAULT_ANOTHER_LOGIN,
                 DEFAULT_PASSWORD,
                 DEFAULT_PASSWORD,
@@ -259,7 +259,7 @@ public class UserResourceIntTest {
         // Update the user
         User updatedUser = userService.findOne(user.getId());
 
-        UserVo managedUserVM = new UserVo(updatedUser.getId(),
+        UserVo managedUserVM = new UserVo(
                 UPDATED_LOGIN,
                 UPDATED_PASSWORD,
                 UPDATED_PASSWORD,
@@ -275,7 +275,7 @@ public class UserResourceIntTest {
                 Collections3.extractToList(roles, Role.F_ID),
                 null,
                 null,null);
-
+        managedUserVM.setId(updatedUser.getId());
         restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/"))
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
@@ -303,7 +303,7 @@ public class UserResourceIntTest {
         User updatedUser = userService.findOne(user.getId());
 
 
-        UserVo managedUserVM = new UserVo(updatedUser.getId(),
+        UserVo managedUserVM = new UserVo(
                 UPDATED_LOGIN,
                 UPDATED_PASSWORD,
                 UPDATED_PASSWORD,
@@ -319,7 +319,7 @@ public class UserResourceIntTest {
                 Collections3.extractToList(roles, Role.F_ID),
                 null,
                 null,null);
-
+        managedUserVM.setId(updatedUser.getId());
         restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/"))
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(managedUserVM)))
@@ -337,7 +337,7 @@ public class UserResourceIntTest {
         // Update the user
         User updatedUser = userService.findOne(user.getId());
 
-        UserVo managedUserVM = new UserVo(updatedUser.getId(),
+        UserVo managedUserVM = new UserVo(
                 DEFAULT_ANOTHER_LOGIN,
                 UPDATED_PASSWORD,
                 UPDATED_PASSWORD,
@@ -353,6 +353,7 @@ public class UserResourceIntTest {
                 Collections3.extractToList(roles, Role.F_ID),
                 null,null,null
                 );
+        managedUserVM.setId(updatedUser.getId());
         restUserMockMvc.perform(post(albedoProperties.getAdminPath("/sys/user/"))
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(managedUserVM)))

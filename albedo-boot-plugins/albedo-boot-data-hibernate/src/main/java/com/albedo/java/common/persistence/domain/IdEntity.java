@@ -4,6 +4,7 @@ import com.albedo.java.common.persistence.pk.IdGen;
 import com.albedo.java.util.annotation.SearchField;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -14,6 +15,7 @@ public class IdEntity<PK extends Serializable> extends DataEntity {
     @Id
     @Column(name = "id_")
     @SearchField
+    @XmlTransient
     protected PK id; // 编号
 
     public IdEntity() {

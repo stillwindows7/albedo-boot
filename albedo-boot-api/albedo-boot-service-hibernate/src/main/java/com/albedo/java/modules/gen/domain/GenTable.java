@@ -238,6 +238,7 @@ public class GenTable extends IdEntity<String> {
      *
      * @return
      */
+    @JSONField(serialize = false)
     public List<String> getImportList() {
         List<String> importList = null;
         if ("treeTable".equalsIgnoreCase(getCategory())) {

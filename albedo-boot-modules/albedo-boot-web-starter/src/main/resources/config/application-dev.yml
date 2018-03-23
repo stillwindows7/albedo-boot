@@ -59,6 +59,8 @@ server:
 #    jsp-servlet:
 #        class-name: org.apache.jasper.servlet.JspServlet
 
+
+
 # ===================================================================
 # Albedo specific properties
 # ===================================================================

@@ -75,21 +75,6 @@
             </properties>
         </profile>
         <profile>
-            <id>hibernate</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <profile.swagger>,hibernate</profile.swagger>
-            </properties>
-        </profile>
-        <profile>
-            <id>mybatis</id>
-            <properties>
-                <profile.swagger>,mybatis</profile.swagger>
-            </properties>
-        </profile>
-        <profile>
             <id>dev</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
