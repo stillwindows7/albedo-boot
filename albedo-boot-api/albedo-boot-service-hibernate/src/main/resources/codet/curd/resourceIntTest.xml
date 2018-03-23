@@ -10,9 +10,9 @@
 package ${packageName}.${moduleName}.web<#if subModuleName != "">.${subModuleName}</#if>;
 
 import com.albedo.java.common.config.AlbedoProperties;
-import BaseEntity;
-import DynamicSpecifications;
-import SpecificationDetail;
+import com.albedo.java.common.persistence.DynamicSpecifications;
+import com.albedo.java.common.persistence.SpecificationDetail;
+import com.albedo.java.common.persistence.domain.BaseEntity;
 import ${packageName}.${moduleName}.domain.${ClassName};
 import ${packageName}.${moduleName}.domain.vo<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Vo;
 import ${packageName}.${moduleName}.repository<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Repository;
@@ -85,9 +85,9 @@ public class ${ClassName}ResourceIntTest {
     private static final float UPDATED_${column.constantJavaField} = 1;
 		<#elseif column.simpleJavaType == "Date">
 	/** DEFAULT_${column.constantJavaField} ${column.nameAndTitle} */
-	private static final ${column.simpleJavaType} DEFAULT_${column.constantJavaField} = PublicUtil.getCurrentDate();
+	private static final ${column.simpleJavaType} DEFAULT_${column.constantJavaField} = PublicUtil.parseDate(PublicUtil.fmtDate(PublicUtil.getCurrentDate()));
 	/** UPDATED_${column.constantJavaField} ${column.nameAndTitle} */
-    private static final ${column.simpleJavaType} UPDATED_${column.constantJavaField} = DateUtil.addDays(PublicUtil.getCurrentDate(), 1);
+    private static final ${column.simpleJavaType} UPDATED_${column.constantJavaField} = DateUtil.addDays(DEFAULT_${column.constantJavaField}, 1);
 		<#else>
 	/** DEFAULT_${column.constantJavaField} ${column.nameAndTitle} */
 	private static final ${column.simpleJavaType} DEFAULT_${column.constantJavaField} = <#if column.name?contains('mail')>"1@albedo.com"<#else>"A"</#if>;

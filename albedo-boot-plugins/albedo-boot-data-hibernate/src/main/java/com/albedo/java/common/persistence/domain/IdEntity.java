@@ -29,10 +29,12 @@ public class IdEntity<PK extends Serializable> extends DataEntity {
         }
     }
 
+    @XmlTransient
     public PK getId() {
         return id;
     }
 
+    @XmlTransient
     public void setId(PK id) {
         this.id = id;
     }

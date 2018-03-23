@@ -28,7 +28,7 @@ import java.util.Date;
  * @version ${functionVersion}
  */
 @Data @ToString @NoArgsConstructor @AllArgsConstructor
-public class ${ClassName}Vo extends DataEntityVo {
+public class ${ClassName}Vo extends DataEntityVo<${table.pkColumn.javaType}> {
 
 	private static final long serialVersionUID = 1L;
 	<#list table.columnList as column>
@@ -77,7 +77,7 @@ public class ${ClassName}Vo extends DataEntityVo {
 	}
 	<#else>
 	public ${ClassName}Vo(${table.pkJavaType} id) {
-		this.id = id;
+		this.setId(id);
 	}
 	</#if>
 </#macro>

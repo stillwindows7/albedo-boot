@@ -15,6 +15,7 @@ import com.albedo.java.util.spring.SpringContextHolder;
 import com.albedo.java.vo.gen.GenSchemeVo;
 import com.albedo.java.vo.gen.GenTableColumnVo;
 import com.albedo.java.vo.gen.GenTableVo;
+import com.albedo.java.vo.gen.GenTemplateVo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.io.Charsets;
@@ -238,8 +239,8 @@ public class GenUtil {
      * @param isChildTable 是否是子表
      * @return
      */
-    public static List<GenTemplate> getTemplateList(GenConfig config, String category, boolean isChildTable) {
-        List<GenTemplate> templateList = Lists.newArrayList();
+    public static List<GenTemplateVo> getTemplateList(GenConfig config, String category, boolean isChildTable) {
+        List<GenTemplateVo> templateList = Lists.newArrayList();
         if (config != null && config.getCategoryList() != null && category != null) {
             for (GenCategory e : config.getCategoryList()) {
                 if (category.equals(e.getVal())) {
@@ -254,7 +255,7 @@ public class GenUtil {
                             if (StringUtil.startsWith(s, GenCategory.CATEGORY_REF)) {
                                 templateList.addAll(getTemplateList(config, StringUtil.replace(s, GenCategory.CATEGORY_REF, ""), false));
                             } else {
-                                GenTemplate template = fileToObject(s, GenTemplate.class);
+                                GenTemplateVo template = fileToObject(s, GenTemplateVo.class);
                                 if (template != null) {
                                     templateList.add(template);
                                 }
@@ -311,7 +312,7 @@ public class GenUtil {
      * @param isReplaceFile
      * @return
      */
-    public static String generateToFile(GenTemplate tpl, Map<String, Object> model, boolean isReplaceFile) {
+    public static String generateToFile(GenTemplateVo tpl, Map<String, Object> model, boolean isReplaceFile) {
         // 获取生成文件 "c:\\temp\\"//
         String realFileName = FreeMarkers.renderString(tpl.getFileName(), model),fileName = StringUtil.getProjectPath(realFileName, DictUtil.getCodeItemVal("sys_gen_code_ui_path")) + File.separator
                 + StringUtil.replaceEach(FreeMarkers.renderString(tpl.getFilePath() + "/", model), new String[]{"//", "/", "."}, new String[]{File.separator, File.separator, File.separator})
