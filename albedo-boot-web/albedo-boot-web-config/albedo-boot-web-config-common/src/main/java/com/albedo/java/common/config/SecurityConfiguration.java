@@ -12,6 +12,7 @@ import com.albedo.java.util.JedisUtil;
 import com.albedo.java.util.domain.GlobalJedis;
 import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.BeanInitializationException;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +29,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -47,7 +49,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final CustomizeAccessDecisionManager customizeAccessDecisionManager;
     private final InvocationSecurityMetadataSourceService invocationSecurityMetadataSourceService;
     private final AlbedoProperties albedoProperties;
-    private final Http401UnauthorizedEntryPoint http401UnauthorizedEntryPoint;
     private final UserDetailsService userDetailsService;
     private final TokenProvider tokenProvider;
     private final CorsFilter corsFilter;
@@ -55,13 +56,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public SecurityConfiguration(CustomizeAccessDecisionManager customizeAccessDecisionManager,
                                  InvocationSecurityMetadataSourceService invocationSecurityMetadataSourceService,
                                  AlbedoProperties albedoProperties,
-                                 Http401UnauthorizedEntryPoint http401UnauthorizedEntryPoint,
                                  UserDetailsService userDetailsService,
                                  TokenProvider tokenProvider, CorsFilter corsFilter) {
         this.customizeAccessDecisionManager = customizeAccessDecisionManager;
         this.invocationSecurityMetadataSourceService = invocationSecurityMetadataSourceService;
         this.albedoProperties = albedoProperties;
-        this.http401UnauthorizedEntryPoint = http401UnauthorizedEntryPoint;
         this.userDetailsService = userDetailsService;
         this.tokenProvider = tokenProvider;
         this.corsFilter = corsFilter;
@@ -94,6 +93,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/test/**");
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public AuthenticationEntryPoint authenticationEntryPoint(){
+        return new Http401UnauthorizedEntryPoint(albedoProperties);
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -104,7 +109,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         authorizes.toArray(SecurityConstants.authorize);
 
         http.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
-            .exceptionHandling().authenticationEntryPoint(http401UnauthorizedEntryPoint)
+            .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint())
             .and()
             .csrf()
             .disable()
