@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.web.cors.CorsConfiguration;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +19,8 @@ import java.util.Map;
  * </p>
  */
 @ConfigurationProperties(prefix = "albedo",
-        ignoreInvalidFields = true,
-        exceptionIfInvalid = false)
+    ignoreInvalidFields = true,
+    exceptionIfInvalid = false)
 @Data
 public class AlbedoProperties {
 
@@ -444,6 +445,7 @@ public class AlbedoProperties {
         private final AlbedoProperties.Security.ClientAuthorization clientAuthorization = new AlbedoProperties.Security.ClientAuthorization();
         private final AlbedoProperties.Security.Authentication authentication = new AlbedoProperties.Security.Authentication();
 
+        private List<String> authorizes = new ArrayList<>();
         public Security() {
         }
 
@@ -457,6 +459,14 @@ public class AlbedoProperties {
 
         public AlbedoProperties.Security.Authentication getAuthentication() {
             return this.authentication;
+        }
+
+        public List<String> getAuthorizes() {
+            return authorizes;
+        }
+
+        public void setAuthorizes(List<String> authorizes) {
+            this.authorizes = authorizes;
         }
 
         public static class RememberMe {
