@@ -37,20 +37,20 @@
                     <!--如果非首次执行，可以注释以下代码，提高 mvn clean install 的效率
                     失败可以注释 手动在 albedo-boot-ui-angular npm install-->
                     <!--begin-->
-                    <execution>
-                        <id>exec-npm-install</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>${npm}</executable>
-                            <arguments>
-                                <argument>install</argument>
-                            </arguments>
-                            <workingDirectory>${basedir}/src/main/webapp</workingDirectory>
-                        </configuration>
-                    </execution>
+                    <!--<execution>-->
+                        <!--<id>exec-npm-install</id>-->
+                        <!--<phase>prepare-package</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>exec</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<executable>${npm}</executable>-->
+                            <!--<arguments>-->
+                                <!--<argument>install</argument>-->
+                            <!--</arguments>-->
+                            <!--<workingDirectory>${basedir}/src/main/webapp</workingDirectory>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
                     <!--end-->
 
                     <execution>
