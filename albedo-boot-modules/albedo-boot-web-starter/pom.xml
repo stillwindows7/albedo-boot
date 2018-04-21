@@ -65,6 +65,22 @@
                 <warSourceDirectory>${basedir}/../../albedo-boot-ui-angular/target/www/app/</warSourceDirectory>
             </configuration>
         </plugin>
+        <plugin>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>default-deploy</id>
+                    <phase>deploy</phase>
+                    <goals>
+                        <goal>deploy</goal>
+                    </goals>
+                    <!-- skip默认deploy插件的执行 -->
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
     </plugins>
 </build>
     <profiles>
