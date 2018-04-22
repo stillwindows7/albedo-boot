@@ -134,15 +134,15 @@ public class ModuleService extends TreeVoService<ModuleRepository, Module, Strin
 
     public void generatorModuleData(String moduleName, String parentModuleId, String url) {
 
-        String permission = url.replace("/", "_").substring(1);
+        String permission = url.replace("/", "_").substring(1), permissionLike = permission.substring(0,permission.length()-1)+"%";
         List<Module> currentModuleList = repository.findAll(
             DynamicSpecifications.bySearchQueryCondition(
                 QueryCondition.eq(Module.F_NAME, moduleName),
-                QueryCondition.like(Module.F_PERMISSION,
-                    permission.substring(0,permission.length()-1)+"%")));
+                QueryCondition.like(Module.F_PERMISSION, permissionLike)
+                    ));
         for(Module currentModule : currentModuleList){
             if (currentModule != null) {
-                baseRepository.execute("update Module set status=:p1 where (id=:p2 or parentId=:p2) and permission like :p3", Module.FLAG_DELETE, currentModule.getId(), permission+"%");
+                baseRepository.execute("update Module set status=:p1 where (id=:p2 or parentId=:p2) and permission like :p3", Module.FLAG_DELETE, currentModule.getId(), permissionLike);
             }
         }
         Module parentModule = repository.findOne(parentModuleId);
