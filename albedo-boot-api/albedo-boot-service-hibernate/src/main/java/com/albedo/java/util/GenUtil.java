@@ -100,6 +100,7 @@ public class GenUtil {
 
             if (StringUtil.equalsIgnoreCase(column.getJavaField(), DataEntity.F_DESCRIPTION)) {
                 column.setIsEdit(SystemConfig.YES);
+                column.setTitle("备注");
             }
             // 查询字段
             if (StringUtil.equalsIgnoreCase(column.getJavaField(), TreeEntity.F_NAME) || StringUtil.equalsIgnoreCase(column.getJavaField(), "title")) {
