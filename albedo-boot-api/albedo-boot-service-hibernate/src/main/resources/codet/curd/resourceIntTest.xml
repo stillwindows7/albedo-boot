@@ -70,19 +70,19 @@ public class ${ClassName}ResourceIntTest {
 		<#if column.isEdit?? && column.isEdit == 1 && (column.isNotBaseField || column.simpleJavaField == 'description')>
 		<#if column.simpleJavaType == "Integer">
 	/** DEFAULT_${column.constantJavaField} ${column.nameAndTitle} */
-	private static final int DEFAULT_${column.constantJavaField} = 0;
+	private static final int DEFAULT_${column.constantJavaField} = -2;
 	/** UPDATED_${column.constantJavaField} ${column.nameAndTitle} */
-    private static final int UPDATED_${column.constantJavaField} = 1;
+    private static final int UPDATED_${column.constantJavaField} = -1;
 		<#elseif column.simpleJavaType == "Double">
 	/** DEFAULT_${column.constantJavaField} ${column.nameAndTitle} */
-	private static final double DEFAULT_${column.constantJavaField} = 0;
+	private static final double DEFAULT_${column.constantJavaField} = -2;
 	/** UPDATED_${column.constantJavaField} ${column.nameAndTitle} */
-    private static final double UPDATED_${column.constantJavaField} = 1;
+    private static final double UPDATED_${column.constantJavaField} = -1;
 		<#elseif column.simpleJavaType == "Float">
 	/** DEFAULT_${column.constantJavaField} ${column.nameAndTitle} */
-	private static final float DEFAULT_${column.constantJavaField} = 0;
+	private static final float DEFAULT_${column.constantJavaField} = -2;
 	/** UPDATED_${column.constantJavaField} ${column.nameAndTitle} */
-    private static final float UPDATED_${column.constantJavaField} = 1;
+    private static final float UPDATED_${column.constantJavaField} = -1;
 		<#elseif column.simpleJavaType == "Date">
 	/** DEFAULT_${column.constantJavaField} ${column.nameAndTitle} */
 	private static final ${column.simpleJavaType} DEFAULT_${column.constantJavaField} = PublicUtil.parseDate(PublicUtil.fmtDate(PublicUtil.getCurrentDate()));
